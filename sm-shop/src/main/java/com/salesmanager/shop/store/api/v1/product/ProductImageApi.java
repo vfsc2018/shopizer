@@ -58,7 +58,7 @@ public class ProductImageApi {
       method = RequestMethod.POST)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public void uploadImages(
       @PathVariable Long id,

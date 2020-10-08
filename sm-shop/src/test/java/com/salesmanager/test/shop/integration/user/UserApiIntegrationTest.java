@@ -48,7 +48,7 @@ public class UserApiIntegrationTest extends ServicesTestSupport {
   public void createUserChangePassword() throws Exception {
  
       PersistableUser newUser = new PersistableUser();
-      newUser.setDefaultLanguage("en");
+      newUser.setDefaultLanguage("vi");
       newUser.setEmailAddress("test@test.com");
       newUser.setFirstName("Test");
       newUser.setLastName("User");

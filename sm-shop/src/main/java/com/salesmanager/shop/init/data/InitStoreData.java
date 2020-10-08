@@ -144,10 +144,10 @@ public class InitStoreData implements InitData {
 		Date date = new Date(System.currentTimeMillis());
 		
 		//2 languages by default
-		Language en = languageService.getByCode("en");
-		Language fr = languageService.getByCode("fr");
+		Language en = languageService.getByCode("vi");
+		Language fr = languageService.getByCode("en");
 		
-		Country canada = countryService.getByCode("CA");
+		Country canada = countryService.getByCode("VN");
 		Zone zone = zoneService.getByCode("QC");
 		
 		//create a merchant
@@ -850,7 +850,7 @@ public class InitStoreData implements InitData {
 		    customer.setDelivery(delivery);		
 			customerService.create(customer);
 			
-			Currency currency = currencyService.getByCode("CAD");
+			Currency currency = currencyService.getByCode("VND");
 
 			OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
 			

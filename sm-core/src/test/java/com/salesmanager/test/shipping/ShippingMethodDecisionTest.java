@@ -44,7 +44,7 @@ public class ShippingMethodDecisionTest extends com.salesmanager.test.common.Abs
 		delivery.setPostalCode("J4B 8J9");
 		
 		Country country = new Country();
-		country.setIsoCode("CA");
+		country.setIsoCode("VN");
 		country.setName("Canada");
 		
 		//country.setIsoCode("US");

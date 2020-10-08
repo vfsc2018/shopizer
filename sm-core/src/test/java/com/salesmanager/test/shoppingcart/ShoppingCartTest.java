@@ -53,7 +53,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
         MerchantStore store = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
         
 		
-	    Language en = languageService.getByCode("en");
+	    Language en = languageService.getByCode("vi");
 
 
 	    /** CATALOG CREATION **/

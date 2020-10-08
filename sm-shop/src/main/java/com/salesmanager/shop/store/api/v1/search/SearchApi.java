@@ -46,7 +46,7 @@ public class SearchApi {
   @PostMapping("/search")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody SearchProductList search(
       @RequestBody SearchProductRequest searchRequest,
@@ -59,7 +59,7 @@ public class SearchApi {
   @PostMapping("/search/autocomplete")
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ValueList autocomplete(
       @RequestBody SearchProductRequest searchRequest,

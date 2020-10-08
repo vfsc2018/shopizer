@@ -10,7 +10,7 @@ public class Constants {
 
     public final static String RESPONSE_STATUS = "STATUS";
     public final static String RESPONSE_SUCCESS = "SUCCESS";
-    public final static String DEFAULT_LANGUAGE = "en";
+    public final static String DEFAULT_LANGUAGE = "vi";
 	public final static String LANGUAGE = "LANGUAGE";
 	public final static String LOCALE = "LOCALE";
 	public final static String LANG = "lang";

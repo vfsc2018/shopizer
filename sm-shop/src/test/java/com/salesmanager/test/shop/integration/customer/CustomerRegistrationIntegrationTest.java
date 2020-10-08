@@ -33,7 +33,7 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         testCustomer.setEmailAddress("customer1@test.com");
         testCustomer.setPassword("clear123");
         testCustomer.setGender(CustomerGender.M.name());
-        testCustomer.setLanguage("en");
+        testCustomer.setLanguage("vi");
         final Address billing = new Address();
         billing.setFirstName("customer1");
         billing.setLastName("ccstomer1");

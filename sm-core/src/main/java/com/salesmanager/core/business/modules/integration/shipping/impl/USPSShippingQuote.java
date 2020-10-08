@@ -153,9 +153,9 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 
 		// supports en and fr
 		String language = locale.getLanguage();
-		if (!language.equals(Locale.FRENCH.getLanguage())
-				&& !language.equals(Locale.ENGLISH.getLanguage())) {
-			language = Locale.ENGLISH.getLanguage();
+		if (!language.equals(Locale.ENGLISH.getLanguage())
+				&& !language.equals(new Locale("vi","VN").getLanguage())) {
+			language = new Locale("vi","VN").getLanguage();
 		}
 		
 

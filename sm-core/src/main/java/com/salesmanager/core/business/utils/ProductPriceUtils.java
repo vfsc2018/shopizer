@@ -402,7 +402,7 @@ public class ProductPriceUtils {
 
 			if (matchPositiveInteger(amount)) {
 				BigDecimalValidator validator = CurrencyValidator.getInstance();
-				BigDecimal bdamount = validator.validate(amount, Locale.US);
+				BigDecimal bdamount = validator.validate(amount, new Locale("vi","VN"));
 				if (bdamount == null) {
 					throw new Exception("Cannot parse " + amount);
 				} else {

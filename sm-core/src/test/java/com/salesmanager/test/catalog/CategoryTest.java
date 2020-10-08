@@ -25,8 +25,8 @@ public class CategoryTest extends com.salesmanager.test.common.AbstractSalesMana
 	@Test
 	public void testCategory() throws Exception {
 
-	    Language en = languageService.getByCode("en");
-	    Language fr = languageService.getByCode("fr");
+	    Language en = languageService.getByCode("vi");
+	    Language fr = languageService.getByCode("en");
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 

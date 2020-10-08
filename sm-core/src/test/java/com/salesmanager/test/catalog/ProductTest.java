@@ -51,8 +51,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	@Test
 	public void testCreateProduct() throws Exception {
 
-	    Language en = languageService.getByCode("en");
-	    Language fr = languageService.getByCode("fr");
+	    Language en = languageService.getByCode("vi");
+	    Language fr = languageService.getByCode("en");
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 	    ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
@@ -359,7 +359,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		MerchantStore store = product.getMerchantStore();
 		
-		Language en = languageService.getByCode("en");
+		Language en = languageService.getByCode("vi");
 		
 	    /**
 	     * Create size option
@@ -577,7 +577,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	     ProductReview review = new ProductReview();
 	     review.setProduct(product);
 	     review.setReviewRating(new Double(4));
-	     Language en = languageService.getByCode("en");
+	     Language en = languageService.getByCode("vi");
 	        
 	     ProductReviewDescription reviewDescription = new ProductReviewDescription();
 	     reviewDescription.setLanguage(en);
@@ -593,7 +593,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	private void testCreateRelationShip(Product product) throws Exception {
 		
 		MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
-		Language en = languageService.getByCode("en");
+		Language en = languageService.getByCode("vi");
 		Manufacturer oreilley = manufacturerService.getByCode(store, "oreilley");
 		ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
 		

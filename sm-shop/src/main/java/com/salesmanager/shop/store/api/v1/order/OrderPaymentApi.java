@@ -88,7 +88,7 @@ public class OrderPaymentApi {
 	@RequestMapping(value = { "/cart/{code}/payment/init" }, method = RequestMethod.POST)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ReadableTransaction init(@Valid @RequestBody PersistablePayment payment, @PathVariable String code,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) throws Exception {
 
@@ -120,7 +120,7 @@ public class OrderPaymentApi {
 	@RequestMapping(value = { "/auth/cart/{code}/payment/init" }, method = RequestMethod.POST)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ReadableTransaction init(@Valid @RequestBody PersistablePayment payment, @PathVariable String code,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -186,7 +186,7 @@ public class OrderPaymentApi {
 	@ResponseBody
 	@ApiImplicitParams({ 
 		    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public String nextTransaction(
 			@PathVariable final Long id, 
 			@ApiIgnore MerchantStore merchantStore,
@@ -207,7 +207,7 @@ public class OrderPaymentApi {
 	@ResponseBody
 	@ApiImplicitParams({ 
 		    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public List<ReadableTransaction> listTransactions(
 			@PathVariable final Long id, 
 			@ApiIgnore MerchantStore merchantStore,
@@ -237,7 +237,7 @@ public class OrderPaymentApi {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ReadableOrderList listCapturableOrders(
 			@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
 			@RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
@@ -293,7 +293,7 @@ public class OrderPaymentApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ReadableTransaction capturePayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		/*
@@ -336,7 +336,7 @@ public class OrderPaymentApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ReadableTransaction refundPayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		return null;
@@ -354,7 +354,7 @@ public class OrderPaymentApi {
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ReadableTransaction authorizePayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language) {
 		return null;

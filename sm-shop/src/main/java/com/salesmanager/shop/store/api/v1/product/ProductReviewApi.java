@@ -62,7 +62,7 @@ public class ProductReviewApi {
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public PersistableProductReview create(
       @PathVariable final Long id,
@@ -110,7 +110,7 @@ public class ProductReviewApi {
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public List<ReadableProductReview> getAll(
       @PathVariable final Long id,
@@ -153,7 +153,7 @@ public class ProductReviewApi {
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public PersistableProductReview update(
       @PathVariable final Long id,
@@ -209,7 +209,7 @@ public class ProductReviewApi {
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public void delete(
       @PathVariable final Long id,

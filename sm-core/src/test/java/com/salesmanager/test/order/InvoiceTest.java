@@ -24,7 +24,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		//create a product
 	    ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
 	    
-	    Language en = languageService.getByCode("en");
+	    Language en = languageService.getByCode("vi");
 	    
 	    
 	    *//**
@@ -127,7 +127,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	    
 
 	    //1.2 create a Customer
-		Country country = countryService.getByCode("CA");
+		Country country = countryService.getByCode("VN");
 		Zone zone = zoneService.getByCode("QC");
 		
 		Customer customer = new Customer();
@@ -311,7 +311,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		orderService.create(order);
 		Assert.assertTrue(orderService.count() == 1);
 		
-		Locale locale = Locale.ENGLISH;
+		Locale locale = new Locale("vi","VN");
 		
 		
 		order = orderService.getById(order.getId());

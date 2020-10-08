@@ -157,7 +157,7 @@ public class CustomerApi {
   @GetMapping("/private/customers")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi")
   })
   public ReadableCustomerList list(
       @RequestParam(value = "page", required = false) Integer page,
@@ -178,7 +178,7 @@ public class CustomerApi {
   @GetMapping("/private/customer/{id}")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi")
   })
   public ReadableCustomer get(
       @PathVariable Long id,
@@ -197,7 +197,7 @@ public class CustomerApi {
   @GetMapping("/private/customer/profile")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi")
   })
   public ReadableCustomer getAuthUser(
       @ApiIgnore MerchantStore merchantStore,

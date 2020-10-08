@@ -35,13 +35,13 @@ public class ReferencesTest {
 	public void testReferences() throws ServiceException {
 		
 		Language en = new Language();
-		en.setCode("en");
+		en.setCode("vi");
 		en.setSortOrder(0);
 		
 		languageService.save(en);
 		
 		Language fr = new Language();
-		fr.setCode("fr");
+		fr.setCode("en");
 		fr.setSortOrder(0);
 		
 		languageService.save(fr);

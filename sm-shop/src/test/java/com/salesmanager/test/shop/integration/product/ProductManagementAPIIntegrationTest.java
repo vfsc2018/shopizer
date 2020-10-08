@@ -74,7 +74,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         newCategory.setParent(parent);
 
         final CategoryDescription description = new CategoryDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setName("test-cat");
         description.setFriendlyUrl("test-cat");
         description.setTitle("test-cat");
@@ -122,7 +122,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         review.setCustomerId(1L);
 
         review.setProductId(1L);
-        review.setLanguage("en");
+        review.setLanguage("vi");
         review.setRating(2D);// rating is on 5
         review.setDescription(
                 "Not as good as expected. From what i understood that was supposed to be premium quality but unfortunately i had to return the item after one week... Verry disapointed !");
@@ -150,7 +150,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
     public void createOptionValue() throws Exception {
 
         final ProductOptionValueDescription description = new ProductOptionValueDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setName("Red");
 
         final List<ProductOptionValueDescription> descriptions = new ArrayList<>();
@@ -176,7 +176,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
          * "highlights" : null,
          * "metaDescription" : null,
          * "title" : null,
-         * "language" : "en",
+         * "language" : "vi",
          * "id" : 0
          * } ],
          * "order" : 1,
@@ -206,7 +206,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
     public void createOption() throws Exception {
 
         final ProductOptionDescription description = new ProductOptionDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setName("Color");
 
         final List<ProductOptionDescription> descriptions = new ArrayList<>();
@@ -233,7 +233,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
          * "highlights" : null,
          * "metaDescription" : null,
          * "title" : null,
-         * "language" : "en",
+         * "language" : "vi",
          * "id" : 0
          * } ],
          * "type" : SELECT,
@@ -354,7 +354,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
         // add english description
         ProductDescription description = new ProductDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setTitle("Buddha Head");
         description.setName("Buddha Head");
         description.setDescription("Buddha Head");
@@ -366,7 +366,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
 
         // add french description
         description = new ProductDescription();
-        description.setLanguage("fr");
+        description.setLanguage("en");
         description.setTitle("Tête de Buddha");
         description.setName("Tête de Buddha");
         description.setDescription(description.getName());

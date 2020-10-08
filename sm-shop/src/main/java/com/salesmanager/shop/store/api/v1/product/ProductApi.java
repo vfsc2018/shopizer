@@ -87,7 +87,7 @@ public class ProductApi {
       method = RequestMethod.POST)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody PersistableProduct create(
       @Valid @RequestBody PersistableProduct product,
@@ -107,7 +107,7 @@ public class ProductApi {
       method = RequestMethod.PUT)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   @ApiOperation(httpMethod = "PUT", value = "Update product",
   notes = "", produces = "application/json", response = PersistableProduct.class)
@@ -141,7 +141,7 @@ public class ProductApi {
   notes = "Updates product inventory", produces = "application/json", response = Void.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi")
   })
   public void update(
       @PathVariable Long id,
@@ -158,7 +158,7 @@ public class ProductApi {
       value = {"/private/product/{id}", "/auth/product/{id}"},
       method = RequestMethod.DELETE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en") })
+		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
   public void delete(
       @PathVariable Long id,
       @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
@@ -377,7 +377,7 @@ public class ProductApi {
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ReadableProductList list(
       @RequestParam(value = "lang", required = false) String lang,
@@ -469,7 +469,7 @@ public class ProductApi {
   @ResponseBody
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ReadableProduct get(
       @PathVariable final Long id,
@@ -506,7 +506,7 @@ public class ProductApi {
   @ResponseBody
   @ApiImplicitParams({
           @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ReadableProduct getByfriendlyUrl(
           @PathVariable final String friendlyUrl,
@@ -551,7 +551,7 @@ public class ProductApi {
       method = RequestMethod.POST)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableProduct addProductToCategory(
       @PathVariable Long productId,
@@ -606,7 +606,7 @@ public class ProductApi {
       method = RequestMethod.DELETE)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableProduct removeProductFromCategory(
       @PathVariable Long productId,

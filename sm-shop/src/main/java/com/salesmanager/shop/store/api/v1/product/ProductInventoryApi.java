@@ -47,7 +47,7 @@ public class ProductInventoryApi {
       method = RequestMethod.POST)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableInventory create(
       @Valid @RequestBody PersistableInventory inventory,
@@ -67,7 +67,7 @@ public class ProductInventoryApi {
       method = RequestMethod.PUT)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public void update(
       @PathVariable Long productId,
@@ -89,7 +89,7 @@ public class ProductInventoryApi {
       method = RequestMethod.DELETE)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public void delete(
             @PathVariable Long id,
@@ -109,7 +109,7 @@ public class ProductInventoryApi {
       method = RequestMethod.GET)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableInventoryList get(
             @PathVariable Long id,
@@ -130,7 +130,7 @@ public class ProductInventoryApi {
       method = RequestMethod.GET)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableInventory get(
             @PathVariable Long id,
@@ -151,7 +151,7 @@ public class ProductInventoryApi {
       method = RequestMethod.GET)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableInventory get(
             @PathVariable Long id,

@@ -58,11 +58,11 @@ public class AbstractSalesManagerCoreTestCase {
 
 	
 	
-	protected static String CAD_CURRENCY_CODE = "CAD";
+	protected static String VND_CURRENCY_CODE = "VND";
 	protected static String USD_CURRENCY_CODE = "USD";
 	
+	protected static String VIETNAM_LANGUAGE_CODE = "vi";
 	protected static String ENGLISH_LANGUAGE_CODE = "en";
-	protected static String FRENCH_LANGUAGE_CODE = "fr";
 	
 	@Inject
 	protected InitializationDatabase   initializationDatabase;

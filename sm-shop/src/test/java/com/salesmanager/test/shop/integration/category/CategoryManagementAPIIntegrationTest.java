@@ -81,7 +81,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         newCategory.setParent(parent);
 
         CategoryDescription description = new CategoryDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setName("Javascript");
         description.setFriendlyUrl("javascript");
         description.setTitle("Javascript");
@@ -115,7 +115,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
 
 
         CategoryDescription description = new CategoryDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setName("angular");
         description.setFriendlyUrl("angular");
         description.setTitle("angular");
@@ -150,7 +150,7 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         newCategory.setDepth(4);
         newCategory.setSortOrder(2);
         description = new CategoryDescription();
-        description.setLanguage("en");
+        description.setLanguage("vi");
         description.setName("angular");
         description.setFriendlyUrl("angular");
         description.setTitle("angular");
@@ -180,13 +180,13 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         dining.setVisible(true);
 
         CategoryDescription endescription = new CategoryDescription();
-        endescription.setLanguage("en");
+        endescription.setLanguage("vi");
         endescription.setName("Dining room");
         endescription.setFriendlyUrl("dining-room");
         endescription.setTitle("Dining room");
 
         CategoryDescription frdescription = new CategoryDescription();
-        frdescription.setLanguage("fr");
+        frdescription.setLanguage("en");
         frdescription.setName("Salle à manger");
         frdescription.setFriendlyUrl("salle-a-manger");
         frdescription.setTitle("Salle à manger");
@@ -209,13 +209,13 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         armoire.setParent(diningParent);
 
         endescription = new CategoryDescription();
-        endescription.setLanguage("en");
+        endescription.setLanguage("vi");
         endescription.setName("Armoires");
         endescription.setFriendlyUrl("armoires");
         endescription.setTitle("Armoires");
 
         frdescription = new CategoryDescription();
-        frdescription.setLanguage("fr");
+        frdescription.setLanguage("en");
         frdescription.setName("Armoire");
         frdescription.setFriendlyUrl("armoires");
         frdescription.setTitle("Armoires");
@@ -236,13 +236,13 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         bench.setParent(diningParent);
 
         endescription = new CategoryDescription();
-        endescription.setLanguage("en");
+        endescription.setLanguage("vi");
         endescription.setName("Benches");
         endescription.setFriendlyUrl("benches");
         endescription.setTitle("Benches");
 
         frdescription = new CategoryDescription();
-        frdescription.setLanguage("fr");
+        frdescription.setLanguage("en");
         frdescription.setName("Bancs");
         frdescription.setFriendlyUrl("bancs");
         frdescription.setTitle("Bancs");
@@ -261,13 +261,13 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         living.setVisible(true);
 
         endescription = new CategoryDescription();
-        endescription.setLanguage("en");
+        endescription.setLanguage("vi");
         endescription.setName("Living room");
         endescription.setFriendlyUrl("living-room");
         endescription.setTitle("Living room");
 
         frdescription = new CategoryDescription();
-        frdescription.setLanguage("fr");
+        frdescription.setLanguage("en");
         frdescription.setName("Salon");
         frdescription.setFriendlyUrl("salon");
         frdescription.setTitle("Salon");
@@ -289,13 +289,13 @@ public class CategoryManagementAPIIntegrationTest extends ServicesTestSupport {
         lounge.setParent(livingParent);
 
         endescription = new CategoryDescription();
-        endescription.setLanguage("en");
+        endescription.setLanguage("vi");
         endescription.setName("Lounge");
         endescription.setFriendlyUrl("lounge");
         endescription.setTitle("Lounge");
 
         frdescription = new CategoryDescription();
-        frdescription.setLanguage("fr");
+        frdescription.setLanguage("en");
         frdescription.setName("Divan");
         frdescription.setFriendlyUrl("divan");
         frdescription.setTitle("Divan");

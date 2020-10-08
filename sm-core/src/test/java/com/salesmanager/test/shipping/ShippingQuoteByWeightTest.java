@@ -59,8 +59,8 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	//@Test
 	public void testGetCustomShippingQuotesByWeight() throws ServiceException {
 
-	    Language en = languageService.getByCode("en");
-	    Country country = countryService.getByCode("CA");
+	    Language en = languageService.getByCode("vi");
+	    Country country = countryService.getByCode("VN");
 	    Zone zone = zoneService.getByCode("QC");
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
@@ -155,7 +155,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    supportedCountries.add("CA");
 	    supportedCountries.add("US");
 	    supportedCountries.add("UK");
-	    supportedCountries.add("FR");
+	    supportedCountries.add("en");
 	    
 	    shippingService.setSupportedCountries(store, supportedCountries);
 	    
@@ -238,7 +238,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    //overwrite delivery to US
 /*	    delivery.setPostalCode("90002");
 	    delivery.setCountry(us);
-	    Zone california = zoneService.getByCode("CA");
+	    Zone california = zoneService.getByCode("VN");
 	    delivery.setZone(california);*/
 	    
 	    

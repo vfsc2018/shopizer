@@ -48,7 +48,7 @@ public class CustomerNewsletterApi {
       produces = "application/json")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi")
   })
   public void create(
       @Valid @RequestBody PersistableCustomerOptin optin,

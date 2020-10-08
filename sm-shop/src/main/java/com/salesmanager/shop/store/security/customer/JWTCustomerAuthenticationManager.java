@@ -1,5 +1,8 @@
 package com.salesmanager.shop.store.security.customer;
 
+import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.StringUtils.removeStart;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +28,10 @@ import io.jsonwebtoken.ExpiredJwtException;
 public class JWTCustomerAuthenticationManager extends CustomAuthenticationManager {
 	
 	protected final Log logger = LogFactory.getLog(getClass());
-	
+	  private static final String BEARER = "Bearer";
+	  
+	  
+	  
     @Inject
     private JWTTokenUtil jwtTokenUtil;
     
@@ -38,18 +44,16 @@ public class JWTCustomerAuthenticationManager extends CustomAuthenticationManage
 		
 		final String requestHeader = request.getHeader(super.getTokenHeader());//token
         String username = null;
-        String authToken = null;
-        if (requestHeader != null && requestHeader.startsWith("Bearer ")) {//Bearer
-            authToken = requestHeader.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(authToken);
-            } catch (IllegalArgumentException e) {
-            	logger.error("an error occured during getting username from token", e);
-            } catch (ExpiredJwtException e) {
-            	logger.warn("the token is expired and not valid anymore", e);
-            }
-        } else {
-        	throw new CustomAuthenticationException("No Bearer token found in the request");
+        final String authToken;
+        authToken = ofNullable(requestHeader).map(value -> removeStart(value, BEARER)).map(String::trim)
+                .orElseThrow(() -> new CustomAuthenticationException("Missing Authentication Token"));
+        
+        try {
+            username = jwtTokenUtil.getUsernameFromToken(authToken);
+        } catch (IllegalArgumentException e) {
+        	logger.error("an error occured during getting username from token", e);
+        } catch (ExpiredJwtException e) {
+        	logger.warn("the token is expired and not valid anymore", e);
         }
         
         UsernamePasswordAuthenticationToken authentication = null;

@@ -11,8 +11,8 @@ public class SchemaConstant {
 	 * Languages iso codes
 	 * 
 	 */
-	//public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "ru", "es"};
-	public static final String[] LANGUAGE_ISO_CODE = {"en", "fr", "es"};
+	//public static final String[] LANGUAGE_ISO_CODE = {"vi", "en", "ru", "es"};
+	public static final String[] LANGUAGE_ISO_CODE = {"vi", "en", "es"};
 	
 	public final static int DESCRIPTION_ID_ALLOCATION_SIZE = 1;
 	public final static int DESCRIPTION_ID_START_VALUE = 2000;
@@ -30,7 +30,7 @@ public class SchemaConstant {
 		"BD","BB","BY","BE","BZ","BJ","BM","BT","BO","BA","BW","BV","BR","IO",
 		"BN","BG","BF","BI","KH","CM","CA","CV","KY","CF","TD","CL","CN","CX",
 		"CC","CO","KM","CG","CD","CK","CR","CI","HR","CU","CY","CZ","DK","DJ",
-		"DM","DO","EC","EG","SV","GQ","ER","EE","ET","FK","FO","FJ","FI","FR",
+		"DM","DO","EC","EG","SV","GQ","ER","EE","ET","FK","FO","FJ","FI","en",
 		"GF","PF","TF","GA","GM","GE","DE","GH","GI","GR","GL","GD","GP","GU",
 		"GT","GG","GN","GW","GY","HT","HM","VA","HN","HK","HU","IS","IN","ID",
 		"IR","IQ","IE","IM","IL","IT","JM","JP","JE","JO","KZ","KE","KI","KP",
@@ -96,7 +96,7 @@ public class SchemaConstant {
 		CURRENCY_MAP.put("BIF", "Burundi Franc");
 		CURRENCY_MAP.put("KHR", "Riel");
 		CURRENCY_MAP.put("XAF", "CFA Franc BEAC");
-		CURRENCY_MAP.put("CAD", "Canadian Dollar");
+		CURRENCY_MAP.put("VND", "Canadian Dollar");
 		CURRENCY_MAP.put("CVE", "Cape Verde Escudo");
 		CURRENCY_MAP.put("KYD", "Cayman Islands Dollar");
 		CURRENCY_MAP.put("CLF", "Unidades de fomento");

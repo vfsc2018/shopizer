@@ -28,7 +28,7 @@ public class ShippingDistanceProcessorTest {
 		delivery.setPostalCode("H3A 1V4");
 		
 		Country country = new Country();
-		country.setIsoCode("CA");
+		country.setIsoCode("VN");
 		country.setName("Canada");
 		delivery.setCountry(country);
 		

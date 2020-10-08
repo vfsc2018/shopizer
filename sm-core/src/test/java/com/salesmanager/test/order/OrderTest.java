@@ -65,7 +65,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 		Currency currency = currencyService.getByCode(USD_CURRENCY_CODE);
 		Country country = countryService.getByCode("US");
 		Zone zone = zoneService.getByCode("VT");
-		Language en = languageService.getByCode("en");
+		Language en = languageService.getByCode("vi");
 		
 		MerchantStore merchant = merchantService.getByCode( MerchantStore.DEFAULT_STORE );	
 	

@@ -22,10 +22,10 @@ public class Constants {
   public static final String ALL_REGIONS = "*";
 
 
-  public final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+  public final static String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
   public final static String DEFAULT_DATE_FORMAT_YEAR = "yyyy";
-  public final static String DEFAULT_LANGUAGE = "en";
-  public final static String DEFAULT_COUNTRY = "CA";
+  public final static String DEFAULT_LANGUAGE = "vi";
+  public final static String DEFAULT_COUNTRY = "VN";
 
   public final static String EMAIL_CONFIG = "EMAIL_CONFIG";
 
@@ -44,7 +44,7 @@ public class Constants {
 
   public final static String DEFAULT_STORE = "DEFAULT";
 
-  public final static Locale DEFAULT_LOCALE = Locale.US;
-  public final static Currency DEFAULT_CURRENCY = Currency.getInstance(Locale.US);
+  public final static Locale DEFAULT_LOCALE = new Locale("vi","VN");
+  public final static Currency DEFAULT_CURRENCY = Currency.getInstance(new Locale("vi","VN"));
 
 }

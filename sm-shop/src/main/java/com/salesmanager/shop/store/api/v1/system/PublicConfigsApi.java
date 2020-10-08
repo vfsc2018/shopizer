@@ -43,7 +43,7 @@ public class PublicConfigsApi {
       response = Configs.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public Configs getConfig(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language) {
     return configurationFacade.getMerchantConfig(merchantStore, language);

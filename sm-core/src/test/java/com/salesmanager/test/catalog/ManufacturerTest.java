@@ -19,7 +19,7 @@ public class ManufacturerTest extends com.salesmanager.test.common.AbstractSales
 	@Test
 	public void testManufacturer() throws Exception {
 
-	    Language en = languageService.getByCode("en");
+	    Language en = languageService.getByCode("vi");
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 

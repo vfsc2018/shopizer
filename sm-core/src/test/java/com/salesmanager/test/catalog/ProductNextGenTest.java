@@ -57,7 +57,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	@Test
 	public void testCreateProduct() throws Exception {
 
-	    Language en = languageService.getByCode("en");
+	    Language en = languageService.getByCode("vi");
 
 	    MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 	    ProductType generalType = productTypeService.getProductType(ProductType.GENERAL_TYPE);
@@ -268,7 +268,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    availability.setRegion("*");
 	    availability.setAvailable(true);
 	    
-	    Language en = languageService.getByCode("en");
+	    Language en = languageService.getByCode("vi");
 
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
@@ -303,7 +303,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 		 */
 		
 		MerchantStore store = product.getMerchantStore();
-		Language en = languageService.getByCode("en");
+		Language en = languageService.getByCode("vi");
 		
 
 	     /**

@@ -117,7 +117,7 @@ public class TaxRatesController {
 			NumberFormat nf = null;
 
 			
-			nf = NumberFormat.getInstance(Locale.US);
+			nf = NumberFormat.getInstance(new Locale("vi","VN"));
 			nf.setMaximumFractionDigits(Integer.parseInt(Character
 						.toString(DECIMALCOUNT)));
 			nf.setMinimumFractionDigits(Integer.parseInt(Character
@@ -419,7 +419,7 @@ public class TaxRatesController {
 		NumberFormat nf = null;
 
 		
-		nf = NumberFormat.getInstance(Locale.US);
+		nf = NumberFormat.getInstance(new Locale("vi","VN"));
 
 		nf.setMaximumFractionDigits(Integer.parseInt(Character
 					.toString(DECIMALCOUNT)));

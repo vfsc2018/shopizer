@@ -56,8 +56,9 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 			String countryCode = store.getCountry().getIsoCode();
 			
 			//try to build valid language
-			if("CA".equals(countryCode) && language.getCode().equals("en")) {
-				countryCode = "US";
+			//if("CA".equals(countryCode) && language.getCode().equals("vi")) {
+			if(language.getCode().equals("vi")) {
+				countryCode = "VN";
 			}
 			
 			return new Locale(language.getCode(), countryCode);
@@ -121,7 +122,7 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	
 	@Override
 	public Language defaultLanguage() {
-		return toLanguage(Locale.ENGLISH);
+		return toLanguage(new Locale("vi","VN"));
 	}
 
 }

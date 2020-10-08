@@ -75,7 +75,7 @@ public class UtilsTestCase  {
 		
 		java.util.Currency c = currency.getCurrency();
 		
-		NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
+		NumberFormat numberFormat = NumberFormat.getCurrencyInstance(new Locale("vi","VN"));
 		numberFormat.setCurrency(c);
 		
 		System.out.println("Done");

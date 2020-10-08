@@ -149,16 +149,16 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 		
 
 		
-		if(!(country.getIsoCode().equals("US") || country.getIsoCode().equals("CA"))) {
+		if(!(country.getIsoCode().equals("US") || country.getIsoCode().equals("VN"))) {
 			return null;
 			//throw new IntegrationException("UPS Not configured for shipping in country " + country.getIsoCode());
 		}
 
 		// supports en and fr
 		String language = locale.getLanguage();
-		if (!language.equals(Locale.FRENCH.getLanguage())
-				&& !language.equals(Locale.ENGLISH.getLanguage())) {
-			language = Locale.ENGLISH.getLanguage();
+		if (!language.equals(Locale.ENGLISH.getLanguage())
+				&& !language.equals(new Locale("vi","VN").getLanguage())) {
+			language = new Locale("vi","VN").getLanguage();
 		}
 		
 		String pack = configuration.getIntegrationOptions().get("packages").get(0);

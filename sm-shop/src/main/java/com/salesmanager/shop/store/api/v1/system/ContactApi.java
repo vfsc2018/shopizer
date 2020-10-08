@@ -41,7 +41,7 @@ public class ContactApi {
       produces = "application/json")
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ResponseEntity<Void> contact(
       @Valid @RequestBody ContactForm contact,

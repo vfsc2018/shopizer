@@ -57,7 +57,7 @@ public class ShoppingCartApi {
       response = ReadableShoppingCart.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableShoppingCart addToCart(
       @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
@@ -96,7 +96,7 @@ public class ShoppingCartApi {
           response = ReadableShoppingCart.class)
   @ApiImplicitParams({
           @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ResponseEntity<ReadableShoppingCart> modifyCart(
           @PathVariable String code,
@@ -134,7 +134,7 @@ public class ShoppingCartApi {
           response = ReadableShoppingCart.class)
   @ApiImplicitParams({
           @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ResponseEntity<ReadableShoppingCart> modifyCart(
           @PathVariable String code,
@@ -167,7 +167,7 @@ public class ShoppingCartApi {
       response = ReadableShoppingCart.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableShoppingCart getByCode(
       @PathVariable String code,
@@ -206,7 +206,7 @@ public class ShoppingCartApi {
       response = ReadableShoppingCart.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableShoppingCart addToCart(
       @PathVariable Long id,
@@ -250,7 +250,7 @@ public class ShoppingCartApi {
       response = ReadableShoppingCart.class)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en")
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public @ResponseBody ReadableShoppingCart get(
       @PathVariable Long id,
@@ -298,7 +298,7 @@ public class ShoppingCartApi {
       response = ReadableShoppingCart.class)
   @ApiImplicitParams({
     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "en"),
+    @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi"),
     @ApiImplicitParam(name = "body", dataType = "boolean", defaultValue = "false"),
   })
   public ResponseEntity<ReadableShoppingCart> deleteCartItem(
