@@ -320,13 +320,31 @@ public class MultipleEntryPointsSecurityConfig {
 					.antMatchers(API_V1 + "/private/login*").permitAll()
 					.antMatchers(API_V1 + "/private/refresh").permitAll()
 					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/private/**").permitAll()
-					.antMatchers(API_V1 + "/private/**").hasRole("AUTH")
+					.antMatchers(API_V1 + "/private/**").hasRole("AUTH_CUSTOMER")
 					.anyRequest().authenticated()
 					.and()
 					.httpBasic().authenticationEntryPoint(apiAdminAuthenticationEntryPoint())
 					.and()
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class)
 					.csrf().disable();
+			
+			
+//			
+//			http
+//			
+//			.antMatcher(API_V1 + "/auth/**")
+//			.authorizeRequests()
+//				.antMatchers(API_V1 + "/auth/refresh").permitAll()
+//				.antMatchers(API_V1 + "/auth/login").permitAll()
+//				.antMatchers(API_V1 + "/auth/register").permitAll()
+//				.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
+//				.antMatchers(API_V1 + "/auth/**")
+//				.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
+//				.and()
+//				.httpBasic()
+//				.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
+//				.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
+			
 
 		}
 		

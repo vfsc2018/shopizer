@@ -569,7 +569,7 @@ public class UserFacadeImpl implements UserFacade {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
 
-		if(!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
+		if(!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH) && !path.contains("private/customer/profile")) {
 
 			try {
 				
