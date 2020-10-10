@@ -99,7 +99,7 @@ public class AuthenticateUserApi {
         final JWTUser userDetails = (JWTUser)jwtAdminDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         
         final String token = jwtTokenUtil.generateToken(userDetails);
-
+        LOGGER.info("Ducdv83: " + token);
         // Return the token
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getId(),token));
 

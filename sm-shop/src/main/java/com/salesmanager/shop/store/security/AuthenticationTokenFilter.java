@@ -88,7 +88,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 	    	}
     	}
     	
-    	if(request.getRequestURL().toString().contains("/api/v1/private")) {
+    
+    	if(request.getRequestURL().toString().contains("/api/v1/private") 
+    			&& !request.getRequestURL().toString().contains("/login")) {
     		
     		//setHeader(request,response);  
     		
@@ -101,9 +103,9 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 	    	
 	    	try {
 		        if (requestHeader != null && requestHeader.startsWith(BEARER_TOKEN)) {//Bearer
-		        	
 		        	//jwtCustomAdminAuthenticationManager.authenticateRequest(request, response);
 	                jwtCustomCustomerAuthenticationManager.authenticateRequest(request, response);
+	                
 		        } else {
 		        	LOGGER.warn("couldn't find any authorization token, will ignore the header, might be a preflight check");
 		        }

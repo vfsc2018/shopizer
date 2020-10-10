@@ -300,7 +300,10 @@ public class ProductController {
 		//validate price
 		BigDecimal submitedPrice = null;
 		try {
-			submitedPrice = priceUtil.getAmount(product.getProductPrice());
+			//submitedPrice = priceUtil.getAmount(product.getProductPrice());
+			if(product.getProductPrice()!=null){
+				submitedPrice = new BigDecimal(product.getProductPrice());
+			}
 		} catch (Exception e) {
 			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
 			result.addError(error);
