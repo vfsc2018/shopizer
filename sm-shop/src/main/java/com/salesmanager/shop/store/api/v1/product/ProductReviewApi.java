@@ -53,8 +53,6 @@ public class ProductReviewApi {
   @RequestMapping(
       value = {
         "/private/products/{id}/reviews",
-        "/auth/products/{id}/reviews",
-        "/auth/products/{id}/reviews",
         "/auth/products/{id}/reviews"
       },
       method = RequestMethod.POST)

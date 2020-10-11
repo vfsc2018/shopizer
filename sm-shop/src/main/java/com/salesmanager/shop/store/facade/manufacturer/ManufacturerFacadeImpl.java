@@ -160,9 +160,17 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
 
         Page<Manufacturer> m = null;
         if(language != null) {
-          m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
+          if(criteria.getName()!=null){
+            m = manufacturerService.listByStore(store, language, criteria.getName(), page, count);
+          }else{
+            m = manufacturerService.listByStore(store, language, page, count);
+          }
         } else {
-          m = manufacturerService.listByStore(store, criteria.getName(), page, count);
+          // if(criteria.getName()!=null){
+            m = manufacturerService.listByStore(store, criteria.getName(), page, count);
+          // }else{
+            // m = manufacturerService.listByStore(store, null, page, count);
+          // }
         }
         manufacturers = m.getContent();
         readableList.setTotalPages(m.getTotalPages());

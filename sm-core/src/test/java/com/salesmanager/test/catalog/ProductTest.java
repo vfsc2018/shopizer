@@ -77,7 +77,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    book.setDescriptions(descriptions);
 
-	    categoryService.create(book);
+	    // categoryService.create(book);
 
 	    Category music = new Category();
 	    music.setMerchantStore(store);
@@ -99,7 +99,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    music.setDescriptions(descriptions2);
 
-	    categoryService.create(music);
+	    // categoryService.create(music);
 
 	    Category novell = new Category();
 	    novell.setMerchantStore(store);
@@ -123,8 +123,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    
 	    novell.setParent(book);
 
-	    categoryService.create(novell);
-	    categoryService.addChild(book, novell);
+	    // categoryService.create(novell);
+	    // categoryService.addChild(book, novell);
 
 	    Category tech = new Category();
 	    tech.setMerchantStore(store);
@@ -148,8 +148,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    
 	    tech.setParent(book);
 
-	    categoryService.create(tech);
-	    categoryService.addChild(book, tech);
+	    // categoryService.create(tech);
+	    // categoryService.addChild(book, tech);
 
 	    Category fiction = new Category();
 	    fiction.setMerchantStore(store);
@@ -173,8 +173,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    
 	    fiction.setParent(novell);
 
-	    categoryService.create(fiction);
-	    categoryService.addChild(book, fiction);
+	    // categoryService.create(fiction);
+	    // categoryService.addChild(book, fiction);
 
 	    Manufacturer oreilley = new Manufacturer();
 	    oreilley.setMerchantStore(store);
@@ -186,7 +186,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    oreilleyd.setManufacturer(oreilley);
 	    oreilley.getDescriptions().add(oreilleyd);
 
-	    manufacturerService.create(oreilley);
+	    // manufacturerService.create(oreilley);
 
 	    Manufacturer packed = new Manufacturer();
 	    packed.setMerchantStore(store);
@@ -198,7 +198,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    packedd.setName("Packed publishing");
 	    packed.getDescriptions().add(packedd);
 
-	    manufacturerService.create(packed);
+	    // manufacturerService.create(packed);
 
 	    Manufacturer novells = new Manufacturer();
 	    novells.setMerchantStore(store);
@@ -210,7 +210,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    novellsd.setName("Novells publishing");
 	    novells.getDescriptions().add(novellsd);
 
-	    manufacturerService.create(novells);
+	    // manufacturerService.create(novells);
 
 	    // PRODUCT 1
 

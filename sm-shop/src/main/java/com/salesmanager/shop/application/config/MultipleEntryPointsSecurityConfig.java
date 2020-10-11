@@ -413,7 +413,7 @@ public class MultipleEntryPointsSecurityConfig {
 					.httpBasic()
 					.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
-
+		}
 		
 	    @Bean
 	    public AuthenticationProvider authenticationProvider() {

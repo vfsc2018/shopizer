@@ -89,8 +89,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	}
     	
     
-    	if(request.getRequestURL().toString().contains("/api/v1/private") 
-    			&& !request.getRequestURL().toString().contains("/login")) {
+    	if(request.getRequestURL().toString().contains("/api/v1/private")) {
     		
     		//setHeader(request,response);  
     		

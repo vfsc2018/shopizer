@@ -412,8 +412,10 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 			int count) {
 
 		Pageable pageRequest = PageRequest.of(page, count);
-
-		return pageableCategoryRepository.listByStore(store.getId(), language.getId(), name, pageRequest);
+		if(name!=null){		
+			return pageableCategoryRepository.listByStore(store.getId(), language.getId(), name, pageRequest);
+		}
+		return pageableCategoryRepository.listByStore(store.getId(), language.getId(), pageRequest);
 	}
 
 	@Override

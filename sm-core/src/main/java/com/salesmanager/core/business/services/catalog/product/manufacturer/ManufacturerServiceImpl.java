@@ -124,7 +124,7 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
       throws ServiceException {
 
     Pageable pageRequest = PageRequest.of(page, count);
-    return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), null, pageRequest);
+    return pageableManufacturerRepository.findByStore(store.getId(), language.getId(), pageRequest);
   }
 
   @Override

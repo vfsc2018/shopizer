@@ -568,11 +568,10 @@ public class UserFacadeImpl implements UserFacade {
 		Validate.notNull(store, "MerchantStore cannot be null");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		
-		if(!StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
+		if(authentication!=null && !StringUtils.isBlank(path) && path.contains(PRIVATE_PATH)) {
 
 			try {
 				
-				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 				String currentPrincipalName = authentication.getName();
 				
 				System.out.println("Principal " + currentPrincipalName);

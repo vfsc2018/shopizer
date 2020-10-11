@@ -302,7 +302,8 @@ public class ProductController {
 		try {
 			//submitedPrice = priceUtil.getAmount(product.getProductPrice());
 			if(product.getProductPrice()!=null){
-				submitedPrice = new BigDecimal(product.getProductPrice());
+				submitedPrice = priceUtil.getAmount(product.getProductPrice());
+				// submitedPrice = new BigDecimal(product.getProductPrice());
 			}
 		} catch (Exception e) {
 			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
