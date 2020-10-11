@@ -399,38 +399,21 @@ public class MultipleEntryPointsSecurityConfig {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-//			http
-//			
-//				.antMatcher(API_V1 + "/auth/**")
-//				.authorizeRequests()
-//					.antMatchers(API_V1 + "/auth/refresh").permitAll()
-//					.antMatchers(API_V1 + "/auth/login").permitAll()
-//					.antMatchers(API_V1 + "/auth/register").permitAll()
-//					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
-//					.antMatchers(API_V1 + "/auth/**")
-//					.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
-//					.and()
-//					.httpBasic()
-//					.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
-//					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
-//
-//			
-			
 			http
 			
-			.antMatcher(API_V1 + "/auth/**")
-			.authorizeRequests()
-				.antMatchers(API_V1 + "/auth/refresh").permitAll()
-				.antMatchers(API_V1 + "/auth/login").permitAll()
-				.antMatchers(API_V1 + "/auth/register").permitAll()
-				.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
-				.antMatchers(API_V1 + "/auth/**")
-				.hasRole("AUTH").anyRequest().authenticated()
-				.and()
-				.httpBasic()
-				.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
-				.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);			
-		}
+				.antMatcher(API_V1 + "/auth/**")
+				.authorizeRequests()
+					.antMatchers(API_V1 + "/auth/refresh").permitAll()
+					.antMatchers(API_V1 + "/auth/login").permitAll()
+					.antMatchers(API_V1 + "/auth/register").permitAll()
+					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
+					.antMatchers(API_V1 + "/auth/**")
+					.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
+					.and()
+					.httpBasic()
+					.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
+					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
+
 		
 	    @Bean
 	    public AuthenticationProvider authenticationProvider() {

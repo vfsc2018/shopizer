@@ -192,7 +192,8 @@ public class OrderShippingApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ReadableShippingSummary shipping(
-      @PathVariable final Long id,
+      // @PathVariable final Long id,
+      @PathVariable final String code,
       @RequestBody AddressLocation address,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
@@ -203,10 +204,11 @@ public class OrderShippingApi {
     try {
       Locale locale = request.getLocale();
 
-      ShoppingCart cart = shoppingCartService.getById(id, merchantStore);
+      // ShoppingCart cart = shoppingCartService.getById(id, merchantStore);
+      ShoppingCart cart = shoppingCartService.getByCode(code, merchantStore);
 
       if (cart == null) {
-        response.sendError(404, "Cart id " + id + " does not exist");
+        response.sendError(404, "Cart code " + code + " does not exist");
       }
 
       

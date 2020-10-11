@@ -43,13 +43,15 @@ public class MerchantStoreArgumentResolver implements HandlerMethodArgumentResol
     MerchantStore storeModel =  storeFacade.get(storeValue);
     
     HttpServletRequest httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
-    
-    boolean authorized = false;
+    if(!httpServletRequest.isUserInRole("AUTH_CUSTOMER")){
+      boolean authorized = false;
 
-    //TODO required filter
-    //authorize request
-    authorized = userFacade.authorizeStore(storeModel, httpServletRequest.getRequestURI());
-    System.out.println("is request authorized " + authorized + " for " + httpServletRequest.getRequestURI() + " and store " + storeModel.getCode());
+      //TODO required filter
+      //authorize request
+      
+      authorized = userFacade.authorizeStore(storeModel, httpServletRequest.getRequestURI());
+      System.out.println("is request authorized " + authorized + " for " + httpServletRequest.getRequestURI() + " and store " + storeModel.getCode());
+    }
     return storeModel;
   }
 }

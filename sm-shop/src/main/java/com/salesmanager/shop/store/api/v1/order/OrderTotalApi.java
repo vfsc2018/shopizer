@@ -72,7 +72,8 @@ public class OrderTotalApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ReadableOrderTotalSummary payment(
-      @PathVariable final Long id,
+      // @PathVariable final Long id,
+      @PathVariable final String id,
       @RequestParam(value = "quote", required = false) Long quote,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
@@ -162,7 +163,8 @@ public class OrderTotalApi {
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
   public ReadableOrderTotalSummary calculatePayment(
-      @PathVariable final Long id,
+      // @PathVariable final Long id,
+      @PathVariable final String id,
       @RequestParam(value = "quote", required = false) Long quote,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
