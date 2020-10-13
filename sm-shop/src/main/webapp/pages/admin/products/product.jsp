@@ -185,11 +185,12 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                  		 </div>
 
                  
-
+					
                   <c:forEach items="${product.descriptions}" var="description" varStatus="counter">
 
-                 
-
+                 	<fieldset>
+    				<legend><Strong><c:out value="${description.language.code}"/></Strong></legend>
+					
                         <div class="control-group">
 
                               <label class="required"><s:message code="label.productedit.productname" text="Product name"/> (<c:out value="${description.language.code}"/>)</label>
@@ -293,8 +294,9 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 						 <form:hidden path="descriptions[${counter.index}].metatagKeywords" />
 						 <form:hidden path="descriptions[${counter.index}].productExternalDl" />
 
-                 
-
+                 	
+					</fieldset>
+					
                   </c:forEach>
 
                  
