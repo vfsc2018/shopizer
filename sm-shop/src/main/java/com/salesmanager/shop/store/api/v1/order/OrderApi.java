@@ -335,7 +335,7 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/auth/cart/{code}/checkout" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/auth/cart/{code}/checkout", "/private/cart/{code}/checkout" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
@@ -359,10 +359,13 @@ public class OrderApi {
 			if (cart == null) {
 				throw new ResourceNotFoundException("Cart code " + code + " does not exist");
 			}
-
+			
 			order.setShoppingCartId(cart.getId());
 			order.setCustomerId(customer.getId());
-
+			if(order.getCurrency()==null){
+				order.setCurrency("VND");
+			}
+			
 			Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language, locale);
 			Long orderId = modelOrder.getId();
 			order.setId(orderId);

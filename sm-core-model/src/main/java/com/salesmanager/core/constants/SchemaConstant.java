@@ -96,7 +96,7 @@ public class SchemaConstant {
 		CURRENCY_MAP.put("BIF", "Burundi Franc");
 		CURRENCY_MAP.put("KHR", "Riel");
 		CURRENCY_MAP.put("XAF", "CFA Franc BEAC");
-		CURRENCY_MAP.put("VND", "Canadian Dollar");
+		CURRENCY_MAP.put("CND", "Canadian Dollar");
 		CURRENCY_MAP.put("CVE", "Cape Verde Escudo");
 		CURRENCY_MAP.put("KYD", "Cayman Islands Dollar");
 		CURRENCY_MAP.put("CLF", "Unidades de fomento");

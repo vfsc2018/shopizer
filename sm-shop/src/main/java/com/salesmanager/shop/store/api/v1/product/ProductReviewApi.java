@@ -85,7 +85,7 @@ public class ProductReviewApi {
         response.sendError(503, "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
         return null;
       }
-
+      
       review.setProductId(id);
 
       productFacade.saveOrUpdateReview(review, merchantStore, language);

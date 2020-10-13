@@ -20,6 +20,7 @@ import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shop.ContactForm;
 import org.apache.commons.lang3.StringUtils;
+import com.salesmanager.core.business.utils.CoreConfiguration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,9 @@ public class EmailTemplatesUtils {
 	@Inject
 	private FilePathUtils filePathUtils;
 	
+	@Inject
+	private CoreConfiguration coreConfiguration;
+
 	private final static String LINE_BREAK = "<br/>";
 	private final static String TABLE = "<table width=\"100%\">";
 	private final static String CLOSING_TABLE = "</table>";
@@ -88,6 +92,8 @@ public class EmailTemplatesUtils {
 	@Async
 	public void sendOrderEmail(String toEmail, Customer customer, Order order, Locale customerLocale, Language language, MerchantStore merchantStore, String contextPath) {
 			   /** issue with putting that elsewhere **/ 
+			   if (!"true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) return;
+
 		       LOGGER.info( "Sending welcome email to customer" );
 		       try {
 		    	   

@@ -40,6 +40,9 @@ public class MerchantConfigurationFacadeImpl implements MerchantConfigurationFac
   public Configs getMerchantConfig(MerchantStore merchantStore, Language language) {
 
     MerchantConfig configs = getMerchantConfig(merchantStore);
+    if(configs==null){
+      configs = new MerchantConfig();
+    }
 
     Configs readableConfig = new Configs();
     readableConfig.setAllowOnlinePurchase(configs.isAllowPurchaseItems());
