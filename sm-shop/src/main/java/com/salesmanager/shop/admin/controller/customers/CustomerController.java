@@ -283,12 +283,12 @@ public class CustomerController {
 		
 
 		 
-		if( StringUtils.isBlank(customer.getBilling().getFullName() ) ){
+		if( StringUtils.isBlank(customer.getBilling().getFirstName() ) ){
 			 ObjectError error = new ObjectError("billingFirstName", messages.getMessage("NotEmpty.customer.billingFirstName", locale));
 			 result.addError(error);
 		}
 		
-		if( StringUtils.isBlank(customer.getBilling().getFullName() ) ){
+		if( StringUtils.isBlank(customer.getBilling().getLastName() ) ){
 			 ObjectError error = new ObjectError("billingLastName", messages.getMessage("NotEmpty.customer.billingLastName", locale));
 			 result.addError(error);
 		}
@@ -590,15 +590,18 @@ public class CustomerController {
 		
 		
 		try {
+			
 
+			
 			//Map<String,Country> countriesMap = countryService.getCountriesMap(language);
+			
 			
 			int startRow = Integer.parseInt(request.getParameter("_startRow"));
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
 			String	email = request.getParameter("email");
 			String name = request.getParameter("name");
-			String fullName = request.getParameter("fullName");
-//			String lastName = request.getParameter("lastName");
+			String firstName = request.getParameter("firstName");
+			String lastName = request.getParameter("lastName");
 			String	country = request.getParameter("country");
 			
 			
@@ -618,14 +621,14 @@ public class CustomerController {
 				criteria.setCountry(country);
 			}
 			
-			if(!StringUtils.isBlank(fullName)) {
-				criteria.setFullName(fullName);
+			if(!StringUtils.isBlank(firstName)) {
+				criteria.setFirstName(firstName);
 			}
 			
-//			if(!StringUtils.isBlank(lastName)) {
-//				criteria.setLastName(lastName);
-//			}
-//			
+			if(!StringUtils.isBlank(lastName)) {
+				criteria.setLastName(lastName);
+			}
+			
 
 			CustomerList customerList = customerService.getListByStore(store,criteria);
 			
@@ -635,8 +638,8 @@ public class CustomerController {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", customer.getId());
-					entry.put("fullName", customer.getBilling().getFullName());
-//					entry.put("lastName", customer.getBilling().getFullName());
+					entry.put("firstName", customer.getBilling().getFirstName());
+					entry.put("lastName", customer.getBilling().getLastName());
 					entry.put("email", customer.getEmailAddress());
 					entry.put("country", customer.getBilling().getCountry().getIsoCode());
 					resp.addDataEntry(entry);

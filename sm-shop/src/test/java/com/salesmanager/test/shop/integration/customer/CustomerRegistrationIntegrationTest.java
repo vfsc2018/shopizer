@@ -35,8 +35,8 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         testCustomer.setGender(CustomerGender.M.name());
         testCustomer.setLanguage("vi");
         final Address billing = new Address();
-        billing.setFullName("customer1");
-//        billing.setLastName("ccstomer1");
+        billing.setFirstName("customer1");
+        billing.setLastName("ccstomer1");
         billing.setCountry("BE");
         testCustomer.setBilling(billing);
         testCustomer.setStoreCode(Constants.DEFAULT_STORE);

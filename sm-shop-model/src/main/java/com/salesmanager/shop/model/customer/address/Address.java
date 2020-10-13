@@ -20,11 +20,11 @@ public class Address extends AddressLocation implements Serializable {
 
 	@ApiModelProperty(notes = "Customer billing first name")
 	@NotEmpty(message="{NotEmpty.customer.firstName}")
-	private String fullName;
+	private String firstName;
 	
-//	@ApiModelProperty(notes = "Customer billing last name")
-//	@NotEmpty(message="{NotEmpty.customer.lastName}")
-//	private String lastName;
+	@ApiModelProperty(notes = "Customer billing last name")
+	@NotEmpty(message="{NotEmpty.customer.lastName}")
+	private String lastName;
 	
 	private String bilstateOther;
 
@@ -114,21 +114,21 @@ public class Address extends AddressLocation implements Serializable {
 		return phone;
 	}
 
-	public String getFullName() {
-		return fullName;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = StringEscapeUtils.escapeHtml4(fullName);
+	public void setFirstName(String firstName) {
+		this.firstName = StringEscapeUtils.escapeHtml4(firstName);
 	}
 
-//	public String getLastName() {
-//		return lastName;
-//	}
-//
-//	public void setLastName(String lastName) {
-//		this.lastName = StringEscapeUtils.escapeHtml4(lastName);
-//	}
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = StringEscapeUtils.escapeHtml4(lastName);
+	}
 
     public boolean isBillingAddress()
     {

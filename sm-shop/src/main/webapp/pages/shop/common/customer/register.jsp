@@ -93,16 +93,6 @@ function isFormValid() {
 					<form:errors path="*" cssClass="alert alert-error alert-danger form-group" element="div" />
 					<fieldset>
 						<div class="control-group form-group">
-							<label class="required control-label" for="FullNameRegister"><s:message code="label.generic.fullName" text="Full Name"/></label>
-							<div class="controls">
-							   <s:message code="NotEmpty.customer.fullName" text="Full name is required" var="msgFullName"/>
-							   <form:input path="billing.fullName" cssClass="span8 required input form-control form-control-md" id="fullName" title="${msgFullName}"/>
-							   <form:errors path="billing.fullName" cssClass="error" />
-								
-							</div>
-						</div>
-											
-						<!-- div class="control-group form-group">
 							<label class="required control-label" for="FirstNameRegister"><s:message code="label.generic.firstname" text="First Name"/></label>
 							<div class="controls">
 							   <s:message code="NotEmpty.customer.firstName" text="First name is required" var="msgFirstName"/>
@@ -111,7 +101,6 @@ function isFormValid() {
 								
 							</div>
 						</div>
-						
 						<div class="control-group form-group">
 							<label class="required control-label" for="LastNameRegister"><s:message code="label.generic.lastname" text="Last Name"/></label>
 							<div class="controls">
@@ -120,7 +109,7 @@ function isFormValid() {
 							    <form:errors path="billing.lastName" cssClass="error" />
 								
 							</div>
-						</div !-->
+						</div>
 
 						<div class="control-group form-group">
 							<label class="required control-label" for="sex"><s:message code="label.generic.genre" text="Genre"/></label>

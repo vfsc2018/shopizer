@@ -51,8 +51,8 @@ public class CustomerEntityPopulator
                 address.setCity( source.getBilling().getCity() );
                 address.setAddress(source.getBilling().getAddress());
                 address.setCompany( source.getBilling().getCompany() );
-                address.setFullName( source.getBilling().getFullName() );
-//                address.setLastName( source.getBilling().getLastName() );
+                address.setFirstName( source.getBilling().getFirstName() );
+                address.setLastName( source.getBilling().getLastName() );
                 address.setPostalCode( source.getBilling().getPostalCode() );
                 address.setPhone( source.getBilling().getTelephone() );
                 if ( source.getBilling().getCountry() != null )
@@ -83,8 +83,8 @@ public class CustomerEntityPopulator
                 address.setCity( source.getDelivery().getCity() );
                 address.setAddress(source.getDelivery().getAddress());
                 address.setCompany( source.getDelivery().getCompany() );
-                address.setFullName( source.getDelivery().getFulltName() );
-//                address.setLastName( source.getDelivery().getLastName() );
+                address.setFirstName( source.getDelivery().getFirstName() );
+                address.setLastName( source.getDelivery().getLastName() );
                 address.setPostalCode( source.getDelivery().getPostalCode() );
                 address.setPhone( source.getDelivery().getTelephone() );
                 if ( source.getDelivery().getCountry() != null )

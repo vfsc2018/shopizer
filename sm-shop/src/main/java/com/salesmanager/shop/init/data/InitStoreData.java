@@ -830,8 +830,8 @@ public class InitStoreData implements InitData {
 		    delivery.setCity( "Boucherville" );
 		    delivery.setCountry(canada);
 //		    delivery.setCountryCode(canada.getIsoCode());
-		    delivery.setFullName("Leonardo" );
-//		    delivery.setLastName("DiCaprio" );
+		    delivery.setFirstName("Leonardo" );
+		    delivery.setLastName("DiCaprio" );
 		    delivery.setPostalCode("J1B-8J6" );
 		    delivery.setZone(zone);	    
 		    
@@ -841,8 +841,8 @@ public class InitStoreData implements InitData {
 		    billing.setCompany("CSTI Consulting");
 		    billing.setCountry(canada);
 //		    billing.setCountryCode(canada.getIsoCode());
-		    billing.setFullName("Leonardo" );
-//		    billing.setLastName("DiCaprio" );
+		    billing.setFirstName("Leonardo" );
+		    billing.setLastName("DiCaprio" );
 		    billing.setPostalCode("J1B-8J6");
 		    billing.setZone(zone);
 		    

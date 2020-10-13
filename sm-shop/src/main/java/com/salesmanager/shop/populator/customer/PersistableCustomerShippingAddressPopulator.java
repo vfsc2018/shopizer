@@ -22,8 +22,8 @@ public class PersistableCustomerShippingAddressPopulator extends AbstractDataPop
           if( target.getDelivery() == null){
               
               Delivery delivery=new Delivery();
-              delivery.setFullName( source.getFullName()) ;
-//              delivery.setLastName( source.getFullName() );
+              delivery.setFirstName( source.getFirstName()) ;
+              delivery.setLastName( source.getLastName() );
               
               if(StringUtils.isNotBlank( source.getAddress())){
                   delivery.setAddress( source.getAddress() ); 
@@ -52,8 +52,8 @@ public class PersistableCustomerShippingAddressPopulator extends AbstractDataPop
               target.setDelivery( delivery );
           }
           else{
-           target.getDelivery().setFullName( source.getFullName() );
-//           target.getDelivery().setLastName( source.getFullName() );
+           target.getDelivery().setFirstName( source.getFirstName() );
+           target.getDelivery().setLastName( source.getLastName() );
           
             // lets fill optional data now
            

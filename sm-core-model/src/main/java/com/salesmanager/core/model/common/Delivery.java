@@ -13,14 +13,14 @@ import com.salesmanager.core.model.reference.zone.Zone;
 @Embeddable
 public class Delivery {
 	
-//	@Column (name ="DELIVERY_LAST_NAME", length=64)
-//	private String lastName;
-//
+	@Column (name ="DELIVERY_LAST_NAME", length=64)
+	private String lastName;
 
 
 
-	@Column (name ="DELIVERY_FULL_NAME", length=64)
-	private String fullName;
+
+	@Column (name ="DELIVERY_FIRST_NAME", length=64)
+	private String firstName;
 
 	
 
@@ -125,21 +125,21 @@ public class Delivery {
 	public String getTelephone() {
 		return telephone;
 	}	
-//	
-//	public String getLastName() {
-//		return lastName;
-//	}
-//
-//	public void setLastName(String lastName) {
-//		this.lastName = lastName;
-//	}
-//	
-	public String getFulltName() {
-		return fullName;
+	
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
 	public String getLatitude() {

@@ -31,8 +31,8 @@ public class CustomerEntity extends Customer implements Serializable {
 
 	@ApiModelProperty(notes = "2 letters language code en | fr | ...")
 	private String language;
-	private String fullName;
-//	private String lastName;
+	private String firstName;
+	private String lastName;
 	
 	private String provider;//online, facebook ...
 
@@ -104,24 +104,24 @@ public class CustomerEntity extends Customer implements Serializable {
 	}
 
 
-	public String getFullName() {
-		return fullName;
+	public String getFirstName() {
+		return firstName;
 	}
 
 
-	public void setFullName(String fullName) {
-		this.fullName = StringEscapeUtils.escapeHtml4(fullName);
+	public void setFirstName(String firstName) {
+		this.firstName = StringEscapeUtils.escapeHtml4(firstName);
 	}
 
 
-//	public String getLastName() {
-//		return lastName;
-//	}
-//
-//
-//	public void setLastName(String lastName) {
-//		this.lastName = StringEscapeUtils.escapeHtml4(lastName);
-//	}
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	public void setLastName(String lastName) {
+		this.lastName = StringEscapeUtils.escapeHtml4(lastName);
+	}
 
 
 	public int getRatingCount() {

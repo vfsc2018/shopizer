@@ -60,8 +60,8 @@ public class CustomerTest extends com.salesmanager.test.common.AbstractSalesMana
 	    
 	    
 	    Billing billing = new Billing();
-	    billing.setFullName("John");
-//	    billing.setLastName("Bossanova");
+	    billing.setFirstName("John");
+	    billing.setLastName("Bossanova");
 	    billing.setAddress("Billing address");
 	    billing.setCountry(country);
 	    billing.setZone(zone);
