@@ -154,6 +154,7 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 				statusHistory.setStatus(null);
 				statusHistory.setOrder(target);
 				statusHistory.setComments(source.getComments());
+				statusHistory.setDateAdded(new Date());
 				target.getOrderHistory().add(statusHistory);
 			}
 			

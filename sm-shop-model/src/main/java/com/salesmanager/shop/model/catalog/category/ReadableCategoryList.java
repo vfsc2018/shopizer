@@ -16,6 +16,7 @@ public class ReadableCategoryList extends ReadableList {
   }
   public void setCategories(List<ReadableCategory> categories) {
     this.categories = categories;
+    this.setRecordsFiltered(categories==null?0:categories.size());
   }
 
 }

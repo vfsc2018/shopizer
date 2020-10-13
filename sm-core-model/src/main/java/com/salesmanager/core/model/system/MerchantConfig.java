@@ -24,7 +24,7 @@ public class MerchantConfig implements Serializable, JSONAware {
 	private boolean displayAddToCartOnFeaturedItems = false;
 	private boolean displayCustomerAgreement = false;
 	private boolean displayPagesMenu = true;
-	private boolean allowPurchaseItems = true;
+	private boolean allowPurchaseItems = false;
 	private boolean displaySearchBox = true;
 	private boolean testMode = false;
 	private boolean debugMode = false;

@@ -95,7 +95,8 @@ public class CategoryApi {
 	@ApiOperation(httpMethod = "GET", value = "Get category hierarchy from root. Supports filtering FEATURED_CATEGORIES and VISIBLE ONLY by adding ?filter=[featured] or ?filter=[visible] or ? filter=[featured,visible", notes = "Does not return any product attached")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public ReadableCategoryList list(@RequestParam(value = "filter", required = false) List<String> filter,
+	public ReadableCategoryList list(
+			@RequestParam(value = "filter", required = false, defaultValue = "visible") List<String> filter,
 			@RequestParam(value = "name", required = false) String name, 
 			@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language,

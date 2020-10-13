@@ -94,20 +94,20 @@ public class ReadableMerchantStorePopulator extends
 		target.setDimension(MeasureUnit.valueOf(source.getSeizeunitcode()));
 		target.setWeight(MeasureUnit.valueOf(source.getWeightunitcode()));
 		
-		if(source.getZone()!=null) {
-			address.setStateProvince(source.getZone().getCode());
-			try {
-				Zone z = zoneService.getZones(language).get(source.getZone().getCode());
-				address.setStateProvince(z.getCode());
-			} catch (ServiceException e) {
-				logger.error("Cannot get Zone", e);
-			}
-		}
+		// if(source.getZone()!=null) {
+		// 	address.setStateProvince(source.getZone().getCode());
+		// 	try {
+		// 		Zone z = zoneService.getZones(language).get(source.getZone().getCode());
+		// 		address.setStateProvince(z.getCode());
+		// 	} catch (ServiceException e) {
+		// 		logger.error("Cannot get Zone", e);
+		// 	}
+		// }
 		
 		
-		if(!StringUtils.isBlank(source.getStorestateprovince())) {
-			address.setStateProvince(source.getStorestateprovince());
-		}
+		// if(!StringUtils.isBlank(source.getStorestateprovince())) {
+		// 	address.setStateProvince(source.getStorestateprovince());
+		// }
 		
 		if(!StringUtils.isBlank(source.getStoreLogo())) {
 			ReadableImage image = new ReadableImage();
