@@ -156,8 +156,8 @@ public class ReadableProductPopulator extends
 				RentalOwner owner = new RentalOwner();
 				owner.setId(source.getOwner().getId());
 				owner.setEmailAddress(source.getOwner().getEmailAddress());
-				owner.setFirstName(source.getOwner().getBilling().getFirstName());
-				owner.setLastName(source.getOwner().getBilling().getLastName());
+				owner.setFirstName(source.getOwner().getBilling().getFullName());
+				owner.setLastName(source.getOwner().getBilling().getFullName());
 				com.salesmanager.shop.model.customer.address.Address address = new com.salesmanager.shop.model.customer.address.Address();
 				address.setAddress(source.getOwner().getBilling().getAddress());
 				address.setBillingAddress(true);

@@ -534,7 +534,7 @@ public class BeanStreamPayment implements PaymentModule {
 		messageString.append("trnAmount=").append(amnt).append("&");
 		
 		StringBuilder nm = new StringBuilder();
-		nm.append(customer.getBilling().getFirstName()).append(" ").append(customer.getBilling().getLastName());
+		nm.append(customer.getBilling().getFullName()).append(" ").append(customer.getBilling().getFullName());
 		
 		
 		messageString.append("ordName=").append(nm.toString()).append("&");

@@ -38,22 +38,22 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		objectBuilderWhere.append(whereQuery);
 
 		if(!StringUtils.isBlank(criteria.getName())) {
-			String nameQuery =" and c.billing.firstName like:nm or c.billing.lastName like:nm";
+			String nameQuery =" and c.billing.fullName like:nm";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 		
-		if(!StringUtils.isBlank(criteria.getFirstName())) {
-			String nameQuery =" and c..billing.firstName like:fn";
+		if(!StringUtils.isBlank(criteria.getFullName())) {
+			String nameQuery =" and c..billing.fullName like:fn";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
-		
-		if(!StringUtils.isBlank(criteria.getLastName())) {
-			String nameQuery =" and c.billing.lastName like:ln";
-			countBuilderWhere.append(nameQuery);
-			objectBuilderWhere.append(nameQuery);
-		}
+//		
+//		if(!StringUtils.isBlank(criteria.getLastName())) {
+//			String nameQuery =" and c.billing.lastName like:ln";
+//			countBuilderWhere.append(nameQuery);
+//			objectBuilderWhere.append(nameQuery);
+//		}
 		
 		if(!StringUtils.isBlank(criteria.getEmail())) {
 			String mailQuery =" and c.emailAddress like:email";
@@ -87,17 +87,17 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 			objectQ.setParameter("nm",nameParam);
 		}
 		
-		if(!StringUtils.isBlank(criteria.getFirstName())) {
-			String nameParam = new StringBuilder().append("%").append(criteria.getFirstName()).append("%").toString();
+		if(!StringUtils.isBlank(criteria.getFullName())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getFullName()).append("%").toString();
 			countQ.setParameter("fn",nameParam);
 			objectQ.setParameter("fn",nameParam);
 		}
-		
-		if(!StringUtils.isBlank(criteria.getLastName())) {
-			String nameParam = new StringBuilder().append("%").append(criteria.getLastName()).append("%").toString();
-			countQ.setParameter("ln",nameParam);
-			objectQ.setParameter("ln",nameParam);
-		}
+//		
+//		if(!StringUtils.isBlank(criteria.getLastName())) {
+//			String nameParam = new StringBuilder().append("%").append(criteria.getLastName()).append("%").toString();
+//			countQ.setParameter("ln",nameParam);
+//			objectQ.setParameter("ln",nameParam);
+//		}
 		
 		if(!StringUtils.isBlank(criteria.getEmail())) {
 			String email = new StringBuilder().append("%").append(criteria.getEmail()).append("%").toString();

@@ -33,8 +33,8 @@ public class ReadableCustomerReviewPopulator extends AbstractDataPopulator<Custo
 
 			ReadableCustomer reviewed = new ReadableCustomer();
 			reviewed.setId(source.getReviewedCustomer().getId());
-			reviewed.setFirstName(source.getReviewedCustomer().getBilling().getFirstName());
-			reviewed.setLastName(source.getReviewedCustomer().getBilling().getLastName());
+			reviewed.setFullName(source.getReviewedCustomer().getBilling().getFullName());
+//			reviewed.setLastName(source.getReviewedCustomer().getBilling().getFullName());
 
 			
 			target.setId(source.getId());

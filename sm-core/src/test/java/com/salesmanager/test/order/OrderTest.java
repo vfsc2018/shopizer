@@ -85,8 +85,8 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    billing.setCity("Billing city");
 	    billing.setCompany("Billing company");
 	    billing.setCountry(country);
-	    billing.setFirstName("Carl");
-	    billing.setLastName("Samson");
+	    billing.setFullName("Carl");
+//	    billing.setLastName("Samson");
 	    billing.setPostalCode("Billing postal code");
 	    billing.setState("Billing state");
 	    billing.setZone(zone);

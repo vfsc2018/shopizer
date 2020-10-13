@@ -41,13 +41,13 @@ public class CustomerDeliveryAddressPopulator extends AbstractDataPopulator<Cust
             target.setAddress(source.getDelivery().getAddress());
         }
         
-        if(StringUtils.isNotBlank( source.getDelivery().getFirstName() )){
-            target.setFirstName(source.getDelivery().getFirstName());
+        if(StringUtils.isNotBlank( source.getDelivery().getFulltName() )){
+            target.setFullName(source.getDelivery().getFulltName());
         }
         
-        if(StringUtils.isNotBlank( source.getDelivery().getLastName() )){
-            target.setLastName(source.getDelivery().getLastName());
-        }
+//        if(StringUtils.isNotBlank( source.getDelivery().getLastName() )){
+//            target.setLastName(source.getDelivery().getLastName());
+//        }
         
         if(StringUtils.isNotBlank( source.getDelivery().getPostalCode() )){
             target.setPostalCode(source.getDelivery().getPostalCode());

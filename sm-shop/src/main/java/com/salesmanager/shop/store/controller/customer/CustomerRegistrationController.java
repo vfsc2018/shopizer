@@ -199,6 +199,15 @@ public class CustomerRegistrationController extends AbstractController {
         CustomerEntity customerData = null;
         try
         {
+
+    		customer.getBilling().setCountry("VN");
+    		
+    		customer.getBilling().setStateProvince("HC");
+		
+        	System.err.println(customer.getBilling().getCountry());
+        	System.err.println(customer.getBilling().getPhone());
+        	
+        	
             //set user clear password
         	customer.setPassword(password);
         	customerData = customerFacade.registerCustomer( customer, merchantStore, language );

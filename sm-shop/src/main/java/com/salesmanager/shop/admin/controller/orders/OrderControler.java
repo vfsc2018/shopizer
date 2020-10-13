@@ -251,12 +251,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		}
 
 		 
-		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getFirstName() ) ){
+		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getFullName() ) ){
 			 ObjectError error = new ObjectError("billingFirstName", messages.getMessage("NotEmpty.order.billingFirstName", locale));
 			 result.addError(error);
 		}
 		
-		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getFirstName() ) ){
+		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getFullName() ) ){
 			 ObjectError error = new ObjectError("billingLastName", messages.getMessage("NotEmpty.order.billingLastName", locale));
 			 result.addError(error);
 		}
@@ -411,7 +411,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				Locale customerLocale = LocaleUtils.getLocale(lang);
 
 				StringBuilder customerName = new StringBuilder();
-				customerName.append(newOrder.getBilling().getFirstName()).append(" ").append(newOrder.getBilling().getLastName());
+				customerName.append(newOrder.getBilling().getFullName()).append(" ").append(newOrder.getBilling().getFullName());
 				
 				
 				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);

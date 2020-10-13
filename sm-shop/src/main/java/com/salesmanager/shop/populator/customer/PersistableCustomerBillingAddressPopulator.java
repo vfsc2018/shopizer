@@ -18,9 +18,9 @@ public class PersistableCustomerBillingAddressPopulator extends AbstractDataPopu
     {
         
        
-           target.getBilling().setFirstName( source.getFirstName() );
-           target.getBilling().setLastName( source.getLastName() );
-          
+           target.getBilling().setFullName( source.getFullName() );
+//           target.getBilling().setLastName( source.getLastName() );
+//          
             // lets fill optional data now
            
            if(StringUtils.isNotBlank( source.getAddress())){

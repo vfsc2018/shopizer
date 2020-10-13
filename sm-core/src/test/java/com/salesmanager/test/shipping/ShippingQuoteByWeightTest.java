@@ -247,8 +247,8 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    billing.setCountry(country);
 	    billing.setZone(zone);
 	    billing.setPostalCode("J4B-8J9");
-	    billing.setFirstName("Carl");
-	    billing.setLastName("Samson");
+	    billing.setFullName("Carl");
+//	    billing.setLastName("Samson");
 	    
 	    customer.setBilling(billing);
 	    customer.setDelivery(delivery);

@@ -697,7 +697,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			// Language language = (Language)request.getAttribute("LANGUAGE");
 
 			// validate order shipping and billing
-			if (StringUtils.isBlank(order.getCustomer().getBilling().getFirstName())) {
+			if (StringUtils.isBlank(order.getCustomer().getBilling().getFullName())) {
 				FieldError error = new FieldError("customer.billing.firstName", "customer.billing.firstName",
 						messages.getMessage("NotEmpty.customer.firstName", locale));
 				bindingResult.addError(error);
@@ -705,7 +705,7 @@ public class OrderFacadeImpl implements OrderFacade {
 						messages.getMessage("NotEmpty.customer.firstName", locale));
 			}
 
-			if (StringUtils.isBlank(order.getCustomer().getBilling().getLastName())) {
+			if (StringUtils.isBlank(order.getCustomer().getBilling().getFullName())) {
 				FieldError error = new FieldError("customer.billing.lastName", "customer.billing.lastName",
 						messages.getMessage("NotEmpty.customer.lastName", locale));
 				bindingResult.addError(error);
@@ -772,7 +772,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			if (!order.isShipToBillingAdress()) {
 
-				if (StringUtils.isBlank(order.getCustomer().getDelivery().getFirstName())) {
+				if (StringUtils.isBlank(order.getCustomer().getDelivery().getFullName())) {
 					FieldError error = new FieldError("customer.delivery.firstName", "customer.delivery.firstName",
 							messages.getMessage("NotEmpty.customer.shipping.firstName", locale));
 					bindingResult.addError(error);
@@ -780,7 +780,7 @@ public class OrderFacadeImpl implements OrderFacade {
 							messages.getMessage("NotEmpty.customer.shipping.firstName", locale));
 				}
 
-				if (StringUtils.isBlank(order.getCustomer().getDelivery().getLastName())) {
+				if (StringUtils.isBlank(order.getCustomer().getDelivery().getFullName())) {
 					FieldError error = new FieldError("customer.delivery.lastName", "customer.delivery.lastName",
 							messages.getMessage("NotEmpty.customer.shipping.lastName", locale));
 					bindingResult.addError(error);
@@ -1448,8 +1448,8 @@ public class OrderFacadeImpl implements OrderFacade {
 		Billing target = new Billing();
         target.setCity(source.getCity());
         target.setCompany(source.getCompany());
-        target.setFirstName(source.getFirstName());
-        target.setLastName(source.getLastName());
+        target.setFullName(source.getFullName());
+//        target.setLastName(source.getFullName());
         target.setPostalCode(source.getPostalCode());
         target.setTelephone(source.getPhone());
         target.setAddress(source.getAddress());
@@ -1469,8 +1469,8 @@ public class OrderFacadeImpl implements OrderFacade {
 		Delivery target = new Delivery();
         target.setCity(source.getCity());
         target.setCompany(source.getCompany());
-        target.setFirstName(source.getFirstName());
-        target.setLastName(source.getLastName());
+        target.setFullName(source.getFullName());
+//        target.setLastName(source.getFullName());
         target.setPostalCode(source.getPostalCode());
         target.setTelephone(source.getPhone());
         target.setAddress(source.getAddress());

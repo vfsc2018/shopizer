@@ -69,16 +69,16 @@ public class CustomerPopulator extends
 			}
 
 			target.setBilling(new Billing());
-			if (!StringUtils.isEmpty(source.getFirstName())) {
-				target.getBilling().setFirstName(
-						source.getFirstName()
+			if (!StringUtils.isEmpty(source.getFullName())) {
+				target.getBilling().setFullName(
+						source.getFullName()
 				);
 			}
-			if (!StringUtils.isEmpty(source.getLastName())) {
-				target.getBilling().setLastName(
-						source.getLastName()
-				);
-			}
+//			if (!StringUtils.isEmpty(source.getLastName())) {
+//				target.getBilling().setLastName(
+//						source.getLastName()
+//				);
+//			}
 
 		    target.setProvider(source.getProvider());
 
@@ -103,10 +103,10 @@ public class CustomerPopulator extends
 				billing.setCity(sourceBilling.getCity());
 				billing.setCompany(sourceBilling.getCompany());
 				//billing.setCountry(country);
-				if (!StringUtils.isEmpty(sourceBilling.getFirstName()))
-					billing.setFirstName(sourceBilling.getFirstName());
-				if (!StringUtils.isEmpty(sourceBilling.getLastName()))
-					billing.setLastName(sourceBilling.getLastName());
+				if (!StringUtils.isEmpty(sourceBilling.getFullName()))
+					billing.setFullName(sourceBilling.getFullName());
+//				if (!StringUtils.isEmpty(sourceBilling.getFullName()))
+//					billing.setLastName(sourceBilling.getFullName());
 				billing.setTelephone(sourceBilling.getPhone());
 				billing.setPostalCode(sourceBilling.getPostalCode());
 				billing.setState(sourceBilling.getStateProvince());
@@ -149,8 +149,8 @@ public class CustomerPopulator extends
 				delivery.setAddress(sourceShipping.getAddress());
 				delivery.setCity(sourceShipping.getCity());
 				delivery.setCompany(sourceShipping.getCompany());
-				delivery.setFirstName(sourceShipping.getFirstName());
-				delivery.setLastName(sourceShipping.getLastName());
+				delivery.setFullName(sourceShipping.getFullName());
+//				delivery.setLastName(sourceShipping.getFullName());
 				delivery.setTelephone(sourceShipping.getPhone());
 				delivery.setPostalCode(sourceShipping.getPostalCode());
 				delivery.setState(sourceShipping.getStateProvince());

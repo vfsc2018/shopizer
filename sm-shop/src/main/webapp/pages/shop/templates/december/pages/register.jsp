@@ -5,6 +5,7 @@ response.setHeader("Pragma","no-cache");
 response.setDateHeader ("Expires", -1);
 %>
 
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
@@ -28,13 +29,14 @@ response.setDateHeader ("Expires", -1);
 
 $(document).ready(function() {
 	
-
+/*
 	getZones($('#registration_country').val(),'<c:out value="${customer.billing.zone}" />',isFormValid);
 	$("#hidden_zones").hide();
 	$("#registration_country").change(function() {
 			getZones($(this).val(),'<c:out value="${customer.billing.zone}" />',isFormValid);
 	})
-	
+*/
+
 	isFormValid();
 	$("input[type='text']").on("change keyup paste blur", function(){
 		$("#userName").val($("#emailAddress").val());
@@ -45,11 +47,22 @@ $(document).ready(function() {
 		$("#userName").val($("#emailAddress").val());
 		isFormValid();
 	});
-
+	
+/*
 	$("#registration_country").change(function() {
 		$("#userName").val($("#emailAddress").val());
 		isFormValid();	
 	});
+*/	
+	
+	$("#phone").on("change keyup paste blur",function() {
+		if($("#phone").val()!='') {
+			$("#emailAddress").val($("#phone").val()+"@vfsc.vn");
+			$("#userName").val($("#phone").val()+"@vfsc.vn");			
+			isFormValid();		
+		}
+	});
+	
 	
 });
 
@@ -102,31 +115,39 @@ function isFormValid() {
 							<div class="login-form">
 								<form:form method="post" action="${register_url}" id="registrationForm" modelAttribute="customer">
 									<form:errors path="*" cssClass="alert alert-error alert-danger form-group" element="div" />
+									
 									<div class="form-group login-page">
-										<label for="firstName"><s:message code="label.generic.firstname" text="First Name"/> <span>*</span></label>
-										<s:message code="NotEmpty.customer.firstName" text="First name is required" var="msgFirstName"/>
-							   			<form:input path="billing.firstName" cssClass="span8 required input form-control form-control-md" id="firstName" title="${msgFirstName}"/>
-							   			<form:errors path="billing.firstName" cssClass="error" />
+										<label for="fullName"><s:message code="label.generic.fullName" text="Full Name"/> <span>*</span></label>
+										<s:message code="NotEmpty.customer.fullName" text="First name is required" var="msgFullName"/>
+							   			<form:input path="billing.fullName" cssClass="span8 required input form-control form-control-md" id="fullName" title="${msgFullName}"/>
+							   			<form:errors path="billing.fullName" cssClass="error" />
 									</div>
+									
 									<div class="form-group login-page">
-										<label for="lastName"><s:message code="label.generic.lastname" text="Last Name"/> <span>*</span></label>
-										<s:message code="NotEmpty.customer.lastName" text="Last name is required" var="msgLastName"/>
-							    		<form:input path="billing.lastName" cssClass="span8 required form-control form-control-md" id="lastName" title="${msgLastName}"/>
-							    		<form:errors path="billing.lastName" cssClass="error" />
+										<label for="phone"><s:message code="label.generic.phone" text="Phone number"/> <span>*</span></label>
+										<s:message code="NotEmpty.customer.phone" text="First name is required" var="msgPhone"/>
+							   			<form:input path="billing.phone" cssClass="span8 required input form-control form-control-md" id="phone" title="${msgPhone}"/>
+							   			<form:errors path="billing.phone" cssClass="error" />
 									</div>
-									<div class="form-group login-page">
+
+									
+									<!-- div class="form-group login-page">
 										<label for="country"><s:message code="label.generic.country" text="Country"/> <span>*</span></label>
 										<form:select path="billing.country" class="form-control form-control-lg" id="registration_country">
 							  				<form:options items="${countryList}" itemValue="isoCode" itemLabel="name"/>
 										</form:select>
 									</div>
+									
+									
 									<div class="form-group login-page">
 										<label for="stateProvince"><s:message code="label.generic.stateprovince" text="State / Province"/> <span>*</span></label>
 										<s:message code="NotEmpty.customer.billing.stateProvince" text="State / Province is required" var="msgStateProvince"/>
 										<form:select path="billing.zone" id="customer_zones" class="form-control form-control-lg">
 										</form:select>
 										<form:input path="billing.stateProvince" cssClass="span8 required form-control form-control-md" id="hidden_zones" title="${msgStateProvince}"/>
-									</div>
+									</div> -->
+									
+									
 									<!--
 									<div class="form-group">
 										<div class="checkbox">
@@ -135,7 +156,8 @@ function isFormValid() {
 											</label>
 										</div>
 									</div>	
-									-->								
+									-->		
+															
 									<div class="login-title">
 										<h3><s:message code="label.register.signin.information" text="Sign-in information"/></h3>
 									</div>									

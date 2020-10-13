@@ -60,13 +60,13 @@ public class ReadableCustomerDeliveryAddressPopulator extends AbstractDataPopula
             target.setAddress(source.getAddress());
         }
         
-        if(StringUtils.isNotBlank( source.getFirstName() )){
-            target.setFirstName(source.getFirstName());
+        if(StringUtils.isNotBlank( source.getFulltName() )){
+            target.setFullName(source.getFulltName());
         }
         
-        if(StringUtils.isNotBlank( source.getLastName() )){
-            target.setLastName(source.getLastName());
-        }
+//        if(StringUtils.isNotBlank( source.getLastName() )){
+//            target.setLastName(source.getLastName());
+//        }
         
         if(StringUtils.isNotBlank( source.getPostalCode() )){
             target.setPostalCode(source.getPostalCode());

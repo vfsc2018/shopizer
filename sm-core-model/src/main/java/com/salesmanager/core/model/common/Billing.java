@@ -15,12 +15,12 @@ import com.salesmanager.core.model.reference.zone.Zone;
 public class Billing {
 	
 	@NotEmpty
-	@Column (name ="BILLING_LAST_NAME", length=64, nullable=false)
-	private String lastName;
+	@Column (name ="BILLING_FULL_NAME", length=150, nullable=false)
+	private String fullName;
 
-	@NotEmpty
-	@Column (name ="BILLING_FIRST_NAME", length=64, nullable=false)
-	private String firstName;
+//	@NotEmpty
+//	@Column (name ="BILLING_LAST_NAME", length=64, nullable=false)
+//	private String firstName;
 	
 
 
@@ -126,20 +126,20 @@ public class Billing {
 	}
 	
 	
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+//	public String getLastName() {
+//		return lastName;
+//	}
+//
+//	public void setLastName(String lastName) {
+//		this.lastName = lastName;
+//	}
 	
-	public String getFirstName() {
-		return firstName;
+	public String getFullName() {
+		return fullName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getLongitude() {

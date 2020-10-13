@@ -855,9 +855,9 @@ public class CustomerFacadeImpl implements CustomerFacade {
           emailUtils.createEmailObjectsMap(imageUtils.getContextPath(), store, messages, locale);
       templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", locale));
       templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME,
-          customer.getBilling().getFirstName());
+          customer.getBilling().getFullName());
       templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME,
-          customer.getBilling().getLastName());
+          customer.getBilling().getFullName());
       templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT,
           messages.getMessage("email.customer.resetpassword.text", locale));
       templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER,
