@@ -160,7 +160,11 @@ public class CustomerRegistrationController extends AbstractController {
     			bindingResult.addError(error);
             }
         }
-        
+        if(customer.getBilling().getPhone()!=null 
+        		&& !StringUtils.isEmpty(customer.getBilling().getPhone())){
+        	customer.setUserName(customer.getBilling().getPhone()+"@vfsc.vn");
+        	customer.setEmailAddress(customer.getUserName());
+        }
 
         if ( StringUtils.isNotBlank( customer.getUserName() ) )
         {
@@ -201,6 +205,12 @@ public class CustomerRegistrationController extends AbstractController {
         {
             //set user clear password
         	customer.setPassword(password);
+        	
+    		customer.getBilling().setCountry("VN");
+    		
+    		customer.getBilling().setStateProvince("HC");
+    		customer.getBilling().setLastName(" ");
+    		
         	customerData = customerFacade.registerCustomer( customer, merchantStore, language );
         }
 

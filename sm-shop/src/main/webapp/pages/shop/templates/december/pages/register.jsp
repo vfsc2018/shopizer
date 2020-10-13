@@ -28,13 +28,6 @@ response.setDateHeader ("Expires", -1);
 
 $(document).ready(function() {
 	
-
-	getZones($('#registration_country').val(),'<c:out value="${customer.billing.zone}" />',isFormValid);
-	$("#hidden_zones").hide();
-	$("#registration_country").change(function() {
-			getZones($(this).val(),'<c:out value="${customer.billing.zone}" />',isFormValid);
-	})
-	
 	isFormValid();
 	$("input[type='text']").on("change keyup paste blur", function(){
 		$("#userName").val($("#emailAddress").val());
@@ -42,19 +35,20 @@ $(document).ready(function() {
 	});
 	
 	$("input[type='password']").on("change keyup paste", function(){
-		$("#userName").val($("#emailAddress").val());
+		//$("#userName").val($("#emailAddress").val());
 		isFormValid();
 	});
 
-	$("#registration_country").change(function() {
-		$("#userName").val($("#emailAddress").val());
-		isFormValid();	
+	$( "#phone").on("change keyup paste", function(){
+		$("#emailAddress").val($("#phone").val()+"@vfsc.vn");
+		isFormValid();
 	});
 	
 });
 
 
 function isFormValid() {
+	$( "#emailAddress" ).prop( "disabled", true );
 	
 	if($('.alert-error').is(":visible")) {
 		return true;
@@ -102,19 +96,23 @@ function isFormValid() {
 							<div class="login-form">
 								<form:form method="post" action="${register_url}" id="registrationForm" modelAttribute="customer">
 									<form:errors path="*" cssClass="alert alert-error alert-danger form-group" element="div" />
+									
 									<div class="form-group login-page">
-										<label for="firstName"><s:message code="label.generic.firstname" text="First Name"/> <span>*</span></label>
-										<s:message code="NotEmpty.customer.firstName" text="First name is required" var="msgFirstName"/>
+										<label for="firstName"><s:message code="label.generic.firstname" text="Full Name"/> <span>*</span></label>
+										<s:message code="NotEmpty.customer.firstName" text="Full name is required" var="msgFirstName"/>
 							   			<form:input path="billing.firstName" cssClass="span8 required input form-control form-control-md" id="firstName" title="${msgFirstName}"/>
 							   			<form:errors path="billing.firstName" cssClass="error" />
 									</div>
-									<div class="form-group login-page">
+									
+									<!-- div class="form-group login-page">
 										<label for="lastName"><s:message code="label.generic.lastname" text="Last Name"/> <span>*</span></label>
 										<s:message code="NotEmpty.customer.lastName" text="Last name is required" var="msgLastName"/>
 							    		<form:input path="billing.lastName" cssClass="span8 required form-control form-control-md" id="lastName" title="${msgLastName}"/>
 							    		<form:errors path="billing.lastName" cssClass="error" />
-									</div>
-									<div class="form-group login-page">
+									</div-->
+									
+									
+									<!-- div class="form-group login-page">
 										<label for="country"><s:message code="label.generic.country" text="Country"/> <span>*</span></label>
 										<form:select path="billing.country" class="form-control form-control-lg" id="registration_country">
 							  				<form:options items="${countryList}" itemValue="isoCode" itemLabel="name"/>
@@ -126,6 +124,14 @@ function isFormValid() {
 										<form:select path="billing.zone" id="customer_zones" class="form-control form-control-lg">
 										</form:select>
 										<form:input path="billing.stateProvince" cssClass="span8 required form-control form-control-md" id="hidden_zones" title="${msgStateProvince}"/>
+									</div -->
+									
+									
+									<div class="form-group login-page">
+										<label for="phone"><s:message code="label.generic.phone" text="Phone number"/> <span>*</span></label>
+										<s:message code="NotEmpty.customer.phone" text="First name is required" var="msgPhone"/>
+							   			<form:input path="billing.phone" cssClass="span8 required input form-control form-control-md" id="phone" title="${msgPhone}"/>
+							   			<form:errors path="billing.phone" cssClass="error" />									
 									</div>
 									<!--
 									<div class="form-group">
@@ -138,14 +144,16 @@ function isFormValid() {
 									-->								
 									<div class="login-title">
 										<h3><s:message code="label.register.signin.information" text="Sign-in information"/></h3>
-									</div>									
+									</div>		
+																
 									<div class="form-group login-page">
 										<label for="email"><s:message code="label.generic.email" text="Email address"/> <span>*</span></label>
 							     		<s:message code="NotEmpty.customer.emailAddress" text="Email address is required" var="msgEmail"/>
 							     		<form:input path="emailAddress" cssClass="span8 required email form-control form-control-md" id="emailAddress" title="${msgEmail}"/>
 							     		<form:errors path="emailAddress" cssClass="error" />
-							     		<form:hidden path="userName" />
-									</div>								
+							     		
+									</div>
+																	
 									<div class="form-group login-page">
 										<label for="password"><s:message code="label.generic.password" text="Password"/> <span>*</span></label>
 										<s:message code="message.password.required" text="Password is required" var="msgPassword"/>
