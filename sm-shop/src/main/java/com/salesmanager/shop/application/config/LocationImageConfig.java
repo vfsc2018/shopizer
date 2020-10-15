@@ -21,6 +21,7 @@ public class LocationImageConfig {
   @Value("${config.cms.static.path}")
   private String staticPath;
 
+
   @Bean
   public ImageFilePath img() {
 	  

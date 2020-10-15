@@ -7,6 +7,7 @@
 <%@ page session="false" %>			
 <script type="text/javascript">
 var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong format" />';
+var notFound = '<s:message code="message.sku.not.found" text="This code already not exists in VFSC" />';
 </script>
 
     <link href="<c:url value="/resources/css/bootstrap/css/datepicker.css" />" rel="stylesheet"></link>
@@ -35,6 +36,35 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 		<c:forEach items="${product.descriptions}" var="description" varStatus="counter">		
 			$("#name${counter.index}").friendurl({id : 'seUrl${counter.index}'});
 		</c:forEach>
+		
+		
+		
+		
+		
+		$( "#readVFSC" ).click(function() {
+			$.ajax({
+				type: 'GET',
+				dataType: "json",
+				url: "<c:url value="/admin/products/readProductVfsc.html" />",
+				data: "code="+$("#refSku").val(),
+				success: function(result) { 
+					$("#sku").val(result.code);
+
+					<c:forEach items="${product.descriptions}" var="description" varStatus="counter">		
+						$("#name${counter.index}").val(result.name);
+						$("#name${counter.index}").friendurl({id : 'seUrl${counter.index}'});
+				    </c:forEach>
+				
+				},
+				error: function(jqXHR,textStatus,errorThrown) { 
+					alert(notFound);
+				}
+				
+		});
+		});
+		
+		
+		
 	});
 
 	
@@ -70,7 +100,6 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 			  
 			});
 	}
-	
 	
 </script>
 	
@@ -113,6 +142,10 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
 				</c:if>
 				<br/><br/>
 
+				<c:set value="/admin/products/readProductVfsc.html" var="vfscUrl" scope="request"/>
+
+
+
       					<c:url var="productSave" value="/admin/products/save.html"/>
                         <form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${productSave}">
 
@@ -131,7 +164,7 @@ var priceFormatMessage = '<s:message code="message.price.cents" text="Wrong form
                   		<div class="control-group">
 	                        <label><s:message code="label.product.refsku" text="External system identifier"/></label>
 	                        <div class="controls">
-	                        		  <form:input cssClass="input-large" id="refSku" path="product.refSku"/>
+	                        		  <form:input cssClass="input-large" id="refSku" path="product.refSku"/><button type="button" id="readVFSC" class="btn btn-success">VFSC </button>
 	                        </div>
                   		</div>
 
