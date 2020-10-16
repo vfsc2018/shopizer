@@ -52,7 +52,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	private ShoppingCart shoppingCart;
 
 	@Column(name="QUANTITY")
-	private Integer quantity = new Integer(1);
+	private Integer quantity = 1;
 
 
 	@Embedded
