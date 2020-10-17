@@ -120,18 +120,32 @@
     									autoFetchData: true,
     									preventDuplicates: true,
     									leaveScrollbarGap: false,
+    									canEdit:true,
+    									editByCell: true,
+    									editEvent: "click",    									
     									fields: [
-        									<jsp:include page="${gridHeaderContainer}"></jsp:include>
+    												{title:"<s:message code="label.entity.id" text="Id"/>", name:"productId", canFilter:false},
+    												{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
+    												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
+    												{title:"<s:message code="label.product.quantity" text="Quantity"/>", name:"quantity"},
+    												{title:"<s:message code="label.product.unit" text="unit"/>", name:"unit"},
+    												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"},
+    												{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}  
+
 										],	
 										createRecordComponent : function (record, colNum) {  
         								var fieldName = this.getFieldName(colNum);
         								if (fieldName == "buttonField") {  
 	           								var button = isc.IButton.create({
 	                							height: 18,
-	                							width: 65,
+	                							width: 80,
 	               					 			title: "<s:message code="label.entity.details" text="Details"/>",
 	                							click : function () {
-	                    							alert('HHHH UUUUU');
+	                    							var url = '<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
+	                    							<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
+	                    									url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
+	                    							</c:if>
+	                    							window.location=url;
 	                							}
 	            							});
 	            						}

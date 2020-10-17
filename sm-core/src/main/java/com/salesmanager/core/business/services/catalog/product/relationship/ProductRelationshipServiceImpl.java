@@ -98,6 +98,15 @@ public class ProductRelationshipServiceImpl extends
 		
 	}
 	
+	
+	@Override
+	public ProductRelationship findById1(Long id) throws ServiceException {
+
+		return productRelationshipRepository.findById1(id);
+
+	}
+	
+	
 	@Override
 	public List<ProductRelationship> listByProduct(Product product) throws ServiceException {
 

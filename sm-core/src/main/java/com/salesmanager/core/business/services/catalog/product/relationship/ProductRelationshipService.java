@@ -107,4 +107,6 @@ public interface ProductRelationshipService extends
 	List<ProductRelationship> getByGroup(MerchantStore store, String groupName,
 			Language language) throws ServiceException;
 
+	ProductRelationship findById1(Long id) throws ServiceException;
+
 }

@@ -1,5 +1,8 @@
 package com.salesmanager.shop.admin.controller.products;
 
+import antlr.StringUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
@@ -16,6 +19,7 @@ import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.CategoryUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +57,48 @@ public class RelatedItemsController {
 	
 	@Inject
 	ProductRelationshipService productRelationshipService;
+	
+	
+	
+	
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/catalogue/related/update.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> updateRelationship(HttpServletRequest request, HttpServletResponse response) {
+		
+		String values = request.getParameter("_oldValues");
+		String baseQuantity = request.getParameter("quantity");
+		String unit = request.getParameter("unit");
+		
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		
+		try {
+			
+			ObjectMapper mapper = new ObjectMapper();
+			@SuppressWarnings("rawtypes")
+			Map conf = mapper.readValue(values, Map.class);
+			Integer sid = (Integer)conf.get("relationshipId");
+			Long relationshipId = new Long(sid);
+			Double quantity  = new Double(0);
+			if(baseQuantity!=null && !baseQuantity.equals("")) quantity = Double.parseDouble(baseQuantity);
+			ProductRelationship entity = productRelationshipService.findById1(relationshipId);
+			if(quantity>0) entity.setQuantity(quantity);
+			if(unit!=null && !unit.equals("")) entity.setUnit(unit);
+			productRelationshipService.update(entity);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
+		
+		} catch (Exception e) {
+			LOGGER.error("Error while paging products", e);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		
+	}
+	
 	
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/catalogue/related/list.html", method=RequestMethod.GET)
@@ -136,6 +183,9 @@ public class RelatedItemsController {
 
 				entry.put("name", description.getName());
 				entry.put("sku", relatedProduct.getSku());
+				entry.put("quantity", relationship.getQuantity());
+				entry.put("unit", relationship.getUnit());
+								
 				entry.put("available", relatedProduct.isAvailable());
 				resp.addDataEntry(entry);
 				
@@ -312,6 +362,8 @@ public class RelatedItemsController {
 		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
+
+	
 	
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {

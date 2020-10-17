@@ -46,6 +46,36 @@ public class ProductRelationship extends SalesManagerEntity<Long, ProductRelatio
 	@Column(name="ACTIVE")
 	private boolean active = true;
 	
+	
+	
+	@Column(name="QUANTITY")
+	private double quantity;	
+
+
+	@Column(name="UNIT")
+	private String unit;	
+	
+	public double getQuantity() {
+		return quantity;
+	}
+
+
+
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
+	}
+
+
+
+	public String getUnit() {
+		return unit;
+	}
+
+
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 	public Product getProduct() {
 		return product;
 	}

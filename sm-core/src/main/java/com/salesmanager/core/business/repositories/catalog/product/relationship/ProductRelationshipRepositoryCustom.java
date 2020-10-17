@@ -28,6 +28,8 @@ public interface ProductRelationshipRepositoryCustom {
 
 	List<ProductRelationship> getByType(MerchantStore store, String type,
 			Product product);
+
+	ProductRelationship findById1(Long id);
 	
 
 }

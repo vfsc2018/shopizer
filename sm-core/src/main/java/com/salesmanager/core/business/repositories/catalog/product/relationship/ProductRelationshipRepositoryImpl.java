@@ -346,4 +346,27 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
 
 	}
 
+	@Override
+	public ProductRelationship findById1(Long id) {
+
+		StringBuilder qs = new StringBuilder();
+		qs.append("select pr from ProductRelationship as pr ");
+		qs.append("where id=:id");
+    	String hql = qs.toString();
+		Query q = em.createQuery(hql);
+
+    	q.setParameter("id", id);
+
+
+    	@SuppressWarnings("unchecked")
+    	ProductRelationship relations =  (ProductRelationship) q.getSingleResult();
+
+    	
+    	return relations;
+		
+
+	}
+	
+	
+	
 }
