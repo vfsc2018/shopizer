@@ -120,12 +120,36 @@
     									leaveScrollbarGap: false,
     									fields: [
         									<jsp:include page="${gridHeaderContainer}"></jsp:include>
-    									],								   
+										],						   
     									removeData: function () {
 											if (confirm('<s:message code="label.entity.remove.confirm" text="Do you really want to remove this record ?" />')) {
 												return this.Super("removeData", arguments);
 											}
-								   		}
+										},
+										recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+											alert('hi there' + record.name);
+										}
+										   
+										// selectionType: "single",	
+										// createRecordComponent : function (record, colNum) {  
+        								// // var fieldName = this.getFieldName(colNum); console.log(colNum, record);
+        								// // if (fieldName == "buttonField") {  
+	           							// 	var button = isc.IButton.create({
+	                					// 		height: 18,
+	                					// 		width: 65,
+	               					 	// 		title: "DUC-DUC",
+	                					// 		click : function () {
+	                    				// 			var url = '<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
+	                    				// 			<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
+	                    				// 					url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
+	                    				// 			</c:if>
+	                    				// 			window.location=url;
+	                					// 		}
+	            						// 	});
+	            						// // }
+	            						// return button;  
+										// },	
+										
 								   		//recordDrop: function (dropRecords, targetRecord, index, sourceWidget) {
 											//alert(dropRecords.length);
 											//alert(dropRecords.length);
@@ -183,7 +207,7 @@ isc.HLayout.create({
     	}),
     	isc.SectionStack.create({
             ID:"rightSideLayout",
-            width:205,
+            width:300,
             showResizeBar:false,
             visibilityMode:"multiple",
             animateSections:true,

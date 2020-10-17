@@ -143,7 +143,7 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/auth/orders" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/customer/orders" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
@@ -284,7 +284,7 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/auth/orders/{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/customer/orders/{id}" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),

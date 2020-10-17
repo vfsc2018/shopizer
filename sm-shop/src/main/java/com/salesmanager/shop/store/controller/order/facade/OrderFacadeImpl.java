@@ -1059,7 +1059,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		if (CollectionUtils.isEmpty(orders)) {
 			returnList.setRecordsTotal(0);
 			// returnList.setMessage("No results for store code " + store);
-			return null;
+			return returnList;
 		}
 
 		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<com.salesmanager.shop.model.order.v0.ReadableOrder>();
@@ -1070,9 +1070,10 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		}
 
+		
+		returnList = this.populateOrderList(orderList, store, language);
 		returnList.setRecordsTotal(orderList.getTotalCount());
-		return this.populateOrderList(orderList, store, language);
-
+		return returnList;
 	}
 
 	@Override
