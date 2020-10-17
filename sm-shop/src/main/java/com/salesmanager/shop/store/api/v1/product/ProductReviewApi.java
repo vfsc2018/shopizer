@@ -20,6 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.security.Principal;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -31,6 +38,7 @@ import com.salesmanager.shop.model.catalog.product.PersistableProductReview;
 import com.salesmanager.shop.model.catalog.product.ReadableProductReview;
 import com.salesmanager.shop.store.controller.product.facade.ProductFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -52,8 +60,8 @@ public class ProductReviewApi {
 
   @RequestMapping(
       value = {
-        "/private/products/{id}/reviews",
-        "/auth/products/{id}/reviews"
+        "/private/products/{id}/reviews"
+        // ,"/auth/products/{id}/reviews"
       },
       method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
@@ -70,11 +78,15 @@ public class ProductReviewApi {
       HttpServletRequest request,
       HttpServletResponse response) {
 
-    try {
+    try { 
       // rating already exist
-      ProductReview prodReview =
-          productReviewService.getByProductAndCustomer(
-              review.getProductId(), review.getCustomerId());
+      Principal principal = request.getUserPrincipal(); 
+      if(principal instanceof UsernamePasswordAuthenticationToken){
+        Object user =  ((UsernamePasswordAuthenticationToken)principal).getPrincipal();
+        review.setCustomerId(((JWTUser)user).getId());
+      }
+      review.setProductId(id);
+      ProductReview prodReview = productReviewService.getByProductAndCustomer(review.getProductId(), review.getCustomerId());
       if (prodReview != null) {
         response.sendError(500, "A review already exist for this customer and product");
         return null;

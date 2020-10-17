@@ -260,8 +260,7 @@
 								<div class="col-lg-12">
 									<div class="hyper-title">
 										<h4 class="text-uppercase">
-											<s:message code="label.product.related.title"
-												text="Related items" />
+											<s:message code="label.product.related.title" text="Related items" />
 										</h4>
 									</div>
 								</div>

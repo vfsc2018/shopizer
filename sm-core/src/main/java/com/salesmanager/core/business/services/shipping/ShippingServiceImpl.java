@@ -701,7 +701,7 @@ public class ShippingServiceImpl implements ShippingService {
 					}
 					if(!StringUtils.isBlank(option.getEstimatedNumberOfDays())) {
 						try {
-							q.setEstimatedNumberOfDays(new Integer(option.getEstimatedNumberOfDays()));
+							q.setEstimatedNumberOfDays(Integer.valueOf(option.getEstimatedNumberOfDays()));
 						} catch(Exception e) {
 							LOGGER.error("Cannot cast to integer " + option.getEstimatedNumberOfDays());
 						}

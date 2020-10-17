@@ -265,9 +265,7 @@ public class ShoppingCartFacadeImpl
     //used for api
 	private com.salesmanager.core.model.shoppingcart.ShoppingCartItem createCartItem(ShoppingCart cartModel,
 			 PersistableShoppingCartItem shoppingCartItem, MerchantStore store) throws Exception {
-
 		Product product = productService.getById(shoppingCartItem.getProduct());
-
 		if (product == null) {
 		    System.out.println("----------------------- Item with id " + shoppingCartItem.getProduct() + " does not exist");
 			throw new ResourceNotFoundException("Item with id " + shoppingCartItem.getProduct() + " does not exist");
@@ -939,17 +937,17 @@ public class ShoppingCartFacadeImpl
 	private ReadableShoppingCart modifyCart(ShoppingCart cartModel, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
 
-
 		com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemModel = createCartItem(cartModel, item, store);
 
         boolean itemModified = false;
         //check if existing product
-       	Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cartModel.getLineItems();
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cartModel.getLineItems();
+
        	if(!CollectionUtils.isEmpty(items)) {
        		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
        		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> removeItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
 	    	for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem anItem : items) {//take care of existing product
-	    		if(itemModel.getProduct().getId().longValue() == anItem.getProduct().getId()) {
+	    		if(itemModel.getProduct().getId().longValue() == anItem.getProduct().getId().longValue()) {
 	    			if(item.getQuantity()==0) {
 	    			    //left aside item to be removed
 	    				//don't add it to new list of item
@@ -964,18 +962,15 @@ public class ShoppingCartFacadeImpl
 	    			newItems.add(anItem);
 	    		}
 	    	}
-
 	    	if(!removeItems.isEmpty()) {
 	    		for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem emptyItem : removeItems) {
 	    			shoppingCartService.deleteShoppingCartItem(emptyItem.getId());
 	    		}
 
 	    	}
-
 	    	if(!itemModified) {
 	    	  newItems.add(itemModel);
 	    	}
-
 	    	if(newItems.isEmpty()) {
 	    		newItems = null;
 	    	}
@@ -987,7 +982,6 @@ public class ShoppingCartFacadeImpl
                 cartModel.getLineItems().add( itemModel );
              }
        	}
-
        	//if cart items are null just return cart with no items
 
         saveShoppingCart( cartModel );
@@ -998,7 +992,6 @@ public class ShoppingCartFacadeImpl
         if(cartModel==null) {
         	return null;
         }
-
         shoppingCartCalculationService.calculate( cartModel, store, language );
 
         ReadableShoppingCartPopulator readableShoppingCart = new ReadableShoppingCartPopulator();
@@ -1009,9 +1002,7 @@ public class ShoppingCartFacadeImpl
         readableShoppingCart.setShoppingCartCalculationService(shoppingCartCalculationService);
 
         ReadableShoppingCart readableCart = new  ReadableShoppingCart();
-
         readableShoppingCart.populate(cartModel, readableCart,  store, language);
-
 
 		return readableCart;
 

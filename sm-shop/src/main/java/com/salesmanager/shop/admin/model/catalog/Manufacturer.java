@@ -28,7 +28,7 @@ public class Manufacturer implements Serializable {
 	@Valid
 	private List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
 	
-	private Integer order = new Integer(0);
+	private Integer order = 0;
 	private MultipartFile image = null;
 	@NotNull
 	private String code;

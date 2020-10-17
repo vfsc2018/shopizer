@@ -288,16 +288,16 @@ public class RelatedItemsController {
 				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
-			if(relationship.getStore().getId().intValue()!=store.getId().intValue()) {
-				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
-			}
+			// if(relationship.getStore().getId().intValue()!=store.getId().intValue()) {
+			// 	resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			// 	String returnString = resp.toJSONString();
+			// 	return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			// }
 
 
 			
 			
-			productRelationshipService.delete(relationship);
+			productRelationshipService.deleteRelationship(relationship);
 			
 
 			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);

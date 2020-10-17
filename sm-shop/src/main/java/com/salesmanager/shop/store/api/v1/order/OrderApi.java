@@ -109,10 +109,10 @@ public class OrderApi {
 		}
 
 		if (start == null) {
-			start = new Integer(0);
+			start = 0;
 		}
 		if (count == null) {
-			count = new Integer(100);
+			count = 100;
 		}
 
 		ReadableCustomer readableCustomer = new ReadableCustomer();
@@ -143,7 +143,7 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/auth/orders" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/customer/orders" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
@@ -165,10 +165,10 @@ public class OrderApi {
 		}
 
 		if (page == null) {
-			page = new Integer(0);
+			page = 0;
 		}
 		if (count == null) {
-			count = new Integer(100);
+			count = 100;
 		}
 
 		ReadableCustomer readableCustomer = new ReadableCustomer();
@@ -284,7 +284,7 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/auth/orders/{id}" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/customer/orders/{id}" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
