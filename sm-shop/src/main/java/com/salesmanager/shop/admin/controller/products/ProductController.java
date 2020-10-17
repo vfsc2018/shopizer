@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.gson.Gson;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
@@ -65,7 +64,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 import com.salesmanager.shop.admin.model.web.Menu;
-import com.salesmanager.shop.application.config.LocationImageConfig;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.DateUtil;
