@@ -141,7 +141,7 @@
 											if (confirm('<s:message code="label.entity.remove.confirm" text="Do you really want to remove this record ?" />')) {
 												return this.Super("removeData", arguments);
 											}
-										},
+										}
 										// recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
 										// 	alert('hi there' + record.name + ':' + field  + ':' +  value  + ':' +  rawValue);
 										// },

@@ -57,6 +57,7 @@ public abstract class SalesManagerEntityServiceImpl<K extends Serializable & Com
 	
 
 	public void delete(E entity) throws ServiceException {
+		//repository.deleteById(entity.getId());
 		repository.delete(entity);
 	}
 	

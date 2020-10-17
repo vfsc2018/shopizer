@@ -89,7 +89,9 @@ public class ProductRelationshipServiceImpl extends
 		//throws detached exception so need to query first
 		relationship = this.getById(relationship.getId());
 		if(relationship != null) {
-			delete(relationship);
+			//productRelationshipRepository.delete(relationship);
+			productRelationshipRepository.deleteById(relationship.getId());
+			//delete(relationship);
 		}
 		
 		
