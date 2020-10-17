@@ -110,7 +110,9 @@
 								
 								isc.ListGrid.create({
     									ID: "containerList",
-    									dataSource: "container",
+										dataSource: "container",
+										showRecordComponents: true,    
+										showRecordComponentsByCell: true,
     									canAcceptDroppedRecords: true,
     									canRemoveRecords: true,
     									canReorderRecords: false,
@@ -120,35 +122,29 @@
     									leaveScrollbarGap: false,
     									fields: [
         									<jsp:include page="${gridHeaderContainer}"></jsp:include>
-										],						   
+										],	
+										createRecordComponent : function (record, colNum) {  
+        								var fieldName = this.getFieldName(colNum);
+        								if (fieldName == "buttonField") {  
+	           								var button = isc.IButton.create({
+	                							height: 18,
+	                							width: 65,
+	               					 			title: "<s:message code="label.entity.details" text="Details"/>",
+	                							click : function () {
+	                    							alert('HHHH UUUUU');
+	                							}
+	            							});
+	            						}
+	            						return button;  
+										},				   
     									removeData: function () {
 											if (confirm('<s:message code="label.entity.remove.confirm" text="Do you really want to remove this record ?" />')) {
 												return this.Super("removeData", arguments);
 											}
 										},
-										recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-											alert('hi there' + record.name);
-										}
-										   
-										// selectionType: "single",	
-										// createRecordComponent : function (record, colNum) {  
-        								// // var fieldName = this.getFieldName(colNum); console.log(colNum, record);
-        								// // if (fieldName == "buttonField") {  
-	           							// 	var button = isc.IButton.create({
-	                					// 		height: 18,
-	                					// 		width: 65,
-	               					 	// 		title: "DUC-DUC",
-	                					// 		click : function () {
-	                    				// 			var url = '<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
-	                    				// 			<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
-	                    				// 					url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
-	                    				// 			</c:if>
-	                    				// 			window.location=url;
-	                					// 		}
-	            						// 	});
-	            						// // }
-	            						// return button;  
-										// },	
+										// recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
+										// 	alert('hi there' + record.name + ':' + field  + ':' +  value  + ':' +  rawValue);
+										// },
 										
 								   		//recordDrop: function (dropRecords, targetRecord, index, sourceWidget) {
 											//alert(dropRecords.length);
@@ -207,12 +203,12 @@ isc.HLayout.create({
     	}),
     	isc.SectionStack.create({
             ID:"rightSideLayout",
-            width:300,
+            width:330,
             showResizeBar:false,
             visibilityMode:"multiple",
             animateSections:true,
             sections:[
-                {title:"<s:message code="${componentTitleKey}" text="{componentTitleKey} UNDEFINED"/>", autoShow:true, items:[containerList]}
+                {title:"<s:message code="${componentTitleKey}" text="{componentTitleKey}" />", autoShow:true, items:[containerList]}
             ]
         }),
     ]
