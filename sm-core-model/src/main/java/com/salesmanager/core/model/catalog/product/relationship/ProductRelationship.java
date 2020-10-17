@@ -49,19 +49,19 @@ public class ProductRelationship extends SalesManagerEntity<Long, ProductRelatio
 	
 	
 	@Column(name="QUANTITY")
-	private double quantity;	
+	private Double quantity;	
 
 
 	@Column(name="UNIT")
 	private String unit;	
 	
-	public double getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
 
 
 
-	public void setQuantity(double quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 

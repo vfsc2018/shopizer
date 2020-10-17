@@ -111,8 +111,8 @@
 								isc.ListGrid.create({
     									ID: "containerList",
 										dataSource: "container",
-										showRecordComponents: true,    
-										showRecordComponentsByCell: true,
+										// showRecordComponents: false,    
+										// showRecordComponentsByCell: true,
     									canAcceptDroppedRecords: true,
     									canRemoveRecords: true,
     									canReorderRecords: false,
@@ -130,27 +130,27 @@
     												{title:"<s:message code="label.product.quantity" text="Quantity"/>", name:"quantity"},
     												{title:"<s:message code="label.product.unit" text="unit"/>", name:"unit"},
     												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"},
-    												{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}  
+    												// {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}  
 
 										],	
-										createRecordComponent : function (record, colNum) {  
-        								var fieldName = this.getFieldName(colNum);
-        								if (fieldName == "buttonField") {  
-	           								var button = isc.IButton.create({
-	                							height: 18,
-	                							width: 80,
-	               					 			title: "<s:message code="label.entity.details" text="Details"/>",
-	                							click : function () {
-	                    							var url = '<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
-	                    							<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
-	                    									url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
-	                    							</c:if>
-	                    							window.location=url;
-	                							}
-	            							});
-	            						}
-	            						return button;  
-										},				   
+										// createRecordComponent : function (record, colNum) {  
+        								// var fieldName = this.getFieldName(colNum);
+        								// if (fieldName == "buttonField") {  
+	           							// 	var button = isc.IButton.create({
+	                					// 		height: 18,
+	                					// 		width: 80,
+	               					 	// 		title: "<s:message code="label.entity.details" text="Details"/>",
+	                					// 		click : function () {
+	                    				// 			var url = '<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
+	                    				// 			<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
+	                    				// 					url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
+	                    				// 			</c:if>
+	                    				// 			window.location=url;
+	                					// 		}
+	            						// 	});
+	            						// }
+	            						// return button;  
+										// },				   
     									removeData: function () {
 											if (confirm('<s:message code="label.entity.remove.confirm" text="Do you really want to remove this record ?" />')) {
 												return this.Super("removeData", arguments);
