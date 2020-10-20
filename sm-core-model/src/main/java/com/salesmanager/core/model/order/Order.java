@@ -165,6 +165,32 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@Column (name ="CUSTOMER_EMAIL_ADDRESS", length=50, nullable=false)
 	private String customerEmailAddress;
 
+	
+	
+	@Temporal(TemporalType.DATE)
+	@Column (name ="FROM_DATE")
+	private Date fromDate;
+	
+	@Temporal(TemporalType.DATE)
+	@Column (name ="TO_DATE")
+	private Date toDate;
+	
+
+	public Date getFromDate() {
+		return CloneUtils.clone(fromDate);
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = CloneUtils.clone(fromDate);
+	}
+
+	public Date getToDate() {
+		return CloneUtils.clone(toDate);
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = CloneUtils.clone(toDate);
+	}
 
 	@Override
 	public Long getId() {

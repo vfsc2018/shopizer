@@ -458,6 +458,7 @@ function captureOrder(orderId){
 					  					<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
 				       			</form:select>
 			            </div>
+			            
 			            <label><s:message code="label.customer.billing.postalcode" text="Billing postal code"/></label>
 			            <div class="controls">
 				 				<form:input id="billingPostalCode" cssClass="input-large highlight" path="order.billing.postalCode"/>
@@ -644,9 +645,41 @@ function captureOrder(orderId){
 	                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
 	                    </div> 
 	               </div>
+	               
+	               
+	               <div class="control-group">  
+	                    <label><s:message code="label.entity.fromDate" text="From date"/></label>
+	                     <div class="controls">
+	                         <form:input  cssClass="input-large" path="fromDate"  class="small" type="text"
+							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+							  <script type="text/javascript">
+                                 $('#fromDate').datepicker();
+                              </script>
+		 						<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>
+	                    </div> 
+	               </div>
+	               <div class="control-group">  
+	                    <label><s:message code="label.entity.toDate" text="To date"/></label>
+	                     <div class="controls">
+	                         <form:input  cssClass="input-large" path="toDate"  class="small" type="text"
+							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+							  <script type="text/javascript">
+                                 $('#toDate').datepicker();
+                              </script>
+		 						<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>
+	                    </div> 
+	               </div>
+	               	               
+	               
+	               
+	               
+	            
               
 	              <div class="form-actions">
 	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
+	              		
+	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.prepare.bill" text="Prepare Bill"/></button>
+	              		
 	      		  </div>
       		</div> 
             <br/>   
