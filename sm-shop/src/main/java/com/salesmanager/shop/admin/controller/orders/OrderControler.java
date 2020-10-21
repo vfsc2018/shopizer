@@ -2,6 +2,7 @@ package com.salesmanager.shop.admin.controller.orders;
 
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
@@ -10,12 +11,16 @@ import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.model.catalog.product.Product;
+import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderTotal;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
+import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
@@ -30,6 +35,7 @@ import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -48,6 +54,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -92,10 +100,146 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	private EmailUtils emailUtils;
 	
 	@Inject
+	private ProductService productService;
+	
+	
+	@Inject
 	OrderProductDownloadService orderProdctDownloadService;
 	
 	private final static String ORDER_STATUS_TMPL = "email_template_order_status.ftl";
 	
+
+	/*ducdv5*/
+	@PreAuthorize("hasRole('ORDER')")
+	@RequestMapping(value="/admin/orders/prepareBill.html", method=RequestMethod.GET)
+	public String displayOrderBill(@RequestParam("id") long orderId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		
+		
+		//return displayOrder(orderId,model,request,response);
+
+		//display menu
+		setMenu(model,request);
+		List<OrderProductEx> listOrderNew= new ArrayList<OrderProductEx>();   
+		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		List<Country> countries = countryService.getCountries(language);
+		if(orderId>0) {		//edit mode		
+			
+			
+			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+			
+			
+			
+		
+		
+			Order dbOrder = orderService.getById(orderId);
+
+			if(dbOrder==null) {
+				return "redirect:/admin/orders/list.html";
+			}
+			
+			
+			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
+				return "redirect:/admin/orders/list.html";
+			}
+			
+			
+			order.setId( orderId );
+		
+			if( dbOrder.getDatePurchased() !=null ){
+				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
+			}
+			
+			Long customerId = dbOrder.getCustomerId();
+			
+			if(customerId!=null && customerId>0) {
+			
+				try {
+					
+					Customer customer = customerService.getById(customerId);
+					if(customer!=null) {
+						model.addAttribute("customer",customer);
+					}
+					
+					
+				} catch(Exception e) {
+					LOGGER.error("Error while getting customer for customerId " + customerId, e);
+				}
+			
+			}
+			
+			order.setOrder( dbOrder );
+			order.setBilling( dbOrder.getBilling() );
+			order.setDelivery(dbOrder.getDelivery() );
+			
+			
+			
+			OrderProductEx ordernew=null;
+			for(OrderProduct bean : dbOrder.getOrderProducts()){
+				
+				ordernew = new OrderProductEx();
+				Product dbProduct = productService.getByCode(bean.getSku(), language);
+				ordernew.setProductName(bean.getProductName());
+				ordernew.setSku(bean.getSku());
+				ordernew.setCurrency(dbOrder.getCurrency());
+				ordernew.setProductQuantity(bean.getProductQuantity());
+				ordernew.setOneTimeCharge(bean.getOneTimeCharge());
+				ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+				
+				
+				if(dbProduct!=null){
+					List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+					OrderProductEx proRela = null;
+					for(ProductRelationship sBean : dbProduct.getRelationships()){
+						proRela =  new OrderProductEx();
+						proRela.setSku(sBean.getProduct().getSku());
+						/*Add name follow by language*/
+						for(ProductDescription bean1 : sBean.getProduct().getDescriptions()){
+							if(bean1.getLanguage().getCode().equals(language.getCode())) proRela.setProductName(bean1.getName());
+						}
+						
+						proRelaList.add(proRela);
+						
+					}
+					ordernew.setRelationships(proRelaList);
+				}
+				//add to list
+				listOrderNew.add(ordernew);
+			}
+			
+			//get capturable
+			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+				Transaction capturableTransaction = transactionService.getCapturableTransaction(dbOrder);
+				if(capturableTransaction!=null) {
+					model.addAttribute("capturableTransaction",capturableTransaction);
+				}
+			}
+			
+			
+			//get refundable
+			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+				Transaction refundableTransaction = transactionService.getRefundableTransaction(dbOrder);
+				if(refundableTransaction!=null) {
+						model.addAttribute("capturableTransaction",null);//remove capturable
+						model.addAttribute("refundableTransaction",refundableTransaction);
+				}
+			}
+
+			
+			List<OrderProductDownload> orderProductDownloads = orderProdctDownloadService.getByOrderId(order.getId());
+			if(CollectionUtils.isNotEmpty(orderProductDownloads)) {
+				model.addAttribute("downloads",orderProductDownloads);
+			}
+			
+		}	
+		
+		model.addAttribute("countries", countries);
+		model.addAttribute("order",order);
+		model.addAttribute("dataEx",listOrderNew);
+		
+		return  ControllerConstants.Tiles.Order.ordersBill;
+	}
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/editOrder.html", method=RequestMethod.GET)
@@ -104,7 +248,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		return displayOrder(orderId,model,request,response);
 
 	}
-
+	
+	
 	@PreAuthorize("hasRole('ORDER')")
 	private String displayOrder(Long orderId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 

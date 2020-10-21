@@ -326,7 +326,7 @@ function captureOrder(orderId){
         });
         /*Begin ducdv5*/
 		$("#btPrepareBill").click(function() {
-			 location.href="<c:url value="/admin/orders/prepareBill.html" />?id=<c:out value="${order.order.id}"/>";
+			 location.href="<c:url value="/admin/orders/editOrder.html" />?id=<c:out value="${order.order.id}"/>";
 		}); 
 		/*End ducdv5*/
     });
@@ -362,7 +362,7 @@ function captureOrder(orderId){
 		<h3>
 			<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.order.id2" text="Order ID"/> 
+                     		 <s:message code="label.order.preparebill" text="Prepare Bill"/> 
                      		 <c:out value="${order.order.id}" /> - <span class="lead"><s:message code="label.order.${order.order.status.value}" text="${order.order.status.value}" /></span>
                      		 <br>
                        </div>       
@@ -389,6 +389,7 @@ function captureOrder(orderId){
 								<a href="<c:url value="/admin/customers/customer.html?id=${customer.id}"/>"><s:message code="label.order.editcustomer" text="Edit customer"/></a>
 							</c:if>
 						</li>
+						
 				    	<li>
 				    		<c:if test="${customer!=null}">
 								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Prepare Bill"/></a>
@@ -410,8 +411,8 @@ function captureOrder(orderId){
               </div><!-- /btn-group -->
 			  <br/>
  	       	 	
-	     <c:url var="orderSave" value="/admin/orders/save.html"/>
-         <form:form method="POST" enctype="multipart/form-data" modelAttribute="order" action="${orderSave}">
+	     <c:url var="orderSaveBill" value="/admin/orders/saveBill.html"/>
+         <form:form method="POST" enctype="multipart/form-data" modelAttribute="order" action="${orderSaveBill}">
 	   
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
@@ -420,166 +421,11 @@ function captureOrder(orderId){
 		  			<form:hidden path="order.id" />
 		  			<form:hidden path="order.customerId" />
  			
- 		<div class="span8"> 
- 		
- 			<div class="span4" style="margin-left:0px;"> 
-			
-			<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
-			<address>			        
-
-				<label><s:message code="label.customer.firstname" text="First Name"/></label>
-	            <div class="controls">
-	            		
-			 				<form:input id="customerFirstName" cssClass="input-large highlight" path="order.billing.firstName"/>
-			 				<span class="help-inline">
-			 				<form:errors path="order.billing.firstName" cssClass="error" /></span>
-	            </div>
-	            
-	            <label><s:message code="label.customer.lastname" text="Last Name"/></label>
-	            <div class="controls">
-		 					<form:input id="customerLastName" cssClass="input-large highlight" path="order.billing.lastName"/>
-		 					<span class="help-inline"><form:errors path="order.billing.lastName" cssClass="error" /></span>
-	            </div>
-	            
-	            
-	            <address>
-	            
-	            		<label><s:message code="label.customer.billing.streetaddress" text="Billing address"/></label>
-			            <div class="controls">
-				 				<form:input id="billingAdress" cssClass="input-large highlight" path="order.billing.address"/>
-				 				<span class="help-inline"><form:errors path="order.billing.address" cssClass="error" /></span>
-			            </div>
-			            <label><s:message code="label.customer.billing.city" text="Billing city"/></label>
-			            <div class="controls">
-				 				<form:input id="billingCity" cssClass="input-large highlight" path="order.billing.city"/>
-				 				<span class="help-inline"><form:errors path="order.billing.city" cssClass="error" /></span>
-			            </div>
-			            
-			            <div class="control-group"> 
-	                        <label><s:message code="label.customer.billing.zone" text="State / Province"/></label>
-	                        <div class="controls">		       							
-	       							<form:select id="billingZoneList" cssClass="billing-zone-list" path="order.billing.zone.code"/>
-                      				<form:input  class="input-large highlight" id="billingZoneText" maxlength="100"  name="billingZoneText" path="order.billing.state" /> 				       							
-                                 	<span class="help-inline"><form:errors path="order.billing.zone.code" cssClass="error" /></span>
-	                        </div>
-	                    </div> 
-			            
-			            <label><s:message code="label.customer.billing.country" text="Country"/></label>
-			            <div class="controls">
-				 				<form:select cssClass="billing-country-list" path="order.billing.country.isoCode">
-					  					<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
-				       			</form:select>
-			            </div>
-			            
-			            <label><s:message code="label.customer.billing.postalcode" text="Billing postal code"/></label>
-			            <div class="controls">
-				 				<form:input id="billingPostalCode" cssClass="input-large highlight" path="order.billing.postalCode"/>
-				 				<span class="help-inline"><form:errors path="order.billing.postalCode" cssClass="error" /></span>
-			            </div>
-			            <label><s:message code="label.customer.telephone" text="Customer phone"/></label>
-			            <div class="controls">
-				 				<form:input id="phoneNumber" cssClass="input-large highlight" path="order.billing.telephone"/>
-				 				<span class="help-inline"><form:errors path="order.billing.telephone" cssClass="error" /></span>
-			            </div>		
-			    </address>
-
-	            
-	           <label><s:message code="label.customer.email" text="Email"/></label>
-	            <div class="controls">
-		 				<form:input id="customerEmailAddress" cssClass="input-large highlight" path="order.customerEmailAddress"/>
-		 				<span class="help-inline"><form:errors path="order.customerEmailAddress" cssClass="error" /></span>
-	            </div>
-	            
-	            </div>
-	            
-	            <div span="4">
-	            
-	            
-				<h6><s:message code="label.customer.shippinginformation" text="Shipping information"/></h6>
-				<address>
-						<label><s:message code="label.customer.shipping.firstName" text="Shipping first name"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.firstName"/>				 							
-			            </div>
-			            <label><s:message code="label.customer.shipping.lastName" text="Shipping last name"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.lastName"/>				 							
-			            </div>
-			            <label><s:message code="label.customer.shipping.streetaddress" text="Shipping address"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.address"/>		 				
-			            </div>
-			            <label><s:message code="label.customer.shipping.city" text="Shipping city"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.city"/>
-			            </div>
-
-			            
-			            <div class="control-group"> 
-	                        <label><s:message code="label.customer.shipping.zone" text="State / Province"/></label>
-	                        <div class="controls">		       							
-	       							<form:select id="shippingZoneList" cssClass="shiiping-zone-list" path="order.delivery.zone.code"/>
-                      				<form:input  class="input-large highlight" id="shippingZoneText" maxlength="100"  name="shippingZoneText" path="order.delivery.state" /> 				       							
-                                 	<span class="help-inline"><form:errors path="order.delivery.zone.code" cssClass="error" /></span>
-	                        </div>
-	                    </div> 
- 
-			            <label><s:message code="label.customer.shipping.country" text="Country"/></label>
-			            <div class="controls">
-				 				<form:select cssClass="country-list" path="order.delivery.country.isoCode">
-					  					<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
-				       			</form:select>
-			            </div>
-			            <label><s:message code="label.customer.shipping.postalcode" text="Postal code"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.postalCode"/>
-			            </div>	            	            	            	            				
-				</address>	
-	            
-	            
-	            </div>
-	            
-	            </div>
-	
-   				<div class="span8">
-				<s:message code="label.customer.order.date" text="Order date"/>			 		
-			 	<div class="controls">
-							<form:input  cssClass="input-large" path="datePurchased"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#datePurchased').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="datePurchased" cssClass="error" /></span>
-	            </div>  
-	
-
-	            <label><s:message code="label.customer.order.agreement.title" text="Terms and conditions"/>: <strong><c:out value="${order.order.customerAgreement}"/></strong></label>
-	
-				<br/><br/>
-	            <label><s:message code="label.order.paymentmode" text="Payment mode"/></label>
-	            <div class="controls">
-		 			 <strong><c:out value="${order.order.paymentType}"/> - <c:out value="${order.order.paymentModuleCode}"/></strong>
-		 			 <c:if test="${order.order.paymentType=='CREDITCARD' && order.order.creditCard!=null}">
-		 			 	<br/><c:out value="${order.order.creditCard.cardType}"/> - <c:out value="${order.order.creditCard.ccNumber}"/>
-		 			 </c:if>
-		 			 <br/><br/>
-	            </div>	
-	            
-	            <c:if test="${order.order.shippingModuleCode!=null}">
-	            <label><s:message code="label.order.shippingmethod" text="Shipping method"/></label>
-	            <div class="controls">
-		 			 <strong><c:out value="${order.order.shippingModuleCode}"/></strong><form:hidden  path="order.shippingModuleCode"/>
-	            </div>	
-				</c:if>
-	
-				</dl>
-				
-
-				
-				</div>
-
-						
-
+			 		<div class="span8"> 	
+			 			<div class="span4" style="margin-left:0px;"> 
+						<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
+						</div>
+				    </div>
 	
       
       	  <div class="span8" style="margin-top:20px;">
@@ -594,24 +440,28 @@ function captureOrder(orderId){
 					</thead> 
 					
  				    <tbody> 
-						<c:forEach items="${order.order.orderProducts}" var="orderProduct" varStatus="counter">	 
-			            	<c:set var="total" value="${orderProduct.oneTimeCharge * orderProduct.productQuantity }" />
+						<c:forEach items="${dataEx}" var="entity" varStatus="counter">	 
 			            	
 							<tr> 
 								<td colspan="2"> 
-									<c:out value="${orderProduct.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${orderProduct.sku}"/>"><c:out value="${orderProduct.sku}" /></a>
-									<c:if test="${fn:length(orderProduct.orderAttributes)>0}">
-										<br/>
-											<ul>
-												<c:forEach items="${orderProduct.orderAttributes}" var="attribute">
-												<li>${attribute.productAttributeName} - ${attribute.productAttributeValueName}</li>
-												</c:forEach>
-											</ul>
-									</c:if>
+									<c:out value="${entity.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${entity.sku}"/>">
+									<c:out value="${entity.sku}" /></a>
+									
 								</td> 
-								<td ><c:out value="${orderProduct.productQuantity}" /></td> 
-			            		<td><strong><sm:monetary value="${orderProduct.oneTimeCharge}" currency="${order.order.currency}"/></strong> </td>
-								<td><strong><sm:monetary value="${total}" currency="${order.order.currency}"/></strong></td> 
+								<td ><c:out value="${entity.productQuantity}" /></td> 
+			            		<td><strong><sm:monetary value="${entity.oneTimeCharge}" currency="${entity.currency}"/></strong> </td>
+								<td><strong><sm:monetary value="${entity.total}" currency="${entity.currency}"/></strong></td> 
+							</tr>
+							<tr>
+								<td colspan="6">
+									<c:forEach items="${entity.relationships}" var="subEntity" varStatus="counter2">	 
+										<div align="left">
+										<a href="<c:url value="/admin/products/viewEditProduct.html?sku=${subEntity.sku}"/>">
+												<c:out value="${subEntity.sku}" /> - <c:out value="${subEntity.productName}" />
+										</a>
+										</div>
+									</c:forEach>
+								</td>
 							</tr> 
 			
 						</c:forEach> 
@@ -629,69 +479,8 @@ function captureOrder(orderId){
 
             <br/>   
             <div class="span8">
-		           <div class="control-group">
-		                  <label><s:message code="label.entity.status" text="Status"/></label>	 
-		                  <div class="controls">      
-	                   			<form:select path="order.status">
-				  						<form:options items="${orderStatusList}" />
-			       				</form:select>      
-		                   </div>
-		           </div>  
-		     					
-           	       <div class="control-group">
-                       <label><s:message code="label.order.history" text="History"/></label>
-                       <div class="controls">
-							 <dl class="dl-horizontal">
-								<c:forEach items="${order.order.orderHistory}" var="orderHistory" varStatus="counter">
-									<c:if test="${orderHistory.comments!=null}">
-									<dd><fmt:formatDate type="both" dateStyle="long" value="${orderHistory.dateAdded}" /> - <c:out value="${orderHistory.comments}"/>   
-									</c:if>                           
-	              				</c:forEach> 
-							</dl> 
-					   </div>
-              	   </div> 
-              
-	     		   <div class="control-group">  
-	                    <label><s:message code="label.entity.status" text="Status"/></label>
-	                     <div class="controls">
-	                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
-	                    </div> 
-	               </div>
-	               
-	               
-	               <div class="control-group">  
-	                    <label><s:message code="label.entity.fromDate" text="From date"/></label>
-	                     <div class="controls">
-	                         <form:input  cssClass="input-large" path="fromDate"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#fromDate').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>
-	                    </div> 
-	               </div>
-	               <div class="control-group">  
-	                    <label><s:message code="label.entity.toDate" text="To date"/></label>
-	                     <div class="controls">
-	                         <form:input  cssClass="input-large" path="toDate"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#toDate').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>
-	                    </div> 
-	               </div>
-	               	               
-	               
-	               
-	               
-	            
-              
 	              <div class="form-actions">
-	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
-	              		
-	              		<button  type="button" id="btPrepareBill" class="btn btn-medium btn-primary" ><s:message code="button.label.prepare.bill" text="Prepare Bill"/></button>
-	              		
+	              		<button  type="button" id="btBuildBill" onclick="javascript:alert('Call API Dang lam tiep.......')" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Build Bill"/></button>
 	      		  </div>
       		</div> 
             <br/>   
