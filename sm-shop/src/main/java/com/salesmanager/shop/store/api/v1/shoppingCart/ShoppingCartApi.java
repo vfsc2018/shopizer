@@ -197,7 +197,7 @@ public class ShoppingCartApi {
   }
 
   @ResponseStatus(HttpStatus.CREATED)
-  @RequestMapping(value = "/customers/{id}/cart", method = RequestMethod.POST)
+  @RequestMapping(value = "/auth/customers/{id}/cart", method = RequestMethod.POST)
   @ApiOperation(
       httpMethod = "POST",
       value = "Add product to a specific customer shopping cart",
@@ -241,7 +241,7 @@ public class ShoppingCartApi {
   }
 
   @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = "/customers/{id}/cart", method = RequestMethod.GET)
+  @RequestMapping(value = "/auth/customers/{id}/cart", method = RequestMethod.GET)
   @ApiOperation(
       httpMethod = "GET",
       value = "Get a chopping cart by id",
