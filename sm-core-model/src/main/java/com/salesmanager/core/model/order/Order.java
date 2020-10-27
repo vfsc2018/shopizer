@@ -29,6 +29,7 @@ import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
+import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -159,6 +160,19 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderAttribute> orderAttributes = new LinkedHashSet<OrderAttribute>();
 	
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private Set<BillMaster> billMasters = new LinkedHashSet<BillMaster>();
+	
+	
+	public Set<BillMaster> getBillMasters() {
+		return billMasters;
+	}
+
+	public void setBillMasters(Set<BillMaster> billMasters) {
+		this.billMasters = billMasters;
+	}
+
 	public Order() {
 	}
 	

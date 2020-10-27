@@ -23,6 +23,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.catalog.product.attribute.AttributeCriteria;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.common.GenericEntityList;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -197,6 +198,30 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 	}
 
+	
+	@Override
+	public ProductPrice getProductPriceByid(Long id) {
+		ProductPrice p = null;
+		try {
+
+			StringBuilder qs = new StringBuilder();
+			qs.append("select p from ProductPrice as p ");
+			qs.append("join fetch p.productAvailability pa ");
+			qs.append("where pa.id=:pid ");
+			String hql = qs.toString();
+			Query q = this.em.createQuery(hql);
+			q.setParameter("pid", id);
+			p = (ProductPrice) q.getSingleResult();
+
+			return p;
+
+		} catch (javax.persistence.NoResultException ers) {
+			return null;
+		}
+
+	}
+	
+	
 	public Product getByFriendlyUrl(MerchantStore store, String seUrl, Locale locale) {
 
 		List regionList = new ArrayList();

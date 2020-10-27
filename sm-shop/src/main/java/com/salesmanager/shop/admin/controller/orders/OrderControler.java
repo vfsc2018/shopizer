@@ -1,23 +1,71 @@
 package com.salesmanager.shop.admin.controller.orders;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Pattern;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.modules.email.Email;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.payments.TransactionService;
+import com.salesmanager.core.business.services.reference.country.BillItemService;
+import com.salesmanager.core.business.services.reference.country.BillMasterService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
+import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderTotal;
+import com.salesmanager.core.model.order.orderproduct.BillDetailToSend;
+import com.salesmanager.core.model.order.orderproduct.BillToSend;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
 import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
@@ -35,29 +83,6 @@ import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * Manage order details
@@ -97,18 +122,346 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	EmailService emailService;
 	
 	@Inject
+	private CoreConfiguration configuration;
+	
+	
+	@Inject
 	private EmailUtils emailUtils;
 	
 	@Inject
 	private ProductService productService;
 	
+	@Inject
+	private BillMasterService billMasterService;
+	
+	@Inject
+	private BillItemService billItemService;
+	
+	
+	@Inject
+	private ProductPriceService productPriceService;
+//	
+//	@Inject
+//	private com.salesmanager.core.business.services.catalog.product.ProductService productServiceAdmin;
 	
 	@Inject
 	OrderProductDownloadService orderProdctDownloadService;
 	
 	private final static String ORDER_STATUS_TMPL = "email_template_order_status.ftl";
 	
-
+	
+	
+//	@RequestMapping(value = "/getCountry")
+//    public ResponseEntity<Country> getCountry() {
+//        
+//        var c = new Country();
+//        c.setName("France");
+//        c.setPopulation(66984000);
+//        
+//        var headers = new HttpHeaders();
+//        headers.add("Responded", "MyController");
+//        
+//        return ResponseEntity.accepted().headers(headers).body(c);
+//    }
+	
+	
+	@PreAuthorize("hasRole('ORDER')")
+	@RequestMapping(value="/admin/orders/sendBill.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> sendBill(
+			@RequestParam("order.id") Long orderId,
+			@RequestParam("order.customerId") Long customerId, 
+			@RequestParam("sku") String[] skus,
+			@RequestParam("productName") String[] productNames,
+			@RequestParam("code") String[] code,
+			@RequestParam("quantity") Double[] quantity,
+			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
+			@RequestParam("orderHistoryComment") String orderHistoryComment,
+			@RequestParam("typeSave") int typeSave,
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    
+	    int i = 0 ;
+		try {
+			Order order = orderService.getById(orderId);
+			//Call API
+			
+			
+			if(typeSave==0){
+			        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+					
+			        String urlString = configuration.getProperty("config_shop_api_build_bill_to_vfsc");
+			        RestTemplate restTemplate = new RestTemplate();
+		           // create request body
+			        
+			       // check response
+		
+			        BillToSend billToSend = new BillToSend();
+			        billToSend.setCode(orderId.toString());
+			        billToSend.setDate(new Date());
+			        billToSend.setDescription(orderHistoryComment);
+		
+			        Language language = (Language)request.getAttribute("LANGUAGE");
+					List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
+					BillDetailToSend sub1 = null;
+					i = 0;
+					for(String sku1:skus){
+							sub1 = new BillDetailToSend();
+							
+							Product bean1111 = productService.getByCode(sku1, language);
+							sub1.setProductName(productNames[i]);
+							sub1.setProductId(bean1111.getId().toString());
+							sub1.setProductCode(bean1111.getSku());
+							sub1.setQuantity(quantity[i]+"");
+							sub1.setSku(sku1);
+							sub1.setUnit("");
+							details.add(sub1);
+						i++;
+					}
+					billToSend.setDetail(details);
+		
+					
+			        ObjectMapper objectMapper = new ObjectMapper();
+			        
+			        String carAsString = objectMapper.writeValueAsString(billToSend);
+			        System.out.println(carAsString);
+			        ResponseEntity<String> res = restTemplate.postForEntity(urlString, carAsString, String.class);
+			        if (res.getStatusCode() == HttpStatus.OK) {
+			            System.out.println("Request Successful");
+			            resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
+			        } else {
+			            System.out.println("Request Failed");
+			            resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			        }	        
+			}
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while paging products", e);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		
+	}
+	
+	
+	@PreAuthorize("hasRole('ORDER')")
+	@RequestMapping(value="/admin/orders/buildBill.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> buildBill(
+			@RequestParam("order.id") Long orderId,
+			@RequestParam("order.customerId") Long customerId, 
+			@RequestParam("sku") String[] skus,
+			@RequestParam("productName") String[] productNames,
+			@RequestParam("code") String[] code,
+			@RequestParam("quantity") Double[] quantity,
+			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
+			@RequestParam("orderHistoryComment") String orderHistoryComment,
+			@RequestParam("order.status") String status,
+			@RequestParam("typeSave") int typeSave,
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		
+		
+		
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    
+	    int i = 0 ;
+		try {
+			Order order = orderService.getById(orderId);
+			//Call API
+			
+			
+			if(typeSave==0){
+			        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+					
+			        String urlString = configuration.getProperty("config_shop_api_build_bill_to_vfsc");
+			        RestTemplate restTemplate = new RestTemplate();
+		           // create request body
+			        
+			       // check response
+		
+			        BillToSend billToSend = new BillToSend();
+			        billToSend.setCode(orderId.toString());
+			        billToSend.setDate(new Date());
+			        billToSend.setDescription(orderHistoryComment);
+		
+			        Language language = (Language)request.getAttribute("LANGUAGE");
+					List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
+					BillDetailToSend sub1 = null;
+					i = 0;
+					for(String sku1:skus){
+							sub1 = new BillDetailToSend();
+							
+							Product bean1111 = productService.getByCode(sku1, language);
+							sub1.setProductName(productNames[i]);
+							sub1.setProductId(bean1111.getId().toString());
+							sub1.setProductCode(bean1111.getSku());
+							sub1.setQuantity(quantity[i]+"");
+							sub1.setSku(sku1);
+							sub1.setUnit("");
+							details.add(sub1);
+						i++;
+					}
+					billToSend.setDetail(details);
+		
+					
+			        ObjectMapper objectMapper = new ObjectMapper();
+			        
+			        String carAsString = objectMapper.writeValueAsString(billToSend);
+			        System.out.println(carAsString);
+			        ResponseEntity<String> res = restTemplate.postForEntity(urlString, carAsString, String.class);
+			        if (res.getStatusCode() == HttpStatus.OK) {
+			            System.out.println("Request Successful");
+			        } else {
+			            System.out.println("Request Failed");
+			        }	        
+			        
+			        if (res.getStatusCode() == HttpStatus.OK) {
+			        		//click bt SaveBill    
+			        		
+							//insert BillMaster
+							String tem="";
+							BillMaster bill=null;
+							i=0;
+										for(String sku:skus){
+											if(!tem.equals(sku)){
+												bill = new BillMaster();
+												//Insert
+												bill.setSku(sku);
+												bill.setProductName(productNames[i]);
+												bill.setOrder(order);
+												bill = billMasterService.saveAnnouncement(bill);
+												//Update 
+												BillItem sub = null;
+												int j = 0;
+												for(String sku1:skus){
+													if(sku1.equals(bill.getSku())){
+														sub = new BillItem();
+														sub.setCode(sku1);
+														sub.setName(productNames[j]);
+														sub.setQuantity(quantity[j]);
+														sub.setPrice(oneTimeCharge[j]);
+														sub.setBillMaster(bill);
+														billItemService.saveBillItem(sub);
+													}
+													j++;
+												}
+											}
+											//Save
+											tem = sku;
+											i++;
+										}
+							
+			        } else {
+			            System.out.println("Request Failed");
+						LOGGER.error("Pls check "+ urlString);
+						resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			        }
+			}else{
+			  if(billMasterService.countByOrderId(orderId)==0){
+		        BillToSend billToSend = new BillToSend();
+		        billToSend.setCode(orderId.toString());
+		        billToSend.setDate(new Date());
+		        billToSend.setDescription(orderHistoryComment);
+				String tem="";
+				BillMaster bill=null;
+				i=0;
+				for(String sku:skus){
+					if(!tem.equals(sku)){
+						bill = new BillMaster();
+						bill.setSku(sku);
+						bill.setProductName(productNames[i]);
+						bill.setOrder(order);
+						bill.setStatus(status);
+						bill.setDescription(orderHistoryComment);
+						bill = billMasterService.saveAnnouncement(bill);
+						BillItem sub = null;
+						int j = 0;
+						for(String sku1:skus){
+							if(sku1.equals(bill.getSku())){
+								sub = new BillItem();
+								sub.setCode(sku1);
+								sub.setName(productNames[j]);
+								sub.setQuantity(quantity[j]);
+								sub.setPrice(oneTimeCharge[j]);
+								sub.setBillMaster(bill);
+								billItemService.saveBillItem(sub);
+							}
+							j++;
+						}
+					}
+					tem = sku;
+					i++;
+				}
+			  }
+			}
+			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
+	        
+		} catch (Exception e) {
+			LOGGER.error("Error while paging products", e);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		
+	}
+	
+	
+	@PreAuthorize("hasRole('ORDER')")
+	@ResponseBody
+	@RequestMapping(value="/admin/orders/validationCode.html", method=RequestMethod.POST)
+	public OrderProductEx getData(@RequestParam("orderId") long orderId,
+			@RequestParam("quantity") int quantity,
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		String code = request.getParameter("code");
+		
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    OrderProductEx beantemp = null;
+	    Order dbOrder = null;
+	    try {
+	    	Language language = (Language)request.getAttribute("LANGUAGE");
+	    	if(orderId>0){
+	    		dbOrder = orderService.getById(orderId);	
+	    	}
+	    	
+	    	Product bean = productService.getByCode(code, language);
+	    	
+	    	if(bean!=null){
+	    		beantemp = new OrderProductEx();
+		    	beantemp.setSku(bean.getSku());
+		    	beantemp.setCurrency(dbOrder.getCurrency());
+		    	
+		    	
+		    	beantemp.setProductQuantity(quantity);//default
+				
+				ProductPrice price = productPriceService.getProductPriceByid(bean.getId());
+				
+				beantemp.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
+				beantemp.setTotal(beantemp.getOneTimeCharge().multiply(new BigDecimal(beantemp.getProductQuantity())));
+	    	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return beantemp;
+		
+	}
 	/*ducdv5*/
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/prepareBill.html", method=RequestMethod.GET)
@@ -116,7 +469,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 		
 		
-		//return displayOrder(orderId,model,request,response);
+		long vcheck = 0 ;
 
 		//display menu
 		setMenu(model,request);
@@ -124,7 +477,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		List<Country> countries = countryService.getCountries(language);
-		if(orderId>0) {		//edit mode		
+		if(orderId>0) {	
 			
 			
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -174,40 +527,61 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			order.setDelivery(dbOrder.getDelivery() );
 			
 			
-			
-			OrderProductEx ordernew=null;
-			for(OrderProduct bean : dbOrder.getOrderProducts()){
-				
-				ordernew = new OrderProductEx();
-				Product dbProduct = productService.getByCode(bean.getSku(), language);
-				ordernew.setProductName(bean.getProductName());
-				ordernew.setSku(bean.getSku());
-				ordernew.setCurrency(dbOrder.getCurrency());
-				ordernew.setProductQuantity(bean.getProductQuantity());
-				ordernew.setOneTimeCharge(bean.getOneTimeCharge());
-				ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
-				
-				
-				if(dbProduct!=null){
-					List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
-					OrderProductEx proRela = null;
-					for(ProductRelationship sBean : dbProduct.getRelationships()){
-						proRela =  new OrderProductEx();
-						proRela.setSku(sBean.getProduct().getSku());
-						/*Add name follow by language*/
-						for(ProductDescription bean1 : sBean.getProduct().getDescriptions()){
-							if(bean1.getLanguage().getCode().equals(language.getCode())) proRela.setProductName(bean1.getName());
+			//Check exits order in BillMaster
+			vcheck = billMasterService.countByOrderId(orderId);
+			if(vcheck==0){
+					OrderProductEx ordernew=null;
+					for(OrderProduct bean : dbOrder.getOrderProducts()){
+						
+						ordernew = new OrderProductEx();
+						Product dbProduct = productService.getByCode(bean.getSku(), language);
+						ordernew.setProductName(bean.getProductName());
+						ordernew.setSku(bean.getSku());
+						ordernew.setCurrency(dbOrder.getCurrency());
+						ordernew.setProductQuantity(bean.getProductQuantity());
+						ordernew.setOneTimeCharge(bean.getOneTimeCharge());
+						ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+						
+		
+						if(dbProduct!=null){
+							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+							OrderProductEx proRela = null;
+							for(ProductRelationship sBean : dbProduct.getRelationships()){
+								
+								proRela =  new OrderProductEx();
+								
+								proRela.setSku(sBean.getRelatedProduct().getSku());
+		
+								for(ProductDescription bean1 : sBean.getRelatedProduct().getDescriptions()){
+									if(bean1.getLanguage().getCode().equals(language.getCode())) proRela.setProductName(bean1.getName());
+								}
+								proRela.setCurrency(dbOrder.getCurrency());
+								
+								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
+								
+								ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
+								
+								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
+								
+								proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
+								
+								proRelaList.add(proRela);
+								
+							}
+							ordernew.setRelationships(proRelaList);
 						}
-						
-						proRelaList.add(proRela);
-						
+						//add to list
+						listOrderNew.add(ordernew);
+						model.addAttribute("dataEx",listOrderNew);
 					}
-					ordernew.setRelationships(proRelaList);
-				}
-				//add to list
-				listOrderNew.add(ordernew);
+			}else{
+				//view form edit bill
+				List<BillMaster> listdata = billMasterService.findByOrderId(orderId);
+				
+				
+				
+				model.addAttribute("dataEx",listdata);
 			}
-			
 			//get capturable
 			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
 				Transaction capturableTransaction = transactionService.getCapturableTransaction(dbOrder);
@@ -215,7 +589,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 					model.addAttribute("capturableTransaction",capturableTransaction);
 				}
 			}
-			
 			
 			//get refundable
 			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
@@ -225,7 +598,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						model.addAttribute("refundableTransaction",refundableTransaction);
 				}
 			}
-
 			
 			List<OrderProductDownload> orderProductDownloads = orderProdctDownloadService.getByOrderId(order.getId());
 			if(CollectionUtils.isNotEmpty(orderProductDownloads)) {
@@ -236,9 +608,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		model.addAttribute("countries", countries);
 		model.addAttribute("order",order);
-		model.addAttribute("dataEx",listOrderNew);
+		if(vcheck >0 ){
+			return  ControllerConstants.Tiles.Order.ordersBillEdit;	
+		}else{
+			return  ControllerConstants.Tiles.Order.ordersBill;
+		}
 		
-		return  ControllerConstants.Tiles.Order.ordersBill;
+		
 	}
 
 	@PreAuthorize("hasRole('ORDER')")

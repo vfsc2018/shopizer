@@ -274,6 +274,10 @@
   		<put-attribute name="body" value="/pages/admin/orders/prepareBill.jsp" /> 
   	</definition>
   	
+  	<definition name="admin-orders-bill-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/orders/prepareBillEdit.jsp" /> 
+  	</definition>  	
+  	
     <definition name="admin-orders-transactions" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/orders/transactions.jsp" /> 
   	</definition>

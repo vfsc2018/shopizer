@@ -19,6 +19,69 @@
 <link href="<c:url value="/resources/css/showLoading.css" />" rel="stylesheet">	
 
 <script>
+$(document).ready(function(){
+		autoCaculator();
+		$("#caculatorId input[name='code']").change(function(){
+			findCode($(this).val(),this,'<c:out value="${order.order.id}"/>');
+		});
+		
+		  $("#caculatorId input[name='oneTimeCharge']").change(function(){
+			    var quantity = $(this).parent().parent().find("#quantity").val();
+			    caculatorPrice($(this).val(),quantity,this);
+		  });
+		  
+		  $("#caculatorId input[name='quantity']").change(function(){
+		    var price = $(this).parent().parent().find("#oneTimeCharge").val();
+		    caculatorPrice($(this).val(),price,this);
+		  });
+
+			  
+});
+
+
+function autoCaculator(){
+	var totalTien=0;
+	$("#caculatorId").find("#resultId").each(function() {
+		totalTien += parseInt($(this).text().replaceAll(',',''));
+	});
+	$("#totalMoney").html(parseInt(totalTien).toLocaleString());
+}
+function caculatorPrice(p1,p2,obj){
+	$(obj).parent().parent().find("#resultId").html(p1*p2);
+	autoCaculator();
+}
+
+function findCode(code,obj,orderId){
+	var quantity = $(obj).parent().parent().find("#quantity").val();
+	
+	$.ajax({
+	  type: 'POST',
+	  url: '<c:url value="/admin/orders/validationCode.html"/>',
+	  data: 'code=' + code+'&quantity='+quantity+'&orderId='+orderId,
+	  dataType: 'json',
+	  success: function(data){
+		if(data!=null){
+			$(obj).parent().parent().find("#quantity").val(data.productQuantity);
+			$(obj).parent().parent().find("#oneTimeCharge").val(data.oneTimeCharge);
+			$(obj).parent().parent().find("#resultId").html(data.total);
+			autoCaculator();
+		}else{
+			alert(code+ "not found in store");
+		}
+
+	  },
+	    error: function(xhr, textStatus, errorThrown) {
+	  	alert('error ' + errorThrown);
+	  	$('.sm').hideLoading();
+	  }
+
+	});
+	
+}
+
+
+
+
 
 function displayErrorMessage(message) {
 	
@@ -292,6 +355,7 @@ function captureOrder(orderId){
 		
 		
 	}); 
+	
 
 
     $(function() {
@@ -327,7 +391,20 @@ function captureOrder(orderId){
         /*Begin ducdv5*/
 		$("#btPrepareBill").click(function() {
 			 location.href="<c:url value="/admin/orders/editOrder.html" />?id=<c:out value="${order.order.id}"/>";
-		}); 
+		});
+        
+		
+		$("#btSaveBill").click(function() {
+			$( "#typeSave" ).val(1);
+			$( "#FormBuildBill" ).submit();
+		});
+		$("#btBuildBill").click(function() {
+			
+			$( "#typeSave" ).val(0);
+			$( "#FormBuildBill" ).submit();
+		});		
+		
+		
 		/*End ducdv5*/
     });
  
@@ -346,6 +423,41 @@ function captureOrder(orderId){
         });
         return o;
     };
+    
+    
+    
+    
+    
+    $(document).ready(function() {
+
+        // process the form
+        	$("#FormBuildBill").submit(function(event){
+        	    event.preventDefault(); 
+        	    var post_url = $(this).attr("action"); 
+        	    var request_method = $(this).attr("method");
+        		var form_data = new FormData(this); 
+        	    $.ajax({
+        	        url : post_url,
+        	        type: request_method,
+        	        data : form_data,
+        			contentType: false,
+        			cache: false,
+        			processData:false,
+	    			success: function(data){
+	    					if(data.response.status==0 || data.response.status ==9999) {
+	    						alert("Thanh cong");	
+	    					}else{
+	    						alert(data.response.statusMessage);
+	    					}
+	    			   		},
+	    			error: function(xhr, textStatus, errorThrown) {
+	    				  	alert('error ' + errorThrown);
+	    			}
+        	    });
+        	});
+
+    });
+    
 </script>
 
 <div class="tabbable">
@@ -381,7 +493,6 @@ function captureOrder(orderId){
 								<a id="updateDownloadsAction" href="#"><s:message code="label.order.downloademail" text="Send download email"/></a>
 							</c:if>
 				    	</li>
-				    	
 				    	<!--<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>-->
 				    	<!-- available soon <li><a href="<c:url value="/admin/orders/printShippingLabel.html?id=${order.id}" />"><s:message code="label.order.packing" text="Print packing slip"/></a></li>-->
 				    	<li>
@@ -389,14 +500,11 @@ function captureOrder(orderId){
 								<a href="<c:url value="/admin/customers/customer.html?id=${customer.id}"/>"><s:message code="label.order.editcustomer" text="Edit customer"/></a>
 							</c:if>
 						</li>
-						
 				    	<li>
 				    		<c:if test="${customer!=null}">
 								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Prepare Bill"/></a>
 							</c:if>
 						</li>
-						
-												
                      </ul>
                 	&nbsp;
                 	<c:if test="${order.order.total>0}">
@@ -407,13 +515,13 @@ function captureOrder(orderId){
 	            		 <a id="refundAction" class="btn btn-danger btn-block" href="#"><s:message code="label.order.refund" text="Apply refund"/></a>
 	            	</c:if>  
 	            	</c:if>       
-                     
               </div><!-- /btn-group -->
 			  <br/>
  	       	 	
-	     <c:url var="orderSaveBill" value="/admin/orders/saveBill.html"/>
-         <form:form method="POST" enctype="multipart/form-data" modelAttribute="order" action="${orderSaveBill}">
-	   
+	     <c:url var="buildBill" value="/admin/orders/buildBill.html"/>
+	     
+         <form:form method="POST" id="FormBuildBill" modelAttribute="order" action="${buildBill}">
+	   			<input type="hidden" name="typeSave" id="typeSave" value="0" />
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
@@ -428,130 +536,122 @@ function captureOrder(orderId){
 				    </div>
 	
       
-      	  <div class="span8" style="margin-top:20px;">
-		      <table class="table table-bordered table-striped"> 
-					<thead> 
-						<tr> 
-							<th colspan="2" width="55%"><s:message code="label.order.item" text="Item"/></th> 
-							<th colspan="1" width="15%"><s:message code="label.quantity" text="Quantity"/></th> 
-							<th width="15%"><s:message code="label.order.price" text="Price"/></th>
-							<th width="15%"><s:message code="label.order.total" text="Total"/></th>  
-						</tr> 
-					</thead> 
-					
- 				    <tbody> 
-						<c:forEach items="${dataEx}" var="entity" varStatus="counter">	 
-			            	
-							<tr> 
-								<td colspan="2"> 
-									<c:out value="${entity.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${entity.sku}"/>">
-									<c:out value="${entity.sku}" /></a>
-									
-								</td> 
-								<td ><c:out value="${entity.productQuantity}" /></td> 
-			            		<td><strong><sm:monetary value="${entity.oneTimeCharge}" currency="${entity.currency}"/></strong> </td>
-								<td><strong><sm:monetary value="${entity.total}" currency="${entity.currency}"/></strong></td> 
-							</tr>
-							<tr>
-								<td colspan="6">
-									<c:forEach items="${entity.relationships}" var="subEntity" varStatus="counter2">	 
-										<div align="left">
-										<a href="<c:url value="/admin/products/viewEditProduct.html?sku=${subEntity.sku}"/>">
-												<c:out value="${subEntity.sku}" /> - <c:out value="${subEntity.productName}" />
-										</a>
-										</div>
-									</c:forEach>
-								</td>
-							</tr> 
-			
-						</c:forEach> 
-					
-					 	<c:forEach items="${order.order.orderTotal}" var="orderTotal" varStatus="counter">	
-							<tr class="subt"> 
-								<td colspan="2">&nbsp;</td> 
-								<td colspan="2" ><c:if test="${orderTotal.orderTotalCode=='refund'}"><font color="red"></c:if><s:message code="${orderTotal.orderTotalCode}" text="${orderTotal.orderTotalCode}"/><c:if test="${orderTotal.orderTotalCode=='refund'}"></font></c:if></td> 
-								<td ><strong><c:if test="${orderTotal.orderTotalCode=='refund'}"><font color="red"></c:if><sm:monetary value="${orderTotal.value}" currency="${order.order.currency}"/><c:if test="${orderTotal.orderTotalCode=='refund'}"></font></c:if></strong></td> 
-							</tr> 
-						</c:forEach> 	 
-					</tbody>    
-				</table>
-    	  </div>  
+			      	  <div class="span8" style="margin-top:20px;">
+					      <table class="table table-bordered table-striped" id="caculatorId"> 
+								<thead> 
+									<tr> 
+										<th colspan="2" ><s:message code="label.order.item" text="Item"/></th> 
+									</tr> 
+								</thead> 
+								
+			 				    <tbody> 
+									<c:forEach items="${dataEx}" var="entity" varStatus="counter">	 
+						            	
+										<tr> 
+											<td colspan="2"> 
+												<c:out value="${entity.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${entity.sku}"/>">
+												<c:out value="${entity.sku}" /></a>
+
+											</td> 
+										</tr>
+										
+										<tr>
+											<td colspan="2">
+											      <table class="table table-bordered table-striped"> 
+														<thead> 
+															<tr> 
+																<th colspan="2" width="55%"><s:message code="label.order.item" text="Item"/></th> 
+																<th colspan="1" width="15%"><s:message code="label.quantity" text="Quantity"/></th> 
+																<th width="15%"><s:message code="label.order.price" text="Price"/></th>
+																<th width="15%"><s:message code="label.order.total" text="Total"/></th>  
+															</tr> 
+														</thead>
+														
+														<tbody> 
+															<c:forEach items="${entity.relationships}" var="subEntity" varStatus="counter2">	 
+																<tr>
+																
+																<input type="hidden" id="sku" name="sku" value="${entity.sku}" />
+																<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
+																
+												
+																	<td colspan="2">
+																		<input type="text" name="code" id="code" value="<c:out value="${subEntity.sku}" />" />
+																	</td>
+																	<td colspan="1">
+																		<input type="text" name="quantity" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
+																	</td>
+																	<td>
+																		<input type="text" name="oneTimeCharge" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
+																	</td>
+																	<td id="resultId" align="right">	
+																		
+																		<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
+																									
+																	</td>
+																</tr>
+															</c:forEach>
+														</tbody>
+														
+													</table>	
+																		    
+
+												
+											</td>
+										</tr> 
+										
+						
+									</c:forEach> 
+										
+								 	
+									<tr class="subt"> 
+										<td  width="50%">&nbsp;</td> 
+										<td width="50%" align="right">
+										<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
+										<span id="totalMoney"></span>
+										</td> 
+									</tr> 
+									<tr>
+										<td colspan="2">
+										
+											<div class="control-group">
+								                  <label><s:message code="label.entity.status" text="Status"/></label>	 
+								                  <div class="controls">      
+							                   			<form:select path="order.status">
+										  						<form:options items="${orderStatusList}" />
+									       				</form:select>      
+								                   </div>
+								           </div> 
+							     		   <div class="control-group">  
+							                    <label><s:message code="label.entity.status" text="Status"/></label>
+							                     <div class="controls">
+							                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
+							                    </div> 
+							               </div>										
+										</td>
+									</tr> 
+								</tbody>    
+							</table>
+			    	  </div>  
 
             <br/>   
             <div class="span8">
 	              <div class="form-actions">
-	              		<button  type="button" id="btBuildBill" onclick="javascript:alert('Call API Dang lam tiep.......')" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Build Bill"/></button>
+	              		
+	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
+	              		
+	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Save and send Bill"/></button>
+	              		
 	      		  </div>
       		</div> 
             <br/>   
     
-    	  </div>
+    	  
    
    		</form:form>       
 
       </div>
 	 </div>
   </div>
-
-
-
-
-<div id="transactionsModal"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:900px;z-index:500000;">
-  <div class="modal-header">
-          <button type="button" class="close close-modal" data-dismiss="modal" aria-hidden="true">X</button>
-          <h3 id="myModalLabel"><s:message code="label.order.transactions" text="List of transactions" /></h3>
-  </div>
-    <div class="modal-body">
-           <p>
-			<table class="table table-hover" style="font-size:10px;">
-			<thead>
-				<tr>
-				<th><s:message code="label.entity.id" text="Id" /></th>
-				<th><s:message code="label.generic.date" text="Date" /></th>
-				<th><s:message code="label.entity.type" text="Type" /></th>
-				<th><s:message code="label.entity.amount" text="Amount" /></th>
-				<th><s:message code="label.entity.details" text="Details" /></th>
-				</tr>
-			</thead>
-			<tbody id="transactionList">
-			</tbody>
-			</table>
-           </p>
-             
-    </div>  
-    <div class="modal-footer">
-           <button class="btn btn-primary" id="closeModal" data-dismiss="modal" aria-hidden="true"><s:message code="button.label.close" text="Close" /></button>
-    </div>
 </div>
 
-<div id="refundModal"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="z-index:500000;">
-  <div class="modal-header">
-          <button type="button" class="close close-modal" data-dismiss="modal" aria-hidden="true">X</button>
-          <h3 id="myModalLabel"><s:message code="label.order.refund" text="Apply refund"/> - 
-          		<s:message code="label.order.id2" text="Order ID"/> 
-                <c:out value="${order.order.id}" />
-           </h3>
-  </div>
-    <div class="modal-body">
-    
-    	  <div id="store.success" class="alert alert-success alert-success-modal" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
-	      <div id="store.error" class="alert alert-error alert-error-modal" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
-
-           <p>
-           		<s:message code="label.order.total" text="Total" />: <strong><c:out value="${order.order.total}"/></strong>
-           		<span id="refundMessage" style="display:none;"><s:message code="" text=""/><span id="refundAmount"></span></span>
-           </p>
-           <p>
-           		<form id="refund" class="form-inline">
-           		    <label><s:message code="label.generic.amount" text="Amount" /></label>&nbsp;<input type="text" id="amount" name="amount" class="input-small" placeholder="<s:message code="label.generic.amount" text="Amount" />">
-           		    <input name="orderId" id="orderId" type="hidden" value="<c:out value="${order.id}"/>">
-           		    <button id="refundButton" type="submit" class="btn btn-danger"><s:message code="label.order.refund" text="Apply refund"/></button>
-           		 </form>
-           
-           </p>
-             
-    </div>  
-    <div class="modal-footer">
-           <button class="btn btn-primary close-modal" id="closeModal" data-dismiss="modal" aria-hidden="true"><s:message code="button.label.close" text="Close" /></button>
-    </div>
-</div>

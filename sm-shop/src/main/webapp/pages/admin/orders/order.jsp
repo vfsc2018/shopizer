@@ -326,6 +326,7 @@ function captureOrder(orderId){
         });
         /*Begin ducdv5*/
 		$("#btPrepareBill").click(function() {
+		     //var statusComment =  $("#orderHistoryComment").val()
 			 location.href="<c:url value="/admin/orders/prepareBill.html" />?id=<c:out value="${order.order.id}"/>";
 		}); 
 		/*End ducdv5*/

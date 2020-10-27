@@ -11,5 +11,5 @@ public interface ProductPriceService extends SalesManagerEntityService<Long, Pro
 
 	void saveOrUpdate(ProductPrice price) throws ServiceException;
 	
-
+	ProductPrice getProductPriceByid(Long id);
 }

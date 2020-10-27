@@ -7,6 +7,7 @@ import java.util.Set;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
+import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
@@ -14,6 +15,8 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 public interface ProductRepositoryCustom {
 
 
+	
+		ProductPrice getProductPriceByid(Long id) ;
 		ProductList listByStore(MerchantStore store, Language language,
 			ProductCriteria criteria);
 
