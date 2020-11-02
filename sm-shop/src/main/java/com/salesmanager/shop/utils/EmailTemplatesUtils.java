@@ -121,9 +121,14 @@ public class EmailTemplatesUtils {
 		    	   } else if(!StringUtils.isBlank(order.getBilling().getState())) {
 		    		   billing.append(order.getBilling().getState()).append(LINE_BREAK); 
 		    	   }
-		    	   Country country = countries.get(order.getBilling().getCountry().getIsoCode());
-		    	   if(country!=null) {
-		    		   billing.append(country.getName()).append(" ");
+//		    	   Country country = countries.get(order.getBilling().getCountry().getIsoCode());
+//		    	   if(country!=null) {
+//		    		   billing.append(country.getName()).append(" ");
+//		    	   }
+		    	   if(order.getBilling()!=null && order.getBilling().getCountry()!=null){
+		    		   billing.append(order.getBilling().getCountry().getName()).append(" ");
+		    	   }else{
+		    		   billing.append("...........").append(" ");
 		    	   }
 		    	   billing.append(order.getBilling().getPostalCode());
 		    	   
@@ -150,9 +155,12 @@ public class EmailTemplatesUtils {
 			    	   } else if(!StringUtils.isBlank(order.getDelivery().getState())) {
 			    		   shipping.append(order.getDelivery().getState()).append(LINE_BREAK); 
 			    	   }
-			    	   Country deliveryCountry = countries.get(order.getDelivery().getCountry().getIsoCode());
-			    	   if(country!=null) {
-			    		   shipping.append(deliveryCountry.getName()).append(" ");
+			    	   
+			    	   if(order.getDelivery()!=null && order.getDelivery().getCountry()!=null){
+				    	   Country deliveryCountry = countries.get(order.getDelivery().getCountry().getIsoCode());
+				    	   if(deliveryCountry!=null) {
+				    		   shipping.append(deliveryCountry.getName()).append(" ");
+				    	   }
 			    	   }
 			    	   shipping.append(order.getDelivery().getPostalCode());
 		    	   }

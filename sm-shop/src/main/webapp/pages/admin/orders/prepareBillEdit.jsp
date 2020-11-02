@@ -398,10 +398,15 @@ function captureOrder(orderId){
 			$( "#typeSave" ).val(1);
 			$( "#FormBuildBill" ).submit();
 		});
+		
 		$("#btBuildBill").click(function() {
 			
 			$( "#typeSave" ).val(0);
 			$( "#FormBuildBill" ).submit();
+		});		
+		
+		$("#btPrintBill").click(function() {
+			 location.href="<c:url value="/admin/orders/printBill.html" />?id=<c:out value="${order.order.id}"/>";
 		});		
 		
 		
@@ -634,7 +639,7 @@ function captureOrder(orderId){
 	              		
 	              			              		
 	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Send Bill"/></button>
-	              		
+	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>
 	      		  </div>
       		</div> 
             <br/>   
