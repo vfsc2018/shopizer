@@ -405,6 +405,12 @@ function captureOrder(orderId){
 		});		
 		
 		
+		$("#btPrintBill").click(function() {
+			 location.href="<c:url value="/admin/orders/printBill.html" />?id=<c:out value="${order.order.id}"/>";
+		});
+		
+		
+		
 		/*End ducdv5*/
     });
  
@@ -641,6 +647,8 @@ function captureOrder(orderId){
 	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
 	              		
 	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Save and send Bill"/></button>
+	              		
+	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>
 	              		
 	      		  </div>
       		</div> 
