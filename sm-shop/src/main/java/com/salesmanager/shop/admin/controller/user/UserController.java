@@ -593,30 +593,30 @@ public class UserController {
 				String[] userNameArg = {userName};
 				
 				
-				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
-				templateTokens.put(EmailConstants.EMAIL_NEW_USER_TEXT, messages.getMessage("email.greeting", userNameArg, userLocale));
-				templateTokens.put(EmailConstants.EMAIL_USER_FIRSTNAME, user.getFirstName());
-				templateTokens.put(EmailConstants.EMAIL_USER_LASTNAME, user.getLastName());
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_USERNAME_LABEL, messages.getMessage("label.generic.username",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_NAME, user.getAdminName());
-				templateTokens.put(EmailConstants.EMAIL_TEXT_NEW_USER_CREATED, messages.getMessage("email.newuser.text",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD, decodedPassword);
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL, messages.getMessage("label.adminurl",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
+				// Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
+				// templateTokens.put(EmailConstants.EMAIL_NEW_USER_TEXT, messages.getMessage("email.greeting", userNameArg, userLocale));
+				// templateTokens.put(EmailConstants.EMAIL_USER_FIRSTNAME, user.getFirstName());
+				// templateTokens.put(EmailConstants.EMAIL_USER_LASTNAME, user.getLastName());
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_USERNAME_LABEL, messages.getMessage("label.generic.username",userLocale));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_NAME, user.getAdminName());
+				// templateTokens.put(EmailConstants.EMAIL_TEXT_NEW_USER_CREATED, messages.getMessage("email.newuser.text",userLocale));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_PASSWORD, decodedPassword);
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL, messages.getMessage("label.adminurl",userLocale));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
 	
 				
-				Email email = new Email();
-				email.setFrom(store.getStorename());
-				email.setFromEmail(store.getStoreEmailAddress());
-				email.setSubject(messages.getMessage("email.newuser.title",userLocale));
-				email.setTo(user.getAdminEmail());
-				email.setTemplateName(NEW_USER_TMPL);
-				email.setTemplateTokens(templateTokens);
+				// Email email = new Email();
+				// email.setFrom(store.getStorename());
+				// email.setFromEmail(store.getStoreEmailAddress());
+				// email.setSubject(messages.getMessage("email.newuser.title",userLocale));
+				// email.setTo(user.getAdminEmail());
+				// email.setTemplateName(NEW_USER_TMPL);
+				// email.setTemplateTokens(templateTokens);
 	
 	
 				
-				emailService.sendHtmlEmail(store, email);
+				// emailService.sendHtmlEmail(store, email);
 			
 			} catch (Exception e) {
 				LOGGER.error("Cannot send email to user",e);
@@ -815,23 +815,23 @@ public class UserController {
 					//send email
 					
 					try {
-						String[] storeEmail = {store.getStoreEmailAddress()};						
+						// String[] storeEmail = {store.getStoreEmailAddress()};						
 						
-						Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
-						templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.user.resetpassword.text", userLocale));
-						templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, userLocale));
-						templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
-						templateTokens.put(EmailConstants.EMAIL_USER_PASSWORD, tempPass);
+						// Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
+						// templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.user.resetpassword.text", userLocale));
+						// templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, userLocale));
+						// templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
+						// templateTokens.put(EmailConstants.EMAIL_USER_PASSWORD, tempPass);
 
-						Email email = new Email();
-						email.setFrom(store.getStorename());
-						email.setFromEmail(store.getStoreEmailAddress());
-						email.setSubject(messages.getMessage("label.generic.changepassword",userLocale));
-						email.setTo(dbUser.getAdminEmail() );
-						email.setTemplateName(RESET_PASSWORD_TPL);
-						email.setTemplateTokens(templateTokens);
+						// Email email = new Email();
+						// email.setFrom(store.getStorename());
+						// email.setFromEmail(store.getStoreEmailAddress());
+						// email.setSubject(messages.getMessage("label.generic.changepassword",userLocale));
+						// email.setTo(dbUser.getAdminEmail() );
+						// email.setTemplateName(RESET_PASSWORD_TPL);
+						// email.setTemplateTokens(templateTokens);
 						
-						emailService.sendHtmlEmail(store, email);
+						// emailService.sendHtmlEmail(store, email);
 					
 					} catch (Exception e) {
 						LOGGER.error("Cannot send email to user",e);

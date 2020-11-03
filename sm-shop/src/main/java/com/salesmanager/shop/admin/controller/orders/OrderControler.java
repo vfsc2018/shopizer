@@ -923,37 +923,37 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 			try {
 				
-				Customer customer = customerService.getById(newOrder.getCustomerId());
-				Language lang = store.getDefaultLanguage();
-				if(customer!=null) {
-					lang = customer.getDefaultLanguage();
-				}
+				// Customer customer = customerService.getById(newOrder.getCustomerId());
+				// Language lang = store.getDefaultLanguage();
+				// if(customer!=null) {
+				// 	lang = customer.getDefaultLanguage();
+				// }
 				
-				Locale customerLocale = LocaleUtils.getLocale(lang);
+				// Locale customerLocale = LocaleUtils.getLocale(lang);
 
-				StringBuilder customerName = new StringBuilder();
-				customerName.append(newOrder.getBilling().getFirstName()).append(" ").append(newOrder.getBilling().getLastName());
+				// StringBuilder customerName = new StringBuilder();
+				// customerName.append(newOrder.getBilling().getFirstName()).append(" ").append(newOrder.getBilling().getLastName());
 				
 				
-				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
-				templateTokens.put(EmailConstants.EMAIL_CUSTOMER_NAME, customerName.toString());
-				templateTokens.put(EmailConstants.EMAIL_TEXT_ORDER_NUMBER, messages.getMessage("email.order.confirmation", new String[]{String.valueOf(newOrder.getId())}, customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_TEXT_DATE_ORDERED, messages.getMessage("email.order.ordered", new String[]{entityOrder.getDatePurchased()}, customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_TEXT_STATUS_COMMENTS, messages.getMessage("email.order.comments", new String[]{entityOrder.getOrderHistoryComment()}, customerLocale));
-				templateTokens.put(EmailConstants.EMAIL_TEXT_DATE_UPDATED, messages.getMessage("email.order.updated", new String[]{DateUtil.formatDate(new Date())}, customerLocale));
+				// Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, customerLocale);
+				// templateTokens.put(EmailConstants.EMAIL_CUSTOMER_NAME, customerName.toString());
+				// templateTokens.put(EmailConstants.EMAIL_TEXT_ORDER_NUMBER, messages.getMessage("email.order.confirmation", new String[]{String.valueOf(newOrder.getId())}, customerLocale));
+				// templateTokens.put(EmailConstants.EMAIL_TEXT_DATE_ORDERED, messages.getMessage("email.order.ordered", new String[]{entityOrder.getDatePurchased()}, customerLocale));
+				// templateTokens.put(EmailConstants.EMAIL_TEXT_STATUS_COMMENTS, messages.getMessage("email.order.comments", new String[]{entityOrder.getOrderHistoryComment()}, customerLocale));
+				// templateTokens.put(EmailConstants.EMAIL_TEXT_DATE_UPDATED, messages.getMessage("email.order.updated", new String[]{DateUtil.formatDate(new Date())}, customerLocale));
 
 				
-				Email email = new Email();
-				email.setFrom(store.getStorename());
-				email.setFromEmail(store.getStoreEmailAddress());
-				email.setSubject(messages.getMessage("email.order.status.title",new String[]{String.valueOf(newOrder.getId())},customerLocale));
-				email.setTo(entityOrder.getOrder().getCustomerEmailAddress());
-				email.setTemplateName(ORDER_STATUS_TMPL);
-				email.setTemplateTokens(templateTokens);
+				// Email email = new Email();
+				// email.setFrom(store.getStorename());
+				// email.setFromEmail(store.getStoreEmailAddress());
+				// email.setSubject(messages.getMessage("email.order.status.title",new String[]{String.valueOf(newOrder.getId())},customerLocale));
+				// email.setTo(entityOrder.getOrder().getCustomerEmailAddress());
+				// email.setTemplateName(ORDER_STATUS_TMPL);
+				// email.setTemplateTokens(templateTokens);
 	
 	
 				
-				emailService.sendHtmlEmail(store, email);
+				// emailService.sendHtmlEmail(store, email);
 			
 			} catch (Exception e) {
 				LOGGER.error("Cannot send email to customer",e);
