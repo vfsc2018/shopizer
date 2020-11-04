@@ -633,102 +633,61 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		Language language = (Language)request.getAttribute("LANGUAGE");
 
 		if(orderId>0) {	
-			
-			
-			
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+			Order dbOrder = orderService.getById(orderId);	
 			
 			
-
-		
-		
-			Order dbOrder = orderService.getById(orderId);
-
-			if(dbOrder==null) {
-				return "redirect:/admin/orders/list.html";
-			}
-			
-			
-			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
-				return "redirect:/admin/orders/list.html";
-			}
-			Long customerId = dbOrder.getCustomerId();
-			
-			if(customerId!=null && customerId>0) {
-			
-				try {
-					
-					Customer customer = customerService.getById(customerId);
-					if(customer!=null) {
-						model.addAttribute("customer",customer);
-//						dbOrder.getBilling().getFirstName()
-					}
-					
-					
-				} catch(Exception e) {
-					LOGGER.error("Error while getting customer for customerId " + customerId, e);
-				}
-			
-			}
-			
-			
-			order.setId( orderId );
-		
 			if( dbOrder.getDatePurchased() !=null ){
 				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
-
 			order.setOrder( dbOrder );
 			order.setBilling( dbOrder.getBilling() );
-			order.setDelivery(dbOrder.getDelivery() );
-			BigDecimal totalMoney = new BigDecimal("0");
+			order.setDelivery(dbOrder.getDelivery() );	
+			
+			
+			List<BillMaster> bills = billMasterService.findByOrderId(orderId);
+			if(bills!=null && bills.size()>0){
+				BigDecimal totalMoney = new BigDecimal("0");
 
-					OrderProductEx ordernew=null;
-					for(OrderProduct bean : dbOrder.getOrderProducts()){
-						
-						ordernew = new OrderProductEx();
-						Product dbProduct = productService.getByCode(bean.getSku(), language);
-						ordernew.setProductName(bean.getProductName());
-						ordernew.setSku(bean.getSku());
-						ordernew.setCurrency(dbOrder.getCurrency());
-						ordernew.setProductQuantity(bean.getProductQuantity());
-						ordernew.setOneTimeCharge(bean.getOneTimeCharge());
-						ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
-						
-		
-						if(dbProduct!=null){
-							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
-							OrderProductEx proRela = null;
-							for(ProductRelationship sBean : dbProduct.getRelationships()){
-								
-								proRela =  new OrderProductEx();
-								
-								proRela.setSku(sBean.getRelatedProduct().getSku());
-		
-								for(ProductDescription bean1 : sBean.getRelatedProduct().getDescriptions()){
-									if(bean1.getLanguage().getCode().equals(language.getCode())) proRela.setProductName(bean1.getName());
-								}
-								proRela.setCurrency(dbOrder.getCurrency());
-								
-								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
-								
-								ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
-								
-								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
-								
-								proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
-								totalMoney = totalMoney.add(proRela.getTotal()); 
-								proRelaList.add(proRela);
-								
-							}
-							ordernew.setRelationships(proRelaList);
+				OrderProductEx ordernew=null;
+				for(BillMaster bean : bills){
+					
+					ordernew = new OrderProductEx();
+					Product dbProduct = productService.getByCode(bean.getSku(), language);
+					ordernew.setProductName(bean.getProductName());
+					ordernew.setSku(bean.getSku());
+					ordernew.setCurrency(dbOrder.getCurrency());
+					//ordernew.setProductQuantity(bean.getProductQuantity());
+					//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
+					//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+					
+	
+					if(dbProduct!=null){
+						List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+						OrderProductEx proRela = null;
+						for(BillItem sBean : bean.getItems()){
+							proRela =  new OrderProductEx();
+							proRela.setSku(sBean.getCode());
+							proRela.setProductName(sBean.getName());
+							proRela.setCurrency(dbOrder.getCurrency());
+							proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
+							proRela.setOneTimeCharge(sBean.getPrice());
+							proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
+							totalMoney = totalMoney.add(proRela.getTotal()); 
+							proRelaList.add(proRela);
 						}
-						//add to list
-						listOrderNew.add(ordernew);
-						model.addAttribute("dataEx",listOrderNew);
-						model.addAttribute("order",order);
-						model.addAttribute("totalMoney",totalMoney);
+						ordernew.setRelationships(proRelaList);
 					}
+					listOrderNew.add(ordernew);
+				}
+				//add to list
+				
+				model.addAttribute("dataEx",listOrderNew);
+				model.addAttribute("order",order);
+				model.addAttribute("totalMoney",totalMoney);				
+			}
+			
+			
 			
 			
 		}	

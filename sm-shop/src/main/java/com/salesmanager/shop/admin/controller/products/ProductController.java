@@ -41,6 +41,7 @@ import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.image.ProductImageService;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
+import com.salesmanager.core.business.services.catalog.product.price.ProductPriceService;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
 import com.salesmanager.core.business.services.tax.TaxClassService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
@@ -61,6 +62,7 @@ import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.catalog.product.type.ProductType;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 import com.salesmanager.shop.admin.model.web.Menu;
@@ -75,7 +77,8 @@ public class ProductController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
 	
-
+	@Inject
+	private ProductPriceService productPriceService;
 	
 	@Inject
 	private ProductService productService;
@@ -133,6 +136,178 @@ public class ProductController {
 		return displayProduct(null,model,request,response);
 
 	}
+
+	
+	/*ducdv83*/
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/printBill.html", method=RequestMethod.GET)
+	public String printBill(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+
+		
+
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		
+		List<Manufacturer> manufacturers = manufacturerService.listByStore(store, language);
+		
+		List<ProductType> productTypes = productTypeService.list();
+		
+		List<TaxClass> taxClasses = taxClassService.listByStore(store);
+		
+		List<Language> languages = store.getLanguages();
+
+		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
+		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		if(productId > 0) {//edit mode
+			
+			Product dbProduct = productService.getById(productId);
+			
+			if(dbProduct==null || dbProduct.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				return "redirect:/admin/products/products.html";
+			}
+			
+			product.setProduct(dbProduct);
+			Set<ProductDescription> productDescriptions = dbProduct.getDescriptions();
+			
+			for(Language l : languages) {
+				
+				ProductDescription productDesc = null;
+				for(ProductDescription desc : productDescriptions) {
+					
+					Language lang = desc.getLanguage();
+					if(lang.getCode().equals(l.getCode())) {
+						productDesc = desc;
+					}
+
+				}
+				
+				if(productDesc==null) {
+					productDesc = new ProductDescription();
+					productDesc.setLanguage(l);
+				}
+
+				descriptions.add(productDesc);
+				
+			}
+			
+			
+			
+			ProductAvailability productAvailability = null;
+			ProductPrice productPrice = null;
+			
+			Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
+			if(availabilities!=null && availabilities.size()>0) {
+				
+				for(ProductAvailability availability : availabilities) {
+					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
+						productAvailability = availability;
+						Set<ProductPrice> prices = availability.getPrices();
+						for(ProductPrice price : prices) {
+							if(price.isDefaultPrice()) {
+								productPrice = price;
+								product.setProductPrice(priceUtil.getAdminFormatedAmount(store, productPrice.getProductPriceAmount()));
+							}
+						}
+					}
+				}
+			}
+			
+			if(productAvailability==null) {
+				productAvailability = new ProductAvailability();
+			}
+			
+			if(productPrice==null) {
+				productPrice = new ProductPrice();
+			}
+			
+			product.setAvailability(productAvailability);
+			product.setPrice(productPrice);
+			product.setDescriptions(descriptions);
+			
+			product.setDateAvailable(DateUtil.formatDate(dbProduct.getDateAvailable()));
+			
+			/**********************************************/
+		
+		
+			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+			
+			com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();	
+		List<OrderProductEx> listOrderNew= new ArrayList<OrderProductEx>();   	
+		OrderProductEx ordernew = new OrderProductEx();
+		
+			//Product dbProduct = productService.getByCode(bean.getSku(), language);
+			
+			ordernew.setSku(product.getProduct().getSku());
+
+			for(ProductDescription bean1 : product.getDescriptions()){
+				if(bean1.getLanguage().getCode().equals(language.getCode())) ordernew.setProductName(bean1.getName());
+			}
+			
+			ordernew.setCurrency(sessionStore.getCurrency());
+			//ordernew.setProductQuantity(product.getProductQuantity());
+			//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
+			//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+			
+			BigDecimal totalMoney = new BigDecimal("0");
+			if(dbProduct!=null){
+				
+				List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+				OrderProductEx proRela = null;
+				for(ProductRelationship sBean : dbProduct.getRelationships()){
+					
+					proRela =  new OrderProductEx();
+					
+					proRela.setSku(sBean.getRelatedProduct().getSku());
+
+					for(ProductDescription bean1 : sBean.getRelatedProduct().getDescriptions()){
+						if(bean1.getLanguage().getCode().equals(language.getCode())) proRela.setProductName(bean1.getName());
+					}
+					proRela.setCurrency(sessionStore.getCurrency());
+					
+					proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
+					
+					ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
+					
+					proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
+					
+					proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
+					totalMoney = totalMoney.add(proRela.getTotal()); 
+					proRelaList.add(proRela);
+					
+				}
+				ordernew.setRelationships(proRelaList);
+			}
+			//add to list
+			listOrderNew.add(ordernew);
+			
+			
+			
+			//Build template Order
+			com.salesmanager.core.model.common.Billing billing = new com.salesmanager.core.model.common.Billing();
+			billing.setFirstName(".................");
+			billing.setLastName(".................");
+			
+			
+			billing.setAddress(".................");
+			billing.setCity(".................");
+			billing.setTelephone(".....................");
+			
+			com.salesmanager.core.model.order.Order order2 = new com.salesmanager.core.model.order.Order();
+			order2.setCurrency(sessionStore.getCurrency());
+			order.setOrder(order2);
+			
+			
+			order.setBilling(billing);
+			model.addAttribute("dataEx",listOrderNew);
+			model.addAttribute("order",order);
+			model.addAttribute("totalMoney",totalMoney);	
+		}
+		
+		return "admin-orders-print-bill";
+
+	}
+	
 	
 	
 	/*ducdv83*/
