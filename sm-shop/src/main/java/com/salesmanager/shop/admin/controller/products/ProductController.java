@@ -67,6 +67,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.tax.taxclass.TaxClass;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.customer.Stamps;
 import com.salesmanager.shop.utils.CategoryUtils;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
@@ -137,6 +138,110 @@ public class ProductController {
 
 	}
 
+	/*ducdv83*/
+	@PreAuthorize("hasRole('PRODUCTS')")
+	@RequestMapping(value="/admin/products/stamps.html", method=RequestMethod.GET)
+	public String printStamps(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		List<Language> languages = store.getLanguages();
+		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
+		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		Stamps stamp = new Stamps();
+		if(productId > 0) {//edit mode
+			
+
+			Product dbProduct = productService.getById(productId);
+			
+			if(dbProduct==null || dbProduct.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				return "redirect:/admin/products/products.html";
+			}
+			
+			product.setProduct(dbProduct);
+			Set<ProductDescription> productDescriptions = dbProduct.getDescriptions();
+			
+			for(Language l : languages) {
+				
+				ProductDescription productDesc = null;
+				for(ProductDescription desc : productDescriptions) {
+					
+					Language lang = desc.getLanguage();
+					if(lang.getCode().equals(l.getCode())) {
+						productDesc = desc;
+					}
+
+				}
+				
+				if(productDesc==null) {
+					productDesc = new ProductDescription();
+					productDesc.setLanguage(l);
+				}
+
+				descriptions.add(productDesc);
+				
+			}
+			
+			for(ProductImage image : dbProduct.getImages()) {
+				if(image.isDefaultImage()) {
+					product.setProductImage(image);
+					break;
+				}
+
+			}
+			
+			
+			ProductAvailability productAvailability = null;
+			ProductPrice productPrice = null;
+			
+			Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
+			if(availabilities!=null && availabilities.size()>0) {
+				
+				for(ProductAvailability availability : availabilities) {
+					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
+						productAvailability = availability;
+						Set<ProductPrice> prices = availability.getPrices();
+						for(ProductPrice price : prices) {
+							if(price.isDefaultPrice()) {
+								productPrice = price;
+								product.setProductPrice(priceUtil.getAdminFormatedAmount(store, productPrice.getProductPriceAmount()));
+							}
+						}
+					}
+				}
+			}
+			
+			if(productAvailability==null) {
+				productAvailability = new ProductAvailability();
+			}
+			
+			if(productPrice==null) {
+				productPrice = new ProductPrice();
+			}
+			
+			product.setAvailability(productAvailability);
+			product.setPrice(productPrice);
+			product.setDescriptions(descriptions);
+			
+			
+			product.setDateAvailable(DateUtil.formatDate(dbProduct.getDateAvailable()));
+
+			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+			
+			stamp.setSku(product.getProduct().getSku());
+			stamp.setCurrency(sessionStore.getCurrency());
+			stamp.setPrice(product.getPrice().getProductPriceAmount());
+			for(ProductDescription bean1 : dbProduct.getDescriptions()){
+				if(bean1.getLanguage().getCode().equals(language.getCode())){
+					stamp.setProductName(bean1.getName());
+					break;
+				} 
+			}
+		}
+
+
+		model.addAttribute("stamp",stamp);
+		return "admin-orders-print-stamps";
+	}
 	
 	/*ducdv83*/
 	@PreAuthorize("hasRole('PRODUCTS')")
@@ -149,11 +254,7 @@ public class ProductController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
-		List<Manufacturer> manufacturers = manufacturerService.listByStore(store, language);
 		
-		List<ProductType> productTypes = productTypeService.list();
-		
-		List<TaxClass> taxClasses = taxClassService.listByStore(store);
 		
 		List<Language> languages = store.getLanguages();
 
