@@ -20,7 +20,7 @@
 				    	<li><a href="<c:url value="/admin/products/digitalProduct.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.digitalproduct" text="Digital product" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/displayProductToCategories.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.category" text="Associate to categories" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/printBill.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.printBill" text="Print bill" /></a></li>
-				    	
+				    	<li><a href="<c:url value="/admin/products/stamps.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.printStamps" text="Print stamps" /></a></li>
                      </ul>
               </div><!-- /btn-group -->
 			  <br/>

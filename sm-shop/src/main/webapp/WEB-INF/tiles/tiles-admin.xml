@@ -266,6 +266,11 @@
   	</definition>
   	
   	
+  	
+  	<definition name="admin-orders-print-stamps" template="/layout/admin/noSkinLayout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/components/stamps.jsp" /> 
+  	</definition>
+  	  	
   	<definition name="admin-orders-print-bill" template="/layout/admin/noSkinLayout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/components/printBill.jsp" /> 
   	</definition>
