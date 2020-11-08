@@ -25,6 +25,7 @@ public class CountryFacadeImpl implements CountryFacade {
   public List<ReadableCountry> getListCountryZones(Language language, MerchantStore merchantStore) {
     return getListOfCountryZones(language)
         .stream()
+        .filter(x -> x.getId()==230) // Select only VietName
         .map(country -> convertToReadableCountry(country, language, merchantStore))
         .collect(Collectors.toList());
   }

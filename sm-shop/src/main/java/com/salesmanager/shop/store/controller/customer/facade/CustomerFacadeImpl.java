@@ -495,7 +495,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Customer customerModel = customerService.getById(userId);
     Map<String, Country> countriesMap = countryService.getCountriesMap(language);
-    Country country = countriesMap.get(address.getCountry());
+    Country country = countriesMap.get(address.getCountryCode());
 
     if (customerModel == null) {
       LOG.error("Customer with ID {} does not exists..", userId);
@@ -1025,7 +1025,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       //update billing
       updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
       //update delivery
-      updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+      /////// updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
     } catch (Exception e) {
       throw new ServiceRuntimeException("Error while updating customer address");
     }

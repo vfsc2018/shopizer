@@ -9,7 +9,7 @@
 <table style="width:300px">
 	<tr>
 		<td colspan="2">
-		<img id="image" src="/resources/img/vfsc.jpg" alt="logo" />		
+		<img id="image" src="/resources/img/vfsc.png" alt="logo" />		
 		</td>
 	</tr>
 	<tr>

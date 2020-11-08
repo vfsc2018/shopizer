@@ -208,7 +208,7 @@ public class CustomerApi {
     return customerFacade.getCustomerByNick(userName, merchantStore, language);
   }
   
-  @PatchMapping("/auth/customer/address")
+  @PatchMapping("/private/customer/address")
   @ApiOperation(
       httpMethod = "PATCH",
       value = "Updates a loged in customer address",
