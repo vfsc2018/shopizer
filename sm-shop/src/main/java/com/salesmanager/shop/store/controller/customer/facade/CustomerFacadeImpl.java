@@ -495,7 +495,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Customer customerModel = customerService.getById(userId);
     Map<String, Country> countriesMap = countryService.getCountriesMap(language);
-    Country country = countriesMap.get(address.getCountry());
+    Country country = countriesMap.get(address.getCountryCode());
 
     if (customerModel == null) {
       LOG.error("Customer with ID {} does not exists..", userId);
@@ -848,36 +848,36 @@ public class CustomerFacadeImpl implements CustomerFacade {
     try {
 
       // creation of a user, send an email
-      String[] storeEmail = {store.getStoreEmailAddress()};
+      // String[] storeEmail = {store.getStoreEmailAddress()};
 
 
-      Map<String, String> templateTokens =
-          emailUtils.createEmailObjectsMap(imageUtils.getContextPath(), store, messages, locale);
-      templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", locale));
-      templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME,
-          customer.getBilling().getFirstName());
-      templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME,
-          customer.getBilling().getLastName());
-      templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT,
-          messages.getMessage("email.customer.resetpassword.text", locale));
-      templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER,
-          messages.getMessage("email.contactowner", storeEmail, locale));
-      templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL,
-          messages.getMessage("label.generic.password", locale));
-      templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, password);
+      // Map<String, String> templateTokens =
+      //     emailUtils.createEmailObjectsMap(imageUtils.getContextPath(), store, messages, locale);
+      // templateTokens.put(EmailConstants.LABEL_HI, messages.getMessage("label.generic.hi", locale));
+      // templateTokens.put(EmailConstants.EMAIL_CUSTOMER_FIRSTNAME,
+      //     customer.getBilling().getFirstName());
+      // templateTokens.put(EmailConstants.EMAIL_CUSTOMER_LASTNAME,
+      //     customer.getBilling().getLastName());
+      // templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT,
+      //     messages.getMessage("email.customer.resetpassword.text", locale));
+      // templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER,
+      //     messages.getMessage("email.contactowner", storeEmail, locale));
+      // templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL,
+      //     messages.getMessage("label.generic.password", locale));
+      // templateTokens.put(EmailConstants.EMAIL_CUSTOMER_PASSWORD, password);
 
 
-      Email email = new Email();
-      email.setFrom(store.getStorename());
-      email.setFromEmail(store.getStoreEmailAddress());
-      email.setSubject(messages.getMessage("label.generic.changepassword", locale));
-      email.setTo(customer.getEmailAddress());
-      email.setTemplateName(RESET_PASSWORD_TPL);
-      email.setTemplateTokens(templateTokens);
+      // Email email = new Email();
+      // email.setFrom(store.getStorename());
+      // email.setFromEmail(store.getStoreEmailAddress());
+      // email.setSubject(messages.getMessage("label.generic.changepassword", locale));
+      // email.setTo(customer.getEmailAddress());
+      // email.setTemplateName(RESET_PASSWORD_TPL);
+      // email.setTemplateTokens(templateTokens);
 
 
 
-      emailService.sendHtmlEmail(store, email);
+      // emailService.sendHtmlEmail(store, email);
 
     } catch (Exception e) {
       LOG.error("Cannot send email to customer", e);
@@ -1025,7 +1025,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       //update billing
       updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
       //update delivery
-      updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+      /////// updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
     } catch (Exception e) {
       throw new ServiceRuntimeException("Error while updating customer address");
     }

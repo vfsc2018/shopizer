@@ -325,28 +325,28 @@ public class MerchantStoreController {
 
 			try {
 
-				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store,
-						messages, storeLocale);
-				templateTokens.put(EmailConstants.EMAIL_NEW_STORE_TEXT,
-						messages.getMessage("email.newstore.text", storeLocale));
-				templateTokens.put(EmailConstants.EMAIL_STORE_NAME,
-						messages.getMessage("email.newstore.name", new String[] { store.getStorename() }, storeLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_STORE_INFO_LABEL,
-						messages.getMessage("email.newstore.info", storeLocale));
+				// Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store,
+				// 		messages, storeLocale);
+				// templateTokens.put(EmailConstants.EMAIL_NEW_STORE_TEXT,
+				// 		messages.getMessage("email.newstore.text", storeLocale));
+				// templateTokens.put(EmailConstants.EMAIL_STORE_NAME,
+				// 		messages.getMessage("email.newstore.name", new String[] { store.getStorename() }, storeLocale));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_STORE_INFO_LABEL,
+				// 		messages.getMessage("email.newstore.info", storeLocale));
 
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL,
-						messages.getMessage("label.adminurl", storeLocale));
-				templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_URL_LABEL,
+				// 		messages.getMessage("label.adminurl", storeLocale));
+				// templateTokens.put(EmailConstants.EMAIL_ADMIN_URL, filePathUtils.buildAdminUri(store, request));
 
-				Email email = new Email();
-				email.setFrom(store.getStorename());
-				email.setFromEmail(store.getStoreEmailAddress());
-				email.setSubject(messages.getMessage("email.newstore.title", storeLocale));
-				email.setTo(store.getStoreEmailAddress());
-				email.setTemplateName(NEW_STORE_TMPL);
-				email.setTemplateTokens(templateTokens);
+				// Email email = new Email();
+				// email.setFrom(store.getStorename());
+				// email.setFromEmail(store.getStoreEmailAddress());
+				// email.setSubject(messages.getMessage("email.newstore.title", storeLocale));
+				// email.setTo(store.getStoreEmailAddress());
+				// email.setTemplateName(NEW_STORE_TMPL);
+				// email.setTemplateTokens(templateTokens);
 
-				emailService.sendHtmlEmail(store, email);
+				// emailService.sendHtmlEmail(store, email);
 
 			} catch (Exception e) {
 				LOGGER.error("Cannot send email to user", e);

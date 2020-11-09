@@ -628,7 +628,38 @@ function captureOrder(orderId){
 				</table>
     	  </div>  
 
-            <br/>   
+		  	               
+		  <div class="control-group">  
+			<table style="border-collapse: collapse; border: none;"> 
+				<tbody>
+					<tr style="border: none;"> 
+								<td><label><s:message code="label.entity.fromDate" text="From date"/></label></td> 
+								<td >
+								<div class="controls">   
+									<form:input  cssClass="input-large" path="fromDate"  class="small" type="text"
+									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+									<script type="text/javascript">
+										$('#fromDate').datepicker();
+									</script>
+									<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>
+							  </div>
+							  </td> 
+							  <td><label><s:message code="label.entity.toDate" text="To date"/></label></td> 
+								<td >
+								<div class="controls">   
+									<form:input  cssClass="input-large" path="toDate"  class="small" type="text"
+									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+									<script type="text/javascript">
+										$('#toDate').datepicker();
+									</script>
+									<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>
+							  </div>
+							  </td> 
+							</tr> 	 
+					</tbody>    
+				</table>
+	        </div>
+		  
             <div class="span8">
 		           <div class="control-group">
 		                  <label><s:message code="label.entity.status" text="Status"/></label>	 
@@ -658,40 +689,11 @@ function captureOrder(orderId){
 	                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
 	                    </div> 
 	               </div>
-	               
-	               
-	               <div class="control-group">  
-	                    <label><s:message code="label.entity.fromDate" text="From date"/></label>
-	                     <div class="controls">
-	                         <form:input  cssClass="input-large" path="fromDate"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#fromDate').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>
-	                    </div> 
-	               </div>
-	               <div class="control-group">  
-	                    <label><s:message code="label.entity.toDate" text="To date"/></label>
-	                     <div class="controls">
-	                         <form:input  cssClass="input-large" path="toDate"  class="small" type="text"
-							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#toDate').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>
-	                    </div> 
-	               </div>
-	               	               
-	               
-	               
-	               
-	            
               
 	              <div class="form-actions">
 	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
 	              		
-	              		<button  type="button" id="btPrepareBill" class="btn btn-medium btn-primary" ><s:message code="button.label.prepare.bill" text="Prepare Bill"/></button>
+	              		<button  type="button" id="btPrepareBill" class="btn btn-medium btn-primary" ><s:message code="button.label.preparebill" text="Prepare Bill"/></button>
 	              		
 	      		  </div>
       		</div> 

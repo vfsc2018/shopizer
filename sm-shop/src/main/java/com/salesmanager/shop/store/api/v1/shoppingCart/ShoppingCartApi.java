@@ -28,9 +28,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import java.security.Principal;
 import java.util.Arrays;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -233,6 +235,93 @@ public class ShoppingCartApi {
       LOGGER.error("Error while adding product to cart", e);
       try {
         response.sendError(503, "Error while adding product to cart " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+
+      return null;
+    }
+  }
+
+  @ResponseStatus(HttpStatus.CREATED)
+  @RequestMapping(value = "/private/customer/cart", method = RequestMethod.POST)
+  @ApiOperation(
+      httpMethod = "POST",
+      value = "Add product to a specific customer shopping cart",
+      notes = "",
+      produces = "application/json",
+      response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  })
+  public @ResponseBody ReadableShoppingCart addToCart(
+      @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    try {
+      Principal principal = request.getUserPrincipal();
+		  String userName = principal.getName();
+
+	  	System.out.println("who os the username ? " + userName);
+
+		  Customer customer = customerService.getByNick(userName);
+      ReadableShoppingCart cart = shoppingCartFacade.addToCart(customer, shoppingCartItem, merchantStore, language);
+
+      return cart;
+
+    } catch (Exception e) {
+      LOGGER.error("Error while adding product to cart", e);
+      try {
+        response.sendError(503, "Error while adding product to cart " + e.getMessage());
+      } catch (Exception ignore) {
+      }
+
+      return null;
+    }
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @RequestMapping(value = "/private/customer/cart", method = RequestMethod.GET)
+  @ApiOperation(
+      httpMethod = "GET",
+      value = "Get a chopping cart by id",
+      notes = "",
+      produces = "application/json",
+      response = ReadableShoppingCart.class)
+  @ApiImplicitParams({
+      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  })
+  public @ResponseBody ReadableShoppingCart get(
+      @ApiIgnore MerchantStore merchantStore,
+      @ApiIgnore Language language,
+      HttpServletRequest request,
+      HttpServletResponse response) {
+
+    try {
+      Principal principal = request.getUserPrincipal();
+		  String userName = principal.getName();
+
+	  	System.out.println("who os the username ? " + userName);
+
+		  Customer customer = customerService.getByNick(userName);
+
+      ReadableShoppingCart cart = shoppingCartFacade.getCart(customer, merchantStore, language);
+
+      if (cart == null) {
+        response.sendError(404, "No ShoppingCart found for customer: " + userName);
+        return null;
+      }
+
+      return cart;
+
+    } catch (Exception e) {
+      LOGGER.error("Error while getting cart", e);
+      try {
+        response.sendError(503, "Error while getting cart " + e.getMessage());
       } catch (Exception ignore) {
       }
 

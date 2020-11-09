@@ -27,7 +27,7 @@ public class StoreLogoUrlTag extends RequestContextAwareTag {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StoreLogoUrlTag.class);
 	private static final String RESOURCES = "resources";
 	private static final String IMG = "img";
-	private static final String SHOPIZER_LOGO = "shopizer_small.png";
+	private static final String SHOPIZER_LOGO = "vfsc.png";
 	
 	@Inject
 	private FilePathUtils filePathUtils;
