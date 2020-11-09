@@ -246,6 +246,7 @@
 	}}
 ]
 }},
+
 {
 "menu":{
 "code":"order",
@@ -261,11 +262,24 @@
 }},
 {
 "menu":{
+"code":"bills",
+"icon":"icon-shopping-cart", 
+"url":"/admin/bills/list.html", 
+"role":"ORDER",
+"order":9,
+"menus":[
+	{"menu":{
+		"code":"order-list-bill","url":"/admin/bills/list.html","role":"ORDER","order":0
+	}}
+]
+}},
+{
+"menu":{
 "code":"tax",
 "icon":"icon-book", 
 "url":"/admin/tax/taxconfiguration/edit.html", 
 "role":"TAX",
-"order":9,
+"order":10,
 "menus":[
 	{"menu":{
 		"code":"taxconfiguration","url":"/admin/tax/taxconfiguration/edit.html","role":"TAX","order":0
@@ -284,7 +298,7 @@
 "icon":"icon-th", 
 "url":"/admin/cache/cacheManagement.html", 
 "role":"AUTH",
-"order":10
+"order":11
 }},
 {
 "menu":{
@@ -292,7 +306,7 @@
 "icon":"icon-wrench", 
 "url":"/admin/configuration/accounts.html", 
 "role":"AUTH",
-"order":11,
+"order":12,
 "menus":[
 	{"menu":{
 		"code":"accounts-conf","url":"/admin/configuration/accounts.html","role":"AUTH","order":0
