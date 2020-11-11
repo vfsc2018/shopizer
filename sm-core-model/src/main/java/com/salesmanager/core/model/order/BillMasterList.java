@@ -14,6 +14,8 @@ public class BillMasterList extends EntityList {
 	 */
 
 	private List<BillMaster> billMasters = new ArrayList<>();
+	
+	
 	public void setBillMasters(List<BillMaster> billMasters) {
 		this.billMasters = billMasters;
 	}

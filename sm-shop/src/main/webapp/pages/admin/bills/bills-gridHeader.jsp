@@ -7,8 +7,9 @@
 
 
 	{title:"<s:message code="label.entity.id" text="Id"/>", name:"orderId", canFilter:false},
-    {title:"<s:message code="label.customer.name" text="Customer name"/>", name:"productName"},
-    {title:"<s:message code="label.order.date" text="Date"/>", name:"createAt", canFilter:false},
+	{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
+    {title:"<s:message code="label.product.name" text="Product name"/>", name:"productName"},
+    {title:"<s:message code="label.order.date" text="Date"/>", name:"date", canFilter:false},
     {title:"<s:message code="label.entity.status" text="Status"/>", name:"status", canFilter:false},
     {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}
     

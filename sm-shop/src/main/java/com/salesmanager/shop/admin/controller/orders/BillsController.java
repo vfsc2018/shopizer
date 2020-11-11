@@ -1,25 +1,13 @@
 package com.salesmanager.shop.admin.controller.orders;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.salesmanager.core.business.services.order.OrderService;
-import com.salesmanager.core.business.services.reference.country.BillMasterService;
-import com.salesmanager.core.business.services.system.ModuleConfigurationService;
-import com.salesmanager.core.business.utils.ProductPriceUtils;
-import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
-import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.BillMaster;
-import com.salesmanager.core.model.common.CriteriaOrderBy;
-import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.BillMasterCriteria;
-import com.salesmanager.core.model.order.BillMasterList;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.system.IntegrationModule;
-import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.shop.admin.model.web.Menu;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.utils.DateUtil;
-import com.salesmanager.shop.utils.LabelUtils;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -35,14 +23,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import com.salesmanager.core.business.services.reference.country.BillMasterService;
+import com.salesmanager.core.business.services.system.ModuleConfigurationService;
+import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
+import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
+import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.BillMasterCriteria;
+import com.salesmanager.core.model.order.BillMasterList;
+import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.core.model.system.IntegrationModule;
+import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.model.web.Menu;
+import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.DateUtil;
+import com.salesmanager.shop.utils.LabelUtils;
 
 
 /**
@@ -52,17 +48,15 @@ import java.util.Map;
  *
  */
 @Controller
-@JsonAutoDetect(getterVisibility=com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.NONE)
 public class BillsController {
 	
 	@Inject
 	BillMasterService billService;
 	
-	@Inject
-	LabelUtils messages;
 	
 	@Inject
-	private ProductPriceUtils priceUtil;
+	LabelUtils messages;
+
 	
 	@Inject
 	protected ModuleConfigurationService moduleConfigurationService;
@@ -97,19 +91,25 @@ public class BillsController {
 			int startRow = Integer.parseInt(request.getParameter("_startRow"));
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
 			String	paymentModule = request.getParameter("paymentModule");
-			String customerName = request.getParameter("customer");
+			String sku = request.getParameter("sku");
+			String productName = request.getParameter("productName");
 			
 			BillMasterCriteria criteria = new BillMasterCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-			
+			if(!StringUtils.isBlank(sku)) {
+				criteria.setSku(sku);
+			}
+			if(!StringUtils.isBlank(productName)) {
+				criteria.setProductName(productName);
+			}			
 			
 			Language language = (Language)request.getAttribute("LANGUAGE");
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			List<IntegrationModule> paymentModules = moduleConfigurationService.getIntegrationModules( "PAYMENT" );
 
-			BillMasterList billList = billService.getListByStore(store, criteria);
+			BillMasterList billList = billService.getListByStore2(store, criteria);
 		
 			if(billList.getBillMasters()!=null) {	
 			
@@ -118,6 +118,7 @@ public class BillsController {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("orderId", order.getId());
+					entry.put("sku", order.getSku());
 					entry.put("productName", order.getProductName());
 					//entry.put("customer", order.getBilling().getFirstName() + " " + order.getBilling().getLastName());
 					//entry.put("amount", priceUtil.getAdminFormatedAmountWithCurrency(store,order.getTotal()));//todo format total

@@ -15,6 +15,6 @@ public interface BillMasterService extends SalesManagerEntityService<Integer, Bi
 	public BillMaster saveAnnouncement(BillMaster form) throws BindException;
 	public Long countByOrderId(Long orderId);
 	public List<BillMaster> findByOrderId(Long pid);
-	BillMasterList getListByStore(MerchantStore store, BillMasterCriteria criteria);
+	BillMasterList getListByStore2(MerchantStore store, BillMasterCriteria criteria);
 	
 }
