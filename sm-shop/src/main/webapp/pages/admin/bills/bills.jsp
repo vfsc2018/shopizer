@@ -19,7 +19,7 @@
 
 
 								<div class="sm-ui-component">
-								<h3><s:message code="label.order.title" text="Orders" /></h3>	
+								<h3><s:message code="label.listBills.title" text="Orders" /></h3>	
 								<br/>
 								
 								
@@ -31,7 +31,7 @@
 				 <c:set value="/admin/bills/editOrder.html" var="editUrl" scope="request"/>
 				 <c:set value="/admin/bills/list.html" var="afterRemoveUrl" scope="request"/>
 				 <c:set var="entityId" value="orderId" scope="request"/>
-				 <c:set var="componentTitleKey" value="label.order.title" scope="request"/>
+				 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
 				 <c:set var="gridHeader" value="/pages/admin/bills/bills-gridHeader.jsp" scope="request"/>
 				 <c:set var="canRemoveEntry" value="false" scope="request"/>
 
