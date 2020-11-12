@@ -142,6 +142,7 @@ public class ProductController {
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/products/stamps.html", method=RequestMethod.GET)
 	public String printStamps(@RequestParam("id") long productId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		this.setMenu(model, request);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		List<Language> languages = store.getLanguages();
@@ -156,6 +157,9 @@ public class ProductController {
 			if(dbProduct==null || dbProduct.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "redirect:/admin/products/products.html";
 			}
+			
+			model.addAttribute("product", dbProduct);
+	
 			
 			product.setProduct(dbProduct);
 			Set<ProductDescription> productDescriptions = dbProduct.getDescriptions();
@@ -225,10 +229,10 @@ public class ProductController {
 			
 			product.setDateAvailable(DateUtil.formatDate(dbProduct.getDateAvailable()));
 
-			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+			// MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 			
 			stamp.setSku(product.getProduct().getSku());
-			stamp.setCurrency(sessionStore.getCurrency());
+			stamp.setCurrency(store.getCurrency());
 			stamp.setPrice(product.getPrice().getProductPriceAmount());
 			stamp.setWeight(product.getProduct().getProductWeight());
 			for(ProductDescription bean1 : dbProduct.getDescriptions()){

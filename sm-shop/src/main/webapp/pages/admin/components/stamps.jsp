@@ -28,27 +28,58 @@
 		a.print(); 
 	} 
 </script> 
-<input type="button" value="Printer" onclick="print('')">  
-<div id="printSection">
-<table class="styleClass">
-	<tr>
-		<td rowspan="5" ><H1>Vt</H1></td>
-	</tr>
-	<tr>
-		<td><s:message code="label.stamp.productname" text="Product"/></td>
-		<td><c:out value="${stamp.productName}" /></td>
-	</tr>
-	<tr>
-		<td><s:message code="label.stamp.sku" text="Sku"/></td>
-		<td><c:out value="${stamp.sku}" /></td>
-	</tr>
-	<tr>
-		<td><s:message code="label.stamp.price" text="Price"/></td>
-		<td><c:out value="${stamp.price}" /> VND</td>
-	</tr>	
-	<tr>
-		<td><s:message code="label.stamp.netweight" text="Netweight"/></td>
-		<td><c:out value="${stamp.weight}" /> kg</td>
-	</tr>	
-</table>
-</div>
+
+
+
+<div class="tabbable">
+
+
+	<jsp:include page="/common/adminTabs.jsp" />
+
+	<div class="tab-content">
+
+		<div class="tab-pane active" id="catalogue-section">
+		
+				<c:if test="${product.id!=null && product.id>0}">
+						<c:set value="${product.id}" var="productId" scope="request"/>
+						<jsp:include page="/pages/admin/products/product-menu.jsp" />
+				</c:if>	
+		
+				<h3>
+						<s:message code="label.product.stamp" text="Product stamp"/>
+				</h3>
+			    <br/>
+				<div id="printSection">
+					<table class="styleClass">
+						<tr>
+							<td rowspan="5" ><H1>Vt</H1></td>
+						</tr>
+						<tr>
+							<td><s:message code="label.stamp.productname" text="Product"/></td>
+							<td><c:out value="${stamp.productName}" /></td>
+						</tr>
+						<tr>
+							<td><s:message code="label.stamp.sku" text="Sku"/></td>
+							<td><c:out value="${stamp.sku}" /></td>
+						</tr>
+						<tr>
+							<td><s:message code="label.stamp.price" text="Price"/></td>
+							<td><c:out value="${stamp.price}" /> VND</td>
+						</tr>	
+						<tr>
+							<td><s:message code="label.stamp.netweight" text="Netweight"/></td>
+							<td><c:out value="${stamp.weight}" /> kg</td>
+						</tr>	
+					</table>
+				</div>
+
+					<div class="form-actions">
+						<div class="pull-right">
+							<button class="btn btn-success" onclick="print()">
+								<s:message code="button.label.print" text="Print" />
+							</button>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>	

@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.populator.customer.ReadableCustomerList;
@@ -195,11 +194,11 @@ public class CustomerApi {
 //       @ApiIgnore Language language) {
 //       return customerFacade.getCustomerById(id, merchantStore, language);
 //   }
-  @GetMapping("/private/customer/store/bank")
-  public MerchantStore get(HttpServletRequest request) {
-    MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-    return store;
-  }
+//   @GetMapping("/private/customer/store/bank")
+//   public MerchantStore get(HttpServletRequest request) {
+//     MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+//     return store;
+//   }
   /**
    * Get logged in customer profile
    * @param merchantStore
