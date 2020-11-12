@@ -2,10 +2,6 @@ package com.salesmanager.shop.store.api.v1.customer;
 
 import java.security.Principal;
 import java.util.Optional;
-<<<<<<< HEAD
-import java.util.Scanner;
-=======
->>>>>>> 9e648104177e70a9dfa68f689e7c3ca1a0ad6adb
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -13,12 +9,8 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-<<<<<<< HEAD
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-=======
-import org.springframework.http.MediaType;
->>>>>>> 9e648104177e70a9dfa68f689e7c3ca1a0ad6adb
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -128,7 +120,6 @@ public class CustomerApi {
 //       return customerFacade.update(customer, merchantStore);
 //   }
   
-<<<<<<< HEAD
 //   @PatchMapping("/private/customer/{id}/address")
 //   @ApiOperation(
 //       httpMethod = "PATCH",
@@ -143,22 +134,6 @@ public class CustomerApi {
 //       @PathVariable Long id,
 //       @ApiIgnore MerchantStore merchantStore,
 //       @RequestBody PersistableCustomer customer) {
-=======
-  @PatchMapping("/private/customer/{id}/address")
-  @ApiOperation(
-      httpMethod = "PATCH",
-      value = "Updates a customer",
-      notes = "Requires administration access",
-      produces = MediaType.APPLICATION_JSON_VALUE,
-      response = Void.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
-  })
-  public void updateAddress(
-      @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore,
-      @RequestBody PersistableCustomer customer) {
->>>>>>> 9e648104177e70a9dfa68f689e7c3ca1a0ad6adb
 
 //       customer.setId(id);
 //       customerFacade.updateAddress(customer, merchantStore);
