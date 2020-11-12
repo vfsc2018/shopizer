@@ -4,6 +4,8 @@ import static org.springframework.http.MediaType.IMAGE_GIF;
 import static org.springframework.http.MediaType.IMAGE_JPEG;
 import static org.springframework.http.MediaType.IMAGE_PNG;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesView;
@@ -78,7 +81,26 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     return resolver;
   }
   
+  @Bean
+  public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
+      RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
+      
+      List<HttpMessageConverter<?>> converters = adapter.getMessageConverters();
 
+      MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+      List<MediaType> supportedMediaTypes = new ArrayList<>();
+      MediaType textMedia = new MediaType(MediaType.TEXT_PLAIN, Charset.forName("UTF-8"));
+      supportedMediaTypes.add(textMedia);
+      MediaType jsonMedia = new MediaType(MediaType.APPLICATION_JSON, Charset.forName("UTF-8"));
+      supportedMediaTypes.add(jsonMedia);jsonConverter.setSupportedMediaTypes(supportedMediaTypes);
+      
+      converters.add(jsonConverter);
+      
+      
+      adapter.setMessageConverters(converters);
+      
+     return adapter;
+  }
 
 
   @Override

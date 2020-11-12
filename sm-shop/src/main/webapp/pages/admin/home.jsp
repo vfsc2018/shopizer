@@ -45,6 +45,10 @@
 							<c:if test="${not empty store.storepostalcode}">
 								<c:out value="${store.storepostalcode}"/>
 							</c:if>
+							<br/>
+							<c:if test="${not empty store.storebank}">
+								<c:out value="${store.storebank}"/>
+							</c:if>
 							<br/><c:out value="${country.name}"/>
 							<c:if test="${not empty store.storephone}">
 								<br/><c:out value="${store.storephone}"/>

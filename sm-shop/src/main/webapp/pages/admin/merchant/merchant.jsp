@@ -177,6 +177,14 @@ function callBackCheckCode(msg,code) {
 	                                    <span class="help-inline"><form:errors path="storephone" cssClass="error" /></span>
 	                        </div>
 	
+					  </div>
+					  <div class="control-group">
+	                        <label><s:message code="label.storebank" text="Bank"/></label>
+	                        <div class="controls">
+	                                    <form:input cssClass="input-large highlight" path="storebank" />
+	                                    <span class="help-inline"><form:errors path="storebank" cssClass="error" /></span>
+	                        </div>
+	
 	                  </div>
 	                  
 	                 <div class="control-group">

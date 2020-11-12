@@ -181,13 +181,13 @@ public class ProductController {
 				
 			}
 			
-			for(ProductImage image : dbProduct.getImages()) {
-				if(image.isDefaultImage()) {
-					product.setProductImage(image);
-					break;
-				}
+			// for(ProductImage image : dbProduct.getImages()) {
+			// 	if(image.isDefaultImage()) {
+			// 		product.setProductImage(image);
+			// 		break;
+			// 	}
 
-			}
+			// }
 			
 			
 			ProductAvailability productAvailability = null;
@@ -230,6 +230,7 @@ public class ProductController {
 			stamp.setSku(product.getProduct().getSku());
 			stamp.setCurrency(sessionStore.getCurrency());
 			stamp.setPrice(product.getPrice().getProductPriceAmount());
+			stamp.setWeight(product.getProduct().getProductWeight());
 			for(ProductDescription bean1 : dbProduct.getDescriptions()){
 				if(bean1.getLanguage().getCode().equals(language.getCode())){
 					stamp.setProductName(bean1.getName());
@@ -557,10 +558,6 @@ public class ProductController {
 
 
 		}
-		
-		
-		
-		
 		
 		model.addAttribute("product",product);
 		model.addAttribute("manufacturers", manufacturers);

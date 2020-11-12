@@ -37,7 +37,7 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         final Address billing = new Address();
         billing.setFirstName("customer1");
         billing.setLastName("ccstomer1");
-        billing.setCountry("BE");
+        billing.setCountry("VN");
         testCustomer.setBilling(billing);
         testCustomer.setStoreCode(Constants.DEFAULT_STORE);
         final HttpEntity<PersistableCustomer> entity = new HttpEntity<>(testCustomer, getHeader());

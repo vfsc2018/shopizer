@@ -497,6 +497,13 @@ public class CustomerFacadeImpl implements CustomerFacade {
     Map<String, Country> countriesMap = countryService.getCountriesMap(language);
     Country country = countriesMap.get(address.getCountryCode());
 
+    if (country == null) {
+      LOG.error("Customer with country does not exists..", address.getCountryCode());
+      // throw new CustomerNotFoundException( "customer with given id does not exists" );
+      throw new Exception("customer with country code does not exists");
+
+    }
+
     if (customerModel == null) {
       LOG.error("Customer with ID {} does not exists..", userId);
       // throw new CustomerNotFoundException( "customer with given id does not exists" );
@@ -835,7 +842,8 @@ public class CustomerFacadeImpl implements CustomerFacade {
       throws Exception {
 
 
-    String password = UserReset.generateRandomString();
+    String password = UserReset.generateRandomString(); 
+    System.out.println("Password:" + password);
     String encodedPassword = passwordEncoder.encode(password);
 
     customer.setPassword(encodedPassword);

@@ -7,7 +7,7 @@
 <%@ page session="false" %>
 
 
-<script src="<c:url value="/resources/js/ckeditor/ckeditor.js" />"></script>
+<script src="<c:url value="/resources/js/ckeditor/ckeditor.js" charset="utf-8" />"></script>
 
 
 

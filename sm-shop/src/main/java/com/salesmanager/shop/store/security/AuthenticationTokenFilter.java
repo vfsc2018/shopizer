@@ -2,6 +2,7 @@ package com.salesmanager.shop.store.security;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Scanner;
 
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
@@ -43,7 +44,15 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        
+		
+		// if ("PATCH".equalsIgnoreCase(request.getMethod())) {
+		// 	Scanner s = new Scanner(request.getInputStream(), "UTF-8").useDelimiter("\\A");
+		// 	while(s.hasNext()){
+		// 		String value = s.next();
+		// 		System.out.println(value);
+		// 	}
+		// }
+
 
     	String origin = "*";
     	if(!StringUtils.isBlank(request.getHeader("origin"))) {

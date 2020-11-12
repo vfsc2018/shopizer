@@ -9,9 +9,17 @@ public class Stamps {
 	private String sku;
 	private BigDecimal price;
 	private Currency currency;
+	private BigDecimal weight;
 	
 	
-	
+	public BigDecimal getWeight() {
+		return weight;
+	}
+
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
+	}
+
 	public Currency getCurrency() {
 		return currency;
 	}

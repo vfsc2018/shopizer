@@ -3,6 +3,7 @@ package com.salesmanager.shop.application.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler;
 import com.salesmanager.shop.admin.security.WebUserServices;
@@ -90,6 +93,15 @@ public class MultipleEntryPointsSecurityConfig {
 		public CustomerConfigurationAdapter() {
 			super();
 		}
+
+		// @Bean
+		// @Order(Ordered.HIGHEST_PRECEDENCE)
+		// CharacterEncodingFilter characterEncodingFilter() {
+		// 	CharacterEncodingFilter filter = new CharacterEncodingFilter();
+		// 	filter.setEncoding("UTF-8");
+		// 	filter.setForceEncoding(false);
+		// 	return filter;
+		// }
 		
 		@Override
 		public void configure(WebSecurity web) {
@@ -111,6 +123,7 @@ public class MultipleEntryPointsSecurityConfig {
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
+			
 			http
 			.antMatcher("/shop/**")
 			.csrf().disable()			

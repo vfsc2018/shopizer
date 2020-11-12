@@ -43,7 +43,7 @@ public class CustomerTest extends com.salesmanager.test.common.AbstractSalesMana
 		/** Core customer attributes **/
 		Customer customer = new Customer();
 		customer.setMerchantStore(store);
-		customer.setEmailAddress("test@test.com");
+		customer.setEmailAddress("xxx@test.com");
 		customer.setGender(CustomerGender.M);
 
 		customer.setAnonymous(true);

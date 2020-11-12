@@ -6,25 +6,49 @@
 <%@ page session="false" %>
 <style>
 	.styleClass{
-		background-color:#f1f1f1;border:1px dotted #CCC;
+		border:1px;
 		border-collapse: collapse;
 	}
 	.styleClass td{
-		background-color:#f1f1f1;font:12px; border:1px dotted #CCC;
-		padding: 5px;
+		font-size:18px;
+		padding-top: 5px;
+		padding-left: 5px;
+		padding-bottom: 0px;
 	}
 </style>
-<table class="styleClass"  width="350px">
+<script> 
+	function print() { 
+		var divContents = document.getElementById('printSection').innerHTML; 
+		var a = window.open('', '', 'height=500, width=500'); 
+		a.document.write('<html>'); 
+		a.document.write('<body >'); 
+		a.document.write(divContents); 
+		a.document.write('</body></html>'); 
+		a.document.close(); 
+		a.print(); 
+	} 
+</script> 
+<input type="button" value="Printer" onclick="print('')">  
+<div id="printSection">
+<table class="styleClass">
 	<tr>
-		<td  rowspan="4" width="100px" align="center" >[QR CODE]</td>
+		<td rowspan="5" ><H1>Vt</H1></td>
 	</tr>
 	<tr>
-		<td><c:out value="${stamp.sku}" /></td>
-	</tr>
-	<tr>
+		<td><s:message code="label.stamp.productname" text="Product"/></td>
 		<td><c:out value="${stamp.productName}" /></td>
 	</tr>
 	<tr>
-		<td><sm:monetary value="${stamp.price}" currency="${stamp.currency}"/></td>
+		<td><s:message code="label.stamp.sku" text="Sku"/></td>
+		<td><c:out value="${stamp.sku}" /></td>
+	</tr>
+	<tr>
+		<td><s:message code="label.stamp.price" text="Price"/></td>
+		<td><c:out value="${stamp.price}" /> VND</td>
+	</tr>	
+	<tr>
+		<td><s:message code="label.stamp.netweight" text="Netweight"/></td>
+		<td><c:out value="${stamp.weight}" /> kg</td>
 	</tr>	
 </table>
+</div>

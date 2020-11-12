@@ -158,6 +158,9 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Column(name = "DOMAIN_NAME", length = 80)
 	private String domainName;
 
+	@Column(name = "STORE_BANK", length = 255)
+	private String storebank;
+
 	@JsonIgnore
 	@Column(name = "CONTINUESHOPPINGURL", length = 150)
 	private String continueshoppingurl;
@@ -214,6 +217,15 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 
 	public void setStorephone(String storephone) {
 		this.storephone = storephone;
+	}
+
+
+	public String getStorebank() {
+		return storebank;
+	}
+
+	public void setStorebank(String storebank) {
+		this.storebank = storebank;
 	}
 
 	public String getStoreaddress() {
