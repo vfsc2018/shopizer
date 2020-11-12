@@ -223,9 +223,7 @@
   		<put-attribute name="body" value="/pages/admin/shipping/packaging.jsp" /> 
   	</definition>
   	
-  	<definition name="admin-orders" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/orders/orders.jsp" /> 
-  	</definition>
+
   	
   	<definition name="admin-content-images" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/content/contentImages.jsp" /> 
@@ -276,9 +274,7 @@
   	</definition>
   	
   	
-	<definition name="admin-orders-edit" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/orders/order.jsp" /> 
-  	</definition>
+
   	
   	
   	<definition name="admin-orders-bill" template="/layout/admin/layout.jsp">
@@ -289,10 +285,34 @@
   		<put-attribute name="body" value="/pages/admin/orders/prepareBillEdit.jsp" /> 
   	</definition>  	
   	
+  	<definition name="admin-orders" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/orders/orders.jsp" /> 
+  	</definition>
+  	
+  	
+  	<definition name="admin-orders-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/orders/order.jsp" /> 
+  	</definition>
+  	
     <definition name="admin-orders-transactions" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/orders/transactions.jsp" /> 
   	</definition>
+
+
+  	<definition name="admin-bills" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/bills/bills.jsp" /> 
+  	</definition>
   	
+  	
+  	<definition name="admin-bills-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/bills/bill.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-bills-transactions" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/bills/transactions.jsp" /> 
+  	</definition>
+  	
+  	  	
   	<definition name="tax-classes" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/tax/taxClass.jsp" /> 
   	</definition>

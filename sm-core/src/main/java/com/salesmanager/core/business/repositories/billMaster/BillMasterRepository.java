@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.repositories.reference.country;
+package com.salesmanager.core.business.repositories.billMaster;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import com.salesmanager.core.model.catalog.product.BillMaster;
 
 
-public interface BillMasterRepository extends JpaRepository <BillMaster, Integer> {
+public interface BillMasterRepository extends JpaRepository<BillMaster, Integer>,BillMasterRepositoryCustom {
 //	
 
 	@Query("SELECT COUNT(u) FROM BillMaster u WHERE u.order.id=:pid")
