@@ -284,6 +284,8 @@ public class EmailTemplatesUtils {
 		PersistableCustomer customer, MerchantStore merchantStore,
 			Locale customerLocale, String contextPath) {
 		   /** issue with putting that elsewhere **/ 
+		   if (!"true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) return;
+
 	       LOGGER.info( "Sending welcome email to customer" );
 	       try {
 
@@ -326,6 +328,8 @@ public class EmailTemplatesUtils {
 			ContactForm contact, MerchantStore merchantStore,
 				Locale storeLocale, String contextPath) {
 			   /** issue with putting that elsewhere **/ 
+			   if (!"true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) return;
+
 		       LOGGER.info( "Sending email to store owner" );
 		       try {
 
@@ -375,6 +379,8 @@ public class EmailTemplatesUtils {
 			Customer customer, Order order, OrderStatusHistory lastHistory, MerchantStore merchantStore,
 			Locale customerLocale, String contextPath) {
 		   /** issue with putting that elsewhere **/ 
+		   if (!"true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) return;
+
 	       LOGGER.info( "Sending order status email to customer" );
 	       try {
 
@@ -430,6 +436,8 @@ public class EmailTemplatesUtils {
 			Customer customer, Order order, MerchantStore merchantStore,
 			Locale customerLocale, String contextPath) {
 		   /** issue with putting that elsewhere **/ 
+		   if (!"true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) return;
+
 	       LOGGER.info( "Sending download email to customer" );
 	       try {
 
@@ -476,6 +484,8 @@ public class EmailTemplatesUtils {
 	public void changePasswordNotificationEmail(
 			Customer customer, MerchantStore merchantStore,
 			Locale customerLocale, String contextPath) {
+				if (!"true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) return;
+				
 	       LOGGER.debug( "Sending change password email" );
 	       try {
 

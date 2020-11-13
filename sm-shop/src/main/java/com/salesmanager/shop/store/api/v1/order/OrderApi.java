@@ -338,8 +338,9 @@ public class OrderApi {
 	@RequestMapping(value = { "/auth/cart/{code}/checkout", "/private/cart/{code}/checkout" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
 	public PersistableOrder checkout(@PathVariable final String code, @Valid @RequestBody PersistableOrder order,
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
 			HttpServletResponse response, Locale locale) throws Exception {
@@ -388,8 +389,9 @@ public class OrderApi {
 	@RequestMapping(value = { "/cart/{code}/checkout" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
 	public PersistableOrder checkout(
 			@PathVariable final String code,
 			@Valid @RequestBody PersistableAnonymousOrder order, 

@@ -134,7 +134,7 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 				}
 				target.setOrderAttributes(attrs);
 			}
-
+			target.setComments(source.getComments());
 			target.setDatePurchased(new Date());
 			target.setCurrency(currency);
 			target.setCurrencyValue(new BigDecimal(0));
