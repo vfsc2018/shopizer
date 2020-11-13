@@ -338,6 +338,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			}
 
 			Order modelOrder = new Order();
+			modelOrder.setComments(order.getComments());
 			modelOrder.setDatePurchased(new Date());
 			modelOrder.setBilling(customer.getBilling());
 			modelOrder.setDelivery(customer.getDelivery());
@@ -1110,7 +1111,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		try {
 			readableOrderPopulator.populate(modelOrder, readableOrder, store, language);
-
+			
 			// order products
 			List<ReadableOrderProduct> orderProducts = new ArrayList<ReadableOrderProduct>();
 			for (OrderProduct p : modelOrder.getOrderProducts()) {
@@ -1123,12 +1124,12 @@ public class OrderFacadeImpl implements OrderFacade {
 				orderProductPopulator.populate(p, orderProduct, store, language);
 				orderProducts.add(orderProduct);
 			}
-
+			
 			readableOrder.setProducts(orderProducts);
 		} catch (Exception e) {
 			throw new ServiceRuntimeException("Error while getting order [" + orderId + "]");
 		}
-
+		readableOrder.setComments(modelOrder.getComments());
 		return readableOrder;
 	}
 
@@ -1173,9 +1174,6 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		try {
 
-			Order modelOrder = new Order();
-			persistableOrderApiPopulator.populate(order, modelOrder, store, language);
-
 			Long shoppingCartId = order.getShoppingCartId();
 			ShoppingCart cart = shoppingCartService.getById(shoppingCartId, store);
 
@@ -1194,6 +1192,10 @@ public class OrderFacadeImpl implements OrderFacade {
 			orderProductPopulator.setProductAttributeService(productAttributeService);
 			orderProductPopulator.setProductService(productService);
 
+
+			Order modelOrder = new Order();
+			persistableOrderApiPopulator.populate(order, modelOrder, store, language);
+			
 			for (ShoppingCartItem item : shoppingCartItems) {
 				OrderProduct orderProduct = new OrderProduct();
 				orderProduct = orderProductPopulator.populate(item, orderProduct, store, language);

@@ -56,7 +56,7 @@
 				<prop key="PAYPAL_EXPRESSCHECKOUT_MOBILE"><![CDATA[_express-checkout-mobile&token=]]></prop>
 	
 				<!-- Send HTML email after orders completed from the API -->
-				<prop key="ORDER_EMAIL_API">true</prop>
+				<prop key="ORDER_EMAIL_API">false</prop>
 				
 				<!-- Validate credit card (Non PCI solutions used) in checkout action, not to be used
 				     when stripe, braintree is enabled -->

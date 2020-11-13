@@ -179,8 +179,9 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@Column (name ="CUSTOMER_EMAIL_ADDRESS", length=50, nullable=false)
 	private String customerEmailAddress;
 
-	
-	
+	@Column (name ="COMMENTS", length=255)
+	private String comments;
+
 	@Temporal(TemporalType.DATE)
 	@Column (name ="FROM_DATE")
 	private Date fromDate;
@@ -189,6 +190,12 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@Column (name ="TO_DATE")
 	private Date toDate;
 	
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
 
 	public Date getFromDate() {
 		return CloneUtils.clone(fromDate);
