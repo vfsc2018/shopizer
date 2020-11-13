@@ -392,7 +392,7 @@ function captureOrder(orderId){
 						</li>
 				    	<li>
 				    		<c:if test="${customer!=null}">
-								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Prepare Bill"/></a>
+								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Draft Bill"/></a>
 							</c:if>
 						</li>
 						
@@ -693,7 +693,7 @@ function captureOrder(orderId){
 	              <div class="form-actions">
 	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
 	              		
-	              		<button  type="button" id="btPrepareBill" class="btn btn-medium btn-primary" ><s:message code="button.label.preparebill" text="Prepare Bill"/></button>
+	              		<button  type="button" id="btPrepareBill" class="btn btn-medium btn-primary" ><s:message code="button.label.preparebill" text="Draft Bill"/></button>
 	              		
 	      		  </div>
       		</div> 

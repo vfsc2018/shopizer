@@ -480,7 +480,7 @@ function captureOrder(orderId){
 		<h3>
 			<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.order.preparebill" text="Prepare Bill"/> 
+                     		 <s:message code="label.order.preparebill" text="Draft Bill"/> 
                      		 <c:out value="${order.order.id}" /> - <span class="lead"><s:message code="label.order.${order.order.status.value}" text="${order.order.status.value}" /></span>
                      		 <br>
                        </div>       
@@ -508,7 +508,7 @@ function captureOrder(orderId){
 						</li>
 				    	<li>
 				    		<c:if test="${customer!=null}">
-								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Prepare Bill"/></a>
+								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Draft Bill"/></a>
 							</c:if>
 						</li>
                      </ul>

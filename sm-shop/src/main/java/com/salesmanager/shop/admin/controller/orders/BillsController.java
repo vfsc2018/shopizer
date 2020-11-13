@@ -152,13 +152,13 @@ public class BillsController {
 		
 		//display menu
 		Map<String,String> activeMenus = new HashMap<String,String>();
-		activeMenus.put("order", "order");
-		activeMenus.put("order-list", "order-list");
+		activeMenus.put("bills", "bills");
+		activeMenus.put("order-list-bill", "order-list-bill");
 
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("order");
+		Menu currentMenu = (Menu)menus.get("bills");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

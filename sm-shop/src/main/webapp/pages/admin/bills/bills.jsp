@@ -3,11 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<%@ page session="false" %>				
-				
-
-
-
+<%@ page session="false" %>			
 <div class="tabbable">
 
  					<jsp:include page="/common/adminTabs.jsp" />
@@ -15,16 +11,9 @@
   					 <div class="tab-content">
 
     					<div class="tab-pane active" id="catalogue-section">
-
-
-
 								<div class="sm-ui-component">
 								<h3><s:message code="label.listBills.title" text="Orders" /></h3>	
 								<br/>
-								
-								
-								
-								
 				 <!-- Listing grid include -->
 				 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
 				 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
@@ -40,20 +29,7 @@
 			      			     
 			      			     
       					</div>
-      					
-
-      			     
-      			     
-
-
-      			     
-      			     
-    
-
-
    					</div>
-
-
   					</div>
 
 				</div>		      			     

@@ -122,7 +122,7 @@
 
 isc.HLayout.create({
     ID:"pageLayout",
-    width: "880",
+    width: "900",
     height: "600",
     position:"relative",
     members:[
@@ -131,7 +131,7 @@ isc.HLayout.create({
             visibilityMode:"multiple",
             animateSections:true,
             sections:[
-                {title:"<s:message code="${componentTitleKey}" text="{componentTitleKey} UNDEFINED"/>", autoShow:true, items:[entityList]}
+                {title:"<s:message code="${componentTitleKey}" text="{componentTitleKey}"/>", autoShow:true, items:[entityList]}
             ]
         })
     ]

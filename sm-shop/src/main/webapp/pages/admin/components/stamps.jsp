@@ -75,7 +75,7 @@
 
 					<div class="form-actions">
 						<div class="pull-right">
-							<button class="btn btn-success" onclick="print()">
+							<button class="btn btn-medium btn-primary" onclick="print()">
 								<s:message code="button.label.print" text="Print" />
 							</button>
 						</div>

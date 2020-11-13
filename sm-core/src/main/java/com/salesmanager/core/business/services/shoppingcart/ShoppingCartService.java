@@ -55,7 +55,7 @@ public interface ShoppingCartService extends SalesManagerEntityService<Long, Sho
 
 	void deleteCart(ShoppingCart cart) throws ServiceException;
 
-	void removeShoppingCart(ShoppingCart cart) throws ServiceException;
+	public void removeShoppingCart(ShoppingCart cart) throws ServiceException;
 
 	/**
 	 *
