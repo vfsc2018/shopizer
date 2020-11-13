@@ -14,18 +14,18 @@
 								<div class="sm-ui-component">
 								<h3><s:message code="label.listBills.title" text="Orders" /></h3>	
 								<br/>
-				 <!-- Listing grid include -->
-				 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
-				 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
-				 <c:set value="/admin/bills/editOrder.html" var="editUrl" scope="request"/>
-				 <c:set value="/admin/bills/list.html" var="afterRemoveUrl" scope="request"/>
-				 <c:set var="entityId" value="orderId" scope="request"/>
-				 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
-				 <c:set var="gridHeader" value="/pages/admin/bills/bills-gridHeader.jsp" scope="request"/>
-				 <c:set var="canRemoveEntry" value="false" scope="request"/>
-
-            	 <jsp:include page="/pages/admin/components/list.jsp"></jsp:include> 
-				 <!-- End listing grid include -->
+								 <!-- Listing grid include -->
+								 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
+								 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
+								 <c:set value="/admin/bills/viewBill.html" var="editUrl" scope="request"/>
+								 <c:set value="/admin/bills/list.html" var="afterRemoveUrl" scope="request"/>
+								 <c:set var="entityId" value="id" scope="request"/>
+								 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
+								 <c:set var="gridHeader" value="/pages/admin/bills/bills-gridHeader.jsp" scope="request"/>
+								 <c:set var="canRemoveEntry" value="false" scope="request"/>
+				
+				            	 <jsp:include page="/pages/admin/components/list.jsp"></jsp:include> 
+								 <!-- End listing grid include -->
 			      			     
 			      			     
       					</div>

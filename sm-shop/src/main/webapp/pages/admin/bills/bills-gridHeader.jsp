@@ -6,7 +6,8 @@
 
 
 
-	{title:"<s:message code="label.entity.id" text="Id"/>", name:"orderId"},
+	{title:"<s:message code="label.entity.id" text="Id"/>", name:"id"},
+	{title:"<s:message code="label.entity.orderId" text="orderId"/>", name:"orderId"},
 	{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
     {title:"<s:message code="label.product.name" text="Product name"/>", name:"productName"},
     {title:"<s:message code="label.order.date" text="Date"/>", name:"date", canFilter:false},

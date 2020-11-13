@@ -684,7 +684,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				
 				model.addAttribute("dataEx",listOrderNew);
 				model.addAttribute("order",order);
-				model.addAttribute("totalMoney",totalMoney);				
+				model.addAttribute("totalMoney",totalMoney);	
+
 			}
 			
 			

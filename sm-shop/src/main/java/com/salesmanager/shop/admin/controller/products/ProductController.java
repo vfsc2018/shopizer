@@ -255,7 +255,7 @@ public class ProductController {
 		
 
 		
-
+		this.setMenu(model, request);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
@@ -408,6 +408,8 @@ public class ProductController {
 			model.addAttribute("dataEx",listOrderNew);
 			model.addAttribute("order",order);
 			model.addAttribute("totalMoney",totalMoney);	
+			model.addAttribute("product",dbProduct);
+			
 		}
 		
 		return "admin-orders-print-bill";

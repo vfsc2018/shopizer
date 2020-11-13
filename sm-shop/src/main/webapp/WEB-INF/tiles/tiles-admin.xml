@@ -267,7 +267,7 @@
   		<put-attribute name="body" value="/pages/admin/components/fileBrowser.jsp" /> 
   	</definition>
   	  	
-  	<definition name="admin-orders-print-bill" template="/layout/admin/noSkinLayout.jsp"> 
+  	<definition name="admin-orders-print-bill" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/components/printBill.jsp" /> 
   	</definition>
   	
@@ -290,6 +290,10 @@
   	
   	<definition name="admin-orders-edit" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/orders/order.jsp" /> 
+  	</definition>
+
+  	<definition name="admin-bill-view" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/bills/bill.jsp" /> 
   	</definition>
   	
     <definition name="admin-orders-transactions" template="/layout/admin/layout.jsp">

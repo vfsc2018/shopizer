@@ -6,6 +6,39 @@
 
 <%@ page session="false" %>
 
+
+
+
+
+
+<script> 
+	function print() { 
+		var divContents = document.getElementById('printSection').innerHTML; 
+		var a = window.open('', '', 'height=500, width=500'); 
+		a.document.write('<html>'); 
+		a.document.write('<body >'); 
+		a.document.write(divContents); 
+		a.document.write('</body></html>'); 
+		a.document.close(); 
+		a.print(); 
+	} 
+</script> 
+
+
+
+<div class="tabbable">
+
+
+	<jsp:include page="/common/adminTabs.jsp" />
+
+	<div class="tab-content">
+
+	<div class="tab-pane active" id="catalogue-section">
+	<c:if test="${product.id!=null && product.id>0}">
+			<c:set value="${product.id}" var="productId" scope="request"/>
+			<jsp:include page="/pages/admin/products/product-menu.jsp" />
+	</c:if>	
+<div id="printSection">		
 <table style="width:300px">
 	<tr>
 		<td colspan="2">
@@ -111,3 +144,14 @@
 		</td>
 	</tr>
 </table>
+</div>
+					<div class="form-actions">
+						<div class="pull-right">
+							<button class="btn btn-medium btn-primary" onclick="print()">
+								<s:message code="button.label.print" text="Print" />
+							</button>
+						</div>
+					</div>
+</div>
+</div>
+</div>
