@@ -21,6 +21,26 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @PersistenceContext
     private EntityManager em;
     
+    
+    
+    private boolean checkEnum(String input){
+    	boolean result = false;
+    	try {
+			//if(criteria.getStatus()!=null && criteria.getStatus().equals(OrderStatus.))
+    		for (OrderStatus status : OrderStatus.values()) {
+    			if(input!=null && input.equals(status.name())){
+    				result = true;
+    				break;
+    			}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return result;
+    	
+    }
+    
+    
     /**
      * @deprecated
      */
@@ -32,6 +52,14 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		OrderList orderList = new OrderList();
 		StringBuilder countBuilderSelect = new StringBuilder();
 		StringBuilder objectBuilderSelect = new StringBuilder();
+		
+		//com.salesmanager.core.model.order.orderstatus.OrderStatus.valueOf(criteria.getStatus())
+		if(criteria.getStatus()!=null && !checkEnum(criteria.getStatus())){
+			criteria.setStatus(null);
+		}
+		
+		
+		
 		
 		String orderByCriteria = " order by o.id desc";
 		
@@ -73,6 +101,18 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectBuilderWhere.append(customerQuery);
 		}
 		
+		if(criteria.getId()!=null) {
+			String pIdQuery =" and o.id =:pId";
+			countBuilderWhere.append(pIdQuery);
+			objectBuilderWhere.append(pIdQuery);
+		}
+		
+		if(criteria.getStatus()!=null) {
+			String statusQuery =" and o.status =:pStatus";
+			countBuilderWhere.append(statusQuery);
+			objectBuilderWhere.append(statusQuery);
+		}
+		
 		objectBuilderWhere.append(orderByCriteria);
 		
 
@@ -103,6 +143,19 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		if(criteria.getCustomerId()!=null) {
 			countQ.setParameter("cid", criteria.getCustomerId());
 			objectQ.setParameter("cid",criteria.getCustomerId());
+		}
+		
+		if(criteria.getId()!=null) {
+			countQ.setParameter("pId", criteria.getId());
+			objectQ.setParameter("pId",criteria.getId());
+		}
+		
+		if(criteria.getStatus()!=null) {
+			
+			//                   com.salesmanager.core.model.order.orderstatus.OrderStatus
+			//System.out.println(com.salesmanager.core.model.order.orderstatus.OrderStatus.valueOf(criteria.getStatus()));
+			countQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
+			objectQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
 		}
 		
 

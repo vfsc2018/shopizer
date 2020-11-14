@@ -566,10 +566,10 @@ function captureOrder(orderId){
 											      <table class="table table-bordered table-striped"> 
 														<thead> 
 															<tr> 
-																<th colspan="2" width="55%"><s:message code="label.order.item" text="Item"/></th> 
-																<th colspan="1" width="15%"><s:message code="label.quantity" text="Quantity"/></th> 
+																<th colspan="2" style="width: 130px"><s:message code="label.order.item" text="Item"/></th> 
+																<th colspan="1" style="width: 50px"><s:message code="label.quantity" text="Quantity"/></th> 
 																<th width="15%"><s:message code="label.order.price" text="Price"/></th>
-																<th width="15%"><s:message code="label.order.total" text="Total"/></th>  
+																<th ><s:message code="label.order.total" text="Total"/></th>  
 															</tr> 
 														</thead>
 														
@@ -581,9 +581,13 @@ function captureOrder(orderId){
 																<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
 																
 												
-																	<td colspan="2">
-																		<input type="text" name="code" id="code" value="<c:out value="${subEntity.sku}" />" />
+																	<td>
+																		<input type="text" name="code" id="code" style="width: 120px" value="<c:out value="${subEntity.sku}" />" />
 																	</td>
+																	<td>
+																		<c:out value="${subEntity.productName}" />
+																	</td>
+																	
 																	<td colspan="1">
 																		<input type="text" name="quantity" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
 																	</td>

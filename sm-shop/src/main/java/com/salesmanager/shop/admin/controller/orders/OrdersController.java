@@ -94,6 +94,8 @@ public class OrdersController {
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
 			String	paymentModule = request.getParameter("paymentModule");
 			String customerName = request.getParameter("customer");
+			String status = request.getParameter("status");
+			String	pId = request.getParameter("id");
 			
 			OrderCriteria criteria = new OrderCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
@@ -105,6 +107,13 @@ public class OrdersController {
 			
 			if(!StringUtils.isBlank(customerName)) {
 				criteria.setCustomerName(customerName);
+			}
+			
+			if(!StringUtils.isBlank(status)) {
+				criteria.setStatus(status);
+			}
+			if(!StringUtils.isBlank(pId)) {
+				criteria.setId(Long.parseLong(pId));
 			}
 			
 			Language language = (Language)request.getAttribute("LANGUAGE");

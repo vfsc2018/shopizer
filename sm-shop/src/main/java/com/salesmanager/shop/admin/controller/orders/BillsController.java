@@ -111,6 +111,12 @@ public class BillsController {
 			String sku = request.getParameter("sku");
 			String productName = request.getParameter("productName");
 			
+			String billIdRq = request.getParameter("id");
+			String orderIdRq = request.getParameter("orderId");
+			String statusRq = request.getParameter("status");
+			
+			
+			
 			BillMasterCriteria criteria = new BillMasterCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
@@ -121,6 +127,19 @@ public class BillsController {
 			if(!StringUtils.isBlank(productName)) {
 				criteria.setProductName(productName);
 			}			
+			
+			if(!StringUtils.isBlank(billIdRq)) {
+				criteria.setId(Integer.parseInt(billIdRq));
+			}
+			
+			if(!StringUtils.isBlank(orderIdRq)) {
+				criteria.setOrderId(Long.parseLong(orderIdRq));
+			}
+			
+			if(!StringUtils.isBlank(statusRq)) {
+				criteria.setStatus(statusRq);
+			}			
+			
 			
 			Language language = (Language)request.getAttribute("LANGUAGE");
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -203,8 +222,9 @@ public class BillsController {
 						//ordernew.setProductQuantity(bean.getProductQuantity());
 						//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
 						//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+						ordernew.setStatus(bill.getStatus());
+						ordernew.setDescription(bill.getDescription());
 						
-		
 						if(dbProduct!=null){
 							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
 							OrderProductEx proRela = null;

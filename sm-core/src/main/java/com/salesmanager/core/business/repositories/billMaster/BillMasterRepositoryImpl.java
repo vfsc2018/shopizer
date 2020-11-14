@@ -20,32 +20,45 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 	@Override
 	public BillMasterList listByStore2(MerchantStore store, BillMasterCriteria criteria) {
 		BillMasterList customerList = new BillMasterList();
-		StringBuilder baseCountQuery =new StringBuilder("select count(c) from BillMaster as c ");
-		StringBuilder baseQuery = new StringBuilder("select c from BillMaster as c ");
-		//count query
+		StringBuilder baseCountQuery =new StringBuilder("select count(c) from BillMaster as c where c.id = c.id ");
+		StringBuilder baseQuery = new StringBuilder("select c from BillMaster as c where c.id = c.id ");
 		
-		StringBuilder baseCountWhere =new StringBuilder(" where c.id = c.id ");
-		StringBuilder baseWhere = new StringBuilder(" where c.id = c.id ");
 		
 		
 		if(!StringUtils.isBlank(criteria.getSku())) {
 
-			baseCountWhere.append(" and c.sku like:sk ");
-			baseWhere.append(" and c.sku like:sk ");
+			baseCountQuery.append(" and c.sku like:sk ");
+			baseQuery.append(" and c.sku like:sk ");
 			
 		}
 		
 		if(!StringUtils.isBlank(criteria.getProductName())) {
 			
-			baseCountWhere.append(" and c.productName like:nm");
-			baseWhere.append(" and c.productName like:nm");
+			baseCountQuery.append(" and c.productName like:nm");
+			baseQuery.append(" and c.productName like:nm");
+			
+		}
+
+		if(criteria.getId()>0) {
+			
+			baseCountQuery.append(" and c.id = :pId");
+			baseQuery.append(" and c.id = :pId");
+			
+		}
+
+		if(criteria.getOrderId()>0) {
+			
+			baseCountQuery.append(" and c.order.id = :pOrderId");
+			baseQuery.append(" and c.order.id = :pOrderId");
+			
+		}
+		if(!StringUtils.isBlank(criteria.getStatus())) {
+			
+			baseCountQuery.append(" and c.status = :pStatus");
+			baseQuery.append(" and c.status = :pStatus");
 			
 		}
 		
-		//if(!baseWhere.toString().equals(" where ")){
-			baseCountQuery.append(baseCountWhere);
-			baseQuery.append(baseWhere);
-		//}
 		
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query
@@ -62,6 +75,26 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			countQ.setParameter("nm",nameParam);
 			objectQ.setParameter("nm",nameParam);
 		}		
+		if(criteria.getId()>0) {
+
+			countQ.setParameter("pId",criteria.getId());
+			objectQ.setParameter("pId",criteria.getId());
+			
+		}
+
+		if(criteria.getOrderId()>0) {
+			
+			countQ.setParameter("pOrderId",criteria.getOrderId());
+			objectQ.setParameter("pOrderId",criteria.getOrderId());
+			
+		}
+		if(!StringUtils.isBlank(criteria.getStatus())) {
+			
+			countQ.setParameter("pStatus",criteria.getStatus());
+			objectQ.setParameter("pStatus",criteria.getStatus());
+			
+			
+		}
 		
 		Number count = (Number) countQ.getSingleResult();
 

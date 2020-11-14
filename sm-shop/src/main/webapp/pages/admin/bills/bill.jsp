@@ -566,8 +566,8 @@ function captureOrder(orderId){
 											      <table class="table table-bordered table-striped"> 
 														<thead> 
 															<tr> 
-																<th colspan="2" width="30%"><s:message code="label.order.item" text="Item"/></th> 
-																<th colspan="1" width="15%"><s:message code="label.quantity" text="Quantity"/></th> 
+																<th colspan="2" style="width: 130px"><s:message code="label.order.item" text="Item"/></th> 
+																<th colspan="1" style="width: 50px"><s:message code="label.quantity" text="Quantity"/></th> 
 																<th width="15%"><s:message code="label.order.price" text="Price"/></th>
 																<th ><s:message code="label.order.total" text="Total"/></th>  
 															</tr> 
@@ -582,7 +582,7 @@ function captureOrder(orderId){
 																
 												
 																	<td>
-																		<input type="text" name="code" id="code" value="<c:out value="${subEntity.sku}" />" />
+																		<input type="text" name="code" id="code" style="width: 120px" value="<c:out value="${subEntity.sku}" />" />
 																	</td>
 																	<td>
 																		<c:out value="${subEntity.productName}" />
@@ -591,7 +591,7 @@ function captureOrder(orderId){
 																		<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
 																	</td>
 																	<td>
-																		<input type="text" name="oneTimeCharge" style="width: 50px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
+																		<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
 																	</td>
 																	<td id="resultId" align="right">	
 																		
@@ -626,15 +626,13 @@ function captureOrder(orderId){
 											<div class="control-group">
 								                  <label><s:message code="label.entity.status" text="Status"/></label>	 
 								                  <div class="controls">      
-							                   			<form:select path="order.status">
-										  						<form:options items="${orderStatusList}" />
-									       				</form:select>      
+							                   			<c:out value="${dataEx.status}" />   
 								                   </div>
 								           </div> 
 							     		   <div class="control-group">  
-							                    <label><s:message code="label.entity.status" text="Status"/></label>
+							                    <label></label>
 							                     <div class="controls">
-							                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
+							                         <c:out value="${dataEx.description}" />   
 							                    </div> 
 							               </div>										
 										</td>

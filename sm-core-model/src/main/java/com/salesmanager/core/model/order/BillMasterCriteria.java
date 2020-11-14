@@ -6,6 +6,35 @@ public class BillMasterCriteria extends Criteria {
 	
 	private String productName = null;
 	private String sku = null;
+	private int id=0;
+	private long orderId = 0;
+	private String status = null;
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(long orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public String getSku() {
 		return sku;
