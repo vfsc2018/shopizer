@@ -95,7 +95,7 @@ public class OrdersController {
 			String	paymentModule = request.getParameter("paymentModule");
 			String customerName = request.getParameter("customer");
 			String status = request.getParameter("status");
-			String	pId = request.getParameter("id");
+			String	pId = request.getParameter("orderId");
 			
 			OrderCriteria criteria = new OrderCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
@@ -133,23 +133,26 @@ public class OrdersController {
 					entry.put("customer", order.getBilling().getFirstName() + " " + order.getBilling().getLastName());
 					entry.put("amount", priceUtil.getAdminFormatedAmountWithCurrency(store,order.getTotal()));//todo format total
 					entry.put("date", DateUtil.formatDate(order.getDatePurchased()));
+					entry.put("startDate", DateUtil.formatDate(order.getFromDate()));
+					entry.put("endDate", DateUtil.formatDate(order.getToDate()));
+					entry.put("phone", order.getBilling().getTelephone());
+					entry.put("address", order.getBilling().getAddress());
 					entry.put("status", order.getStatus().name());
 					
-					
-					if ( paymentModules!= null && paymentModules.size() > 0 ) 
-					{	
-						for ( int index = 0; index < paymentModules.size(); index++ )
-						{
-							if ( paymentModules.get(index).getCode().equalsIgnoreCase( order.getPaymentModuleCode() ) )
-							{
-								 paymentModule = paymentModules.get(index).getCode();
-								 break;
-							}
-						}
-	
-					}
-	
-					entry.put("paymentModule", paymentModule );
+//					if ( paymentModules!= null && paymentModules.size() > 0 ) 
+//					{	
+//						for ( int index = 0; index < paymentModules.size(); index++ )
+//						{
+//							if ( paymentModules.get(index).getCode().equalsIgnoreCase( order.getPaymentModuleCode() ) )
+//							{
+//								 paymentModule = paymentModules.get(index).getCode();
+//								 break;
+//							}
+//						}
+//	
+//					}
+//	
+//					entry.put("paymentModule", paymentModule );
 					resp.addDataEntry(entry);				
 					
 				}

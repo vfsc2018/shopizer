@@ -148,19 +148,34 @@ public class BillsController {
 			BillMasterList billList = billService.getListByStore2(store, criteria);
 		
 			if(billList.getBillMasters()!=null) {	
-			
-				for(BillMaster order : billList.getBillMasters()) {
+				BigDecimal totalBill = new BigDecimal(0);
+				for(BillMaster bill : billList.getBillMasters()) {
 					
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
-					entry.put("id", order.getId());
-					entry.put("orderId", order.getOrder().getId());
-					entry.put("sku", order.getSku());
-					entry.put("productName", order.getProductName());
-					//entry.put("customer", order.getBilling().getFirstName() + " " + order.getBilling().getLastName());
-					//entry.put("amount", priceUtil.getAdminFormatedAmountWithCurrency(store,order.getTotal()));//todo format total
-					entry.put("date", DateUtil.formatDate(order.getCreateAt()));
-					entry.put("status", order.getStatus());
+					entry.put("id", bill.getId());
+					entry.put("orderId", bill.getOrder().getId());
+					entry.put("sku", bill.getSku());
+					entry.put("productName", bill.getProductName());
+					
+					BigDecimal total = new BigDecimal(0);
+					
+					if(bill.getItems()!=null){
+						for(BillItem item:bill.getItems()){
+							total = new BigDecimal(0);
+							total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
+							totalBill = totalBill.add(total);
+						}
+						entry.put("total",totalBill);
+					} else {
+						entry.put("total",0);
+					}
+					entry.put("customer", bill.getOrder().getBilling().getFirstName() + " " + bill.getOrder().getBilling().getLastName());
+					entry.put("telephone", bill.getOrder().getBilling().getTelephone());
+					entry.put("address", bill.getOrder().getBilling().getAddress());
+
+					entry.put("date", DateUtil.formatDate(bill.getCreateAt()));
+					entry.put("status", bill.getStatus());
 	
 					entry.put("paymentModule", paymentModule );
 					resp.addDataEntry(entry);				
@@ -216,6 +231,7 @@ public class BillsController {
 
 					OrderProductEx ordernew = new OrderProductEx();
 						Product dbProduct = productService.getByCode(bill.getSku(), language);
+						ordernew.setId(bill.getId());
 						ordernew.setProductName(bill.getProductName());
 						ordernew.setSku(bill.getSku());
 						ordernew.setCurrency(dbOrder.getCurrency());
@@ -228,6 +244,7 @@ public class BillsController {
 						if(dbProduct!=null){
 							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
 							OrderProductEx proRela = null;
+
 							for(BillItem sBean : bill.getItems()){
 								proRela =  new OrderProductEx();
 								proRela.setSku(sBean.getCode());

@@ -48,6 +48,21 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
 	private String productName;
 	
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date dateExported;
+	
+	
+	
+	public Date getDateExported() {
+		return dateExported;
+	}
+
+
+
+	public void setDateExported(Date dateExported) {
+		this.dateExported = dateExported;
+	}
+
 	@Column (name="STATUS" , length=100)
 	private String status;	
 

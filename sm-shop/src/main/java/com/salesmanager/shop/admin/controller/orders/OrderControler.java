@@ -267,14 +267,16 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			@RequestParam("quantity") Double[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("orderHistoryComment") String orderHistoryComment,
+			@RequestParam("dateExported") String dateExported,
 			@RequestParam("order.status") String status,
 			@RequestParam("typeSave") int typeSave,
 			HttpServletRequest request, 
 			HttpServletResponse response) {
 		
 		
+			
 		
-		
+
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -344,6 +346,18 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 												bill.setSku(sku);
 												bill.setProductName(productNames[i]);
 												bill.setOrder(order);
+												bill.setCreateAt(new Date());
+												bill.setStatus(status);
+												bill.setDescription(orderHistoryComment);
+												if( dateExported !=null && !dateExported.equals("") ){
+													try {
+														bill.setDateExported(DateUtil.getDate(dateExported));
+													} catch (Exception e) {
+														bill.setDateExported(new Date());
+														e.printStackTrace();
+													}
+												}
+												
 												bill = billMasterService.saveAnnouncement(bill);
 												//Update 
 												BillItem sub = null;
@@ -388,6 +402,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						bill.setOrder(order);
 						bill.setStatus(status);
 						bill.setDescription(orderHistoryComment);
+						if( dateExported !=null && !dateExported.equals("") ){
+							try {
+								bill.setDateExported(DateUtil.getDate(dateExported));
+							} catch (Exception e) {
+								bill.setDateExported(new Date());
+								e.printStackTrace();
+							}
+						}						
+						
 						bill = billMasterService.saveAnnouncement(bill);
 						BillItem sub = null;
 						int j = 0;

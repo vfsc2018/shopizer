@@ -127,12 +127,11 @@
 										
 								 	
 									<tr class="subt"> 
-										<td  width="50%">&nbsp;</td> 
-										<td width="50%" align="right">
-										<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
-										<span id="totalMoney">
-										<strong><sm:monetary value="${totalMoney}" currency="${order.order.currency}"/></strong>
-										</span>
+										<td colspan="2" align="right">
+											<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
+											<span id="totalMoney">
+											<strong><sm:monetary value="${totalMoney}" currency="${order.order.currency}"/></strong>
+											</span>
 										</td> 
 									</tr> 
 									

@@ -9,6 +9,14 @@ import com.salesmanager.core.model.reference.currency.Currency;
 
 
 public class OrderProductEx {
+	
+	private int id;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	private String productName;
 	private String sku;
 	private int productQuantity;
