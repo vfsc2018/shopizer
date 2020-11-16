@@ -73,7 +73,7 @@ public class OrderShippingApi {
    * @throws Exception
    */
   @RequestMapping(
-      value = {"/auth/cart/{code}/shipping"},
+      value = {"/private/cart/{code}/shipping"},
       method = RequestMethod.GET)
   @ResponseBody
   @ApiImplicitParams({

@@ -199,49 +199,49 @@ public class ShoppingCartApi {
     }
   }
 
-  @ResponseStatus(HttpStatus.CREATED)
-  @RequestMapping(value = "/auth/customers/{id}/cart", method = RequestMethod.POST)
-  @ApiOperation(
-      httpMethod = "POST",
-      value = "Add product to a specific customer shopping cart",
-      notes = "",
-      produces = "application/json",
-      response = ReadableShoppingCart.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public @ResponseBody ReadableShoppingCart addToCart(
-      @PathVariable Long id,
-      @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response) {
+  // @ResponseStatus(HttpStatus.CREATED)
+  // @RequestMapping(value = "/auth/customers/{id}/cart", method = RequestMethod.POST)
+  // @ApiOperation(
+  //     httpMethod = "POST",
+  //     value = "Add product to a specific customer shopping cart",
+  //     notes = "",
+  //     produces = "application/json",
+  //     response = ReadableShoppingCart.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public @ResponseBody ReadableShoppingCart addToCart(
+  //     @PathVariable Long id,
+  //     @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
+  //     @ApiIgnore MerchantStore merchantStore,
+  //     @ApiIgnore Language language,
+  //     HttpServletResponse response) {
 
-    try {
-      // lookup customer
-      Customer customer = customerService.getById(id);
+  //   try {
+  //     // lookup customer
+  //     Customer customer = customerService.getById(id);
 
-      if (customer == null) {
-        response.sendError(404, "No Customer found for ID : " + id);
-        return null;
-      }
+  //     if (customer == null) {
+  //       response.sendError(404, "No Customer found for ID : " + id);
+  //       return null;
+  //     }
 
-      ReadableShoppingCart cart =
-          shoppingCartFacade.addToCart(customer, shoppingCartItem, merchantStore, language);
+  //     ReadableShoppingCart cart =
+  //         shoppingCartFacade.addToCart(customer, shoppingCartItem, merchantStore, language);
 
-      return cart;
+  //     return cart;
 
-    } catch (Exception e) {
-      LOGGER.error("Error while adding product to cart", e);
-      try {
-        response.sendError(503, "Error while adding product to cart " + e.getMessage());
-      } catch (Exception ignore) {
-      }
+  //   } catch (Exception e) {
+  //     LOGGER.error("Error while adding product to cart", e);
+  //     try {
+  //       response.sendError(503, "Error while adding product to cart " + e.getMessage());
+  //     } catch (Exception ignore) {
+  //     }
 
-      return null;
-    }
-  }
+  //     return null;
+  //   }
+  // }
 
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(value = "/private/customer/cart", method = RequestMethod.POST)
@@ -330,52 +330,52 @@ public class ShoppingCartApi {
     }
   }
 
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(value = "/auth/customers/{id}/cart", method = RequestMethod.GET)
-  @ApiOperation(
-      httpMethod = "GET",
-      value = "Get a chopping cart by id",
-      notes = "",
-      produces = "application/json",
-      response = ReadableShoppingCart.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public @ResponseBody ReadableShoppingCart get(
-      @PathVariable Long id,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response) {
+  // @ResponseStatus(HttpStatus.OK)
+  // @RequestMapping(value = "/auth/customers/{id}/cart", method = RequestMethod.GET)
+  // @ApiOperation(
+  //     httpMethod = "GET",
+  //     value = "Get a chopping cart by id",
+  //     notes = "",
+  //     produces = "application/json",
+  //     response = ReadableShoppingCart.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public @ResponseBody ReadableShoppingCart get(
+  //     @PathVariable Long id,
+  //     @ApiIgnore MerchantStore merchantStore,
+  //     @ApiIgnore Language language,
+  //     HttpServletResponse response) {
 
-    try {
-      // lookup customer
-      Customer customer = customerService.getById(id);
+  //   try {
+  //     // lookup customer
+  //     Customer customer = customerService.getById(id);
 
-      if (customer == null) {
-        response.sendError(404, "No Customer found for ID : " + id);
-        return null;
-      }
+  //     if (customer == null) {
+  //       response.sendError(404, "No Customer found for ID : " + id);
+  //       return null;
+  //     }
 
-      ReadableShoppingCart cart = shoppingCartFacade.getCart(customer, merchantStore, language);
+  //     ReadableShoppingCart cart = shoppingCartFacade.getCart(customer, merchantStore, language);
 
-      if (cart == null) {
-        response.sendError(404, "No ShoppingCart found for customer ID : " + id);
-        return null;
-      }
+  //     if (cart == null) {
+  //       response.sendError(404, "No ShoppingCart found for customer ID : " + id);
+  //       return null;
+  //     }
 
-      return cart;
+  //     return cart;
 
-    } catch (Exception e) {
-      LOGGER.error("Error while getting cart", e);
-      try {
-        response.sendError(503, "Error while getting cart " + e.getMessage());
-      } catch (Exception ignore) {
-      }
+  //   } catch (Exception e) {
+  //     LOGGER.error("Error while getting cart", e);
+  //     try {
+  //       response.sendError(503, "Error while getting cart " + e.getMessage());
+  //     } catch (Exception ignore) {
+  //     }
 
-      return null;
-    }
-  }
+  //     return null;
+  //   }
+  // }
 
   @DeleteMapping(
       value = "/cart/{code}/product/{id}",

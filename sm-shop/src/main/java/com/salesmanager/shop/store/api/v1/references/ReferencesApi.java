@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.model.reference.language.Language;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.references.MeasureUnit;
 import com.salesmanager.shop.model.references.ReadableCountry;
 import com.salesmanager.shop.model.references.ReadableZone;
@@ -51,6 +54,9 @@ public class ReferencesApi {
   @Inject private ZoneFacade zoneFacade;
 
   @Inject private CurrencyFacade currencyFacade;
+
+	@Inject
+	private MerchantStoreService merchantStoreService;
 
   /**
    * Search languages by language code private/languages returns everything
@@ -101,4 +107,23 @@ public class ReferencesApi {
     sizeReferences.setWeights(Arrays.asList(WeightUnit.values()));
     return sizeReferences;
   }
+  
+
+	@GetMapping("/information")
+	public MerchantStore information(HttpServletRequest request) throws ServiceException {
+		
+		MerchantStore merchantStore = merchantStoreService.getByCode(MerchantStore.DEFAULT_STORE);
+    
+    MerchantStore store = new MerchantStore();
+
+    store.setStorename(merchantStore.getStorename());
+    store.setStorebank(merchantStore.getStorebank());
+    store.setStoreaddress(merchantStore.getStoreaddress());
+    store.setStorephone(merchantStore.getStorephone());
+    store.setStorecity(merchantStore.getStorecity());
+    store.setStoreEmailAddress(merchantStore.getStoreEmailAddress());
+    
+		return store;
+	}
+
 }

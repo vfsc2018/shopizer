@@ -16,22 +16,8 @@ response.setDateHeader ("Expires", -1);
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 
-<script src="<c:url value="/resources/js/jquery.print.js" />"></script>
-
-<script type="text/javascript">
-
-function print() {
-	$('#printableOrder').print();
-}
-
-</script>
-
-
-	<div id="main-content" class="container clearfix row-fluid">
+<div id="main-content" class="container clearfix row-fluid">
 		
-
-
-
 				<header class="page-header">
 					<h1><s:message code="label.order.details" text="Order details" />&nbsp;#&nbsp;<c:out value="${order.id}"/></h1>
 				</header>
@@ -65,20 +51,12 @@ function print() {
 									       </c:if>
 								
 								
-							</div><!-- /left text -->
-
-							
-							<div class="col-md-4 col-sm-4 text-right pull-right">
-								<input type="button" onclick="print();" value="<s:message code="label.generic.print" text="Print" />" name="Print" class="btn btn-large">
 							</div>
-
 						</div>
 
 					</div>
 					
-					<div id="printableOrder" class="row-fluid">
-					
-					
+					<div id="printSection">
 					<div class="row-fluid">
 					
 						<div class="col-md-12 col-sm-12 pull-left">
@@ -170,10 +148,7 @@ function print() {
 							<div class="clearfix"></div>
 						</div>
 						</c:forEach>
-						<!-- /cart item -->
 
-
-						<!-- cart total -->
 						<div class="total pull-right">
 							<c:forEach items="${order.totals}" var="orderTotal" varStatus="counter">
 								<small class="totalItem">
@@ -183,11 +158,8 @@ function print() {
 								<br/>
 							</c:forEach>
 						</div>
-						<!-- /cart total -->
-
 						<div class="clearfix"></div>
 					</div>
-					<!-- /SUMMARY TABLE -->
 
 
 				</div>
@@ -199,4 +171,3 @@ function print() {
 		</div>
 	
 	</div>
-	<!--close .container "main-content" -->

@@ -6,29 +6,22 @@
 
 <%@ page session="false" %>
 
-
-
-
-
-
 <script> 
-	function print() { 
-		var divContents = document.getElementById('printSection').innerHTML; 
-		var a = window.open('', '', 'height=500, width=500'); 
-		a.document.write('<html>'); 
-		a.document.write('<body >'); 
-		a.document.write(divContents); 
-		a.document.write('</body></html>'); 
-		a.document.close(); 
-		a.print(); 
-	} 
+    function print() { 
+        var divContents = document.getElementById('printSection').innerHTML; 
+        var a = window.open('', '', 'height=500, width=500'); 
+        a.document.write('<html>'); 
+        a.document.write('<body onload="window.print();window.close()">'); 
+        a.document.write(divContents); 
+        a.document.write('</body></html>'); 
+        a.document.close(); 
+        setTimeout(function(){
+            a.print();
+        }, 3000)
+        return false; 
+    } 
 </script> 
-
-
-
 <div class="tabbable">
-
-
 	<jsp:include page="/common/adminTabs.jsp" />
 
 	<div class="tab-content">
@@ -53,18 +46,18 @@
 							<td align="left"><c:out value="${order.billing.firstName}" /> <c:out value="${order.billing.lastName}" /> </td>
 						</tr>
 						<tr>
-							<th align="left"><Strong>Billing address:</Strong></th>
+							<th align="left"><Strong><s:message code="label.customer.billingaddress" text="Billing address"/>:</Strong></th>
 							<td align="left"><c:out value="${order.billing.address}" />/ <c:out value="${order.billing.city}" /> </td>
 						</tr>	
 						<tr>
-							<th align="left"><Strong>Phone:</Strong></th>
+							<th align="left"><Strong><s:message code="label.generic.phone" text="Phone"/>:</Strong></th> 
 							<td align="left"><c:out value="${order.billing.telephone}" /> </td>
 						</tr>
 					</table>
 					
 			 		<div class="span8"> 	
 			 			<div class="span4" style="margin-left:0px;"> 
-						<h6> BILL INFORMATION </h6>
+						<h6><s:message code="label.customer.billinginformation" text="Billing information"/></h6>
 						</div>
 				    </div>
 	
@@ -146,11 +139,9 @@
 </table>
 </div>
 					<div class="form-actions">
-						<div class="pull-right">
 							<button class="btn btn-medium btn-primary" onclick="print()">
 								<s:message code="button.label.print" text="Print" />
 							</button>
-						</div>
 					</div>
 </div>
 </div>

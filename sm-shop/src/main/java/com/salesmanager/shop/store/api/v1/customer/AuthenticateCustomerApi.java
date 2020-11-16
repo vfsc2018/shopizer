@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,17 +18,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
-import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
@@ -82,7 +84,7 @@ public class AuthenticateCustomerApi {
     public ResponseEntity<?> register(@Valid @RequestBody PersistableCustomer customer, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         
-        
+        LOGGER.info("Register");
         //try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
@@ -176,29 +178,10 @@ public class AuthenticateCustomerApi {
         return ResponseEntity.ok(new AuthenticationResponse(userDetails.getId(),token));
     }
 
-    @RequestMapping(value = "/auth/customer/refresh", method = RequestMethod.GET, produces ={ "application/json" })
-    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
-        String token = request.getHeader(tokenHeader);
-
-        System.out.println("--------------------- TOKEN : " + token);
-
-        String username = jwtTokenUtil.getUsernameFromToken(token);
-        JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
-
-        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
-            String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new AuthenticationResponse(user.getId(),refreshedToken));
-        } else {
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
-    
-
-    @RequestMapping(value = "/customer/password/reset", method = RequestMethod.PUT, produces ={ "application/json" })
-    @ApiOperation(httpMethod = "POST", value = "Change customer password", notes = "Change password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
+    @PutMapping(value = "/customer/password/reset")
+    @ApiOperation(httpMethod = "PUT", value = "Reset customer password", notes = "Reset password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
-
-
+  
         try {
             
             MerchantStore merchantStore = storeFacade.getByCode(request);
@@ -218,36 +201,71 @@ public class AuthenticateCustomerApi {
         }
     }
     
+  
+    @PutMapping(value = "/customer/password")
+    @ApiOperation(httpMethod = "PUT", value = "Sends a request to change password", notes = "Password change request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
+    public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) throws Exception {
+        String token = request.getHeader(tokenHeader);
+        
+        if(token != null && token.contains("Bearer")) {
+            token = token.substring("Bearer ".length(),token.length());
+        }
+          
+        String username = jwtTokenUtil.getUsernameFromToken(token);
 
-    @RequestMapping(value = "/customer/password", method = RequestMethod.POST, produces ={ "application/json" })
-    @ApiOperation(httpMethod = "PUT", value = "Sends a request to reset password", notes = "Password reset request is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
-    public ResponseEntity<?> changePassword(@RequestBody @Valid PasswordRequest passwordRequest, HttpServletRequest request) {
-
+        System.out.println("changePassword(" + username + ") --------------------- TOKEN : " + token);
+  
+        if(username == null || passwordRequest.getUsername()==null || !passwordRequest.getUsername().equals(username)){
+            return ResponseEntity.badRequest().body("Exception Username when change password");
+        }
 
         try {
-            
             MerchantStore merchantStore = storeFacade.getByCode(request);
-
+  
             Customer customer = customerFacade.getCustomerByUserName(passwordRequest.getUsername(), merchantStore);
             
             if(customer == null){
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.badRequest().body("Exception Customer when change password");
             }
-            
+  
             //need to validate if password matches
             if(!customerFacade.passwordMatch(passwordRequest.getCurrent(), customer)) {
-              throw new ResourceNotFoundException("Username or password does not match");
+                return ResponseEntity.badRequest().body("Username or password does not match");
             }
             
             if(!passwordRequest.getPassword().equals(passwordRequest.getRepeatPassword())) {
-              throw new ResourceNotFoundException("Both passwords do not match");
+                return ResponseEntity.badRequest().body("Both passwords do not match");
             }
             
             customerFacade.changePassword(customer, passwordRequest.getPassword());           
-            return ResponseEntity.ok(Void.class);
+            return ResponseEntity.ok(username);
             
         } catch(Exception e) {
-            return ResponseEntity.badRequest().body("Exception when reseting password "+e.getMessage());
+            return ResponseEntity.badRequest().body("Exception when change password "+e.getMessage());
         }
     }
+
+    @RequestMapping(value = "/private/customer/refresh", method = RequestMethod.GET, produces ={ "application/json" })
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+        String token = request.getHeader(tokenHeader);
+
+        if(token != null && token.contains("Bearer")) {
+            token = token.substring("Bearer ".length(),token.length());
+        }
+          
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+
+        System.out.println("refreshToken(" + username + ") --------------------- TOKEN : " + token);
+
+        JWTUser user = (JWTUser) jwtCustomerDetailsService.loadUserByUsername(username);
+
+        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
+            String refreshedToken = jwtTokenUtil.refreshToken(token);
+            return ResponseEntity.ok(new AuthenticationResponse(user.getId(),refreshedToken));
+        } else {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+    
+
 }

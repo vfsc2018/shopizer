@@ -53,7 +53,7 @@ public class ProductImageApi {
    */
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(
-      value = {"/private/products/{id}/images", "/auth/products/{id}/images"},
+      value = {"/private/products/{id}/images"},
       consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
       method = RequestMethod.POST)
   @ApiImplicitParams({

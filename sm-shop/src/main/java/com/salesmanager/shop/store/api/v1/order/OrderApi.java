@@ -335,7 +335,7 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/auth/cart/{code}/checkout", "/private/cart/{code}/checkout" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/private/cart/{code}/checkout" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ 
