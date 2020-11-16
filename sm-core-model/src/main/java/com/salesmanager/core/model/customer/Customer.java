@@ -11,6 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -39,6 +40,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
@@ -49,6 +51,7 @@ import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
+@EntityListeners(value = AuditListener.class)
 @Table(name = "CUSTOMER", 
 	schema=SchemaConstant.SALESMANAGER_SCHEMA,
 			uniqueConstraints=@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_EMAIL_ADDRESS"})

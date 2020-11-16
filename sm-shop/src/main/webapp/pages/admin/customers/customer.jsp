@@ -418,7 +418,7 @@ function setCredentials(customerId, userName, password){
 	                        <label><s:message code="label.customer.firstname" text="First Name"/></label>
 	                        <div class="controls">
 	                        		<form:input  cssClass="input-large highlight"  maxlength="64"  path="billing.firstName"/>
-	                                <span class="help-inline"><form:errors path="billing.FirstName" cssClass="error" /></span>
+	                                <span class="help-inline"><form:errors id="customerFirstName" path="billing.FirstName" cssClass="error" /></span>
 	                        </div>
 	                </div>
 	                <div class="control-group">

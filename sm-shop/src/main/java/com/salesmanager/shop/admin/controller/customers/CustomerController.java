@@ -315,7 +315,7 @@ public class CustomerController {
 		}
 		 
 		if( StringUtils.isBlank(customer.getBilling().getPostalCode() ) ){
-			 ObjectError error = new ObjectError("billingPostalCode", messages.getMessage("NotEmpty.customer.billingPostCode", locale));
+			 ObjectError error = new ObjectError("billing.FirstName", messages.getMessage("NotEmpty.customer.billingPostCode", locale));
 			 result.addError(error);
 		}
 		
@@ -403,12 +403,16 @@ public class CustomerController {
 		customer.getBilling().setZone(  billingZone);
 		customer.getBilling().setCountry(billingCountry );
 		newCustomer.setBilling( customer.getBilling()  );
-		
-		customerService.saveOrUpdate(newCustomer);
-		
-		model.addAttribute("customer", newCustomer);
-		model.addAttribute("countries", countries);
-		model.addAttribute("success","success");
+		try{
+			customerService.saveOrUpdate(newCustomer);
+			model.addAttribute("customer", newCustomer);
+			model.addAttribute("countries", countries);
+			model.addAttribute("success","success");
+		} catch(Exception e){
+			model.addAttribute("countries", countries);
+			ObjectError error = new ObjectError("customerFirstName", e.getMessage());
+			result.addError(error);
+		}
 		
 		return "admin-customer";
 		

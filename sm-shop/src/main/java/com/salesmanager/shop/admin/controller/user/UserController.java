@@ -53,6 +53,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.admin.security.SecurityQuestion;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.constants.EmailConstants;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.FilePathUtils;
 import com.salesmanager.shop.utils.LabelUtils;
@@ -146,9 +147,15 @@ public class UserController {
 						@SuppressWarnings("rawtypes")
 						Map entry = new HashMap();
 						entry.put("userId", user.getId());
-						entry.put("name", user.getFirstName() + " " + user.getLastName());
+						entry.put("name", user.getFirstName()); // + " " + user.getLastName());
 						entry.put("email", user.getAdminEmail());
 						entry.put("active", user.isActive());
+						entry.put("username", user.getAdminName());
+						if(user.getAuditSection()==null){
+							entry.put("date", null);
+						}else{
+							entry.put("date", DateUtil.formatDate(user.getAuditSection().getDateCreated()));
+						}
 						resp.addDataEntry(entry);
 					
 					}

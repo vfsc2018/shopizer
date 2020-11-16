@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
       if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
         req.append(" order by u." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
       }else{
-        req.append(" order by u.user_id desc ");
+        req.append(" order by u.id desc ");
       }
 
       Query countQ = this.em.createQuery(countBuilder.toString());
