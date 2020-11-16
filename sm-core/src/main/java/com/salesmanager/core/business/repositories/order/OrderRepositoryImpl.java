@@ -59,13 +59,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		
 		
-		String orderByCriteria = " order by o.id desc";
+		// String orderByCriteria = " order by o.id desc";
 		
-		if(criteria.getOrderBy()!=null) {
-			if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
-				orderByCriteria = " order by o.id asc";
-			}
-		}
+		// if(criteria.getOrderBy()!=null) {
+		// 	if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
+		// 		orderByCriteria = " order by o.id asc";
+		// 	}
+		// }
 		
 		String countBaseQuery = "select count(o) from Order as o";
 		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
@@ -111,8 +111,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectBuilderWhere.append(statusQuery);
 		}
 		
-		objectBuilderWhere.append(orderByCriteria);
-		
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			objectBuilderWhere.append(" order by o." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			objectBuilderWhere.append(" order by o.id desc ");
+		}
 
 		//count query
 		Query countQ = em.createQuery(

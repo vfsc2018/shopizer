@@ -11,8 +11,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderList;
-import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
@@ -116,9 +114,9 @@ public class OrdersController {
 				criteria.setId(Long.parseLong(pId));
 			}
 			
-			Language language = (Language)request.getAttribute("LANGUAGE");
+			// Language language = (Language)request.getAttribute("LANGUAGE");
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			List<IntegrationModule> paymentModules = moduleConfigurationService.getIntegrationModules( "PAYMENT" );
+			// List<IntegrationModule> paymentModules = moduleConfigurationService.getIntegrationModules( "PAYMENT" );
 
 
 			OrderList orderList = orderService.listByStore(store, criteria);

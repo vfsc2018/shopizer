@@ -6,6 +6,7 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.customer.CustomerList;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -27,7 +28,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
 		String baseCountQuery = "select count(c) from Customer as c";
-		String baseQuery = "select c from Customer as c  left join fetch c.delivery.country left join fetch c.delivery.zone left join fetch c.billing.country left join fetch c.billing.zone";
+		String baseQuery = "select c from Customer as c left join fetch c.auditSection  left join fetch c.delivery.country left join fetch c.delivery.zone left join fetch c.billing.country left join fetch c.billing.zone";
 		countBuilderSelect.append(baseCountQuery);
 		objectBuilderSelect.append(baseQuery);
 		
@@ -68,7 +69,14 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		}
 		
 		objectBuilderSelect.append(" left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions  left join fetch c.groups");
+		
 
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			objectBuilderWhere.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			objectBuilderWhere.append(" order by c.id desc ");
+		}
+		
 		//count query
 		Query countQ = em.createQuery(
 				countBuilderSelect.toString() + countBuilderWhere.toString());
@@ -110,9 +118,6 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 			countQ.setParameter("country",country);
 			objectQ.setParameter("country",country);
 		}
-		
-		
-
 
 		Number count = (Number) countQ.getSingleResult();
 

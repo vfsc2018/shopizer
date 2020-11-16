@@ -41,10 +41,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         req.append("  where um.code=:storeCode");
         countBuilder.append(" where um.code=:storeCode");
       }
-      
+       
       if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
-        req.append(" order by u." + criteria.getCriteriaOrderByField() + " "
-            + criteria.getOrderBy().name().toLowerCase());
+        req.append(" order by u." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+      }else{
+        req.append(" order by u.user_id desc ");
       }
 
       Query countQ = this.em.createQuery(countBuilder.toString());

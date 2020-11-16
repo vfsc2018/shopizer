@@ -31,6 +31,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LocaleUtils;
@@ -642,6 +643,13 @@ public class CustomerController {
 					entry.put("lastName", customer.getBilling().getLastName());
 					entry.put("email", customer.getEmailAddress());
 					entry.put("country", customer.getBilling().getCountry().getIsoCode());
+					entry.put("phone", customer.getBilling().getTelephone());
+					entry.put("address", customer.getBilling().getAddress());
+					if(customer.getAuditSection()==null){
+						entry.put("date", null);
+					}else{
+						entry.put("date", DateUtil.formatDate(customer.getAuditSection().getDateCreated()));
+					}
 					resp.addDataEntry(entry);
 					
 				}

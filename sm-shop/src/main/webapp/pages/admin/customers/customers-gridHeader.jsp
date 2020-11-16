@@ -6,9 +6,9 @@
 
 
 
-				        			{title:"<s:message code="label.entity.id" text="Id"/>", name:"id",canFilter:false},
-        							{title:"<s:message code="label.customer.firstname" text="First name"/>", name:"firstName",canFilter:false},
-        							{title:"<s:message code="label.customer.lastname" text="Last name"/>", name:"lastName",canFilter:true},
-        							{title:"<s:message code="label.generic.email" text="Email"/>", name:"email",canFilter:true},
-        							{title:"<s:message code="label.customer.country" text="Customer country"/>", name:"country",canFilter:false},
-        							{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false}
+		{title:"<s:message code="label.entity.id" text="Id"/>", name:"id"},
+		{title:"<s:message code="label.customer.name" text="Customer"/>", name:"firstName"},
+		{title:"<s:message code="label.generic.phone" text="Phone"/>", name:"phone"},
+		{title:"<s:message code="label.order.address" text="Address"/>", name:"address",canFilter:false},
+		{title:"<s:message code="label.customer.datecreated" text="Date"/>", name:"date",canFilter:false},
+		{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false}
