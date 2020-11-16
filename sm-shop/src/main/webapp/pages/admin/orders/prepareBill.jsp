@@ -625,7 +625,7 @@ function captureOrder(orderId){
 									<tr>
 										<td colspan="2">
 											<div class="control-group">
-								                  <label><s:message code="label.entity.dateExported" text="Date exported"/></label>	 
+								                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
 								                  <div class="controls">      
 								                  		<input id="dateExported" name="dateExported" value="" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
 														<script type="text/javascript">

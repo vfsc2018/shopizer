@@ -158,7 +158,7 @@ public class BillsController {
 					entry.put("sku", bill.getSku());
 					entry.put("productName", bill.getProductName());
 					
-					BigDecimal total = new BigDecimal(0);
+					BigDecimal total;
 					
 					if(bill.getItems()!=null){
 						for(BillItem item:bill.getItems()){
@@ -170,11 +170,11 @@ public class BillsController {
 					} else {
 						entry.put("total",0);
 					}
-					entry.put("customer", bill.getOrder().getBilling().getFirstName() + " " + bill.getOrder().getBilling().getLastName());
-					entry.put("telephone", bill.getOrder().getBilling().getTelephone());
+					entry.put("customer", bill.getOrder().getBilling().getFirstName()); // + " " + bill.getOrder().getBilling().getLastName());
+					entry.put("phone", bill.getOrder().getBilling().getTelephone());
 					entry.put("address", bill.getOrder().getBilling().getAddress());
 
-					entry.put("date", DateUtil.formatDate(bill.getCreateAt()));
+					entry.put("date", DateUtil.formatDate(bill.getDateExported()));
 					entry.put("status", bill.getStatus());
 	
 					entry.put("paymentModule", paymentModule );

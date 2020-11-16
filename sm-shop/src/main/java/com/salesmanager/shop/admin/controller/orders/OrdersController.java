@@ -130,7 +130,7 @@ public class OrdersController {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("orderId", order.getId());
-					entry.put("customer", order.getBilling().getFirstName() + " " + order.getBilling().getLastName());
+					entry.put("customer", order.getBilling().getFirstName()); // + " " + order.getBilling().getLastName());
 					entry.put("amount", priceUtil.getAdminFormatedAmountWithCurrency(store,order.getTotal()));//todo format total
 					entry.put("date", DateUtil.formatDate(order.getDatePurchased()));
 					entry.put("startDate", DateUtil.formatDate(order.getFromDate()));
