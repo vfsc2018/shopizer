@@ -566,9 +566,9 @@ function captureOrder(orderId){
 											      <table class="table table-bordered table-striped"> 
 														<thead> 
 															<tr> 
-																<th colspan="2" style="width: 130px"><s:message code="label.order.item" text="Item"/></th> 
+																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
 																<th colspan="1" style="width: 50px"><s:message code="label.quantity" text="Quantity"/></th> 
-																<th width="15%"><s:message code="label.order.price" text="Price"/></th>
+																<th style="width: 120px" ><s:message code="label.order.price" text="Price"/></th>
 																<th ><s:message code="label.order.total" text="Total"/></th>  
 															</tr> 
 														</thead>
@@ -581,18 +581,18 @@ function captureOrder(orderId){
 																<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
 																
 												
-																	<td>
-																		<input type="text" name="code" id="code" style="width: 120px" value="<c:out value="${subEntity.sku}" />" />
+																	<td style="width: 100px" >
+																		<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
 																	</td>
-																	<td>
+																	<td style="width: 150px">
 																		<c:out value="${subEntity.productName}" />
 																	</td>
 																	
 																	<td colspan="1">
-																		<input type="text" name="quantity" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
+																		<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
 																	</td>
 																	<td>
-																		<input type="text" name="oneTimeCharge" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
+																		<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
 																	</td>
 																	<td id="resultId" align="right">	
 																		
@@ -615,12 +615,29 @@ function captureOrder(orderId){
 										
 								 	
 									<tr class="subt"> 
-										<td  width="50%">&nbsp;</td> 
-										<td width="50%" align="right">
+										 
+										<td colspan="2" align="right">
 										<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
 										<span id="totalMoney"></span>
 										</td> 
-									</tr> 
+									</tr>
+									 
+									<tr>
+										<td colspan="2">
+											<div class="control-group">
+								                  <label><s:message code="label.entity.dateExported" text="Date exported"/></label>	 
+								                  <div class="controls">      
+								                  		<input id="dateExported" name="dateExported" value="" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
+														<script type="text/javascript">
+															$('#dateExported').datepicker();
+														</script>    
+								                   </div>
+								           </div> 
+								           										
+
+										</td>									
+									</tr>
+									
 									<tr>
 										<td colspan="2">
 										

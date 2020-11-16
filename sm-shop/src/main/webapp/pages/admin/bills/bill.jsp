@@ -478,51 +478,15 @@ function captureOrder(orderId){
 
 
 		<h3>
-			<div class="control-group">
+					<div class="control-group">
                       <div class="controls">
                      		 <s:message code="label.order.preparebill" text="Draft Bill"/> 
-                     		 <c:out value="${order.order.id}" /> - <span class="lead"><s:message code="label.order.${order.order.status.value}" text="${order.order.status.value}" /></span>
+                     		 <c:out value="${dataEx.id}" /> - <span class="lead"><s:message code="label.order.${dataEx.status}" text="${dataEx.status}" /></span>
                      		 <br>
                        </div>       
                   </div>
            </h3>
-		<br/>
-		<br/>
-		    <div class="btn-group" style="z-index:400000;">
-                    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.generic.moreoptions" text="More options"/> ... <span class="caret"></span></button>
-                     <ul class="dropdown-menu">
-				    	<li><a id="transactionsAction" href="#"><s:message code="label.order.transactions" text="Transactions list"/></a></li>
-				    	<li><a id="sendInvoiceAction" href="#"><s:message code="label.order.sendinvoice" text="Send email invoice"/></a></li>
-				    	<li><a id="updateStatusAction" href="#"><s:message code="label.order.updatestatus" text="Send order status email"/></a></li>
-				    	<li>
-				    		<c:if test="${downloads!=null}">
-								<a id="updateDownloadsAction" href="#"><s:message code="label.order.downloademail" text="Send download email"/></a>
-							</c:if>
-				    	</li>
-				    	<!--<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>-->
-				    	<!-- available soon <li><a href="<c:url value="/admin/orders/printShippingLabel.html?id=${order.id}" />"><s:message code="label.order.packing" text="Print packing slip"/></a></li>-->
-				    	<li>
-				    		<c:if test="${customer!=null}">
-								<a href="<c:url value="/admin/customers/customer.html?id=${customer.id}"/>"><s:message code="label.order.editcustomer" text="Edit customer"/></a>
-							</c:if>
-						</li>
-				    	<li>
-				    		<c:if test="${customer!=null}">
-								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Draft Bill"/></a>
-							</c:if>
-						</li>
-                     </ul>
-                	&nbsp;
-                	<c:if test="${order.order.total>0}">
-	            	<c:if test="${capturableTransaction!=null}">
-	            		 <a id="captureAction" class="btn btn-primary btn-block" href="#"><s:message code="label.order.capture" text="Capture transaction"/></a>
-	            	</c:if>
-	            	<c:if test="${refundableTransaction!=null}">
-	            		 <a id="refundAction" class="btn btn-danger btn-block" href="#"><s:message code="label.order.refund" text="Apply refund"/></a>
-	            	</c:if>  
-	            	</c:if>       
-              </div><!-- /btn-group -->
-			  <br/>
+		   <br/>
  	       	 	
 	     <c:url var="buildBill" value="/admin/orders/buildBill.html"/>
 	     
@@ -566,9 +530,9 @@ function captureOrder(orderId){
 											      <table class="table table-bordered table-striped"> 
 														<thead> 
 															<tr> 
-																<th colspan="2" style="width: 130px"><s:message code="label.order.item" text="Item"/></th> 
+																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
 																<th colspan="1" style="width: 50px"><s:message code="label.quantity" text="Quantity"/></th> 
-																<th width="15%"><s:message code="label.order.price" text="Price"/></th>
+																<th style="width: 120px"><s:message code="label.order.price" text="Price"/></th>
 																<th ><s:message code="label.order.total" text="Total"/></th>  
 															</tr> 
 														</thead>
@@ -581,10 +545,10 @@ function captureOrder(orderId){
 																<input type="hidden" id="productName" name="productName" value="${dataEx.productName}" />
 																
 												
-																	<td>
-																		<input type="text" name="code" id="code" style="width: 120px" value="<c:out value="${subEntity.sku}" />" />
+																	<td style="width: 100px"> 
+																		<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
 																	</td>
-																	<td>
+																	<td style="width: 150px">
 																		<c:out value="${subEntity.productName}" />
 																	</td>																	
 																	<td colspan="1">
@@ -627,6 +591,7 @@ function captureOrder(orderId){
 								                  <label><s:message code="label.entity.status" text="Status"/></label>	 
 								                  <div class="controls">      
 							                   			<c:out value="${dataEx.status}" />   
+							       											                   			
 								                   </div>
 								           </div> 
 							     		   <div class="control-group">  

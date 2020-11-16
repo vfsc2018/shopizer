@@ -565,10 +565,10 @@ function captureOrder(orderId){
 											      <table class="table table-bordered table-striped"> 
 														<thead> 
 															<tr> 
-																<th colspan="2" width="55%"><s:message code="label.order.item" text="Item"/></th> 
-																<th colspan="1" width="15%"><s:message code="label.quantity" text="Quantity"/></th> 
-																<th width="15%"><s:message code="label.order.price" text="Price"/></th>
-																<th width="15%"><s:message code="label.order.total" text="Total"/></th>  
+																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
+																<th colspan="1"style="width: 50px"><s:message code="label.quantity" text="Quantity"/></th> 
+																<th style="width: 120px"><s:message code="label.order.price" text="Price"/></th>
+																<th><s:message code="label.order.total" text="Total"/></th>  
 															</tr> 
 														</thead>
 														
@@ -578,21 +578,22 @@ function captureOrder(orderId){
 																
 																<input type="hidden" id="sku" name="sku" value="${entity.sku}" />
 																<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
-																
+																<c:set var="total" value="${subEntity.quantity * subEntity.price }" />
 												
-																	<td colspan="2">
-																		<input type="text" name="code" id="code" value="<c:out value="${subEntity.code}" />" />
+																	<td style="width: 100px">
+																		<input type="text" style="width: 90px" name="code" id="code" value="<c:out value="${subEntity.code}" />" />
 																	</td>
+																	<td style="width: 150px">
+																		<c:out value="${entity.productName}" />
+																	</td>																		
 																	<td colspan="1">
-																		<input type="text" name="quantity" id="quantity" value="<c:out value="${subEntity.quantity}" />" />
+																		<input type="text" name="quantity" id="quantity" style="width: 50px" value="<c:out value="${subEntity.quantity}" />" />
 																	</td>
 																	<td>
-																		<input type="text" name="oneTimeCharge" id="oneTimeCharge" value="<c:out value="${subEntity.price}" />" />
+																		<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.price}" />" />
 																	</td>
 																	<td id="resultId" align="right">	
-																		
-																		
-																									
+																		<strong><sm:monetary value="${total}" currency="${order.order.currency}"/></strong>					
 																	</td>
 																</tr>
 															</c:forEach>

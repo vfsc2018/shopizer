@@ -54,9 +54,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
 		//com.salesmanager.core.model.order.orderstatus.OrderStatus.valueOf(criteria.getStatus())
-		if(criteria.getStatus()!=null && !checkEnum(criteria.getStatus())){
-			criteria.setStatus(null);
-		}
+
 		
 		
 		
@@ -150,12 +148,16 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectQ.setParameter("pId",criteria.getId());
 		}
 		
+		
+		
 		if(criteria.getStatus()!=null) {
-			
-			//                   com.salesmanager.core.model.order.orderstatus.OrderStatus
-			//System.out.println(com.salesmanager.core.model.order.orderstatus.OrderStatus.valueOf(criteria.getStatus()));
-			countQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
-			objectQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
+			if(!checkEnum(criteria.getStatus())){
+				countQ.setParameter("pStatus",null);
+				objectQ.setParameter("pStatus",null);				
+			}else{
+				countQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
+				objectQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
+			}
 		}
 		
 
