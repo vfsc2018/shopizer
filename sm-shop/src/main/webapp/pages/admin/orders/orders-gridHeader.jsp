@@ -7,9 +7,9 @@
 
 
 	{title:"<s:message code="label.entity.id" text="Id"/>", name:"orderId"},
-    {title:"<s:message code="label.customer.name" text="Customer"/>", name:"customer"},
-    {title:"<s:message code="label.order.total" text="Total"/>", name:"amount", align: "right", canFilter:false},
     {title:"<s:message code="label.order.date" text="Date"/>", name:"date", canFilter:false},
+    {title:"<s:message code="label.customer.name" text="Customer"/>", name:"customer"},
+    {title:"<s:message code="label.order.totals" text="Total"/>", name:"amount", align: "right", canFilter:false},
     {title:"<s:message code="label.entity.fromDate" text="From date"/>", name:"startDate", canFilter:false},
     {title:"<s:message code="label.entity.toDate" text="To date"/>", name:"endDate", canFilter:false},
     {title:"<s:message code="label.generic.phone" text="Phone"/>", name:"phone", align: "right"},

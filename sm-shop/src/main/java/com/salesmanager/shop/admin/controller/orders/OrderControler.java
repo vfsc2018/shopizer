@@ -741,15 +741,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		List<Country> countries = countryService.getCountries(language);
 		if(orderId!=null && orderId!=0) {		//edit mode		
 			
-			
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
-			
-			
-			Set<OrderProduct> orderProducts = null;
-			Set<OrderTotal> orderTotal = null;
-			Set<OrderStatusHistory> orderHistory = null;
-		
 			Order dbOrder = orderService.getById(orderId);
 
 			if(dbOrder==null) {
@@ -790,13 +783,16 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			order.setBilling( dbOrder.getBilling() );
 			order.setDelivery(dbOrder.getDelivery() );
 			
+			// Set<OrderProduct> orderProducts = null;
+			// Set<OrderTotal> orderTotal = null;
+			// Set<OrderStatusHistory> orderHistory = null;
 
-			orderProducts = dbOrder.getOrderProducts();
-			orderTotal = dbOrder.getOrderTotal();
-			orderHistory = dbOrder.getOrderHistory();
+			// Set<OrderProduct> orderProducts = dbOrder.getOrderProducts();
+			// Set<OrderTotal> orderTotal = dbOrder.getOrderTotal();
+			// Set<OrderStatusHistory> orderHistory = dbOrder.getOrderHistory();
 			
 			//get capturable
-			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+			if(!dbOrder.getPaymentType().name().equals(PaymentType.MONEYORDER.name())) {
 				Transaction capturableTransaction = transactionService.getCapturableTransaction(dbOrder);
 				if(capturableTransaction!=null) {
 					model.addAttribute("capturableTransaction",capturableTransaction);
@@ -805,7 +801,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			
 			
 			//get refundable
-			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+			if(!dbOrder.getPaymentType().name().equals(PaymentType.MONEYORDER.name())) {
 				Transaction refundableTransaction = transactionService.getRefundableTransaction(dbOrder);
 				if(refundableTransaction!=null) {
 						model.addAttribute("capturableTransaction",null);//remove capturable
@@ -838,7 +834,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		List<Country> countries = countryService.getCountries(language);
 		model.addAttribute("countries", countries);
 		
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+		// MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		//set the id if fails
 		entityOrder.setId(entityOrder.getOrder().getId());
@@ -860,6 +856,30 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			
 		} else{
 			date = null;
+		}
+		Date fromDate = new Date();
+		if(!StringUtils.isBlank(entityOrder.getFromDate() ) ){
+			try {
+				fromDate = DateUtil.getDate(entityOrder.getFromDate());
+			} catch (Exception e) {
+				ObjectError error = new ObjectError("fromDate",messages.getMessage("message.invalid.date", locale));
+				result.addError(error);
+			}
+			
+		} else{
+			fromDate = null;
+		}
+		Date toDate = new Date();
+		if(!StringUtils.isBlank(entityOrder.getToDate()) ){
+			try {
+				toDate = DateUtil.getDate(entityOrder.getToDate());
+			} catch (Exception e) {
+				ObjectError error = new ObjectError("toDate",messages.getMessage("message.invalid.date", locale));
+				result.addError(error);
+			}
+			
+		} else{
+			toDate = null;
 		}
 		 
 
@@ -961,6 +981,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		newOrder.setStatus(entityOrder.getOrder().getStatus() );		
 		
 		newOrder.setDatePurchased(date);
+		newOrder.setFromDate(fromDate);
+		newOrder.setToDate(toDate);
 		newOrder.setLastModified( new Date() );
 		
 		if(!StringUtils.isBlank(entityOrder.getOrderHistoryComment() ) ) {
@@ -1023,9 +1045,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		 * 
 		 * **/
 		
-		if(StringUtils.isBlank(entityOrder.getOrderHistoryComment())) {
+		// if(StringUtils.isBlank(entityOrder.getOrderHistoryComment())) {
 		
-			try {
+		// 	try {
 				
 				// Customer customer = customerService.getById(newOrder.getCustomerId());
 				// Language lang = store.getDefaultLanguage();
@@ -1059,11 +1081,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				
 				// emailService.sendHtmlEmail(store, email);
 			
-			} catch (Exception e) {
-				LOGGER.error("Cannot send email to customer",e);
-			}
+		// 	} catch (Exception e) {
+		// 		LOGGER.error("Cannot send email to customer",e);
+		// 	}
 			
-		}
+		// }
 		
 		model.addAttribute("success","success");
 

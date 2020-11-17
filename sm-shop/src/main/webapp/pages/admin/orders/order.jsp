@@ -634,24 +634,24 @@ function captureOrder(orderId){
 		           <div class="control-group">
 		                  <label><s:message code="label.entity.fromDate" text="From date"/></label>	 
 		                  <div class="controls">      
-									<form:input  cssClass="input-large" id="order_fromDate" path="order.fromDate"  class="small" type="text"
+									<form:input  cssClass="input-large" path="fromDate"  class="small" type="text"
 									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 									<script type="text/javascript">
-										$('#order_fromDate').datepicker();
+										$('#fromDate').datepicker();
 									</script>
-									<span class="help-inline"><form:errors path="order.fromDate" cssClass="error" /></span>	                   			  
+									<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>	                   			  
 		                   </div>
 		           </div>  			
 
 		           <div class="control-group">
 		                  <label><s:message code="label.entity.toDate" text="To date"/></label>	 
 		                  <div class="controls">      
-									<form:input  cssClass="input-large" id="order_toDate" path="order.toDate"  class="small" type="text"
+									<form:input  cssClass="input-large" path="toDate"  class="small" type="text"
 									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 									<script type="text/javascript">
-										$('#order_toDate').datepicker();
+										$('#toDate').datepicker();
 									</script>
-									<span class="help-inline"><form:errors path="order.toDate" cssClass="error" /></span>                 			  
+									<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>                 			  
 		                   </div>
 		           </div>  
 		           					  
