@@ -355,7 +355,7 @@ public class ProductController {
 			//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
 			//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
 			
-			BigDecimal totalMoney = new BigDecimal("0");
+			Integer totalMoney = new Integer("0");
 			if(dbProduct!=null){
 				
 				List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
@@ -375,10 +375,10 @@ public class ProductController {
 					
 					ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
 					
-					proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
+					proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount().intValue():new Integer(0));
 					
-					proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
-					totalMoney = totalMoney.add(proRela.getTotal()); 
+					proRela.setTotal(proRela.getOneTimeCharge().intValue() * proRela.getProductQuantity());
+					totalMoney = totalMoney + proRela.getTotal(); 
 					proRelaList.add(proRela);
 					
 				}

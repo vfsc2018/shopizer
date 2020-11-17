@@ -280,7 +280,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-	    
+	    Language language = (Language)request.getAttribute("LANGUAGE");
 	    int i = 0 ;
 		try {
 			Order order = orderService.getById(orderId);
@@ -301,7 +301,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			        billToSend.setDate(new Date());
 			        billToSend.setDescription(orderHistoryComment);
 		
-			        Language language = (Language)request.getAttribute("LANGUAGE");
+			        
 					List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
 					BillDetailToSend sub1 = null;
 					i = 0;
@@ -365,8 +365,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 												for(String sku1:skus){
 													if(sku1.equals(bill.getSku())){
 														sub = new BillItem();
-														sub.setCode(sku1);
-														sub.setName(productNames[j]);
+														sub.setCode(code[j]);
+														Product pro = productService.getByCode(code[j], language);
+														
+														sub.setName(pro.getProductDescription().getName());
 														sub.setQuantity(quantity[j]);
 														sub.setPrice(oneTimeCharge[j]);
 														sub.setBillMaster(bill);
@@ -417,8 +419,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						for(String sku1:skus){
 							if(sku1.equals(bill.getSku())){
 								sub = new BillItem();
-								sub.setCode(sku1);
-								sub.setName(productNames[j]);
+								sub.setCode(code[j]);
+								Product pro = productService.getByCode(code[j], language);
+								sub.setName(pro.getProductDescription().getName());
 								sub.setQuantity(quantity[j]);
 								sub.setPrice(oneTimeCharge[j]);
 								sub.setBillMaster(bill);
@@ -478,8 +481,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				
 				ProductPrice price = productPriceService.getProductPriceByid(bean.getId());
 				
-				beantemp.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
-				beantemp.setTotal(beantemp.getOneTimeCharge().multiply(new BigDecimal(beantemp.getProductQuantity())));
+				beantemp.setOneTimeCharge(price!=null?price.getProductPriceAmount().intValue():new Integer(0));
+				beantemp.setTotal(beantemp.getOneTimeCharge() * beantemp.getProductQuantity());
 	    	}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -565,8 +568,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						ordernew.setSku(bean.getSku());
 						ordernew.setCurrency(dbOrder.getCurrency());
 						ordernew.setProductQuantity(bean.getProductQuantity());
-						ordernew.setOneTimeCharge(bean.getOneTimeCharge());
-						ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+						ordernew.setOneTimeCharge(bean.getOneTimeCharge().intValue());
+						ordernew.setTotal(bean.getOneTimeCharge().intValue() * bean.getProductQuantity());
 						
 		
 						if(dbProduct!=null){
@@ -587,9 +590,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 								
 								ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
 								
-								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount():new BigDecimal(0));
+								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount().intValue():new Integer(0));
 								
-								proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
+								proRela.setTotal(proRela.getOneTimeCharge().intValue() * proRela.getProductQuantity());
 								
 								proRelaList.add(proRela);
 								
@@ -670,7 +673,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			
 			List<BillMaster> bills = billMasterService.findByOrderId(orderId);
 			if(bills!=null && bills.size()>0){
-				BigDecimal totalMoney = new BigDecimal("0");
+				Integer totalMoney = new Integer("0");
 
 				OrderProductEx ordernew=null;
 				for(BillMaster bean : bills){
@@ -694,9 +697,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 							proRela.setProductName(sBean.getName());
 							proRela.setCurrency(dbOrder.getCurrency());
 							proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
-							proRela.setOneTimeCharge(sBean.getPrice());
-							proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
-							totalMoney = totalMoney.add(proRela.getTotal()); 
+							proRela.setOneTimeCharge(sBean.getPrice().intValue());
+							proRela.setTotal(proRela.getOneTimeCharge() * proRela.getProductQuantity());
+							totalMoney = totalMoney + proRela.getTotal(); 
 							proRelaList.add(proRela);
 						}
 						ordernew.setRelationships(proRelaList);

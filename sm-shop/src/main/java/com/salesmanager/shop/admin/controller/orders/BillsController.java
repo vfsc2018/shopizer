@@ -2,6 +2,8 @@ package com.salesmanager.shop.admin.controller.orders;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -25,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.reference.country.BillItemService;
@@ -41,7 +45,10 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
 import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.orderproduct.BillDetailToSend;
+import com.salesmanager.core.model.order.orderproduct.BillToSend;
 import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
@@ -219,7 +226,7 @@ public class BillsController {
 
 				Order dbOrder = orderService.getById(orderId);	
 				
-				
+				order.setId(dbOrder.getId());
 				if( dbOrder.getDatePurchased() !=null ){
 					order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 				}
@@ -227,7 +234,7 @@ public class BillsController {
 				order.setBilling( dbOrder.getBilling());
 				order.setDelivery(dbOrder.getDelivery());	
 	
-					BigDecimal totalMoney = new BigDecimal("0");
+					Integer totalMoney = new Integer("0");
 
 					OrderProductEx ordernew = new OrderProductEx();
 						Product dbProduct = productService.getByCode(bill.getSku(), language);
@@ -235,9 +242,8 @@ public class BillsController {
 						ordernew.setProductName(bill.getProductName());
 						ordernew.setSku(bill.getSku());
 						ordernew.setCurrency(dbOrder.getCurrency());
-						//ordernew.setProductQuantity(bean.getProductQuantity());
-						//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
-						//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+						ordernew.setDateExported(DateUtil.formatDate(bill.getDateExported()));
+
 						ordernew.setStatus(bill.getStatus());
 						ordernew.setDescription(bill.getDescription());
 						
@@ -247,19 +253,24 @@ public class BillsController {
 
 							for(BillItem sBean : bill.getItems()){
 								proRela =  new OrderProductEx();
+								proRela.setId(sBean.getId());
 								proRela.setSku(sBean.getCode());
 								proRela.setProductName(sBean.getName());
 								proRela.setCurrency(dbOrder.getCurrency());
 								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
-								proRela.setOneTimeCharge(sBean.getPrice());
-								proRela.setTotal(proRela.getOneTimeCharge().multiply(new BigDecimal(proRela.getProductQuantity())));
-								totalMoney = totalMoney.add(proRela.getTotal()); 
+								proRela.setOneTimeCharge(sBean.getPrice().intValue());
+								proRela.setTotal(proRela.getOneTimeCharge().intValue() * proRela.getProductQuantity());
+								totalMoney = totalMoney + proRela.getTotal(); 
 								proRelaList.add(proRela);
 							}
 							ordernew.setRelationships(proRelaList);
 						}
 
 					
+						
+						
+						
+					model.addAttribute("orderStatusList",Arrays.asList(OrderStatus.values()));
 					model.addAttribute("dataEx",ordernew);
 					model.addAttribute("order",order);
 					model.addAttribute("totalMoney",totalMoney);				
@@ -270,6 +281,73 @@ public class BillsController {
 			return "admin-bill-view";
 
 		}
+
+	
+	@RequestMapping(value="/admin/bills/buildBill.html", method=RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> buildBill(
+			@RequestParam("id") Long id,
+			@RequestParam("orderId") Long orderId,
+			@RequestParam("itemId") Long[] itemIds,
+			@RequestParam("code") String[] code,
+			@RequestParam("quantity") Double[] quantity,
+			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
+			@RequestParam("description") String description,
+			@RequestParam("dateExported") String dateExported,
+			@RequestParam("status") String status,
+			@RequestParam("typeSave") int typeSave,
+			HttpServletRequest request, 
+			HttpServletResponse response) {
+		
+		
+			
+		Language language = (Language)request.getAttribute("LANGUAGE");
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+		try {
+			Order order = orderService.getById(orderId);
+			//Call API
+			BillMaster bill = billService.getById(id.intValue());
+			bill.setOrder(order);
+			bill.setStatus(status);
+			bill.setDescription(description);
+			if( dateExported !=null && !dateExported.equals("") ){
+				try {
+					bill.setDateExported(DateUtil.getDate(dateExported));
+				} catch (Exception e) {
+					bill.setDateExported(new Date());
+					e.printStackTrace();
+				}
+			}						
+			
+			bill = billService.saveAnnouncement(bill);
+			BillItem sub = null;
+			int j = 0;
+			for(Long itemId:itemIds){
+					sub = new BillItem();
+					sub = billItemService.getById(itemId.intValue());
+					sub.setCode(code[j]);
+					sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
+					sub.setQuantity(quantity[j]);
+					sub.setPrice(oneTimeCharge[j]);
+					sub.setBillMaster(bill);
+					billItemService.saveBillItem(sub);
+				j++;
+			}
+			
+		} catch (Exception e) {
+			LOGGER.error("Error while paging products", e);
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		
+	}
+	
 	
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {

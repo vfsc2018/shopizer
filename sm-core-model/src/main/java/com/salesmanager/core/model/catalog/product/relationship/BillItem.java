@@ -19,8 +19,15 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @Table(name = "BILL_ITEM", schema=SchemaConstant.SALESMANAGER_SCHEMA)
 public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
-	private static final long serialVersionUID = -9045331138054246299L;
+
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	@Id
 	@Column(name="ID")
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",

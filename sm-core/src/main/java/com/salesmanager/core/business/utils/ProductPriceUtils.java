@@ -40,6 +40,11 @@ public class ProductPriceUtils {
 	
 	private final static char DECIMALCOUNT = '2';
 	private final static char DECIMALPOINT = '.';
+	
+//	private final static char DECIMALCOUNT = '0';
+//	private final static char DECIMALPOINT = '.';
+	
+	
 	private final static char THOUSANDPOINT = ',';
 	
 	
@@ -225,20 +230,20 @@ public class ProductPriceUtils {
 		
 		Currency currency = Constants.DEFAULT_CURRENCY;
 		Locale locale = Constants.DEFAULT_LOCALE; 
+		if(store!=null){
+				try {
 		
-		try {
-
-			currency = store.getCurrency().getCurrency();
-			locale = new Locale(store.getDefaultLanguage().getCode(),store.getCountry().getIsoCode());
-		} catch (Exception e) {
-			LOGGER.error("Cannot create currency or locale instance for store " + store.getCode());
+					currency = store.getCurrency().getCurrency();
+					locale = new Locale(store.getDefaultLanguage().getCode(),store.getCountry().getIsoCode());
+				} catch (Exception e) {
+					LOGGER.error("Cannot create currency or locale instance for store " + store.getCode());
+				}
 		}
-
 		
 		NumberFormat currencyInstance = null;
 		
 		
-		if(store.isCurrencyFormatNational()) {
+		if(store!=null && store.isCurrencyFormatNational()) {
 			currencyInstance = NumberFormat.getCurrencyInstance(locale);//national
 		} else {
 			currencyInstance = NumberFormat.getCurrencyInstance();//international

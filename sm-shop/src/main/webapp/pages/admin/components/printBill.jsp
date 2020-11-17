@@ -54,27 +54,27 @@
 			 				    
 									<thead> 
 										<tr> 
-											<th width="55%"><s:message code="label.order.item" text="Product"/></th> 
-											<th width="15%"><s:message code="label.quantity" text="Quantity"/></th> 
-											<th width="15%"><s:message code="label.generic.price" text="Price"/></th>
-											<th width="15%"><s:message code="label.order.total" text="Total"/></th>  
+											<th width="150px"><s:message code="label.order.item" text="Product"/></th> 
+											<th width="30px"><s:message code="label.quantity" text="Quantity"/></th> 
+											<th width="50px"><s:message code="label.generic.price" text="Price"/></th>
+											<th width="70px"><s:message code="label.order.total" text="Total"/></th>  
 										</tr> 
 									</thead>
 									<tbody> 
 									<c:forEach items="${dataEx}" var="entity" varStatus="counter">	 
-						            	
+						            	<c:set var="total111" value="${entity.oneTimeCharge * entity.productQuantity }" />
 										<tr> 
 											<td> 
 												<c:out value="${entity.productName}" />
 											</td> 
 											<td> 
-												sl
+												<c:out value="${entity.productQuantity}" />
 											</td> 
 											<td> 
-												gia
+												<c:out value="${entity.oneTimeCharge}" />
 											</td> 
 											<td> 
-												tien
+												<sm:monetary value="${total111}" currency="${entity.currency}"/>
 											</td> 
 										</tr>
 										
@@ -87,18 +87,17 @@
 																<c:set var="total" value="${subEntity.oneTimeCharge * subEntity.productQuantity }" />
 																
 																<tr>
-																	<td colspan="2">
+																	<td width="150px" >
 																		<c:out value="${subEntity.productName}" />
 																	</td>
-																	<td colspan="1">
+																	<td width="30px" >
 																		<c:out value="${subEntity.productQuantity}" />
 																	</td>
-																	<td>
+																	<td width="50px">
 																		<c:out value="${subEntity.oneTimeCharge}" />
 																	</td>
-																	<td id="resultId" align="right">	
+																	<td width="70px" id="resultId" align="right">	
 																		<strong><sm:monetary value="${total}" currency="${subEntity.currency}"/></strong>
-																		
 																	</td>
 																</tr>
 															</c:forEach>

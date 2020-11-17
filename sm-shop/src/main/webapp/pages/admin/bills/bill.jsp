@@ -42,6 +42,7 @@ $(document).ready(function(){
 function autoCaculator(){
 	var totalTien=0;
 	$("#caculatorId").find("#resultId").each(function() {
+		$(this).text($(this).text().replaceAll('.00','')); 
 		totalTien += parseInt($(this).text().replaceAll(',',''));
 	});
 	$("#totalMoney").html(parseInt(totalTien).toLocaleString());
@@ -488,16 +489,17 @@ function captureOrder(orderId){
            </h3>
 		   <br/>
  	       	 	
-	     <c:url var="buildBill" value="/admin/orders/buildBill.html"/>
+	     <c:url var="buildBill" value="/admin/bills/buildBill.html"/>
 	     
-         <form:form method="POST" id="FormBuildBill" modelAttribute="order" action="${buildBill}">
+         <form:form method="POST" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
 	   			<input type="hidden" name="typeSave" id="typeSave" value="0" />
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
-		
-		  			<form:hidden path="order.id" />
-		  			<form:hidden path="order.customerId" />
+					
+					<input name="id" id="id" type="hidden" value="<c:out value="${dataEx.id}"/>">
+					<input name="orderId" id="orderId" type="hidden" value="<c:out value="${order.id}"/>">
+
  			
 			 		<div class="span8"> 	
 			 			<div class="span4" style="margin-left:0px;"> 
@@ -541,9 +543,7 @@ function captureOrder(orderId){
 															<c:forEach items="${dataEx.relationships}" var="subEntity" varStatus="counter2">	 
 																<tr>
 																
-																<input type="hidden" id="sku" name="sku" value="${dataEx.sku}" />
-																<input type="hidden" id="productName" name="productName" value="${dataEx.productName}" />
-																
+																	<input type="hidden" id="itemId" name="itemId" value="${subEntity.id}" />
 												
 																	<td style="width: 100px"> 
 																		<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
@@ -586,18 +586,35 @@ function captureOrder(orderId){
 									</tr> 
 									<tr>
 										<td colspan="2">
+											<div class="control-group">
+								                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+								                  <div class="controls"> 
+								                        <form:input id="dateExported" cssClass="small" path="dateExported"/>      
+														<script type="text/javascript">
+															$('#dateExported').datepicker();
+														</script>    
+								                   </div>
+								           </div> 
+								           										
+
+										</td>									
+									</tr>									
+									<tr>
+										<td colspan="2">
 										
 											<div class="control-group">
 								                  <label><s:message code="label.entity.status" text="Status"/></label>	 
-								                  <div class="controls">      
-							                   			<c:out value="${dataEx.status}" />   
-							       											                   			
+								                  <div class="controls">         
+														<form:select path="status">
+										  						<form:options items="${orderStatusList}" />
+									       				</form:select>      		                   			
 								                   </div>
 								           </div> 
 							     		   <div class="control-group">  
 							                    <label></label>
 							                     <div class="controls">
-							                         <c:out value="${dataEx.description}" />   
+							                     	 <form:textarea  cols="10" rows="3" path="description"/>
+							                     	    
 							                    </div> 
 							               </div>										
 										</td>
@@ -609,13 +626,7 @@ function captureOrder(orderId){
             <br/>   
             <div class="span8">
 	              <div class="form-actions">
-	              		
-	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
-	              		
-	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Save and send Bill"/></button>
-	              		
-	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>
-	              		
+	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>	              		
 	      		  </div>
       		</div> 
             <br/>   

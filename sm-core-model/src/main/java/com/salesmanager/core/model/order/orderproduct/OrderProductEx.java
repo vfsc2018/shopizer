@@ -1,14 +1,29 @@
 package com.salesmanager.core.model.order.orderproduct;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.reference.currency.Currency;
 
 
 
-public class OrderProductEx {
+public class OrderProductEx implements Serializable {
+	
+
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	List<OrderStatus> orderStatusList = Arrays.asList(OrderStatus.values()); 
+	
 	
 	private int id;
 	public int getId() {
@@ -17,12 +32,27 @@ public class OrderProductEx {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public List<OrderStatus> getOrderStatusList() {
+		return orderStatusList;
+	}
+
+	public void setOrderStatusList(List<OrderStatus> orderStatusList) {
+		this.orderStatusList = orderStatusList;
+	}
+	private String dateExported ="";
+	
+	public String getDateExported() {
+		return dateExported;
+	}
+	public void setDateExported(String dateExported) {
+		this.dateExported = dateExported;
+	}
 	private String productName;
 	private String sku;
 	private int productQuantity;
-	private BigDecimal oneTimeCharge;
+	private Integer oneTimeCharge;
 	private Currency currency;
-	private BigDecimal total;
+	private Integer total;
 	private String status;
 	private String description;
 	
@@ -65,10 +95,10 @@ public class OrderProductEx {
 	public void setProductQuantity(int productQuantity) {
 		this.productQuantity = productQuantity;
 	}
-	public BigDecimal getOneTimeCharge() {
+	public Integer getOneTimeCharge() {
 		return oneTimeCharge;
 	}
-	public void setOneTimeCharge(BigDecimal oneTimeCharge) {
+	public void setOneTimeCharge(Integer oneTimeCharge) {
 		this.oneTimeCharge = oneTimeCharge;
 	}
 	public Currency getCurrency() {
@@ -77,10 +107,10 @@ public class OrderProductEx {
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-	public BigDecimal getTotal() {
+	public Integer getTotal() {
 		return total;
 	}
-	public void setTotal(BigDecimal total) {
+	public void setTotal(Integer total) {
 		this.total = total;
 	}
 
