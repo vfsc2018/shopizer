@@ -60,54 +60,49 @@
 											<th width="70px"><s:message code="label.order.total" text="Total"/></th>  
 										</tr> 
 									</thead>
-									<tbody> 
-									<c:forEach items="${dataEx}" var="entity" varStatus="counter">	 
-						            	<c:set var="total111" value="${entity.oneTimeCharge * entity.productQuantity }" />
-										<tr> 
-											<td> 
-												<c:out value="${entity.productName}" />
-											</td> 
-											<td> 
-												<c:out value="${entity.productQuantity}" />
-											</td> 
-											<td> 
-												<c:out value="${entity.oneTimeCharge}" />
-											</td> 
-											<td> 
-												<sm:monetary value="${total111}" currency="${entity.currency}"/>
-											</td> 
-										</tr>
+									<tbody>
+									
+									<c:set var="totalMoney" value="0" /> 
+									<c:forEach items="${dataEx.items}" var="entity" varStatus="counter">
+										<c:if test="${entity.parentId==0}">
+							            	<c:set var="totalParent" value="${entity.price * entity.quantity }" />
+											<tr> 
+												<td> 
+													<Strong><c:out value="${entity.name}" /></Strong>
+												</td> 
+												<td> 
+													<Strong><c:out value="${entity.quantity}" /></Strong>
+												</td> 
+												<td> 
+													<Strong><c:out value="${entity.price}" /></Strong>
+												</td> 
+												<td> 
+													<Strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></Strong>
+												</td> 
+											</tr>
+											<c:set var="totalMoney" value="${totalMoney + totalParent }" />
+										</c:if>
 										
-										<tr>
-											<td colspan="4">
-											    <table style="border:0px"> 
-														
-														<tbody> 
-															<c:forEach items="${entity.relationships}" var="subEntity" varStatus="counter2">	 
-																<c:set var="total" value="${subEntity.oneTimeCharge * subEntity.productQuantity }" />
-																
-																<tr>
-																	<td width="150px" >
-																		<c:out value="${subEntity.productName}" />
-																	</td>
-																	<td width="30px" >
-																		<c:out value="${subEntity.productQuantity}" />
-																	</td>
-																	<td width="50px">
-																		<c:out value="${subEntity.oneTimeCharge}" />
-																	</td>
-																	<td width="70px" id="resultId" align="right">	
-																		<strong><sm:monetary value="${total}" currency="${subEntity.currency}"/></strong>
-																	</td>
-																</tr>
-															</c:forEach>
-														</tbody>
-														
-												</table>	
-											</td>
-										</tr> 
 										
-						
+										<c:if test="${entity.parentId>0}">
+							            	<c:set var="totalSub" value="${entity.price * entity.quantity }" />
+											<tr> 
+												<td> 
+													<c:out value="${entity.name}" />
+												</td> 
+												<td> 
+													<c:out value="${entity.quantity}" />
+												</td> 
+												<td> 
+													<c:out value="${entity.price}" />
+												</td> 
+												<td> 
+													<sm:monetary value="${totalSub}" currency="${order.order.currency}"/>
+												</td> 
+											</tr>
+										</c:if>										
+										
+										
 									</c:forEach> 
 								</tbody>
 					      </table>
@@ -115,7 +110,7 @@
 					<div class="subt"> 
 							<Strong><s:message code="label.order.totals" text="Total"/>:</Strong>
 							<span id="totalMoney">
-							<strong><sm:monetary value="${totalMoney}" currency="${order.order.currency}"/></strong>
+							<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>
 							</span>
 										
 			    	</div>  

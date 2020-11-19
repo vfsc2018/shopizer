@@ -49,7 +49,7 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
 	private String name;	
 	
 	@Column(name="QUANTITY")
-	private Double quantity;	
+	private int quantity;	
 
 	
 	@Column(name="PRICE")
@@ -59,7 +59,18 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
 	@Column(name="UNIT")
 	private String unit;	
 	
+	@Column(name="PARENT_ID")
+	private Integer parentId;	
 	
+	
+
+	public Integer getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
 
 	@Override
 	public Integer getId() {
@@ -104,12 +115,12 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
 	}
 
 
-	public Double getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
 
-	public void setQuantity(Double quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
@@ -119,6 +130,8 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
 		return price;
 	}
 
+	
+	
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;

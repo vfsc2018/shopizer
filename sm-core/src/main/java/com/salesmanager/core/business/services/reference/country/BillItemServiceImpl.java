@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.reference.country;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -15,7 +17,11 @@ public class BillItemServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	
 
 	private BillItemRepository billItemRepository;
-
+	
+	
+	public List<BillItem> getItemByBillId(Integer billId){
+		return billItemRepository.getItemByBillId(billId);
+	}
 
 	
 	@Inject

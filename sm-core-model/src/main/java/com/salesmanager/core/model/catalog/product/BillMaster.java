@@ -22,6 +22,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import org.hibernate.annotations.OrderBy;
+
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -41,11 +43,7 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Integer id;
 
-	@NotEmpty	@Pattern(regexp="^[a-zA-Z0-9_]*$")	@Column(name = "SKU") String sku;
-	
-	
-	@Column (name="PRODUCT_NAME" , length=64 , nullable=false)
-	private String productName;
+
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -91,7 +89,8 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
 		this.description = description;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "billMaster")
+	@OneToMany(mappedBy = "billMaster")
+	@OrderBy(clause = "ID asc")
 	private Set<BillItem> items = new HashSet<BillItem>();
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -129,21 +128,6 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
 		this.id = id;
 	}
 
-	public String getSku() {
-		return sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
-
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 
 	public Set<BillItem> getItems() {
 		return items;

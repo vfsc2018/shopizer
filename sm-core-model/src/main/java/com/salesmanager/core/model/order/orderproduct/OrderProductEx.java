@@ -26,6 +26,25 @@ public class OrderProductEx implements Serializable {
 	
 	
 	private int id;
+	
+	private int parentId;
+
+
+	private String productName;
+	private String sku;
+	private int productQuantity;
+	private Integer oneTimeCharge;
+	private Currency currency;
+	private Integer total;
+	private String status;
+	private String description;
+	
+	public int getParentId() {
+		return parentId;
+	}
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}	
 	public int getId() {
 		return id;
 	}
@@ -47,14 +66,6 @@ public class OrderProductEx implements Serializable {
 	public void setDateExported(String dateExported) {
 		this.dateExported = dateExported;
 	}
-	private String productName;
-	private String sku;
-	private int productQuantity;
-	private Integer oneTimeCharge;
-	private Currency currency;
-	private Integer total;
-	private String status;
-	private String description;
 	
 	public String getDescription() {
 		return description;

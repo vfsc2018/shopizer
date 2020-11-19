@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -27,26 +29,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.reference.country.BillItemService;
 import com.salesmanager.core.business.services.reference.country.BillMasterService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.catalog.product.BillMaster;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
 import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.orderproduct.BillDetailToSend;
-import com.salesmanager.core.model.order.orderproduct.BillToSend;
 import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.reference.language.Language;
@@ -155,25 +153,27 @@ public class BillsController {
 			BillMasterList billList = billService.getListByStore2(store, criteria);
 		
 			if(billList.getBillMasters()!=null) {	
-				BigDecimal totalBill = new BigDecimal(0);
+				BigDecimal totalBill = null;
 				for(BillMaster bill : billList.getBillMasters()) {
-					
+					totalBill = new BigDecimal(0);
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
-					entry.put("sku", bill.getSku());
-					entry.put("productName", bill.getProductName());
+					
+					
 					
 					BigDecimal total;
-					
 					if(bill.getItems()!=null){
 						for(BillItem item:bill.getItems()){
-							total = new BigDecimal(0);
-							total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
-							totalBill = totalBill.add(total);
+							if(item.getParentId()>0){
+								total = new BigDecimal(0);
+								total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
+								totalBill = totalBill.add(total);
+							}
 						}
-						entry.put("total",totalBill);
+						ProductPriceUtils price = new ProductPriceUtils();
+						entry.put("total",price.getAdminFormatedAmount(store, totalBill));
 					} else {
 						entry.put("total",0);
 					}
@@ -216,7 +216,7 @@ public class BillsController {
 			setMenu(model,request);
 			
 			com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
-			Language language = (Language)request.getAttribute("LANGUAGE");
+
 			
 			BillMaster bill = billService.getById(billId);
 			long orderId = bill.getOrder().getId();
@@ -236,39 +236,31 @@ public class BillsController {
 	
 					Integer totalMoney = new Integer("0");
 
-					OrderProductEx ordernew = new OrderProductEx();
-						Product dbProduct = productService.getByCode(bill.getSku(), language);
-						ordernew.setId(bill.getId());
-						ordernew.setProductName(bill.getProductName());
-						ordernew.setSku(bill.getSku());
-						ordernew.setCurrency(dbOrder.getCurrency());
-						ordernew.setDateExported(DateUtil.formatDate(bill.getDateExported()));
+							OrderProductEx ordernew = new OrderProductEx();
+							ordernew.setId(bill.getId());
+							ordernew.setCurrency(dbOrder.getCurrency());
+							ordernew.setDateExported(DateUtil.formatDate(bill.getDateExported()));
+							ordernew.setStatus(bill.getStatus());
+							ordernew.setDescription(bill.getDescription());
 
-						ordernew.setStatus(bill.getStatus());
-						ordernew.setDescription(bill.getDescription());
-						
-						if(dbProduct!=null){
 							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
 							OrderProductEx proRela = null;
 
 							for(BillItem sBean : bill.getItems()){
 								proRela =  new OrderProductEx();
 								proRela.setId(sBean.getId());
+								proRela.setParentId(sBean.getParentId());
 								proRela.setSku(sBean.getCode());
 								proRela.setProductName(sBean.getName());
 								proRela.setCurrency(dbOrder.getCurrency());
-								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
+								proRela.setProductQuantity(sBean.getQuantity());
 								proRela.setOneTimeCharge(sBean.getPrice().intValue());
 								proRela.setTotal(proRela.getOneTimeCharge().intValue() * proRela.getProductQuantity());
 								totalMoney = totalMoney + proRela.getTotal(); 
 								proRelaList.add(proRela);
 							}
 							ordernew.setRelationships(proRelaList);
-						}
 
-					
-						
-						
 						
 					model.addAttribute("orderStatusList",Arrays.asList(OrderStatus.values()));
 					model.addAttribute("dataEx",ordernew);
@@ -289,7 +281,7 @@ public class BillsController {
 			@RequestParam("orderId") Long orderId,
 			@RequestParam("itemId") Long[] itemIds,
 			@RequestParam("code") String[] code,
-			@RequestParam("quantity") Double[] quantity,
+			@RequestParam("quantity") int[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("description") String description,
 			@RequestParam("dateExported") String dateExported,
@@ -347,7 +339,42 @@ public class BillsController {
 		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
-	
+
+
+	@PreAuthorize("hasRole('ORDER')")
+	@RequestMapping(value="/admin/bills/printBill.html", method=RequestMethod.GET)
+	public String printBill(@RequestParam("id") Integer billId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+		//display menu
+		setMenu(model,request);
+
+		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
+		
+		BillMaster billMaster = billService.getById(billId);
+		if(billMaster.getOrder().getId()>0) {	
+			Order dbOrder = orderService.getById(billMaster.getOrder().getId());	
+			if( dbOrder.getDatePurchased() !=null ){
+				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
+			}
+			order.setOrder( dbOrder );
+			order.setBilling( dbOrder.getBilling() );
+			order.setDelivery(dbOrder.getDelivery() );	
+						
+			
+			//List<BillItem> items = billItemService.getItemByBillId(billId);
+			//System.out.println("Data:::::::::::::"+items.size());
+			//Set<BillItem> targetSet = new HashSet<BillItem>(items);
+			//billMaster.setItems(targetSet);
+			model.addAttribute("dataEx",billMaster);
+			System.out.println("Data:::::::::::::"+billMaster.getItems().size());
+			model.addAttribute("order",order);
+
+		}	
+		
+		return "admin-orders-print-bill";
+
+	}
 	
 	
 	private void setMenu(Model model, HttpServletRequest request) throws Exception {

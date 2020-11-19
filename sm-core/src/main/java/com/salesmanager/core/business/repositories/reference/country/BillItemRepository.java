@@ -1,8 +1,10 @@
 package com.salesmanager.core.business.repositories.reference.country;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 
 
@@ -12,8 +14,8 @@ public interface BillItemRepository extends JpaRepository <BillItem, Integer> {
 //	Country findByIsoCode(String code);
 //	
 //
-//	@Query("select c from Country c left join fetch c.descriptions cd where cd.language.id=?1")
-//	List<Country> listByLanguage(Integer id);
+	@Query("select c from BillItem c where c.billMaster.id=?1 order by c.id asc")
+	List<BillItem> getItemByBillId(Integer billId);
 //	
 //	/** get country including zones by language **/
 //	@Query("select distinct c from Country c left join fetch c.descriptions cd left join fetch c.zones cz left join fetch cz.descriptions where cd.language.id=?1")

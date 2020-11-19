@@ -45,7 +45,7 @@ function autoCaculator(){
 		$(this).text($(this).text().replaceAll('.00','')); 
 		totalTien += parseInt($(this).text().replaceAll(',',''));
 	});
-	$("#totalMoney").html(parseInt(totalTien).toLocaleString());
+
 }
 function caculatorPrice(p1,p2,obj){
 	$(obj).parent().parent().find("#resultId").html(p1*p2);
@@ -407,7 +407,7 @@ function captureOrder(orderId){
 		
 		
 		$("#btPrintBill").click(function() {
-			 location.href="<c:url value="/admin/orders/printBill.html" />?id=<c:out value="${order.order.id}"/>";
+			 location.href="<c:url value="/admin/bills/printBill.html" />?id=<c:out value="${dataEx.id}"/>";
 		});
 		
 		
@@ -518,7 +518,7 @@ function captureOrder(orderId){
 								
 			 				    <tbody> 
 									
-						            	
+						            		 
 										<tr> 
 											<td colspan="2"> 
 												<c:out value="${dataEx.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${dataEx.sku}"/>">
@@ -529,7 +529,7 @@ function captureOrder(orderId){
 										
 										<tr>
 											<td colspan="2">
-											      <table class="table table-bordered table-striped"> 
+											      <table class="table table-bordered"> 
 														<thead> 
 															<tr> 
 																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
@@ -539,30 +539,54 @@ function captureOrder(orderId){
 															</tr> 
 														</thead>
 														
+														<c:set var="totalParent" value="0" />
 														<tbody> 
-															<c:forEach items="${dataEx.relationships}" var="subEntity" varStatus="counter2">	 
+															<c:forEach items="${dataEx.relationships}" var="subEntity" varStatus="counter2">	
+															
+																<c:if test="${subEntity.parentId==0}">
 																<tr>
-																
-																	<input type="hidden" id="itemId" name="itemId" value="${subEntity.id}" />
-												
-																	<td style="width: 100px"> 
-																		<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
-																	</td>
-																	<td style="width: 150px">
-																		<c:out value="${subEntity.productName}" />
-																	</td>																	
-																	<td colspan="1">
-																		<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
-																	</td>
-																	<td>
-																		<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
-																	</td>
-																	<td id="resultId" align="right">	
-																		
-																		<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
-																									
-																	</td>
+																		<td style="width: 250px" colspan="2"> 
+																			<Strong><c:out value="${subEntity.productName}" />(<c:out value="${subEntity.sku}" />)</Strong>
+																		</td>															
+																		<td colspan="1">
+																			<Strong><c:out value="${subEntity.productQuantity}" /></Strong>
+																		</td>
+																		<td>
+																			<Strong><c:out value="${subEntity.oneTimeCharge}" /></Strong>
+																		</td>
+																		<td id="resultId" align="right">	
+																			
+																			<Strong><sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/></Strong>
+																										
+																		</td>	
 																</tr>
+																
+																<c:set var="totalParent" value="${totalParent + subEntity.total }" />															
+																</c:if>
+																
+																<c:if test="${subEntity.parentId>0}">
+																<input type="hidden" id="itemId" name="itemId" value="${subEntity.id}" /> 
+																	<tr>
+																	
+																		<td style="width: 100px"> 
+																			<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
+																		</td>
+																		<td style="width: 150px">
+																			<c:out value="${subEntity.productName}" />
+																		</td>																	
+																		<td colspan="1">
+																			<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
+																		</td>
+																		<td>
+																			<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
+																		</td>
+																		<td id="resultId" align="right">	
+																			
+																			<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
+																										
+																		</td>
+																	</tr>
+																</c:if>
 															</c:forEach>
 														</tbody>
 														
@@ -581,7 +605,7 @@ function captureOrder(orderId){
 										<td  width="50%">&nbsp;</td> 
 										<td width="50%" align="right">
 										<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
-										<span id="totalMoney"></span>
+											<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>
 										</td> 
 									</tr> 
 									<tr>
@@ -626,7 +650,9 @@ function captureOrder(orderId){
             <br/>   
             <div class="span8">
 	              <div class="form-actions">
-	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>	              		
+	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
+	              		
+	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>	              		
 	      		  </div>
       		</div> 
             <br/>   

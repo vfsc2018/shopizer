@@ -264,7 +264,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			@RequestParam("sku") String[] skus,
 			@RequestParam("productName") String[] productNames,
 			@RequestParam("code") String[] code,
-			@RequestParam("quantity") Double[] quantity,
+			@RequestParam("quantity") int[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("orderHistoryComment") String orderHistoryComment,
 			@RequestParam("dateExported") String dateExported,
@@ -283,158 +283,129 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    Language language = (Language)request.getAttribute("LANGUAGE");
 	    int i = 0 ;
 		try {
-			Order order = orderService.getById(orderId);
+			Order dbOrder = orderService.getById(orderId);
+
 			//Call API
+
+	        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 			
-			
-			if(typeSave==0){
-			        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	        String urlString = configuration.getProperty("config_shop_api_build_bill_to_vfsc");
+	        RestTemplate restTemplate = new RestTemplate();
+           // create request body
+	        
+	       // check response
+
+	        BillToSend billToSend = new BillToSend();
+	        billToSend.setCode(orderId.toString());
+	        billToSend.setDate(new Date());
+	        billToSend.setDescription(orderHistoryComment);
+
+	        
+	        
+/*	        Map<String, String> hMapData = new HashMap<String, String>();
+	        for( int k = 0; k < productNames.length; k++ ){
+	            hMapData.put( productNames[k], productNames[k] );
+	        }
+	        for(String key : hMapData.keySet()) {
+	            String a = hMapData.get(key);
+	            
+	            
+	        }*/
+
+	        
+			List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
+			BillDetailToSend sub1 = null;
+			i = 0;
+			for(String sku1:skus){
 					
-			        String urlString = configuration.getProperty("config_shop_api_build_bill_to_vfsc");
-			        RestTemplate restTemplate = new RestTemplate();
-		           // create request body
-			        
-			       // check response
-		
-			        BillToSend billToSend = new BillToSend();
-			        billToSend.setCode(orderId.toString());
-			        billToSend.setDate(new Date());
-			        billToSend.setDescription(orderHistoryComment);
-		
-			        
-					List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
-					BillDetailToSend sub1 = null;
-					i = 0;
-					for(String sku1:skus){
-							sub1 = new BillDetailToSend();
-							
-							Product bean1111 = productService.getByCode(sku1, language);
-							sub1.setProductName(productNames[i]);
-							sub1.setProductId(bean1111.getId().toString());
-							sub1.setProductCode(bean1111.getSku());
-							sub1.setQuantity(quantity[i]+"");
-							sub1.setSku(sku1);
-							sub1.setUnit("");
-							details.add(sub1);
-						i++;
+				
+				
+					sub1 = new BillDetailToSend();
+					
+					Product bean1111 = productService.getByCode(sku1, language);
+					sub1.setProductName(productNames[i]);
+					sub1.setProductId(bean1111.getId().toString());
+					sub1.setProductCode(bean1111.getSku());
+					sub1.setQuantity(quantity[i]+"");
+					sub1.setSku(sku1);
+					sub1.setUnit("");
+					details.add(sub1);
+				i++;
+			}
+			billToSend.setDetail(details);
+
+			
+	        ObjectMapper objectMapper = new ObjectMapper();
+	        
+	        String carAsString = objectMapper.writeValueAsString(billToSend);
+	        System.out.println(carAsString);
+	        ResponseEntity<String> res = null;
+	        try {
+	        	res = restTemplate.postForEntity(urlString, carAsString, String.class);
+		        if (res.getStatusCode() == HttpStatus.OK) {
+		            System.out.println("Request Successful");
+		        } else {
+		            System.out.println("Request Failed");
+		        }
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+	        
+	        
+/*	        if (res.getStatusCode() == HttpStatus.OK) {*/
+	        		//INSERT BILL MASTER
+	        		BillMaster billMaster = new BillMaster();
+	        		billMaster.setCreateAt(new Date());
+	        		try {
+	        			billMaster.setDateExported(DateUtil.getDate(dateExported));
+					} catch (Exception e) {
+						billMaster.setDateExported(new Date());
 					}
-					billToSend.setDetail(details);
-		
-					
-			        ObjectMapper objectMapper = new ObjectMapper();
-			        
-			        String carAsString = objectMapper.writeValueAsString(billToSend);
-			        System.out.println(carAsString);
-			        ResponseEntity<String> res = restTemplate.postForEntity(urlString, carAsString, String.class);
-			        if (res.getStatusCode() == HttpStatus.OK) {
-			            System.out.println("Request Successful");
-			        } else {
-			            System.out.println("Request Failed");
-			        }	        
-			        
-			        if (res.getStatusCode() == HttpStatus.OK) {
-			        		//click bt SaveBill    
-			        		
-							//insert BillMaster
-							String tem="";
-							BillMaster bill=null;
-							i=0;
-										for(String sku:skus){
-											if(!tem.equals(sku)){
-												bill = new BillMaster();
-												//Insert
-												bill.setSku(sku);
-												bill.setProductName(productNames[i]);
-												bill.setOrder(order);
-												bill.setCreateAt(new Date());
-												bill.setStatus(status);
-												bill.setDescription(orderHistoryComment);
-												if( dateExported !=null && !dateExported.equals("") ){
-													try {
-														bill.setDateExported(DateUtil.getDate(dateExported));
-													} catch (Exception e) {
-														bill.setDateExported(new Date());
-														e.printStackTrace();
-													}
-												}
-												
-												bill = billMasterService.saveAnnouncement(bill);
-												//Update 
-												BillItem sub = null;
-												int j = 0;
-												for(String sku1:skus){
-													if(sku1.equals(bill.getSku())){
-														sub = new BillItem();
-														sub.setCode(code[j]);
-														Product pro = productService.getByCode(code[j], language);
-														
-														sub.setName(pro.getProductDescription().getName());
-														sub.setQuantity(quantity[j]);
-														sub.setPrice(oneTimeCharge[j]);
-														sub.setBillMaster(bill);
-														billItemService.saveBillItem(sub);
-													}
-													j++;
-												}
-											}
-											//Save
-											tem = sku;
-											i++;
-										}
-							
-			        } else {
-			            System.out.println("Request Failed");
-						LOGGER.error("Pls check "+ urlString);
-						resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-			        }
-			}else{
-			  if(billMasterService.countByOrderId(orderId)==0){
-		        BillToSend billToSend = new BillToSend();
-		        billToSend.setCode(orderId.toString());
-		        billToSend.setDate(new Date());
-		        billToSend.setDescription(orderHistoryComment);
-				String tem="";
-				BillMaster bill=null;
-				i=0;
-				for(String sku:skus){
-					if(!tem.equals(sku)){
-						bill = new BillMaster();
-						bill.setSku(sku);
-						bill.setProductName(productNames[i]);
-						bill.setOrder(order);
-						bill.setStatus(status);
-						bill.setDescription(orderHistoryComment);
-						if( dateExported !=null && !dateExported.equals("") ){
-							try {
-								bill.setDateExported(DateUtil.getDate(dateExported));
-							} catch (Exception e) {
-								bill.setDateExported(new Date());
-								e.printStackTrace();
-							}
-						}						
-						
-						bill = billMasterService.saveAnnouncement(bill);
-						BillItem sub = null;
+	        		billMaster.setOrder(dbOrder);
+	        		billMaster.setStatus(status);
+	        		billMaster.setDescription(orderHistoryComment);
+	        		billMaster = billMasterService.saveAnnouncement(billMaster);
+	    	        //INSERT BILL ITEM
+	        		BillItem billItem = null; int parentId=0;
+	        		for(OrderProduct combo : dbOrder.getOrderProducts()){
+	        			//INSERT PARENT
+	    	        	billItem = new BillItem();
+	    	        	billItem.setBillMaster(billMaster);
+	    	        	billItem.setCode(combo.getSku());
+	    	        	billItem.setName(combo.getProductName());
+	    	        	billItem.setPrice(combo.getOneTimeCharge());
+	    	        	billItem.setQuantity(combo.getProductQuantity());
+	    	        	billItem.setParentId(0);
+	    	        	billItem = billItemService.saveBillItem(billItem);
+	    	        	parentId = billItem.getId();
+	    	        	//INSERT ITEM SUB
 						int j = 0;
 						for(String sku1:skus){
-							if(sku1.equals(bill.getSku())){
-								sub = new BillItem();
-								sub.setCode(code[j]);
-								Product pro = productService.getByCode(code[j], language);
-								sub.setName(pro.getProductDescription().getName());
-								sub.setQuantity(quantity[j]);
-								sub.setPrice(oneTimeCharge[j]);
-								sub.setBillMaster(bill);
-								billItemService.saveBillItem(sub);
-							}
+								if(sku1.equals(combo.getSku())){
+									billItem = new BillItem();
+									billItem.setCode(code[j]);
+									Product pro = productService.getByCode(code[j], language);
+									billItem.setParentId(parentId);
+									billItem.setName(pro.getProductDescription().getName());
+									billItem.setQuantity(quantity[j]);
+									billItem.setPrice(oneTimeCharge[j]);
+									billItem.setBillMaster(billMaster);
+									billItemService.saveBillItem(billItem);
+								}
 							j++;
 						}
-					}
-					tem = sku;
-					i++;
-				}
-			  }
-			}
+	    	        	
+	    	        }
+	    	        
+	        		
+	        		
+
+					
+/*	        } else {
+	            System.out.println("Request Failed");
+				LOGGER.error("Pls check "+ urlString);
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+	        }*/
 			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
 	        
 		} catch (Exception e) {
@@ -554,11 +525,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			order.setOrder( dbOrder );
 			order.setBilling( dbOrder.getBilling() );
 			order.setDelivery(dbOrder.getDelivery() );
-			
-			
-			//Check exits order in BillMaster
-			vcheck = billMasterService.countByOrderId(orderId);
-			if(vcheck==0){
+
+
 					OrderProductEx ordernew=null;
 					for(OrderProduct bean : dbOrder.getOrderProducts()){
 						
@@ -603,14 +571,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						listOrderNew.add(ordernew);
 						model.addAttribute("dataEx",listOrderNew);
 					}
-			}else{
-				//view form edit bill
-				List<BillMaster> listdata = billMasterService.findByOrderId(orderId);
-				
-				
-				
-				model.addAttribute("dataEx",listdata);
-			}
+
 			//get capturable
 			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
 				Transaction capturableTransaction = transactionService.getCapturableTransaction(dbOrder);
@@ -678,15 +639,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				OrderProductEx ordernew=null;
 				for(BillMaster bean : bills){
 					
-					ordernew = new OrderProductEx();
+/*					ordernew = new OrderProductEx();
 					Product dbProduct = productService.getByCode(bean.getSku(), language);
 					ordernew.setProductName(bean.getProductName());
 					ordernew.setSku(bean.getSku());
 					ordernew.setCurrency(dbOrder.getCurrency());
-					//ordernew.setProductQuantity(bean.getProductQuantity());
-					//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
-					//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
-					
+
 	
 					if(dbProduct!=null){
 						List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
@@ -704,7 +662,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						}
 						ordernew.setRelationships(proRelaList);
 					}
-					listOrderNew.add(ordernew);
+					listOrderNew.add(ordernew);*/
 				}
 				//add to list
 				

@@ -669,7 +669,6 @@ function captureOrder(orderId){
 	              		
 	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Save and send Bill"/></button>
 	              		
-	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>
 	              		
 	      		  </div>
       		</div> 
