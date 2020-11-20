@@ -44,7 +44,6 @@ function autoCaculator(){
 	$("#caculatorId").find("#resultId").each(function() {
 		totalTien += parseInt($(this).text().replaceAll(',',''));
 	});
-	$("#totalMoney").html(parseInt(totalTien).toLocaleString());
 }
 function caculatorPrice(p1,p2,obj){
 	$(obj).parent().parent().find("#resultId").html(p1*p2);
@@ -542,28 +541,9 @@ function captureOrder(orderId){
 				    </div>
 	
       
-			      	  <div class="span8" style="margin-top:20px;">
-					      <table class="table table-bordered table-striped" id="caculatorId"> 
-								<thead> 
-									<tr> 
-										<th colspan="2" ><s:message code="label.order.item" text="Item"/></th> 
-									</tr> 
-								</thead> 
-								
-			 				    <tbody> 
-									<c:forEach items="${dataEx}" var="entity" varStatus="counter">	 
-						            	
-										<tr> 
-											<td colspan="2"> 
-												<c:out value="${entity.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${entity.sku}"/>">
-												<c:out value="${entity.sku}" /></a>
-
-											</td> 
-										</tr>
-										
-										<tr>
-											<td colspan="2">
-											      <table class="table table-bordered table-striped"> 
+			      	  <div class="span8" style="margin-top:20px">
+					     
+												<table class="table table-bordered"> 
 														<thead> 
 															<tr> 
 																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
@@ -574,73 +554,87 @@ function captureOrder(orderId){
 														</thead>
 														
 														<tbody> 
-															<c:forEach items="${entity.relationships}" var="subEntity" varStatus="counter2">	 
-																<tr>
-																
-																<input type="hidden" id="sku" name="sku" value="${entity.sku}" />
-																<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
-																
-												
-																	<td style="width: 100px" >
-																		<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
-																	</td>
-																	<td style="width: 150px">
-																		<c:out value="${subEntity.productName}" />
-																	</td>
-																	
-																	<td colspan="1">
-																		<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
-																	</td>
-																	<td>
-																		<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
-																	</td>
-																	<td id="resultId" align="right">	
-																		
-																		<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
-																									
-																	</td>
-																</tr>
+														
+														
+															<c:set var="totalMoney" value="0" /> 
+															<c:forEach items="${dataEx}" var="entity" varStatus="counter">	
+																			  <tr>
+																				<td style="width: 100px" >
+																					<Strong><c:out value="${entity.sku}" /></Strong>
+																				</td>
+																				<td style="width: 150px">
+																					<Strong><c:out value="${entity.productName}" /></Strong>
+																				</td>
+																				
+																				<td colspan="1">
+																					<Strong><c:out value="${entity.productQuantity}" /></Strong>
+																				</td>
+																				<td>
+																					<Strong><c:out value="${entity.oneTimeCharge}" /></Strong>
+																				</td>
+																				<td align="right">	
+																					
+																					<Strong><sm:monetary value="${entity.total}" currency="${order.order.currency}"/></Strong>
+																												
+																				</td>
+																			</tr>
+																			<c:set var="totalMoney" value="${totalMoney + entity.total }" />
+																		<c:forEach items="${entity.relationships}" var="subEntity" varStatus="counter2">	 
+																			<tr>
+																			
+																				<input type="hidden" id="sku" name="sku" value="${entity.sku}" />
+																				<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
+																				<td style="width: 100px" >
+																					<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
+																				</td>
+																				<td style="width: 150px">
+																					<c:out value="${subEntity.productName}" />
+																				</td>
+																				
+																				<td colspan="1">
+																					<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
+																				</td>
+																				<td>
+																					<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
+																				</td>
+																				<td id="resultId" align="right">	
+																					
+																					<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
+																												
+																				</td>
+																			</tr>
+																		</c:forEach>
 															</c:forEach>
 														</tbody>
 														
-													</table>	
-																		    
-
-												
-											</td>
-										</tr> 
-										
-						
-									</c:forEach> 
-										
+															<tr> 
+																<th colspan="2" style="width: 250px"></th> 
+																<th colspan="1" style="width: 50px"></th> 
+																<th style="width: 120px" >
+																	<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
+																</th>
+																<th>
+																	<strong><sm:monetary value="${totalMoney}" currency="${order.order.currency}"/></strong>
+																</th>  
+															</tr> 
+													</table>
+									</div>
 								 	
-									<tr class="subt"> 
-										 
-										<td colspan="2" align="right">
-										<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
-										<span id="totalMoney"></span>
-										</td> 
-									</tr>
-									 
-									<tr>
-										<td colspan="2">
-											<div class="control-group">
-								                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
-								                  <div class="controls">      
-								                  		<input id="dateExported" name="dateExported" value="" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
-														<script type="text/javascript">
-															$('#dateExported').datepicker();
-														</script>    
-								                   </div>
-								           </div> 
-								           										
 
-										</td>									
-									</tr>
 									
-									<tr>
-										<td colspan="2">
-										
+									<div class="span8">
+										<div class="control-group">
+									                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+									                  <div class="controls">      
+									                  		<input id="dateExported" name="dateExported" value="" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
+															<script type="text/javascript">
+																$('#dateExported').datepicker();
+															</script>    
+									                   </div>
+									    </div> 
+									</div>
+									
+									<div class="span8">
 											<div class="control-group">
 								                  <label><s:message code="label.entity.status" text="Status"/></label>	 
 								                  <div class="controls">      
@@ -649,16 +643,16 @@ function captureOrder(orderId){
 									       				</form:select>      
 								                   </div>
 								           </div> 
+								      </div>
+								      <div class="span8">     
 							     		   <div class="control-group">  
 							                    <label><s:message code="label.entity.status" text="Status"/></label>
 							                     <div class="controls">
 							                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
 							                    </div> 
-							               </div>										
-										</td>
-									</tr> 
-								</tbody>    
-							</table>
+							               </div>	
+									
+									</div>
 			    	  </div>  
 
             <br/>   

@@ -506,30 +506,10 @@ function captureOrder(orderId){
 						<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
 						</div>
 				    </div>
-	
-      
-			      	  <div class="span8" style="margin-top:20px;">
-					      <table class="table table-bordered table-striped" id="caculatorId"> 
-								<thead> 
-									<tr> 
-										<th colspan="2" ><s:message code="label.order.item" text="Item"/></th> 
-									</tr> 
-								</thead> 
-								
-			 				    <tbody> 
-									
-						            		 
-										<tr> 
-											<td colspan="2"> 
-												<c:out value="${dataEx.productName}" /> - <a href="<c:url value="/admin/products/viewEditProduct.html?sku=${dataEx.sku}"/>">
-												<c:out value="${dataEx.sku}" /></a>
-
-											</td> 
-										</tr>
-										
-										<tr>
-											<td colspan="2">
-											      <table class="table table-bordered"> 
+					
+					
+					<div class="span8">
+										<table class="table table-bordered"> 
 														<thead> 
 															<tr> 
 																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
@@ -554,7 +534,7 @@ function captureOrder(orderId){
 																		<td>
 																			<Strong><c:out value="${subEntity.oneTimeCharge}" /></Strong>
 																		</td>
-																		<td id="resultId" align="right">	
+																		<td id="resultId" style="text-align:right">	
 																			
 																			<Strong><sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/></Strong>
 																										
@@ -580,7 +560,7 @@ function captureOrder(orderId){
 																		<td>
 																			<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
 																		</td>
-																		<td id="resultId" align="right">	
+																		<td id="resultId">	
 																			
 																			<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
 																										
@@ -589,63 +569,68 @@ function captureOrder(orderId){
 																</c:if>
 															</c:forEach>
 														</tbody>
-														
-													</table>	
-																		    
-
-												
-											</td>
-										</tr> 
-										
-						
-									
-										
-								 	
-									<tr class="subt"> 
-										<td  width="50%">&nbsp;</td> 
-										<td width="50%" align="right">
-										<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
-											<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>
-										</td> 
-									</tr> 
-									<tr>
-										<td colspan="2">
-											<div class="control-group">
-								                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
-								                  <div class="controls"> 
-								                        <form:input id="dateExported" cssClass="small" path="dateExported"/>      
-														<script type="text/javascript">
-															$('#dateExported').datepicker();
-														</script>    
-								                   </div>
-								           </div> 
-								           										
-
-										</td>									
-									</tr>									
-									<tr>
-										<td colspan="2">
-										
-											<div class="control-group">
-								                  <label><s:message code="label.entity.status" text="Status"/></label>	 
-								                  <div class="controls">         
-														<form:select path="status">
-										  						<form:options items="${orderStatusList}" />
-									       				</form:select>      		                   			
-								                   </div>
-								           </div> 
-							     		   <div class="control-group">  
-							                    <label></label>
-							                     <div class="controls">
-							                     	 <form:textarea  cols="10" rows="3" path="description"/>
-							                     	    
-							                    </div> 
-							               </div>										
-										</td>
-									</tr> 
-								</tbody>    
-							</table>
-			    	  </div>  
+															<tr> 
+																<th colspan="2" style="width: 250px"></th> 
+																<th colspan="1" style="width: 50px"></th> 
+																<th style="width: 120px">
+																			<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
+																</th>
+																<th style="text-align:right">
+																		<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>
+																</th>  
+															</tr> 
+													</table>					
+					
+					
+					
+					
+					</div>
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="dateExported" cssClass="small" path="dateExported"/>      
+											<script type="text/javascript">
+												$('#dateExported').datepicker();
+											</script>    
+					                   </div>
+					           </div>       				
+      				</div>
+      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.generic.phone" text="Phone"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="phone"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+      				<div class="span8">
+							<div class="control-group">
+				                  <label><s:message code="label.order.address" text="Address"/></label>	 
+				                  <div class="controls"> 
+				                        <form:input  cssClass="input-large highlight" path="address"/>      														
+				                   </div>
+				           </div>       				
+      				</div>
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.status" text="Status"/></label>	 
+					                  <div class="controls">         
+											<form:select path="status">
+							  						<form:options items="${orderStatusList}" />
+						       				</form:select>      		                   			
+					                   </div>
+					           </div> 
+				     		   <div class="control-group">  
+				                    <label></label>
+				                     <div class="controls">
+				                     	 <form:textarea  cssClass="input-large highlight" cols="10" rows="3" path="description"/>
+				                     	    
+				                    </div> 
+				               </div>      				
+      				
+      				</div>
 
             <br/>   
             <div class="span8">

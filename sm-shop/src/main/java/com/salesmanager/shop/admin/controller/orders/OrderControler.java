@@ -364,6 +364,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	        		billMaster.setOrder(dbOrder);
 	        		billMaster.setStatus(status);
 	        		billMaster.setDescription(orderHistoryComment);
+	        		if(dbOrder.getBilling()!=null){
+	        			billMaster.setPhone(dbOrder.getBilling().getTelephone());
+	        			billMaster.setAddress(dbOrder.getBilling().getAddress());
+	        		}
 	        		billMaster = billMasterService.saveAnnouncement(billMaster);
 	    	        //INSERT BILL ITEM
 	        		BillItem billItem = null; int parentId=0;

@@ -85,6 +85,7 @@
 										
 										
 										<c:if test="${entity.parentId>0}">
+											<c:if test="${entity.quantity > 0}">
 							            	<c:set var="totalSub" value="${entity.price * entity.quantity }" />
 											<tr> 
 												<td> 
@@ -100,6 +101,7 @@
 													<sm:monetary value="${totalSub}" currency="${order.order.currency}"/>
 												</td> 
 											</tr>
+											</c:if>
 										</c:if>										
 										
 										
@@ -110,7 +112,7 @@
 					<div class="subt"> 
 							<Strong><s:message code="label.order.totals" text="Total"/>:</Strong>
 							<span id="totalMoney">
-							<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>
+							<strong><sm:monetary value="${totalMoney}" currency="${order.order.currency}"/></strong>
 							</span>
 										
 			    	</div>  

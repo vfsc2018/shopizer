@@ -55,343 +55,362 @@ import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
 
-
 /**
- * Manage order list
- * Manage search order
- * @author csamson 
+ * Manage order list Manage search order
+ * 
+ * @author csamson
  *
  */
 @Controller
 public class BillsController {
-	
+
 	@Inject
 	BillMasterService billService;
-	
+
 	@Inject
 	private OrderService orderService;
-	
+
 	@Inject
 	private BillItemService billItemService;
-	
+
 	@Inject
 	LabelUtils messages;
 
 	@Inject
 	private ProductService productService;
-	
+
 	@Inject
 	protected ModuleConfigurationService moduleConfigurationService;
-	 
-	private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.class);
 
-	
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(OrderControler.class);
+
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/bills/list.html", method=RequestMethod.GET)
-	public String displayOrders(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		setMenu(model,request);
+	@RequestMapping(value = "/admin/bills/list.html", method = RequestMethod.GET)
+	public String displayOrders(Model model, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 
-		//the list of orders is from page method
-		
+		setMenu(model, request);
+
+		// the list of orders is from page method
+
 		return ControllerConstants.Tiles.Bill.bills;
-		
-		
+
 	}
 
-
 	@PreAuthorize("hasRole('ORDER')")
-	@SuppressWarnings({ "unchecked", "unused"})
-	@RequestMapping(value="/admin/bills/paging.html", method=RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> pageOrders(HttpServletRequest request, HttpServletResponse response, Locale locale) {
-		
+	@SuppressWarnings({ "unchecked", "unused" })
+	@RequestMapping(value = "/admin/bills/paging.html", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> pageOrders(
+			HttpServletRequest request, HttpServletResponse response,
+			Locale locale) {
 
 		AjaxPageableResponse resp = new AjaxPageableResponse();
 
 		try {
-			
+
 			int startRow = Integer.parseInt(request.getParameter("_startRow"));
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
-			String	paymentModule = request.getParameter("paymentModule");
+			String paymentModule = request.getParameter("paymentModule");
 			String sku = request.getParameter("sku");
 			String productName = request.getParameter("productName");
-			
+
 			String billIdRq = request.getParameter("id");
 			String orderIdRq = request.getParameter("orderId");
 			String statusRq = request.getParameter("status");
-			
-			
-			
+
 			BillMasterCriteria criteria = new BillMasterCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-			if(!StringUtils.isBlank(sku)) {
+			if (!StringUtils.isBlank(sku)) {
 				criteria.setSku(sku);
 			}
-			if(!StringUtils.isBlank(productName)) {
+			if (!StringUtils.isBlank(productName)) {
 				criteria.setProductName(productName);
-			}			
-			
-			if(!StringUtils.isBlank(billIdRq)) {
+			}
+
+			if (!StringUtils.isBlank(billIdRq)) {
 				criteria.setId(Integer.parseInt(billIdRq));
 			}
-			
-			if(!StringUtils.isBlank(orderIdRq)) {
+
+			if (!StringUtils.isBlank(orderIdRq)) {
 				criteria.setOrderId(Long.parseLong(orderIdRq));
 			}
-			
-			if(!StringUtils.isBlank(statusRq)) {
-				criteria.setStatus(statusRq);
-			}			
-			
-			
-			Language language = (Language)request.getAttribute("LANGUAGE");
-			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			List<IntegrationModule> paymentModules = moduleConfigurationService.getIntegrationModules( "PAYMENT" );
 
-			BillMasterList billList = billService.getListByStore2(store, criteria);
-		
-			if(billList.getBillMasters()!=null) {	
+			if (!StringUtils.isBlank(statusRq)) {
+				criteria.setStatus(statusRq);
+			}
+
+			Language language = (Language) request.getAttribute("LANGUAGE");
+			MerchantStore store = (MerchantStore) request
+					.getAttribute(Constants.ADMIN_STORE);
+			List<IntegrationModule> paymentModules = moduleConfigurationService
+					.getIntegrationModules("PAYMENT");
+
+			BillMasterList billList = billService.getListByStore2(store,
+					criteria);
+
+			if (billList.getBillMasters() != null) {
 				BigDecimal totalBill = null;
-				for(BillMaster bill : billList.getBillMasters()) {
+				for (BillMaster bill : billList.getBillMasters()) {
 					totalBill = new BigDecimal(0);
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
-					
-					
-					
+
 					BigDecimal total;
-					if(bill.getItems()!=null){
-						for(BillItem item:bill.getItems()){
-							if(item.getParentId()>0){
+					if (bill.getItems() != null) {
+						for (BillItem item : bill.getItems()) {
+							if (item.getParentId() > 0) {
 								total = new BigDecimal(0);
-								total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
+								total = item.getPrice().multiply(
+										new BigDecimal(item.getQuantity()));
 								totalBill = totalBill.add(total);
 							}
 						}
 						ProductPriceUtils price = new ProductPriceUtils();
-						entry.put("total",price.getAdminFormatedAmount(store, totalBill));
+						entry.put("total",
+								price.getAdminFormatedAmount(store, totalBill));
 					} else {
-						entry.put("total",0);
+						entry.put("total", 0);
 					}
-					entry.put("customer", bill.getOrder().getBilling().getFirstName()); // + " " + bill.getOrder().getBilling().getLastName());
-					entry.put("phone", bill.getOrder().getBilling().getTelephone());
-					entry.put("address", bill.getOrder().getBilling().getAddress());
+					entry.put("customer", bill.getOrder().getBilling()
+							.getFirstName()); // + " " +
+												// bill.getOrder().getBilling().getLastName());
+					if (bill.getPhone() == null || bill.getPhone().equals("")) {
+						entry.put("phone", bill.getOrder().getBilling()
+								.getTelephone());
+					} else {
+						entry.put("phone", bill.getPhone());
+					}
 
-					entry.put("date", DateUtil.formatDate(bill.getDateExported()));
+					if (bill.getAddress() == null
+							|| bill.getAddress().equals("")) {
+						entry.put("address", bill.getOrder().getBilling()
+								.getAddress());
+					} else {
+						entry.put("address", bill.getAddress());
+					}
+					entry.put("date",
+							DateUtil.formatDate(bill.getDateExported()));
 					entry.put("status", bill.getStatus());
-	
-					entry.put("paymentModule", paymentModule );
-					resp.addDataEntry(entry);				
-					
+
+					entry.put("paymentModule", paymentModule);
+					resp.addDataEntry(entry);
+
 				}
 			}
-			
-			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-			
 
-		
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
+
 		} catch (Exception e) {
 			LOGGER.error("Error while paging orders", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 		}
-		
+
 		String returnString = resp.toJSONString();
 
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		return new ResponseEntity<String>(returnString, httpHeaders,
+				HttpStatus.OK);
 	}
-	
 
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/bills/viewBill.html", method=RequestMethod.GET)
-	public String viewBill(@RequestParam("id") int billId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/admin/bills/viewBill.html", method = RequestMethod.GET)
+	public String viewBill(@RequestParam("id") int billId, Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 
+		// display menu
+		setMenu(model, request);
 
-			//display menu
-			setMenu(model,request);
+		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
+
+		BillMaster bill = billService.getById(billId);
+		long orderId = bill.getOrder().getId();
+
+		if (orderId > 0) {
+
+			Order dbOrder = orderService.getById(orderId);
+
+			order.setId(dbOrder.getId());
+			if (dbOrder.getDatePurchased() != null) {
+				order.setDatePurchased(DateUtil.formatDate(dbOrder
+						.getDatePurchased()));
+			}
+			order.setOrder(dbOrder);
+			order.setBilling(dbOrder.getBilling());
+			order.setDelivery(dbOrder.getDelivery());
+
+			Integer totalMoney = new Integer("0");
+
+			OrderProductEx ordernew = new OrderProductEx();
+			ordernew.setId(bill.getId());
+			ordernew.setCurrency(dbOrder.getCurrency());
+			ordernew.setDateExported(DateUtil.formatDate(bill.getDateExported()));
+			ordernew.setStatus(bill.getStatus());
+			ordernew.setDescription(bill.getDescription());
+		
+			ordernew.setPhone(bill.getPhone());
+			ordernew.setAddress(bill.getAddress());
 			
-			com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
-
 			
-			BillMaster bill = billService.getById(billId);
-			long orderId = bill.getOrder().getId();
-			
+			List<OrderProductEx> proRelaList = new ArrayList<OrderProductEx>();
+			OrderProductEx proRela = null;
 
-			if(orderId>0) {	
+			for (BillItem sBean : bill.getItems()) {
+				proRela = new OrderProductEx();
+				proRela.setId(sBean.getId());
+				proRela.setParentId(sBean.getParentId());
+				proRela.setSku(sBean.getCode());
+				proRela.setProductName(sBean.getName());
+				proRela.setCurrency(dbOrder.getCurrency());
+				proRela.setProductQuantity(sBean.getQuantity());
+				proRela.setOneTimeCharge(sBean.getPrice().intValue());
+				proRela.setTotal(proRela.getOneTimeCharge().intValue()
+						* proRela.getProductQuantity());
+				totalMoney = totalMoney + proRela.getTotal();
+				proRelaList.add(proRela);
+			}
+			ordernew.setRelationships(proRelaList);
 
-				Order dbOrder = orderService.getById(orderId);	
-				
-				order.setId(dbOrder.getId());
-				if( dbOrder.getDatePurchased() !=null ){
-					order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
-				}
-				order.setOrder( dbOrder );
-				order.setBilling( dbOrder.getBilling());
-				order.setDelivery(dbOrder.getDelivery());	
-	
-					Integer totalMoney = new Integer("0");
-
-							OrderProductEx ordernew = new OrderProductEx();
-							ordernew.setId(bill.getId());
-							ordernew.setCurrency(dbOrder.getCurrency());
-							ordernew.setDateExported(DateUtil.formatDate(bill.getDateExported()));
-							ordernew.setStatus(bill.getStatus());
-							ordernew.setDescription(bill.getDescription());
-
-							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
-							OrderProductEx proRela = null;
-
-							for(BillItem sBean : bill.getItems()){
-								proRela =  new OrderProductEx();
-								proRela.setId(sBean.getId());
-								proRela.setParentId(sBean.getParentId());
-								proRela.setSku(sBean.getCode());
-								proRela.setProductName(sBean.getName());
-								proRela.setCurrency(dbOrder.getCurrency());
-								proRela.setProductQuantity(sBean.getQuantity());
-								proRela.setOneTimeCharge(sBean.getPrice().intValue());
-								proRela.setTotal(proRela.getOneTimeCharge().intValue() * proRela.getProductQuantity());
-								totalMoney = totalMoney + proRela.getTotal(); 
-								proRelaList.add(proRela);
-							}
-							ordernew.setRelationships(proRelaList);
-
-						
-					model.addAttribute("orderStatusList",Arrays.asList(OrderStatus.values()));
-					model.addAttribute("dataEx",ordernew);
-					model.addAttribute("order",order);
-					model.addAttribute("totalMoney",totalMoney);				
-
-
-			}	
-			
-			return "admin-bill-view";
+			model.addAttribute("orderStatusList",
+					Arrays.asList(OrderStatus.values()));
+			model.addAttribute("dataEx", ordernew);
+			model.addAttribute("order", order);
+			model.addAttribute("totalMoney", totalMoney);
 
 		}
 
-	
-	@RequestMapping(value="/admin/bills/buildBill.html", method=RequestMethod.POST)
+		return "admin-bill-view";
+
+	}
+
+	@RequestMapping(value = "/admin/bills/buildBill.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> buildBill(
-			@RequestParam("id") Long id,
-			@RequestParam("orderId") Long orderId,
+			@RequestParam("id") Long id, @RequestParam("orderId") Long orderId,
 			@RequestParam("itemId") Long[] itemIds,
 			@RequestParam("code") String[] code,
 			@RequestParam("quantity") int[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("description") String description,
 			@RequestParam("dateExported") String dateExported,
+			@RequestParam("phone") String phone,
+			@RequestParam("address") String address,
 			@RequestParam("status") String status,
-			@RequestParam("typeSave") int typeSave,
-			HttpServletRequest request, 
+			@RequestParam("typeSave") int typeSave, HttpServletRequest request,
 			HttpServletResponse response) {
-		
-		
-			
-		Language language = (Language)request.getAttribute("LANGUAGE");
+
+		Language language = (Language) request.getAttribute("LANGUAGE");
 
 		AjaxResponse resp = new AjaxResponse();
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
 		try {
 			Order order = orderService.getById(orderId);
-			//Call API
+			// Call API
 			BillMaster bill = billService.getById(id.intValue());
 			bill.setOrder(order);
 			bill.setStatus(status);
 			bill.setDescription(description);
-			if( dateExported !=null && !dateExported.equals("") ){
+			bill.setPhone(phone);
+			bill.setAddress(address);
+			
+			if (dateExported != null && !dateExported.equals("")) {
 				try {
 					bill.setDateExported(DateUtil.getDate(dateExported));
 				} catch (Exception e) {
 					bill.setDateExported(new Date());
 					e.printStackTrace();
 				}
-			}						
-			
+			}
+
 			bill = billService.saveAnnouncement(bill);
 			BillItem sub = null;
 			int j = 0;
-			for(Long itemId:itemIds){
-					sub = new BillItem();
-					sub = billItemService.getById(itemId.intValue());
-					sub.setCode(code[j]);
-					sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
-					sub.setQuantity(quantity[j]);
-					sub.setPrice(oneTimeCharge[j]);
-					sub.setBillMaster(bill);
-					billItemService.saveBillItem(sub);
+			for (Long itemId : itemIds) {
+				sub = new BillItem();
+				sub = billItemService.getById(itemId.intValue());
+				sub.setCode(code[j]);
+				sub.setName(productService.getByCode(sub.getCode(), language)
+						.getProductDescription().getName());
+				sub.setQuantity(quantity[j]);
+				sub.setPrice(oneTimeCharge[j]);
+				sub.setBillMaster(bill);
+				billItemService.saveBillItem(sub);
 				j++;
 			}
-			
+
 		} catch (Exception e) {
 			LOGGER.error("Error while paging products", e);
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}
-		
+
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
-		
+		return new ResponseEntity<String>(returnString, httpHeaders,
+				HttpStatus.OK);
+
 	}
 
-
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/bills/printBill.html", method=RequestMethod.GET)
-	public String printBill(@RequestParam("id") Integer billId, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/admin/bills/printBill.html", method = RequestMethod.GET)
+	public String printBill(@RequestParam("id") Integer billId, Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 
-
-		//display menu
-		setMenu(model,request);
+		// display menu
+		setMenu(model, request);
 
 		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
-		
-		BillMaster billMaster = billService.getById(billId);
-		if(billMaster.getOrder().getId()>0) {	
-			Order dbOrder = orderService.getById(billMaster.getOrder().getId());	
-			if( dbOrder.getDatePurchased() !=null ){
-				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
-			}
-			order.setOrder( dbOrder );
-			order.setBilling( dbOrder.getBilling() );
-			order.setDelivery(dbOrder.getDelivery() );	
-						
-			
-			//List<BillItem> items = billItemService.getItemByBillId(billId);
-			//System.out.println("Data:::::::::::::"+items.size());
-			//Set<BillItem> targetSet = new HashSet<BillItem>(items);
-			//billMaster.setItems(targetSet);
-			model.addAttribute("dataEx",billMaster);
-			System.out.println("Data:::::::::::::"+billMaster.getItems().size());
-			model.addAttribute("order",order);
 
-		}	
-		
+		BillMaster billMaster = billService.getById(billId);
+		if (billMaster.getOrder().getId() > 0) {
+			Order dbOrder = orderService.getById(billMaster.getOrder().getId());
+			if (dbOrder.getDatePurchased() != null) {
+				order.setDatePurchased(DateUtil.formatDate(dbOrder
+						.getDatePurchased()));
+			}
+			order.setOrder(dbOrder);
+			order.setBilling(dbOrder.getBilling());
+			order.setDelivery(dbOrder.getDelivery());
+
+			// List<BillItem> items = billItemService.getItemByBillId(billId);
+			// System.out.println("Data:::::::::::::"+items.size());
+			// Set<BillItem> targetSet = new HashSet<BillItem>(items);
+			// billMaster.setItems(targetSet);
+			model.addAttribute("dataEx", billMaster);
+			System.out.println("Data:::::::::::::"
+					+ billMaster.getItems().size());
+			model.addAttribute("order", order);
+
+		}
+
 		return "admin-orders-print-bill";
 
 	}
-	
-	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
-		
-		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+
+	private void setMenu(Model model, HttpServletRequest request)
+			throws Exception {
+
+		// display menu
+		Map<String, String> activeMenus = new HashMap<String, String>();
 		activeMenus.put("bills", "bills");
 		activeMenus.put("order-list-bill", "order-list-bill");
 
 		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
-		
-		Menu currentMenu = (Menu)menus.get("bills");
-		model.addAttribute("currentMenu",currentMenu);
-		model.addAttribute("activeMenus",activeMenus);
+		Map<String, Menu> menus = (Map<String, Menu>) request
+				.getAttribute("MENUMAP");
+
+		Menu currentMenu = (Menu) menus.get("bills");
+		model.addAttribute("currentMenu", currentMenu);
+		model.addAttribute("activeMenus", activeMenus);
 		//
-		
+
 	}
 
 }

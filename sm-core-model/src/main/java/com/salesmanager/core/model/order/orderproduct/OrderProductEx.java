@@ -28,8 +28,21 @@ public class OrderProductEx implements Serializable {
 	private int id;
 	
 	private int parentId;
+	private String phone;
+	private String address;
 
-
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	private String productName;
 	private String sku;
 	private int productQuantity;

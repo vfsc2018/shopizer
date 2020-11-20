@@ -63,9 +63,41 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
 
 	@Column (name="STATUS" , length=100)
 	private String status;	
+	
+	
+	@Column (length=20)
+	private String phone;		
+	
+	
+	@Column (length=500)
+	private String address;		
 
 	@Column (name="DESCRIPTION" , length=500)
 	private String description;		
+
+	public String getPhone() {
+		return phone;
+	}
+
+
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+
+
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
 
 	public String getStatus() {
 		return status;
