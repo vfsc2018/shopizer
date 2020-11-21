@@ -1,11 +1,16 @@
 package com.salesmanager.core.business.utils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import com.salesmanager.core.constants.MeasureUnit;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
 public class DataUtils {
+
+	private DataUtils(){
+
+	}
 	
 	/**
 	 * Removes dashes
@@ -38,21 +43,21 @@ public class DataUtils {
 		if (base.equals(MeasureUnit.LB.name())) {
 			if (store.getWeightunitcode().equals(MeasureUnit.LB.name())) {
 				return new BigDecimal(String.valueOf(weight)).setScale(2,
-						BigDecimal.ROUND_HALF_UP).doubleValue();
+						RoundingMode.HALF_UP).doubleValue();
 			} else {// pound = kilogram
 				double answer = weight * weightConstant;
 				BigDecimal w = new BigDecimal(answer);
-				return w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 			}
 		} else {// need KG
 			if (store.getWeightunitcode().equals(MeasureUnit.KG.name())) {
 				return new BigDecimal(String.valueOf(weight)).setScale(2,
-						BigDecimal.ROUND_HALF_UP).doubleValue();
+						RoundingMode.HALF_UP).doubleValue();
 			} else {
 
 				double answer = weight / weightConstant;
 				BigDecimal w = new BigDecimal(answer);
-				return w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
 			}
 		}
@@ -74,13 +79,13 @@ public class DataUtils {
 		if (base.equals(MeasureUnit.IN.name())) {
 			if (store.getSeizeunitcode().equals(MeasureUnit.IN.name())) {
 				return new BigDecimal(String.valueOf(measure)).setScale(2,
-						BigDecimal.ROUND_HALF_UP).doubleValue();
+						RoundingMode.HALF_UP).doubleValue();
 			} else {// centimeter (inch to centimeter)
 				double measureConstant = 2.54;
 
 				double answer = measure * measureConstant;
 				BigDecimal w = new BigDecimal(answer);
-				return w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
 			}
 		} else {// need CM
@@ -92,7 +97,7 @@ public class DataUtils {
 
 				double answer = measure * measureConstant;
 				BigDecimal w = new BigDecimal(answer);
-				return w.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
 			}
 		}

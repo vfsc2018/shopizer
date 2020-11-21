@@ -10,6 +10,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -32,6 +33,9 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.common.audit.AuditListener;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.attributes.OrderAttribute;
@@ -44,8 +48,9 @@ import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Entity
+@EntityListeners(value = AuditListener.class)
 @Table (name="ORDERS", schema = SchemaConstant.SALESMANAGER_SCHEMA)
-public class Order extends SalesManagerEntity<Long, Order> {
+public class Order extends SalesManagerEntity<Long, Order> implements Auditable {
 	
 	
 	/**
@@ -60,6 +65,20 @@ public class Order extends SalesManagerEntity<Long, Order> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+    @Embedded
+	private AuditSection auditSection = new AuditSection();
+	
+    @Override
+    public AuditSection getAuditSection() {
+        return auditSection;
+    }
+    
+    @Override
+    public void setAuditSection(AuditSection auditSection) {
+        this.auditSection = auditSection;
+    }
+
+
 	@Column (name ="ORDER_STATUS")
 	@Enumerated(value = EnumType.STRING)
 	private OrderStatus status;

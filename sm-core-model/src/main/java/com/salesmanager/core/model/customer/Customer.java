@@ -40,6 +40,7 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
+import com.salesmanager.core.model.common.Loyalty;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -116,8 +117,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JoinColumn(name = "LANGUAGE_ID", nullable=false)
 	private Language defaultLanguage;
 	
-
-
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
 	private List<ProductReview> reviews = new ArrayList<ProductReview>();
 	
@@ -126,6 +125,9 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
 	
+	@JsonIgnore
+	@Embedded
+	private Loyalty loyalty = null;
 
 	@Embedded
 	private Delivery delivery = null;
@@ -229,7 +231,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 		this.anonymous = anonymous;
 	}
 
-
 	public List<ProductReview> getReviews() {
 		return reviews;
 	}
@@ -244,6 +245,14 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	public MerchantStore getMerchantStore() {
 		return merchantStore;
+	}
+
+	public void setLoyalty(Loyalty loyalty) {
+		this.loyalty = loyalty;
+	}
+
+	public Loyalty getLoyalty() {
+		return loyalty;
 	}
 
 	public void setDelivery(Delivery delivery) {

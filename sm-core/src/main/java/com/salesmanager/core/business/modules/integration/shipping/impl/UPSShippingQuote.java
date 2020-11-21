@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -341,7 +342,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 				xmldatabuffer.append("</UnitOfMeasurement>");
 				xmldatabuffer.append("<Weight>");
 				xmldatabuffer.append(new BigDecimal(packageDetail.getShippingWeight())
-						.setScale(1, BigDecimal.ROUND_HALF_UP));
+						.setScale(1, RoundingMode.HALF_UP));
 				xmldatabuffer.append("</Weight>");
 				xmldatabuffer.append("</PackageWeight>");
 
@@ -354,15 +355,15 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 				xmldatabuffer.append("</UnitOfMeasurement>");
 				xmldatabuffer.append("<Length>");
 				xmldatabuffer.append(new BigDecimal(packageDetail.getShippingLength())
-						.setScale(2, BigDecimal.ROUND_HALF_UP));
+						.setScale(2, RoundingMode.HALF_UP));
 				xmldatabuffer.append("</Length>");
 				xmldatabuffer.append("<Width>");
 				xmldatabuffer.append(new BigDecimal(packageDetail.getShippingWidth())
-						.setScale(2, BigDecimal.ROUND_HALF_UP));
+						.setScale(2, RoundingMode.HALF_UP));
 				xmldatabuffer.append("</Width>");
 				xmldatabuffer.append("<Height>");
 				xmldatabuffer.append(new BigDecimal(packageDetail.getShippingHeight())
-						.setScale(2, BigDecimal.ROUND_HALF_UP));
+						.setScale(2, RoundingMode.HALF_UP));
 				xmldatabuffer.append("</Height>");
 				xmldatabuffer.append("</Dimensions>");
 				xmldatabuffer.append("</Package>");

@@ -589,7 +589,7 @@ function captureOrder(orderId){
 								<div class="control-group">
 					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input id="dateExported" cssClass="small" path="dateExported"/>      
+					                        <form:input id="dateExported" cssClass="small" path="dateExported" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
 											<script type="text/javascript">
 												$('#dateExported').datepicker();
 											</script>    
@@ -607,7 +607,7 @@ function captureOrder(orderId){
       				</div>
       				<div class="span8">
 							<div class="control-group">
-				                  <label><s:message code="label.order.address" text="Address"/></label>	 
+				                  <label><s:message code="label.generic.address" text="Address"/></label>	 
 				                  <div class="controls"> 
 				                        <form:input  cssClass="input-large highlight" path="address"/>      														
 				                   </div>

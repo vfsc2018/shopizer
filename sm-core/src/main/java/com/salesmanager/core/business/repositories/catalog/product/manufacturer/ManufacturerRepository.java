@@ -34,8 +34,16 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 	@Query("select count(distinct m) from Manufacturer as m where m.merchantStore.id=?1")
 	int count(Integer storeId);
 	
-	//TODO
-	@Query(value="select distinct manufacturer from Product as p join p.manufacturer manufacturer left join manufacturer.descriptions pmd join fetch manufacturer.merchantStore pms where pms.id = ?1 and p.id IN (select c.id from Category c where c.lineage like %?2% and pmd.language.id = ?3)")
-	//@Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where m.id=?1")
+	@Query(value="select distinct m from Product as p " +
+	"join p.manufacturer m " + 
+	"left join m.descriptions pmd  " + 
+	"join p.categories cat " + 
+	"join fetch m.merchantStore pms where pms.id = ?1 AND pmd.language.id = ?3 " +
+	"AND cat.id IN (select c.id from Category c where c.lineage like %?2%)")
 	List<Manufacturer> findByProductInCategoryId(Integer storeId, String lineage, Integer languageId);
+	
+	// @Query("select m from Manufacturer m left join m.descriptions md join fetch m.merchantStore ms where ms.id=?1")
+	// List<Manufacturer> findByProductInCategoryId(Integer storeId, String lineage, Integer languageId);
 }
+
+// select distinct manufacturer from Product as p left join manufacturer_descriptions pmd ON p.manufacturer_id = pmd.manufacturer_id join merchant_Store pms where pms.MERCHANT_ID = 1 and p.id IN (select c.id from Category c where c.lineage like '%/2/%') and pmd.language_id = 1;

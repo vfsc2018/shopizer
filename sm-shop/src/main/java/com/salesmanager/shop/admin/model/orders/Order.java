@@ -5,6 +5,8 @@ import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 import javax.persistence.Embedded;
+import javax.persistence.Transient;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
@@ -17,14 +19,23 @@ public class Order implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Long Id;
+	private Long id;
 	private String orderHistoryComment = "";
 	
-	List<OrderStatus> orderStatusList = Arrays.asList(OrderStatus.values());     
+	private List<OrderStatus> orderStatusList = Arrays.asList(OrderStatus.values());     
 	private String datePurchased = "";
 	
 	private String fromDate = "";
 	private String toDate = "";
+	private String dateExported = "";
+	
+	private  com.salesmanager.core.model.order.Order order;
+	
+	@Transient
+	private Delivery delivery;
+	
+	@Transient
+	private Billing billing;
 	
 	
 	
@@ -42,19 +53,16 @@ public class Order implements Serializable {
 
 	public void setToDate(String toDate) {
 		this.toDate = toDate;
+	}	
+	
+	public String getDateExported() {
+		return dateExported;
 	}
 
-	private  com.salesmanager.core.model.order.Order order;
-	
-	@Embedded
-	private com.salesmanager.core.model.common.Delivery delivery = null;
-	
-	@Embedded
-	private com.salesmanager.core.model.common.Billing billing = null;
-	
-	
-	
-	
+	public void setDateExported(String dateExported) {
+		this.dateExported = dateExported;
+	}
+
 	public String getDatePurchased() {
 		return datePurchased;
 	}
@@ -64,11 +72,11 @@ public class Order implements Serializable {
 	}
 
 	public Long getId() {
-		return Id;
+		return id;
 	}
 
 	public void setId(Long id) {
-		Id = id;
+		this.id = id;
 	}
 
 	public String getOrderHistoryComment() {

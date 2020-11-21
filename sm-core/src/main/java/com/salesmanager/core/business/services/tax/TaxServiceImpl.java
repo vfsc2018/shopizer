@@ -185,7 +185,7 @@ public class TaxServiceImpl
 				BigDecimal subTotal = taxClassAmountMap.get(taxClass.getId());
 				if(subTotal==null) {
 					subTotal = new BigDecimal(0);
-					subTotal.setScale(2, RoundingMode.HALF_UP);
+					subTotal.setScale(0, RoundingMode.HALF_UP);
 				}
 					
 				subTotal = subTotal.add(itemPrice);
@@ -206,7 +206,7 @@ public class TaxServiceImpl
 				BigDecimal amnt = taxClassAmountMap.get(defaultTaxClass.getId());
 				if(amnt==null) {
 					amnt = new BigDecimal(0);
-					amnt.setScale(2, RoundingMode.HALF_UP);
+					amnt.setScale(0, RoundingMode.HALF_UP);
 				}
 				ShippingSummary shippingSummary = orderSummary.getShippingSummary();
 				if(shippingSummary!=null && shippingSummary.getShipping()!=null && shippingSummary.getShipping().doubleValue()>0) {
@@ -238,7 +238,7 @@ public class TaxServiceImpl
 			}
 			BigDecimal taxedItemValue = null;
 			BigDecimal totalTaxedItemValue = new BigDecimal(0);
-			totalTaxedItemValue.setScale(2, RoundingMode.HALF_UP);
+			totalTaxedItemValue.setScale(0, RoundingMode.HALF_UP);
 			BigDecimal beforeTaxeAmount = taxClassAmountMap.get(taxClassId);
 			for(TaxRate taxRate : taxRates) {
 				
@@ -252,8 +252,8 @@ public class TaxServiceImpl
 				} //else just use nominal taxing (combine)
 				
 				double value  = (beforeTaxeAmount.doubleValue() * taxRateDouble)/100;
-				double roundedValue = new BigDecimal(value).setScale(2, RoundingMode.HALF_UP).doubleValue();
-				taxedItemValue = new BigDecimal(roundedValue).setScale(2, RoundingMode.HALF_UP);
+				double roundedValue = new BigDecimal(value).setScale(0, RoundingMode.HALF_UP).doubleValue();
+				taxedItemValue = new BigDecimal(roundedValue).setScale(0, RoundingMode.HALF_UP);
 				totalTaxedItemValue = beforeTaxeAmount.add(taxedItemValue);
 				
 				TaxItem taxItem = new TaxItem();

@@ -68,7 +68,7 @@ public class ContentApi {
 	private ImageFilePath imageUtils;
 
 	
-	@GetMapping(value = {"/private/content/pages", "/content/pages"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = {"/admin/content/pages", "/content/pages"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page names created for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
@@ -93,7 +93,7 @@ public class ContentApi {
 	 * @param language
 	 * @return
 	 */
-	@GetMapping(value = {"/content/boxes","/private/content/boxes"}, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = {"/content/boxes","/admin/content/boxes"}, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get boxes for a given MerchantStore", notes = "", produces = "application/json", response = List.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
@@ -124,7 +124,7 @@ public class ContentApi {
 
 	}
 
-	@GetMapping(value = "/private/content/any/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/admin/content/any/{code}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get page content by code for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
@@ -135,7 +135,7 @@ public class ContentApi {
 
 	}
 
-	@GetMapping(value = "/private/contents/any", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/admin/contents/any", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(httpMethod = "GET", value = "Get contents (page and box) for a given MerchantStore", notes = "", produces = "application/json", response = ReadableContentPage.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
@@ -203,7 +203,7 @@ public class ContentApi {
 	 *
 	 * @param file
 	 */
-	@PostMapping(value = "/private/file")
+	@PostMapping(value = "/admin/file")
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
@@ -223,7 +223,7 @@ public class ContentApi {
 
 	}
 
-	@PostMapping(value = "/private/files", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	@PostMapping(value = "/admin/files", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiImplicitParams({
 			// @ApiImplicitParam(name = "file[]", value = "File stream object",
@@ -255,7 +255,7 @@ public class ContentApi {
 	 * @param language
 	 * @param pageCode
 	 */
-	@PostMapping(value = "/private/content")
+	@PostMapping(value = "/admin/content")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "POST", value = "Create content (page or box)", notes = "content type is by default BOX, when creating a page specify contentType:PAGE", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -267,7 +267,7 @@ public class ContentApi {
 	}
 	
 
-	@PutMapping(value = "/private/content/{id}")
+	@PutMapping(value = "/admin/content/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	@ApiOperation(httpMethod = "PUT", value = "Update content page", notes = "Updates a content page",
 
@@ -286,7 +286,7 @@ public class ContentApi {
 	 *
 	 * @param name
 	 */
-	@DeleteMapping(value = "/private/content/{id}")
+	@DeleteMapping(value = "/admin/content/{id}")
 	@ApiOperation(httpMethod = "DELETE", value = "Deletes a content from CMS", notes = "Delete a content box or page", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT") })
 	public void deleteContent(Long id, @ApiIgnore MerchantStore merchantStore) {
@@ -318,7 +318,7 @@ public class ContentApi {
 	 *
 	 * @param name
 	 */
-	@DeleteMapping(value = "/private/content/")
+	@DeleteMapping(value = "/admin/content/")
 	@ApiOperation(httpMethod = "DELETE", value = "Deletes a file from CMS", notes = "Delete a file from server", response = Void.class)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })

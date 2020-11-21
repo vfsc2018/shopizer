@@ -223,7 +223,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         ShippingConfiguration shippingConfiguration = null;
 
         BigDecimal grandTotal = new BigDecimal(0);
-        grandTotal.setScale(2, RoundingMode.HALF_UP);
+        grandTotal.setScale(0, RoundingMode.HALF_UP);
 
         //price by item
         /**
@@ -231,7 +231,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
          * subtotal
          */
         BigDecimal subTotal = new BigDecimal(0);
-        subTotal.setScale(2, RoundingMode.HALF_UP);
+        subTotal.setScale(0, RoundingMode.HALF_UP);
         for(ShoppingCartItem item : summary.getProducts()) {
 
             BigDecimal st = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
@@ -259,7 +259,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                             BigDecimal orderTotalValue = itemSubTotal.getValue();
                             if(orderTotalValue==null) {
                                 orderTotalValue = new BigDecimal(0);
-                                orderTotalValue.setScale(2, RoundingMode.HALF_UP);
+                                orderTotalValue.setScale(0, RoundingMode.HALF_UP);
                             }
 
                             orderTotalValue = orderTotalValue.add(price.getFinalPrice());
@@ -356,7 +356,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         List<TaxItem> taxes = taxService.calculateTax(summary, customer, store, language);
         if(taxes!=null && taxes.size()>0) {
         	BigDecimal totalTaxes = new BigDecimal(0);
-        	totalTaxes.setScale(2, RoundingMode.HALF_UP);
+        	totalTaxes.setScale(0, RoundingMode.HALF_UP);
             int taxCount = 200;
             for(TaxItem tax : taxes) {
 

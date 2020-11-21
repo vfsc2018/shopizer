@@ -711,7 +711,7 @@ class USPSParsedElements {
 		options.add(option);
 	}
 
-	public List getOptions() {
+	public List<ShippingOption> getOptions() {
 		return options;
 	}
 

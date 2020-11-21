@@ -3,7 +3,9 @@ package com.salesmanager.core.model.catalog.product.relationship;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,11 +16,15 @@ import javax.persistence.TableGenerator;
 
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.common.audit.AuditListener;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 @Entity
+@EntityListeners(value = AuditListener.class)
 @Table(name = "BILL_ITEM", schema=SchemaConstant.SALESMANAGER_SCHEMA)
-public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
+public class BillItem  extends SalesManagerEntity<Integer, BillItem>  implements Auditable {
 
 	
 	/**
@@ -36,6 +42,18 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem> {
 	private Integer id;
 	
 
+    @Embedded
+	private AuditSection auditSection = new AuditSection();
+	
+    @Override
+    public AuditSection getAuditSection() {
+        return auditSection;
+    }
+    
+    @Override
+    public void setAuditSection(AuditSection auditSection) {
+        this.auditSection = auditSection;
+    }
 
 	@ManyToOne(targetEntity = BillMaster.class)
 	@JoinColumn(name="BILL_ID",updatable=false,nullable=true) 

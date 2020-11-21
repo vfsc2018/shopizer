@@ -520,7 +520,7 @@ function captureOrder(orderId){
 	            		 <a id="refundAction" class="btn btn-danger btn-block" href="#"><s:message code="label.order.refund" text="Apply refund"/></a>
 	            	</c:if>  
 	            	</c:if>       
-              </div><!-- /btn-group -->
+              </div>
 			  <br/>
  	       	 	
 	     <c:url var="buildBill" value="/admin/orders/buildBill.html"/>
@@ -625,13 +625,31 @@ function captureOrder(orderId){
 									<div class="span8">
 										<div class="control-group">
 									                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
-									                  <div class="controls">      
-									                  		<input id="dateExported" name="dateExported" value="" class="small" type="text" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker"> 
-															<script type="text/javascript">
+													  <div class="controls">  
+														<input id="dateExported" name="dateExported" value="${order.dateExported}" class="small" type="text" 
+									 						data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" data-datepicker="datepicker">     
+									       					<script type="text/javascript">
 																$('#dateExported').datepicker();
 															</script>    
 									                   </div>
-									    </div> 
+										</div> 
+										
+									</div>
+									<div class="span8">
+												<div class="control-group">
+													<label><s:message code="label.generic.phone" text="Phone"/></label>	 
+													<div class="controls"> 
+															<form:input  cssClass="small" path="order.billing.telephone"/>      														
+													</div>
+											</div>       				
+									</div>
+									<div class="span8">
+											<div class="control-group">
+												<label><s:message code="label.generic.address" text="Address"/></label>	 
+												<div class="controls"> 
+														<form:input  cssClass="input-large highlight" path="order.billing.address"/>      														
+												</div>
+										</div>       				
 									</div>
 									
 									<div class="span8">

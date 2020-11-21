@@ -26,10 +26,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -257,7 +259,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	
 	
 	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value="/admin/orders/buildBill.html", method=RequestMethod.POST)
+	@Transactional
+	@PostMapping("/admin/orders/buildBill.html")
 	public @ResponseBody ResponseEntity<String> buildBill(
 			@RequestParam("order.id") Long orderId,
 			@RequestParam("order.customerId") Long customerId, 
@@ -269,13 +272,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			@RequestParam("orderHistoryComment") String orderHistoryComment,
 			@RequestParam("dateExported") String dateExported,
 			@RequestParam("order.status") String status,
+			@RequestParam("order.billing.telephone") String phone,
+			@RequestParam("order.billing.address") String address,
 			@RequestParam("typeSave") int typeSave,
 			HttpServletRequest request, 
 			HttpServletResponse response) {
-		
-		
-			
-		
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
@@ -363,11 +364,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 					}
 	        		billMaster.setOrder(dbOrder);
 	        		billMaster.setStatus(status);
-	        		billMaster.setDescription(orderHistoryComment);
-	        		if(dbOrder.getBilling()!=null){
-	        			billMaster.setPhone(dbOrder.getBilling().getTelephone());
-	        			billMaster.setAddress(dbOrder.getBilling().getAddress());
-	        		}
+					billMaster.setDescription(orderHistoryComment);
+	        		
+	        			billMaster.setPhone(phone); // dbOrder.getBilling().getTelephone());
+						billMaster.setAddress(address);// dbOrder.getBilling().getAddress());
+						
 	        		billMaster = billMasterService.saveAnnouncement(billMaster);
 	    	        //INSERT BILL ITEM
 	        		BillItem billItem = null; int parentId=0;
@@ -480,16 +481,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		List<OrderProductEx> listOrderNew= new ArrayList<OrderProductEx>();   
 		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
 		Language language = (Language)request.getAttribute("LANGUAGE");
-		List<Country> countries = countryService.getCountries(language);
+		// List<Country> countries = countryService.getCountries(language);
 		if(orderId>0) {	
-			
-			
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			
-			
-			
-		
-		
 			Order dbOrder = orderService.getById(orderId);
 
 			if(dbOrder==null) {
@@ -508,28 +502,20 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
 			
-			Long customerId = dbOrder.getCustomerId();
+			long customerId = dbOrder.getCustomerId();
 			
-			if(customerId!=null && customerId>0) {
-			
-				try {
-					
-					Customer customer = customerService.getById(customerId);
-					if(customer!=null) {
-						model.addAttribute("customer",customer);
-					}
-					
-					
-				} catch(Exception e) {
-					LOGGER.error("Error while getting customer for customerId " + customerId, e);
-				}
-			
+			Customer customer = customerService.getById(customerId);
+			if(customer!=null) {
+				model.addAttribute("customer",customer);
+			}else{
+				LOGGER.error(String.format("Error while getting customer for customerId %d",customerId));
+				return "redirect:/admin/orders/list.html";
 			}
 			
 			order.setOrder( dbOrder );
 			order.setBilling( dbOrder.getBilling() );
 			order.setDelivery(dbOrder.getDelivery() );
-
+			order.setDateExported(DateUtil.formatDate(new Date()));
 
 					OrderProductEx ordernew=null;
 					for(OrderProduct bean : dbOrder.getOrderProducts()){
@@ -562,7 +548,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 								
 								ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
 								
-								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount().intValue():new Integer(0));
+								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount().intValue():0);
 								
 								proRela.setTotal(proRela.getOneTimeCharge().intValue() * proRela.getProductQuantity());
 								
@@ -577,30 +563,30 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 					}
 
 			//get capturable
-			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
-				Transaction capturableTransaction = transactionService.getCapturableTransaction(dbOrder);
-				if(capturableTransaction!=null) {
-					model.addAttribute("capturableTransaction",capturableTransaction);
-				}
-			}
+			// if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+			// 	Transaction capturableTransaction = transactionService.getCapturableTransaction(dbOrder);
+			// 	if(capturableTransaction!=null) {
+			// 		model.addAttribute("capturableTransaction",capturableTransaction);
+			// 	}
+			// }
 			
 			//get refundable
-			if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
-				Transaction refundableTransaction = transactionService.getRefundableTransaction(dbOrder);
-				if(refundableTransaction!=null) {
-						model.addAttribute("capturableTransaction",null);//remove capturable
-						model.addAttribute("refundableTransaction",refundableTransaction);
-				}
-			}
+			// if(dbOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+			// 	Transaction refundableTransaction = transactionService.getRefundableTransaction(dbOrder);
+			// 	if(refundableTransaction!=null) {
+			// 			model.addAttribute("capturableTransaction",null);//remove capturable
+			// 			model.addAttribute("refundableTransaction",refundableTransaction);
+			// 	}
+			// }
 			
-			List<OrderProductDownload> orderProductDownloads = orderProdctDownloadService.getByOrderId(order.getId());
-			if(CollectionUtils.isNotEmpty(orderProductDownloads)) {
-				model.addAttribute("downloads",orderProductDownloads);
-			}
+			// List<OrderProductDownload> orderProductDownloads = orderProdctDownloadService.getByOrderId(order.getId());
+			// if(CollectionUtils.isNotEmpty(orderProductDownloads)) {
+			// 	model.addAttribute("downloads",orderProductDownloads);
+			// }
 			
 		}	
 		
-		model.addAttribute("countries", countries);
+		// model.addAttribute("countries", countries);
 		model.addAttribute("order",order);
 		if(vcheck >0 ){
 			return  ControllerConstants.Tiles.Order.ordersBillEdit;	
@@ -726,24 +712,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
 			
-			Long customerId = dbOrder.getCustomerId();
+			long customerId = dbOrder.getCustomerId();
 			
-			if(customerId!=null && customerId>0) {
-			
-				try {
+			Customer customer = customerService.getById(customerId);
+			model.addAttribute("customer",customer);
 					
-					Customer customer = customerService.getById(customerId);
-					if(customer!=null) {
-						model.addAttribute("customer",customer);
-					}
-					
-					
-				} catch(Exception e) {
-					LOGGER.error("Error while getting customer for customerId " + customerId, e);
-				}
-			
-			}
-			
 			order.setOrder( dbOrder );
 			order.setBilling( dbOrder.getBilling() );
 			order.setDelivery(dbOrder.getDelivery() );
@@ -897,7 +870,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		
 		//get capturable
-		if(newOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+		if(!newOrder.getPaymentType().name().equals(PaymentType.MONEYORDER.name())) {
 			Transaction capturableTransaction = transactionService.getCapturableTransaction(newOrder);
 			if(capturableTransaction!=null) {
 				model.addAttribute("capturableTransaction",capturableTransaction);
@@ -906,7 +879,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		
 		//get refundable
-		if(newOrder.getPaymentType().name() != PaymentType.MONEYORDER.name()) {
+		if(!newOrder.getPaymentType().name().equals(PaymentType.MONEYORDER.name())) {
 			Transaction refundableTransaction = transactionService.getRefundableTransaction(newOrder);
 			if(refundableTransaction!=null) {
 					model.addAttribute("capturableTransaction",null);//remove capturable

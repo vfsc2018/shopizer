@@ -63,8 +63,8 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   public TilesConfigurer tilesConfigurer() {
     TilesConfigurer tilesConfigurer = new TilesConfigurer();
     tilesConfigurer.setDefinitions(
-        "/WEB-INF/tiles/tiles-admin.xml", 
-        "/WEB-INF/tiles/tiles-shop.xml");
+        "/WEB-INF/tiles/tiles-admin.xml");
+        // "/WEB-INF/tiles/tiles-shop.xml");
     // tilesConfigurer.setDefinitions(
     //   "classpath*:/webapp/WEB-INF/tiles/tiles-admin.xml", 
     //   "classpath*:/webapp/WEB-INF/tiles/tiles-shop.xml");

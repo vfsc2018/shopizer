@@ -5,10 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,21 +19,22 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.annotations.OrderBy;
 
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.common.audit.AuditListener;
+import com.salesmanager.core.model.common.audit.AuditSection;
+import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.order.Order;
 
 
 @Entity
+@EntityListeners(value = AuditListener.class)
 @Table(name = "BILL_MASTER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
 @Cacheable
-public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
+public class BillMaster extends SalesManagerEntity<Integer, BillMaster>  implements Auditable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -42,14 +43,23 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster> {
 	pkColumnValue = "BILL_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Integer id;
+	
+    @Embedded
+	private AuditSection auditSection = new AuditSection();
+	
+    @Override
+    public AuditSection getAuditSection() {
+        return auditSection;
+    }
+    
+    @Override
+    public void setAuditSection(AuditSection auditSection) {
+        this.auditSection = auditSection;
+    }
 
 
-	
-	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateExported;
-	
-	
 	
 	public Date getDateExported() {
 		return dateExported;

@@ -111,8 +111,7 @@ public class ManufacturerServiceImpl extends SalesManagerEntityServiceImpl<Long,
   }
 
   @Override
-  public List<Manufacturer> listByProductsInCategory(MerchantStore store, Category category,
-      Language language) throws ServiceException {
+  public List<Manufacturer> listByProductsInCategory(MerchantStore store, Category category, Language language) throws ServiceException {
     Validate.notNull(store, "Store cannot be null");
     Validate.notNull(category,"Category cannot be null");
     Validate.notNull(language, "Language cannot be null");

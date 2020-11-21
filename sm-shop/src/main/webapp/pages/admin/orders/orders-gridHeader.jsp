@@ -13,7 +13,7 @@
     {title:"<s:message code="label.entity.fromDate" text="From date"/>", name:"startDate", canFilter:false},
     {title:"<s:message code="label.entity.toDate" text="To date"/>", name:"endDate", canFilter:false},
     {title:"<s:message code="label.generic.phone" text="Phone"/>", name:"phone", align: "right"},
-    {title:"<s:message code="label.order.address" text="Address"/>", name:"address", canFilter:false},
+    {title:"<s:message code="label.generic.address" text="Address"/>", name:"address", canFilter:false},
     {title:"<s:message code="label.entity.status" text="Status"/>", name:"status"},
     {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}
     

@@ -327,7 +327,7 @@ function captureOrder(orderId){
         /*Begin ducdv5*/
 		$("#btPrepareBill").click(function() {
 		     //var statusComment =  $("#orderHistoryComment").val()
-			 location.href="<c:url value="/admin/orders/prepareBill.html" />?id=<c:out value="${order.order.id}"/>";
+			 location.href="<c:url value="/admin/orders/prepareBill.html" />?id=<c:out value="${order.id}"/>";
 		}); 
 		/*End ducdv5*/
     });
@@ -545,7 +545,7 @@ function captureOrder(orderId){
    				<div class="span8">
 				<s:message code="label.customer.order.date" text="Order date"/>			 		
 			 	<div class="controls">
-							<form:input  cssClass="input-large" path="datePurchased"  class="small" type="text"
+							<form:input  cssClass="input-large" path="datePurchased" 
 							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 							  <script type="text/javascript">
                                  $('#datePurchased').datepicker();
@@ -634,7 +634,7 @@ function captureOrder(orderId){
 		           <div class="control-group">
 		                  <label><s:message code="label.entity.fromDate" text="From date"/></label>	 
 		                  <div class="controls">      
-									<form:input  cssClass="input-large" path="fromDate"  class="small" type="text"
+									<form:input  cssClass="input-large" path="fromDate"
 									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 									<script type="text/javascript">
 										$('#fromDate').datepicker();
@@ -646,7 +646,7 @@ function captureOrder(orderId){
 		           <div class="control-group">
 		                  <label><s:message code="label.entity.toDate" text="To date"/></label>	 
 		                  <div class="controls">      
-									<form:input  cssClass="input-large" path="toDate"  class="small" type="text"
+									<form:input  cssClass="input-large" path="toDate"
 									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
 									<script type="text/javascript">
 										$('#toDate').datepicker();
