@@ -450,7 +450,7 @@ function captureOrder(orderId){
         			processData:false,
 	    			success: function(data){
 	    					if(data.response.status==0 || data.response.status ==9999) {
-	    						alert("Thanh cong");	
+	    						alert(data.response.statusMessage);	
 	    					}else{
 	    						alert(data.response.statusMessage);
 	    					}

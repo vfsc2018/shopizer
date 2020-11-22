@@ -412,7 +412,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 	        }*/
 			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
-	        
+			resp.setStatusMessage("Soan hoa don thanh cong (" + billMaster.getId() + ")");
+			
 		} catch (Exception e) {
 			LOGGER.error("Error while paging products", e);
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
