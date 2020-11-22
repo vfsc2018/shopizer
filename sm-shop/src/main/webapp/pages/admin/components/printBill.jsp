@@ -160,9 +160,6 @@ td, th {
 			<span><c:out value="${dataEx.phone}" /> </span>
 	</div>
 
-
-
-  
 </div>
 </div>
 	<div class="form-actions">
