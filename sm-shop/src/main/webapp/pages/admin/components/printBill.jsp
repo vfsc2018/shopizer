@@ -33,7 +33,20 @@
 	</c:if>	
 	
 <div id="printSection" >
-<div style="width:300px">	
+<div style="width:300px">
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>	
 <img id="image" src="/resources/img/vfsc.png" alt="logo" />		
 
 	
@@ -69,7 +82,7 @@
 					
 </br>
 						
-   <table style="width:300px" class="table table-bordered table-striped" id="caculatorId"> 
+   <table style="width:300px" id="caculatorId"> 
 	<thead> 
 		<tr> 
 			<th width="150px"><s:message code="label.order.item" text="Product"/></th> 
@@ -126,7 +139,7 @@
 	</c:forEach> 
 </tbody>
 </table>
-
+</br>
 <div class="subt"> 
 		<Strong><s:message code="label.order.totals" text="Total"/>:</Strong>
 		<span id="totalMoney">
@@ -135,20 +148,18 @@
 					
 </div>
 </br>
-<table style="width:300px">
-	<tr>
-		<td><Strong><s:message code="label.customer.firstname" text="First Name"/>:</Strong></td>
-		<td><c:out value="${order.billing.firstName}" /></td>
-	</tr>
-	<tr>
-		<td><Strong><s:message code="label.generic.address" text="Address"/>:</Strong></td>
-		<td><c:out value="${dataEx.address}" /></td>
-	</tr>	
-	<tr>
-		<td><Strong><s:message code="label.generic.phone" text="Phone"/>:</Strong></td> 
-		<td><c:out value="${dataEx.phone}" /> </td>
-	</tr>
-</table>
+	<div><Strong><s:message code="label.customer.firstname" text="First Name"/>: </Strong>
+			<span><c:out value="${order.billing.firstName}" /></span>
+	</div>
+	
+	<div><Strong><s:message code="label.generic.address" text="Address"/>: </Strong>
+			<span><c:out value="${dataEx.address}" /></span>
+		</div>
+		
+	<div><Strong><s:message code="label.generic.phone" text="Phone"/>: </Strong> 
+			<span><c:out value="${dataEx.phone}" /> </span>
+	</div>
+
 
 
   
