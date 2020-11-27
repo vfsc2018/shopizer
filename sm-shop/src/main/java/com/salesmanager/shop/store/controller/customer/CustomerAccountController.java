@@ -305,7 +305,7 @@ public class CustomerAccountController extends AbstractController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
 		
@@ -327,7 +327,7 @@ public class CustomerAccountController extends AbstractController {
     		LOGGER.error("Customer id [customer] is not defined in the parameters");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
     	}
 		
 		
@@ -337,7 +337,7 @@ public class CustomerAccountController extends AbstractController {
 			LOGGER.error("Customer id does not belong to current store");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		List<CustomerAttribute> customerAttributes = customerAttributeService.getByCustomer(store, customer);
@@ -432,7 +432,7 @@ public class CustomerAccountController extends AbstractController {
 		
 		resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 
 	}

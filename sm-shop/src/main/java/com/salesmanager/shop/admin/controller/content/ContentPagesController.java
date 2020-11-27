@@ -155,7 +155,7 @@ public class ContentPagesController {
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		
 		try {
@@ -169,13 +169,13 @@ public class ContentPagesController {
 				LOGGER.error("Invalid content id ", id);
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(dbContent!=null && dbContent.getMerchantStore().getId().intValue()!= store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			contentService.delete(dbContent);
@@ -189,7 +189,7 @@ public class ContentPagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
@@ -249,8 +249,8 @@ public class ContentPagesController {
 		
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
@@ -316,12 +316,12 @@ public class ContentPagesController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		   if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		   }
 		
 		try {
@@ -336,19 +336,19 @@ public class ContentPagesController {
 				if(content!=null && content.getCode().equals(code) && content.getId().longValue()==lid) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 			} catch (Exception e) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 		} else {
 			if(content!=null) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 		}
 
@@ -363,22 +363,22 @@ public class ContentPagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("content", "content");
 		activeMenus.put("content-pages", "content-pages");
 		
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("content");
+		Menu currentMenu = menus.get("content");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

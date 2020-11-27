@@ -30,7 +30,10 @@ public class AjaxPageableResponse extends AjaxResponse {
 		returnString.append("\"startRow\"").append(":");
 		returnString.append(this.startRow).append(",");
 		returnString.append("\"endRow\"").append(":").append(this.endRow).append(",");
-		returnString.append("\"totalRows\"").append(":").append(super.getData().size());
+		if(totalRow<=0){
+			totalRow = super.getData().size();
+		}
+		returnString.append("\"totalRows\"").append(":").append(totalRow);
 		return returnString.toString();
 		
 	}

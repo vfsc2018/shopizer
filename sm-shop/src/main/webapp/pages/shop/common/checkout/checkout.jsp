@@ -1025,7 +1025,7 @@ $(document).ready(function() {
 											<div class="row-fluid common-row row">
 													<div class="span8 col-md-8">
 										  			<div class="control-group form-group"> 
-														<label><s:message code="label.generic.streetaddress" text="Street address"/></label>
+														<label><s:message code="llabel.customer.billing.streetaddress" text="Street address"/></label>
 										    				<div class="controls"> 
 										    					<s:message code="NotEmpty.customer.billing.address" text="Address is required" var="msgAddress"/>
 										      					<form:input id="customer.billing.address" cssClass="input-xxlarge required form-control form-control-lg" path="customer.billing.address" title="${msgAddress}"/>

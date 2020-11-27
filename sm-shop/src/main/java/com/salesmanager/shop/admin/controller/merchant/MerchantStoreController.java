@@ -126,8 +126,8 @@ public class MerchantStoreController {
 		String returnString = resp.toJSONString();
 
 		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('STORE')")
@@ -374,7 +374,7 @@ public class MerchantStoreController {
 		AjaxResponse resp = new AjaxResponse();
 
 		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 
@@ -400,7 +400,7 @@ public class MerchantStoreController {
 
 		String returnString = resp.toJSONString();
 
-		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ADMIN')")
@@ -412,7 +412,7 @@ public class MerchantStoreController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 
@@ -435,7 +435,7 @@ public class MerchantStoreController {
 				resp.setStatusMessage(messages.getMessage("message.security.caanotremovesuperadmin", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
+				return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 			}
 
 			merchantStoreService.delete(store);
@@ -450,11 +450,11 @@ public class MerchantStoreController {
 
 		String returnString = resp.toJSONString();
 
-		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 
 	}
 
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<String, String>();

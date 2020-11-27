@@ -6,6 +6,7 @@
 
 			<script>
 
+
 								isc.RestDataSource.create({ 
 									ID:"dataSource", 
 									dataFormat:"json",  
@@ -14,8 +15,9 @@
 										{operationType:"remove", dataProtocol:"postParams",dataURL: "<c:url value="${removeUrl}" />"},
 										{operationType:"update", dataProtocol:"postParams",dataURL: "<c:url value="${updateUrl}" />"},
 									],
+									
 									transformResponse : function (dsResponse, dsRequest, jsonData) {
-										
+										//dsResponse.totalRows = this.getLength();
 										var status = isc.XMLTools.selectObjects(jsonData, "/response/status");
 										//alert('check status ' + status);
 										if (status != 0) {
@@ -37,19 +39,23 @@
 									}
 								}); 
 								
-
+							
 							  
 							  isc.ListGrid.create({
-    								ID: "entityList",
+									ID: "entityList",
+									// drawAheadRatio: 0, // <= very important (because there's an dependency between the number of shown rows and grid's height.)
+									showAllRows: false,
+									dataPageSize: 300,
+									dataFetchMode: "paged",
+									autoFetchData: true,
     								border:1,
-    								dataSource: "dataSource",
+									dataSource: "dataSource",
+									
     								showRecordComponents: true,    
     								showRecordComponentsByCell: true,
     								canRemoveRecords: <c:out value="${canRemoveEntry}" />,
-    								autoFetchData: true,
     								showFilterEditor: true,
     								filterOnKeypress: true,
-									dataFetchMode:"paged",
 									canEdit:<c:choose><c:when test="${canEdit!=null}"><c:out value="${canEdit}" /></c:when><c:otherwise>true</c:otherwise></c:choose>,
 									editByCell: true,
 									editEvent: "click",
@@ -110,11 +116,8 @@
 
 
 								});
-								
-								
-
-
-
+	
+							
 
 
 // Define application layout

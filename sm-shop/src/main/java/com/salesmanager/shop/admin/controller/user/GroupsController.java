@@ -109,7 +109,7 @@ public class GroupsController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 
 		try {
@@ -122,21 +122,21 @@ public class GroupsController {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(!request.isUserInRole(Constants.GROUP_ADMIN)) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(GroupType.ADMIN.name().equals(group.getGroupType().name())) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			groupService.delete(group);
@@ -152,7 +152,7 @@ public class GroupsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -288,8 +288,8 @@ public class GroupsController {
 		
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 

@@ -278,8 +278,8 @@ public class CustomShippingMethodsController {
 
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
@@ -339,8 +339,8 @@ public class CustomShippingMethodsController {
 
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 
@@ -372,7 +372,7 @@ public class CustomShippingMethodsController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		try {
@@ -380,7 +380,7 @@ public class CustomShippingMethodsController {
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			CustomShippingQuotesConfiguration customConfiguration = (CustomShippingQuotesConfiguration)shippingService.getCustomShippingConfiguration(WEIGHT_BASED_SHIPPING_METHOD, store);
@@ -392,7 +392,7 @@ public class CustomShippingMethodsController {
 					if(code.equals(region.getCustomRegionName())) {
 						resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 						String returnString = resp.toJSONString();
-						return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+						return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 					}
 					
 				}
@@ -407,7 +407,7 @@ public class CustomShippingMethodsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('SHIPPING')")
@@ -450,8 +450,8 @@ public class CustomShippingMethodsController {
 
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 
 	
@@ -503,14 +503,14 @@ public class CustomShippingMethodsController {
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		if(StringUtils.isBlank(region)){
 			
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Region is not valid");
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			
 		}
 
@@ -544,7 +544,7 @@ public class CustomShippingMethodsController {
 		}
 
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
@@ -750,10 +750,10 @@ public class CustomShippingMethodsController {
 		
 	}
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("shipping", "shipping");
 		activeMenus.put("shipping-methods", "shipping-methods");
 		

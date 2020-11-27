@@ -142,18 +142,14 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			order.setIpAddress(ipAddress);
     		}
     	}
-
     	
-    	//first process payment
-    	Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
-    	
-    	if(order.getOrderHistory()==null || order.getOrderHistory().size()==0 || order.getStatus()==null) {
+    	if(order.getOrderHistory()==null || order.getOrderHistory().isEmpty() || order.getStatus()==null) {
     		OrderStatus status = order.getStatus();
     		if(status==null) {
     			status = OrderStatus.ORDERED;
     			order.setStatus(status);
     		}
-    		Set<OrderStatusHistory> statusHistorySet = new HashSet<OrderStatusHistory>();
+    		Set<OrderStatusHistory> statusHistorySet = new HashSet<>();
     		OrderStatusHistory statusHistory = new OrderStatusHistory();
     		statusHistory.setStatus(status);
     		statusHistory.setDateAdded(new Date());
@@ -178,7 +174,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     			transactionService.update(transaction);
     		}
     	}
-    	
+        //first process payment
+        Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
+
     	if(processTransaction!=null) {
     		processTransaction.setOrder(order);
     		if(processTransaction.getId()==null || processTransaction.getId()==0) {

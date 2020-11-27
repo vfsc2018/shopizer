@@ -105,6 +105,8 @@ public class BillsController {
 			HttpServletRequest request, HttpServletResponse response,
 			Locale locale) {
 
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		AjaxPageableResponse resp = new AjaxPageableResponse();
 
 		try {
@@ -118,11 +120,26 @@ public class BillsController {
 			String billIdRq = request.getParameter("id");
 			String orderIdRq = request.getParameter("orderId");
 			String statusRq = request.getParameter("status");
+			String phone = request.getParameter("phone");
+			String date = request.getParameter("date");
 
+			if(date!=null && date.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+			}
+			
 			BillMasterCriteria criteria = new BillMasterCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
+
+			if(!StringUtils.isBlank(date)) {
+				criteria.setDate(date);
+			}
+
+			if(!StringUtils.isBlank(phone)) {
+				criteria.setPhone(phone);
+			}
+
 			if (!StringUtils.isBlank(sku)) {
 				criteria.setSku(sku);
 			}
@@ -139,19 +156,20 @@ public class BillsController {
 			}
 
 			if (!StringUtils.isBlank(statusRq)) {
-				criteria.setStatus(statusRq);
+				criteria.setStatus(statusRq.toUpperCase());
 			}
 
-			Language language = (Language) request.getAttribute("LANGUAGE");
-			MerchantStore store = (MerchantStore) request
-					.getAttribute(Constants.ADMIN_STORE);
-			List<IntegrationModule> paymentModules = moduleConfigurationService
-					.getIntegrationModules("PAYMENT");
+			// Language language = (Language) request.getAttribute("LANGUAGE");
+			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+			// List<IntegrationModule> paymentModules = moduleConfigurationService.getIntegrationModules("PAYMENT");
 
 			BillMasterList billList = billService.getListByStore2(store,
 					criteria);
 
 			if (billList.getBillMasters() != null) {
+
+				resp.setTotalRow(billList.getTotalCount());
+
 				BigDecimal totalBill = null;
 				for (BillMaster bill : billList.getBillMasters()) {
 					totalBill = new BigDecimal(0);
@@ -160,41 +178,33 @@ public class BillsController {
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
 
-					BigDecimal total;
+					BigDecimal total = new BigDecimal(0.0);
 					if (bill.getItems() != null) {
 						for (BillItem item : bill.getItems()) {
-							if (item.getParentId() > 0) {
-								total = new BigDecimal(0);
-								total = item.getPrice().multiply(
-										new BigDecimal(item.getQuantity()));
+							if (item.getParentId()!=null && item.getParentId() > 0) {
+								total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
 								totalBill = totalBill.add(total);
 							}
 						}
 						ProductPriceUtils price = new ProductPriceUtils();
-						entry.put("total",
-								price.getAdminFormatedAmount(store, totalBill));
+						entry.put("total", price.getAdminFormatedAmount(store, totalBill));
 					} else {
 						entry.put("total", 0);
 					}
-					entry.put("customer", bill.getOrder().getBilling()
-							.getFirstName()); // + " " +
+					entry.put("customer", bill.getOrder().getBilling().getFirstName()); // + " " +
 												// bill.getOrder().getBilling().getLastName());
 					if (bill.getPhone() == null || bill.getPhone().equals("")) {
-						entry.put("phone", bill.getOrder().getBilling()
-								.getTelephone());
+						entry.put("phone", bill.getOrder().getBilling().getTelephone());
 					} else {
 						entry.put("phone", bill.getPhone());
 					}
 
-					if (bill.getAddress() == null
-							|| bill.getAddress().equals("")) {
-						entry.put("address", bill.getOrder().getBilling()
-								.getAddress());
+					if (bill.getAddress() == null || bill.getAddress().equals("")) {
+						entry.put("address", bill.getOrder().getBilling().getAddress());
 					} else {
 						entry.put("address", bill.getAddress());
 					}
-					entry.put("date",
-							DateUtil.formatDate(bill.getDateExported()));
+					entry.put("date", DateUtil.formatDate(bill.getDateExported()));
 					entry.put("status", bill.getStatus());
 
 					entry.put("paymentModule", paymentModule);
@@ -212,10 +222,7 @@ public class BillsController {
 
 		String returnString = resp.toJSONString();
 
-		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString, httpHeaders,
-				HttpStatus.OK);
+		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('ORDER')")
@@ -258,7 +265,7 @@ public class BillsController {
 			ordernew.setAddress(bill.getAddress());
 			
 			
-			List<OrderProductEx> proRelaList = new ArrayList<OrderProductEx>();
+			List<OrderProductEx> proRelaList = new ArrayList<>();
 			OrderProductEx proRela = null;
 
 			for (BillItem sBean : bill.getItems()) {
@@ -308,7 +315,7 @@ public class BillsController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 			Order order = orderService.getById(orderId);
@@ -352,7 +359,7 @@ public class BillsController {
 		}
 
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString, httpHeaders,
+		return new ResponseEntity<>(returnString, httpHeaders,
 				HttpStatus.OK);
 
 	}

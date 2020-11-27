@@ -119,10 +119,10 @@ public class ShippingPackagingController {
 		
 	}
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("shipping", "shipping");
 		activeMenus.put("shipping-packages", "shipping-packages");
 		

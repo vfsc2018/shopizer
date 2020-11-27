@@ -124,7 +124,7 @@ public class ProductImagesController {
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		Long productId;
 		Product product = null;
@@ -135,7 +135,7 @@ public class ProductImagesController {
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Product id is not valid");
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -150,7 +150,7 @@ public class ProductImagesController {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Merchant id is not valid");
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			Set<ProductImage> images = product.getImages();
@@ -182,7 +182,7 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
@@ -199,7 +199,7 @@ public class ProductImagesController {
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		Long productId;
 		Product product = null;
@@ -210,7 +210,7 @@ public class ProductImagesController {
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorString("Product id is not valid");
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -225,7 +225,7 @@ public class ProductImagesController {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Merchant id is not valid");
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Set<ProductImage> images = product.getImages();
@@ -260,7 +260,7 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 
 
 	}
@@ -389,7 +389,7 @@ public class ProductImagesController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		
 		try {
@@ -403,14 +403,14 @@ public class ProductImagesController {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(productImage.getProduct().getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);	
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			productImageService.removeProductImage(productImage);
@@ -426,7 +426,7 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
@@ -439,7 +439,7 @@ public class ProductImagesController {
 		final MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		final AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 			final Long imageId = Long.parseLong(sImageId);
@@ -449,14 +449,14 @@ public class ProductImagesController {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if (productImage.getProduct().getMerchantStore().getId().intValue() != store.getId().intValue()) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			productImage.setDefaultImage(true);
@@ -478,14 +478,14 @@ public class ProductImagesController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

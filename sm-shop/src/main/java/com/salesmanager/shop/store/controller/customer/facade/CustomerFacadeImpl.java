@@ -838,7 +838,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public void resetPassword(Customer customer, MerchantStore store, Language language)
+  public String resetPassword(Customer customer, MerchantStore store, Language language)
       throws Exception {
 
 
@@ -849,7 +849,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
     customer.setPassword(encodedPassword);
     customerService.saveOrUpdate(customer);
 
-    Locale locale = languageService.toLocale(language, store);
+    // Locale locale = languageService.toLocale(language, store);
 
     // send email
 
@@ -891,6 +891,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       LOG.error("Cannot send email to customer", e);
     }
 
+    return password;
 
   }
 
@@ -1033,7 +1034,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       //update billing
       updateAddress(customer.getId(), store, customer.getBilling(), store.getDefaultLanguage());
       //update delivery
-      /////// updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
+      updateAddress(customer.getId(), store, customer.getDelivery(), store.getDefaultLanguage());
     } catch (Exception e) {
       throw new ServiceRuntimeException("Error while updating customer address");
     }

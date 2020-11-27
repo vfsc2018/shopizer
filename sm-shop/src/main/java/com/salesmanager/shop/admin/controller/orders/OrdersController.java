@@ -83,7 +83,8 @@ public class OrdersController {
 	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageOrders(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
-
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		AjaxPageableResponse resp = new AjaxPageableResponse();
 
 		try {
@@ -94,11 +95,39 @@ public class OrdersController {
 			String customerName = request.getParameter("customer");
 			String status = request.getParameter("status");
 			String	pId = request.getParameter("orderId");
-			
+			String	phone = request.getParameter("phone");
+			String	startDate = request.getParameter("startDate");
+			String	endDate = request.getParameter("endDate");
+			String	date = request.getParameter("date");
+
+			if(date!=null && date.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+			}
+			if(startDate!=null && startDate.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+			}
+			if(endDate!=null && endDate.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+			}
+
 			OrderCriteria criteria = new OrderCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
+			if(!StringUtils.isBlank(date)){
+				criteria.setDate(date);
+			}
+			if(!StringUtils.isBlank(startDate)){
+				criteria.setStartDate(startDate);
+			}
+			if(!StringUtils.isBlank(endDate)){
+				criteria.setEndDate(endDate);
+			}
+
+			if(!StringUtils.isBlank(phone)) {
+				criteria.setPhone(phone);
+			}
+
 			if(!StringUtils.isBlank(paymentModule)) {
 				criteria.setPaymentMethod(paymentModule);
 			}
@@ -108,7 +137,7 @@ public class OrdersController {
 			}
 			
 			if(!StringUtils.isBlank(status)) {
-				criteria.setStatus(status);
+				criteria.setStatus(status.toUpperCase());
 			}
 			if(!StringUtils.isBlank(pId)) {
 				criteria.setId(Long.parseLong(pId));
@@ -122,7 +151,8 @@ public class OrdersController {
 			OrderList orderList = orderService.listByStore(store, criteria);
 		
 			if(orderList.getOrders()!=null) {	
-			
+				resp.setTotalRow(orderList.getTotalCount());
+
 				for(Order order : orderList.getOrders()) {
 					
 					@SuppressWarnings("rawtypes")
@@ -154,6 +184,7 @@ public class OrdersController {
 					resp.addDataEntry(entry);				
 					
 				}
+				
 			}
 			
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
@@ -167,16 +198,14 @@ public class OrdersController {
 		
 		String returnString = resp.toJSONString();
 
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("order", "order");
 		activeMenus.put("order-list", "order-list");
 

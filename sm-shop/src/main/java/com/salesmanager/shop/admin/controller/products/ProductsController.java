@@ -110,7 +110,7 @@ public class ProductsController {
 					LOGGER.error("Product page cannot parse categoryId " + categoryId );
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,HttpStatus.BAD_REQUEST);
+					return new ResponseEntity<>(returnString,HttpStatus.BAD_REQUEST);
 				} 
 				
 				
@@ -122,7 +122,7 @@ public class ProductsController {
 					if(category==null || category.getMerchantStore().getId()!=store.getId()) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 						String returnString = resp.toJSONString();
-						return new ResponseEntity<String>(returnString,HttpStatus.BAD_REQUEST);
+						return new ResponseEntity<>(returnString,HttpStatus.BAD_REQUEST);
 					}
 					
 					//get all sub categories
@@ -196,7 +196,7 @@ public class ProductsController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,HttpStatus.OK);
 
 
 	}
@@ -238,15 +238,15 @@ public class ProductsController {
 		
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("catalogue-products", "catalogue-products");
 		

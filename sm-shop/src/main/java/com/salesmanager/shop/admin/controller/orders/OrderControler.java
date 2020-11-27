@@ -190,7 +190,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    
 	    int i = 0 ;
 		try {
@@ -253,7 +253,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
@@ -280,7 +280,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    Language language = (Language)request.getAttribute("LANGUAGE");
 	    int i = 0 ;
 		try {
@@ -421,7 +421,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
@@ -437,7 +437,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		String code = request.getParameter("code");
 		
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    OrderProductEx beantemp = null;
 	    Order dbOrder = null;
 	    try {
@@ -1033,10 +1033,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    /*	"admin-orders-edit";  */
 	}
 
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 	
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("order", "order");
 		activeMenus.put("order-list", "order-list");
 		

@@ -127,8 +127,8 @@
     												{title:"<s:message code="label.entity.id" text="Id"/>", name:"productId", canFilter:false},
     												{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
     												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
-    												{title:"<s:message code="label.product.quantity" text="Quantity"/>", name:"quantity"},
-    												{title:"<s:message code="label.product.unit" text="unit"/>", name:"unit"},
+    												{title:"<s:message code="label.quantity" text="Quantity"/>", name:"quantity"},
+    												{title:"<s:message code="label.unit" text="Unit"/>", name:"unit"},
     												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"},
     												// {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}  
 
@@ -205,7 +205,7 @@ isc.HLayout.create({
         }),
         isc.SectionStack.create({
             ID:"middleSideLayout",
-            width:280,
+            width:350,
             visibilityMode:"multiple",
             animateSections:true,
             sections:[
@@ -217,7 +217,7 @@ isc.HLayout.create({
     	}),
     	isc.SectionStack.create({
             ID:"rightSideLayout",
-            width:330,
+            width:550,
             showResizeBar:false,
             visibilityMode:"multiple",
             animateSections:true,

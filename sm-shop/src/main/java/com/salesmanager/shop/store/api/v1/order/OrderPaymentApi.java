@@ -117,7 +117,7 @@ public class OrderPaymentApi {
 
 	}
 
-	@RequestMapping(value = { "/auth/cart/{code}/payment/init" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/private/cart/{code}/payment/init" }, method = RequestMethod.POST)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
@@ -180,7 +180,7 @@ public class OrderPaymentApi {
 		}
 	}
 
-	@RequestMapping(value = { "/private/orders/{id}/payment/nextTransaction" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/order/{id}/payment/nextTransaction" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 
 	@ResponseBody
@@ -201,7 +201,7 @@ public class OrderPaymentApi {
 
 	}
 	
-	@RequestMapping(value = { "/private/orders/{id}/payment/transactions" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/order/{id}/payment/transactions" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 
 	@ResponseBody
@@ -233,7 +233,8 @@ public class OrderPaymentApi {
 	 * @return ReadableOrderList
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/private/orders/payment/capturable" }, method = RequestMethod.GET)
+
+	@RequestMapping(value = { "/private/order/payment/capturable" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -289,13 +290,13 @@ public class OrderPaymentApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/private/orders/{id}/capture" }, method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
-	public ReadableTransaction capturePayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+	// @RequestMapping(value = { "/private/orders/{id}/capture" }, method = RequestMethod.POST)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
+	// public ReadableTransaction capturePayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language) {
 		/*
 		 * try {
 		 * 
@@ -321,8 +322,8 @@ public class OrderPaymentApi {
 		 * e.getMessage()); } catch (Exception ignore) { } return null; }
 		 */
 
-		return null;
-	}
+	// 	return null;
+	// }
 
 	/**
 	 * Refund payment
@@ -332,15 +333,15 @@ public class OrderPaymentApi {
 	 * @param language
 	 * @return
 	 */
-	@RequestMapping(value = { "/private/orders/{id}/refund" }, method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
-	public ReadableTransaction refundPayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
-		return null;
-	}
+	// @RequestMapping(value = { "/private/orders/{id}/refund" }, method = RequestMethod.POST)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
+	// public ReadableTransaction refundPayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language) {
+	// 	return null;
+	// }
 
 	/**
 	 * Capture payment
@@ -350,13 +351,13 @@ public class OrderPaymentApi {
 	 * @param language
 	 * @return
 	 */
-	@RequestMapping(value = { "/private/orders/{id}/authorize" }, method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
-	public ReadableTransaction authorizePayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
-		return null;
-	}
+	// @RequestMapping(value = { "/private/orders/{id}/authorize" }, method = RequestMethod.POST)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
+	// public ReadableTransaction authorizePayment(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language) {
+	// 	return null;
+	// }
 }

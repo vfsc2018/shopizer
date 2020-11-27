@@ -249,7 +249,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		
 		List<ProductRelationship> relationships = productRelationshipService.getGroups(store);
 		
-		List<ProductGroup> groups = new ArrayList<ProductGroup>();
+		List<ProductGroup> groups = new ArrayList<>();
 		
 		for(ProductRelationship relationship : relationships) {
 			

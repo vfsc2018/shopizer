@@ -170,7 +170,7 @@ public class UserController {
 		}
 
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasRole('AUTH')")
@@ -413,14 +413,14 @@ public class UserController {
 		AjaxResponse resp = new AjaxResponse();
 		
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		try {
 			
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString =  resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			User user = userService.getByUserName(code);
@@ -433,12 +433,12 @@ public class UserController {
 					if(user.getAdminName().equals(code) && user.getId()==lid) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 						String returnString =  resp.toJSONString();
-						return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+						return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 					}
 				} catch (Exception e) {
 					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 					String returnString =  resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 	
 			}
@@ -447,13 +447,13 @@ public class UserController {
 			if(StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString =  resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			if(user!=null) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString =  resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 
@@ -466,7 +466,7 @@ public class UserController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 
 	}
 	
@@ -648,7 +648,7 @@ public class UserController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		String userName = request.getRemoteUser();
 		User remoteUser = userService.getByUserName(userName);
@@ -669,14 +669,14 @@ public class UserController {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(!request.isUserInRole(Constants.GROUP_ADMIN)) {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 			
@@ -691,7 +691,7 @@ public class UserController {
 				resp.setStatusMessage(messages.getMessage("message.security.caanotremovesuperadmin", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			userService.delete(user);
@@ -707,15 +707,15 @@ public class UserController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("profile", "profile");
 		activeMenus.put("user", "create-user");
 		
@@ -735,7 +735,7 @@ public class UserController {
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    
 		String userName = request.getParameter("username");
 		
@@ -758,7 +758,7 @@ public class UserController {
 							resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 							resp.setStatusMessage(messages.getMessage("message.username.notfound", locale));
 							String returnString = resp.toJSONString();
-							return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+							return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 						}
 					
 						Map<String,String> entry = new HashMap<String,String>();
@@ -779,14 +779,14 @@ public class UserController {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 						resp.setStatusMessage(messages.getMessage("User.resetPassword.Error", locale));
 						String returnString = resp.toJSONString();
-						return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+						return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 	
 		
 		
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	//password reset functionality  ---  Sajid Shajahan
 	@RequestMapping(value="/admin/users/resetPasswordSecurityQtn.html", method=RequestMethod.POST)
@@ -866,8 +866,8 @@ public class UserController {
 		
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	}

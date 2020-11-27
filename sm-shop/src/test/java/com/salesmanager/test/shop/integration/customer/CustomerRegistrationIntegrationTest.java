@@ -31,7 +31,7 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
       
         final PersistableCustomer testCustomer = new PersistableCustomer();
         testCustomer.setEmailAddress("customer1@test.com");
-        testCustomer.setPassword("clear123");
+        testCustomer.setPassword("1111");
         testCustomer.setGender(CustomerGender.M.name());
         testCustomer.setLanguage("vi");
         final Address billing = new Address();
@@ -42,15 +42,20 @@ public class CustomerRegistrationIntegrationTest extends ServicesTestSupport {
         testCustomer.setStoreCode(Constants.DEFAULT_STORE);
         final HttpEntity<PersistableCustomer> entity = new HttpEntity<>(testCustomer, getHeader());
 
-        final ResponseEntity<PersistableCustomer> response = testRestTemplate.postForEntity("/api/v1/customer/register", entity, PersistableCustomer.class);
-        assertThat(response.getStatusCode(), is(OK));
+        for(int i=10;i<100;i++){
+            testCustomer.setUserName("09999999" + i);
+            testCustomer.setEmailAddress(testCustomer.getUserName() + "@vfsc.vn");
+        //final ResponseEntity<PersistableCustomer> response = 
+            testRestTemplate.postForEntity("/api/v1/customer/register", entity, PersistableCustomer.class);
+        }
+        // assertThat(response.getStatusCode(), is(OK));
 
         // created customer can login
 
-        final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/customer/login", new HttpEntity<>(new AuthenticationRequest("customer1@test.com", "clear123")),
-                AuthenticationResponse.class);
-        assertThat(loginResponse.getStatusCode(), is(OK));
-        assertNotNull(loginResponse.getBody().getToken());
+        // final ResponseEntity<AuthenticationResponse> loginResponse = testRestTemplate.postForEntity("/api/v1/customer/login", new HttpEntity<>(new AuthenticationRequest("customer1@test.com", "clear123")),
+                // AuthenticationResponse.class);
+        // assertThat(loginResponse.getStatusCode(), is(OK));
+        // assertNotNull(loginResponse.getBody().getToken());
 
     }
 

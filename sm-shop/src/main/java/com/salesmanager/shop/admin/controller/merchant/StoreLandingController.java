@@ -217,10 +217,10 @@ public class StoreLandingController {
 		return "admin-store-landing";
 	}
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("store", "store");
 		activeMenus.put("storeLanding", "storeLanding");
 

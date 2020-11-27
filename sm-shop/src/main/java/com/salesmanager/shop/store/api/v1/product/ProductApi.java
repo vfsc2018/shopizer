@@ -389,6 +389,7 @@ public class ProductApi {
       @RequestParam(value = "owner", required = false) Long owner,
       @RequestParam(value = "start", required = false) Integer start,
       @RequestParam(value = "count", required = false) Integer count,
+      @RequestParam(value = "available", required = false) Boolean available,
       @ApiIgnore MerchantStore merchantStore,
       @ApiIgnore Language language,
       HttpServletRequest request,
@@ -401,6 +402,12 @@ public class ProductApi {
     } else {
       criteria.setLanguage(language.getCode());
     }
+    if (available != null) {
+      criteria.setAvailable(available);
+    } else {
+      criteria.setAvailable(true);
+    }
+    
     if (!StringUtils.isBlank(status)) {
       criteria.setStatus(status);
     }

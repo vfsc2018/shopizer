@@ -94,7 +94,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		try {
 			Long id = Long.parseLong(sId);
@@ -106,7 +106,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				LOGGER.error("Order {0} does not exists", id);
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(order.getMerchant().getId().intValue()!=store.getId().intValue()) {
@@ -114,7 +114,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				LOGGER.error("Merchant store does not have order {0}",id);
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Customer customer = customerService.getById(order.getCustomerId());
@@ -123,7 +123,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setStatusMessage(messages.getMessage("message.notexist.customer", locale));
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			paymentService.processCapturePayment(order, customer, store);
@@ -141,7 +141,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ORDER')")
@@ -154,7 +154,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
 		BigDecimal submitedAmount = null;
 		
@@ -167,7 +167,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				LOGGER.error("Order {0} does not exists", refund.getOrderId());
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(order.getMerchant().getId().intValue()!=store.getId().intValue()) {
@@ -175,7 +175,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				LOGGER.error("Merchant store does not have order {0}",refund.getOrderId());
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 		
 			//parse amount
@@ -185,14 +185,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.invalid.amount", locale));
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 			} catch (Exception e) {
 				LOGGER.equals("invalid refundAmount " + refund.getAmount());
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 				
 				
@@ -201,14 +201,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.invalid.amount", locale));
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 				if(submitedAmount.doubleValue()<=0) {
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.invalid.amount", locale));
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 				Customer customer = customerService.getById(order.getCustomerId());
@@ -217,7 +217,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 					resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 					resp.setStatusMessage(messages.getMessage("message.notexist.customer", locale));
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 				
 	
@@ -235,7 +235,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	@PreAuthorize("hasRole('ORDER')")
@@ -297,12 +297,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -317,17 +317,15 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
-			
-
 			
 			List<Transaction> transactions = transactionService.listTransactions(dbOrder);
 			
@@ -358,7 +356,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -374,12 +372,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -394,14 +392,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//get customer
@@ -411,7 +409,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Customer does not exist");
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
@@ -428,7 +426,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -445,12 +443,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -465,14 +463,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//get customer
@@ -482,7 +480,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Customer does not exist");
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
@@ -505,7 +503,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("No history");
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			emailTemplatesUtils.sendUpdateOrderStatusEmail(customer, dbOrder, lastHistory, store, customerLocale, request.getContextPath());
 
@@ -520,7 +518,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -535,12 +533,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		if(sId==null) {
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 
@@ -555,14 +553,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 			if(dbOrder==null) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			
 			if(dbOrder.getMerchant().getId().intValue()!=store.getId().intValue()) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			//get customer
@@ -572,7 +570,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorString("Customer does not exist");
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Locale customerLocale = LocaleUtils.getLocale(customer.getDefaultLanguage());
@@ -591,7 +589,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}

@@ -361,8 +361,8 @@ public class ManufacturerController {
 		
 		String returnString = resp.toJSONString();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
@@ -375,7 +375,7 @@ public class ManufacturerController {
 		AjaxResponse resp = new AjaxResponse();
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		try{
 			Manufacturer delManufacturer = manufacturerService.getById( sid  );				
@@ -383,7 +383,7 @@ public class ManufacturerController {
 				resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			} 
 			
 			int count = manufacturerService.getCountManufAttachedProducts( delManufacturer ).intValue();
@@ -392,7 +392,7 @@ public class ManufacturerController {
 				resp.setStatusMessage(messages.getMessage("message.product.association", locale));
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);			
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}	
 
 			manufacturerService.delete( delManufacturer );
@@ -407,7 +407,7 @@ public class ManufacturerController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 	}
 	
@@ -420,7 +420,7 @@ public class ManufacturerController {
 
 
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
 		
@@ -429,7 +429,7 @@ public class ManufacturerController {
 		if(StringUtils.isBlank(code)) {
 			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 
 		
@@ -440,7 +440,7 @@ public class ManufacturerController {
 		if(manufacturer!=null && StringUtils.isBlank(id)) {
 			resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		
@@ -451,12 +451,12 @@ public class ManufacturerController {
 				if(manufacturer.getCode().equals(code) && manufacturer.getId().longValue()==lid) {
 					resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 					String returnString = resp.toJSONString();
-					return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+					return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 				}
 			} catch (Exception e) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 
 		}
@@ -479,14 +479,14 @@ public class ManufacturerController {
 		}
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
 	
 	
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {		
+	private void setMenu(Model model, HttpServletRequest request) {		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("catalogue", "catalogue");
 		activeMenus.put("manufacturer-list", "manufacturer-list");
 		

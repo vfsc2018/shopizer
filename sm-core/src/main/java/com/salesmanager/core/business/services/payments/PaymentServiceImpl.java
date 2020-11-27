@@ -539,8 +539,6 @@ public class PaymentServiceImpl implements PaymentService {
         	}
         }
 
-		
-
 		order.setTotal(orderTotal);
 		order.setStatus(OrderStatus.REFUNDED);
 		

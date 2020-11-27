@@ -111,7 +111,7 @@ public interface CustomerFacade
 	 * @param language
 	 * @throws Exception
 	 */
-	void resetPassword(Customer customer, MerchantStore store, Language language) throws Exception;
+	String resetPassword(Customer customer, MerchantStore store, Language language) throws Exception;
 	
 	/**
 	 * Updates a Customer

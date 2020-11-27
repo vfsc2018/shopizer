@@ -80,6 +80,28 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		countBuilderWhere.append(whereQuery);
 		objectBuilderWhere.append(whereQuery);
 		
+		if(!StringUtils.isBlank(criteria.getDate())) {
+			String nameQuery =" and TO_CHAR(o.datePurchased,'DD/MM/YYYY') = :dc ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getStartDate())) {
+			String nameQuery =" and TO_CHAR(o.fromDate,'DD/MM/YYYY') = :fdate ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+		if(!StringUtils.isBlank(criteria.getEndDate())) {
+			String nameQuery =" and TO_CHAR(o.toDate,'DD/MM/YYYY') = :tdate ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getPhone())) {
+			String nameQuery =" and o.billing.telephone like:ph ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
 			String nameQuery =" and o.billing.firstName like:nm or o.billing.lastName like:nm";
@@ -128,6 +150,26 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		countQ.setParameter("mId", store.getId());
 		objectQ.setParameter("mId", store.getId());
 		
+
+		if(criteria.getDate()!=null) {
+			countQ.setParameter("dc",criteria.getDate());
+			objectQ.setParameter("dc",criteria.getDate());
+		}
+
+		if(criteria.getStartDate()!=null) {
+			countQ.setParameter("fdate",criteria.getStartDate());
+			objectQ.setParameter("fdate",criteria.getStartDate());
+		}
+		if(criteria.getEndDate()!=null) {
+			countQ.setParameter("tdate",criteria.getEndDate());
+			objectQ.setParameter("tdate",criteria.getEndDate());
+		}
+
+		if(!StringUtils.isBlank(criteria.getPhone())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getPhone()).append("%").toString();
+			countQ.setParameter("ph",nameParam);
+			objectQ.setParameter("ph",nameParam);
+		}
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
 			String nameParam = new StringBuilder().append("%").append(criteria.getCustomerName()).append("%").toString();

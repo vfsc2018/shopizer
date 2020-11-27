@@ -8,7 +8,7 @@
 
 	{title:"<s:message code="label.entity.id" text="Id"/>", name:"id"},
 	{title:"<s:message code="label.entity.orderId" text="orderId"/>", name:"orderId"},
-    {title:"<s:message code="label.entity.deliveryDate" text="Date"/>", name:"date", canFilter:false},
+    {title:"<s:message code="label.entity.deliveryDate" text="Date"/>", name:"date"},
     
     {title:"<s:message code="label.order.totals" text="Total"/>", name:"total", align: "right", canFilter:false},
     {title:"<s:message code="label.customer.name" text="Customer"/>", name:"customer", canFilter:false},

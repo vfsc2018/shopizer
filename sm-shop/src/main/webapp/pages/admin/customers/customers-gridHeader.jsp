@@ -10,5 +10,5 @@
 		{title:"<s:message code="label.customer.name" text="Customer"/>", name:"firstName"},
 		{title:"<s:message code="label.generic.phone" text="Phone"/>", name:"phone"},
 		{title:"<s:message code="label.generic.address" text="Address"/>", name:"address",canFilter:false},
-		{title:"<s:message code="label.customer.datecreated" text="Date"/>", name:"date",canFilter:false},
+		{title:"<s:message code="label.customer.datecreated" text="Date"/>", name:"date"},
 		{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false}

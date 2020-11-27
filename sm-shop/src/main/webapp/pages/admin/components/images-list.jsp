@@ -169,7 +169,7 @@ isc.HLayout.create({
             visibilityMode:"multiple",
             animateSections:true,
             sections:[
-                {title:"<s:message code="${componentTitleKey}" text="{componentTitleKey} UNDEFINED"/>", autoShow:true, items:[imageList]}
+                {title:"<s:message code="${componentTitleKey}" text="{componentTitleKey}"/>", autoShow:true, items:[imageList]}
             ]
         })
     ]

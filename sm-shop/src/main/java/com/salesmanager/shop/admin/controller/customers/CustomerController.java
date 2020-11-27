@@ -10,6 +10,7 @@ import com.salesmanager.core.business.services.reference.language.LanguageServic
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.services.user.GroupService;
+import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.customer.Customer;
@@ -29,8 +30,11 @@ import com.salesmanager.shop.admin.model.customer.attribute.CustomerOption;
 import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.model.user.Sms;
+import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
+import com.salesmanager.shop.store.security.CodeMessage;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
@@ -39,6 +43,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,6 +58,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -72,6 +79,8 @@ public class CustomerController {
 	private static final String CUSTOMER_ID_PARAMETER = "customer";
 	
 	
+	@Inject
+	private CoreConfiguration configuration;
 	
 	@Inject
 	private LabelUtils messages;
@@ -432,7 +441,7 @@ public class CustomerController {
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
@@ -457,14 +466,14 @@ public class CustomerController {
 			LOGGER.error("Customer id [customer] is not defined in the parameters");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 			LOGGER.error("Customer id does not belong to current store");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			String returnString = resp.toJSONString();
-			return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		}
 		
 		List<CustomerAttribute> customerAttributes = customerAttributeService.getByCustomer(store, customer);
@@ -555,7 +564,7 @@ public class CustomerController {
 		
 		resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 
 	}
@@ -587,7 +596,9 @@ public class CustomerController {
 	public @ResponseBody
 	ResponseEntity<String>  pageCustomers(HttpServletRequest request,HttpServletResponse response) {
 
-
+		final HttpHeaders httpHeaders= new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
 		AjaxPageableResponse resp = new AjaxPageableResponse();
 		
 		//Language language = (Language)request.getAttribute("LANGUAGE");
@@ -596,7 +607,19 @@ public class CustomerController {
 		
 		try {
 			
-
+			Enumeration<String> parameterNames = request.getParameterNames();
+ 
+			while (parameterNames.hasMoreElements()) {
+	 
+				String paramName = parameterNames.nextElement();
+				String[] paramValues = request.getParameterValues(paramName);
+				for (int i = 0; i < paramValues.length; i++) {
+					String paramValue = paramValues[i];
+					System.out.println(paramName + ":" + paramValue);
+				}
+	 
+			}
+	 
 			
 			//Map<String,Country> countriesMap = countryService.getCountriesMap(language);
 			
@@ -608,12 +631,33 @@ public class CustomerController {
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
 			String	country = request.getParameter("country");
-			
+			String	phone = request.getParameter("phone");
+			String	cid = request.getParameter("id");
+			String	date = request.getParameter("date");
+			if(date!=null && date.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+			}
 			
 			CustomerCriteria criteria = new CustomerCriteria();
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 			
+			if(!StringUtils.isBlank(date)) {
+				criteria.setDate(date);
+			}
+
+			if(!StringUtils.isBlank(phone)) {
+				criteria.setPhone(phone);
+			}
+
+			if(!StringUtils.isBlank(cid)) {
+				criteria.setId(Long.valueOf(cid));
+			}
+
+			if(!StringUtils.isBlank(phone)) {
+				criteria.setPhone(phone);
+			}
+
 			if(!StringUtils.isBlank(email)) {
 				criteria.setEmail(email);
 			}
@@ -639,6 +683,8 @@ public class CustomerController {
 			
 			if(customerList.getCustomers()!=null) {
 			
+				resp.setTotalRow(customerList.getTotalCount());
+
 				for(Customer customer : customerList.getCustomers()) {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
@@ -664,15 +710,35 @@ public class CustomerController {
 			LOGGER.error("Error while paging orders", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 		}
-		
 		String returnString = resp.toJSONString();
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 	
 	}
 	
+	private HttpHeaders getHeader(final String token) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json"));
+        headers.add("Authorization", "Basic " + token);
+        return headers;
+	}
+	
+	public boolean sendPassword(String pwd, String phone) {
+		
+		String uri = configuration.getProperty("SMS_GATEWAY");
+		String text = configuration.getProperty("SMS_RESET_PASSWORD") + pwd;
+		Sms sms = new Sms();
+		sms.setPhone(phone);
+		sms.setText(text);
+	    RestTemplate restTemplate = new RestTemplate();
+        final HttpEntity<Sms> entity = new HttpEntity<>(sms, getHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
+
+		ResponseEntity<?> response = restTemplate.postForEntity(uri, entity, UserPassword.class);
+    
+	    return (response.getStatusCode()==HttpStatus.OK);
+		
+	}	
 	
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@RequestMapping(value="/admin/customers/resetPassword.html", method=RequestMethod.POST)
@@ -684,7 +750,7 @@ public class CustomerController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		
 		
@@ -698,19 +764,21 @@ public class CustomerController {
 				resp.setErrorString("Customer does not exist");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setErrorString("Invalid customer id");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			Language userLanguage = customer.getDefaultLanguage();
 			
-			customerFacade.resetPassword(customer, store, userLanguage);
+			String pwd = customerFacade.resetPassword(customer, store, userLanguage);
+			String phone = customer.getBilling().getTelephone();
+			sendPassword(pwd, phone);
 			
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 			
@@ -721,7 +789,7 @@ public class CustomerController {
 		
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
@@ -739,7 +807,7 @@ public class CustomerController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		
 		
@@ -753,26 +821,26 @@ public class CustomerController {
 				resp.setErrorString("Customer does not exist");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				resp.setErrorString("Invalid customer id");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
 			if(StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
 				resp.setErrorString("Invalid username or password");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
-				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
-			Language userLanguage = customer.getDefaultLanguage();
+			// Language userLanguage = customer.getDefaultLanguage();
 			
-			Locale customerLocale = LocaleUtils.getLocale(userLanguage);
+			// Locale customerLocale = LocaleUtils.getLocale(userLanguage);
 
 			String encodedPassword = passwordEncoder.encode(password);
 			
@@ -827,22 +895,22 @@ public class CustomerController {
 		
 		
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 		
 		
 	}
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("customer", "customer");
 		activeMenus.put("customer-list", "customer-list");
 		
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("customer");
+		Menu currentMenu = menus.get("customer");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 

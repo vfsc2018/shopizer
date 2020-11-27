@@ -206,7 +206,7 @@ public class ConfigurationController {
 	
 	private void setConfigurationMenu(Model model, HttpServletRequest request) throws Exception {
 		
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("configuration", "configuration");
 		activeMenus.put("accounts-conf", "accounts-conf");
 		
@@ -220,7 +220,7 @@ public class ConfigurationController {
 	
 	private void setEmailConfigurationMenu(Model model, HttpServletRequest request) throws Exception {
 		
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("configuration", "configuration");
 		activeMenus.put("email-conf", "email-conf");
 		

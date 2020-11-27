@@ -96,6 +96,7 @@ function listTransactions(orderId){
 				console.log(status);
 				if((status==0 || status ==9999) && data) {
 					//console.log(data);
+					$("#transactionList").empty();
 					$('#transactionsModal').modal();
 					var transactions = data;
 					//console.log(transactions);
@@ -498,11 +499,11 @@ function captureOrder(orderId){
 	            
 				<h6><s:message code="label.customer.shippinginformation" text="Shipping information"/></h6>
 				<address>
-						<label><s:message code="label.customer.shipping.firstName" text="Shipping first name"/></label>
+						<label><s:message code="label.customer.shipping.firstname" text="Shipping first name"/></label>
 			            <div class="controls">
 				 				<form:input  cssClass="input-large" path="order.delivery.firstName"/>				 							
 			            </div>
-			            <label><s:message code="label.customer.shipping.lastName" text="Shipping last name"/></label>
+			            <label><s:message code="label.customer.shipping.lastname" text="Shipping last name"/></label>
 			            <div class="controls">
 				 				<form:input  cssClass="input-large" path="order.delivery.lastName"/>				 							
 			            </div>
@@ -721,7 +722,7 @@ function captureOrder(orderId){
 				<th><s:message code="label.entity.id" text="Id" /></th>
 				<th><s:message code="label.generic.date" text="Date" /></th>
 				<th><s:message code="label.entity.type" text="Type" /></th>
-				<th><s:message code="label.entity.amount" text="Amount" /></th>
+				<th><s:message code="label.generic.amount" text="Amount" /></th>
 				<th><s:message code="label.entity.details" text="Details" /></th>
 				</tr>
 			</thead>

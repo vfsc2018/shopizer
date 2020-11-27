@@ -148,10 +148,10 @@ public class PaymentsController {
 		
 	}
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("payment", "payment");
 		activeMenus.put("payment-methods", "payment-methods");
 		

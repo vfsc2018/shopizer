@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salesmanager.core.business.repositories.order.OrderRepository;
 import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -69,6 +72,9 @@ public class OrderApi {
 
 	@Inject
 	private OrderFacade orderFacade;
+
+	@Inject
+	private OrderService orderService;
 
 	@Inject
 	private ShoppingCartService shoppingCartService;
@@ -385,6 +391,46 @@ public class OrderApi {
 			return null;
 		}
 	}
+
+	// @PatchMapping(value = { "/private/order/{id}/token" })
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ 
+	// 	@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+	// 	@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	// public PersistableOrder setPaymentToken(@PathVariable final Long id,
+	// 		@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletRequest request,
+	// 		HttpServletResponse response, Locale locale) throws Exception {
+
+	// 	try {
+	// 		Principal principal = request.getUserPrincipal();
+	// 		String userName = principal.getName();
+
+	// 		Customer customer = customerService.getByNick(userName);
+
+	// 		if (customer == null) {
+	// 			response.sendError(401, "Error while performing checkout customer not authorized");
+	// 			return null;
+	// 		}
+
+	// 		Order order = orderService.getById(id);
+	// 		if (order == null) {
+	// 			throw new ResourceNotFoundException("Order id: " + id + " does not exist");
+	// 		}
+	// 		order.getPay
+	// 		order.getPayment().setPaymentToken("***");
+
+	// 		return order;
+
+	// 	} catch (Exception e) {
+	// 		LOGGER.error("Error while processing checkout", e);
+	// 		try {
+	// 			response.sendError(503, "Error while processing checkout " + e.getMessage());
+	// 		} catch (Exception ignore) {
+	// 		}
+	// 		return null;
+	// 	}
+	// }
 
 	@RequestMapping(value = { "/cart/{code}/checkout" }, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)

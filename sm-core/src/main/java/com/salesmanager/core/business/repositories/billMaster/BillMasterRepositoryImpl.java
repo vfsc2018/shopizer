@@ -23,7 +23,17 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		StringBuilder baseCountQuery =new StringBuilder("select count(c) from BillMaster as c where c.id = c.id ");
 		StringBuilder baseQuery = new StringBuilder("select c from BillMaster as c where c.id = c.id ");
 		
-		
+		if(!StringUtils.isBlank(criteria.getDate())) {
+			String nameQuery =" and TO_CHAR(c.dateExported,'DD/MM/YYYY') = :dc ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getPhone())) {
+			String nameQuery =" and c.phone like:ph ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
 		
 		if(!StringUtils.isBlank(criteria.getSku())) {
 
@@ -63,6 +73,17 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query
 		Query objectQ = em.createQuery(baseQuery.toString());
+
+		if(criteria.getDate()!=null) {
+			countQ.setParameter("dc",criteria.getDate());
+			objectQ.setParameter("dc",criteria.getDate());
+		}
+
+		if(!StringUtils.isBlank(criteria.getPhone())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getPhone()).append("%").toString();
+			countQ.setParameter("ph",nameParam);
+			objectQ.setParameter("ph",nameParam);
+		}
 
 		if(!StringUtils.isBlank(criteria.getSku())) {
 			String nameParam = new StringBuilder().append("%").append(criteria.getSku()).append("%").toString();

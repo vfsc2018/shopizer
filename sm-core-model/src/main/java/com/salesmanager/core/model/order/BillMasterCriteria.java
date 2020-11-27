@@ -10,6 +10,22 @@ public class BillMasterCriteria extends Criteria {
 	private long orderId = 0;
 	private String status = null;
 	
+	private String phone;
+	private String date;
+	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	
 
 	public int getId() {

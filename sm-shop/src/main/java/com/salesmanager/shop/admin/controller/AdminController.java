@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -34,11 +35,11 @@ public class AdminController {
 	
 	@PreAuthorize("hasRole('AUTH')")
 	@RequestMapping(value={"/admin/home.html","/admin/"}, method=RequestMethod.GET)
-	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
 		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
+		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("home", "home");
 		
 		model.addAttribute("activeMenus",activeMenus);

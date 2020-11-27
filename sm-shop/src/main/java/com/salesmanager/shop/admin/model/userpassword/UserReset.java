@@ -9,10 +9,10 @@ import org.slf4j.LoggerFactory;
 
 public class UserReset
 {
-  final static String CHAR_LIST_WITHNUM = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-  final static String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-";
+  final static String CHAR_LIST_WITHNUM = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ123456789";
+  final static String CHAR_LIST = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ";
 
-  final static int RANDOM_STRING_LENGTH = 10;
+  final static int RANDOM_STRING_LENGTH = 6;
   
   private static final Logger LOGGER = LoggerFactory.getLogger(UserReset.class);
 

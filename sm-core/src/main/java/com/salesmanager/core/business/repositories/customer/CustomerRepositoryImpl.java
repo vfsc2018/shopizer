@@ -38,6 +38,23 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		countBuilderWhere.append(whereQuery);
 		objectBuilderWhere.append(whereQuery);
 
+		if(criteria.getId()!=null) {
+			String nameQuery =" and c.id = :cid ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+		if(!StringUtils.isBlank(criteria.getDate())) {
+			String nameQuery =" and TO_CHAR(c.auditSection.dateCreated,'DD/MM/YYYY') = :dc ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getPhone())) {
+			String nameQuery =" and c.billing.telephone like:ph ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+
 		if(!StringUtils.isBlank(criteria.getName())) {
 			String nameQuery =" and c.billing.firstName like:nm or c.billing.lastName like:nm";
 			countBuilderWhere.append(nameQuery);
@@ -45,7 +62,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		}
 		
 		if(!StringUtils.isBlank(criteria.getFirstName())) {
-			String nameQuery =" and c..billing.firstName like:fn";
+			String nameQuery =" and c.billing.firstName like:fn";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
@@ -88,6 +105,21 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		countQ.setParameter("mId", store.getId());
 		objectQ.setParameter("mId", store.getId());
 		
+
+		if(criteria.getId()!=null) {
+			countQ.setParameter("cid",criteria.getId());
+			objectQ.setParameter("cid",criteria.getId());
+		}
+		if(criteria.getDate()!=null) {
+			countQ.setParameter("dc",criteria.getDate());
+			objectQ.setParameter("dc",criteria.getDate());
+		}
+
+		if(!StringUtils.isBlank(criteria.getPhone())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getPhone()).append("%").toString();
+			countQ.setParameter("ph",nameParam);
+			objectQ.setParameter("ph",nameParam);
+		}
 
 		if(!StringUtils.isBlank(criteria.getName())) {
 			String nameParam = new StringBuilder().append("%").append(criteria.getName()).append("%").toString();

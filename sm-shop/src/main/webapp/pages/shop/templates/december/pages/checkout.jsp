@@ -654,7 +654,7 @@ function initPayment(paymentSelection) {
 									</c:if>
 									<div class="col-md-12">
 										<div class="checkout-form-list">
-											<label><s:message code="label.generic.streetaddress" text="Street address"/> <span class="required">*</span></label>
+											<label><s:message code="label.customer.billing.streetaddress" text="Street address"/> <span class="required">*</span></label>
 										    <s:message code="NotEmpty.customer.billing.address" text="Address is required" var="msgAddress"/>
 										    <form:input id="customer.billing.address" cssClass="${cssClass}" path="customer.billing.address" title="${msgAddress}" disabled="${fieldDisabled}"/><!-- geo locate -->
 										    <form:errors path="customer.billing.address" cssClass="error" />

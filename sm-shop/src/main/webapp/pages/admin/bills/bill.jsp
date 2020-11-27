@@ -573,7 +573,7 @@ function captureOrder(orderId){
 																<th colspan="2" style="width: 250px"></th> 
 																<th colspan="1" style="width: 50px"></th> 
 																<th style="width: 120px">
-																			<Strong><s:message code="label.order.total" text="Total"/>:</Strong>
+																			<Strong><s:message code="label.order.totals" text="Totals"/>:</Strong>
 																</th>
 																<th style="text-align:right">
 																		<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>

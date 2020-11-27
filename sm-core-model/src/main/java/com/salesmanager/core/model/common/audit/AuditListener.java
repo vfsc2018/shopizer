@@ -11,12 +11,13 @@ public class AuditListener {
     if (o instanceof Auditable) {
       Auditable audit = (Auditable) o;
       AuditSection auditSection = audit.getAuditSection();
-
-      auditSection.setDateModified(new Date());
-      if (auditSection.getDateCreated() == null) {
-        auditSection.setDateCreated(new Date());
+      if(auditSection!=null){
+        auditSection.setDateModified(new Date());
+        if (auditSection.getDateCreated() == null) {
+          auditSection.setDateCreated(new Date());
+        }
+        audit.setAuditSection(auditSection);
       }
-      audit.setAuditSection(auditSection);
     }
   }
 
@@ -25,12 +26,13 @@ public class AuditListener {
     if (o instanceof Auditable) {
       Auditable audit = (Auditable) o;
       AuditSection auditSection = audit.getAuditSection();
-
-      auditSection.setDateModified(new Date());
-      if (auditSection.getDateCreated() == null) {
-        auditSection.setDateCreated(new Date());
+      if(auditSection!=null){
+        auditSection.setDateModified(new Date());
+        if (auditSection.getDateCreated() == null) {
+          auditSection.setDateCreated(new Date());
+        }
+        audit.setAuditSection(auditSection);
       }
-      audit.setAuditSection(auditSection);
     }
   }
 }
