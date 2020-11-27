@@ -271,7 +271,9 @@
   		<put-attribute name="body" value="/pages/admin/components/printBill.jsp" /> 
   	</definition>
   	
-  	
+  	<definition name="admin-orders-report-bill" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/components/reportBill.jsp" /> 
+  	</definition>  	
 
   	
   	

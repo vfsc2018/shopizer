@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +47,6 @@ import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.system.IntegrationModule;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
@@ -62,6 +60,7 @@ import com.salesmanager.shop.utils.LabelUtils;
  *
  */
 @Controller
+@Scope("session")
 public class BillsController {
 
 	@Inject
@@ -122,7 +121,7 @@ public class BillsController {
 			String statusRq = request.getParameter("status");
 			String phone = request.getParameter("phone");
 			String date = request.getParameter("date");
-
+			
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}
@@ -165,12 +164,14 @@ public class BillsController {
 
 			BillMasterList billList = billService.getListByStore2(store,
 					criteria);
-
+			request.getSession().setAttribute("STORE_BILLDATA",billList.getBillMasters());
+			
 			if (billList.getBillMasters() != null) {
 
 				resp.setTotalRow(billList.getTotalCount());
 
 				BigDecimal totalBill = null;
+				List<Object> test = new ArrayList<Object>(); 
 				for (BillMaster bill : billList.getBillMasters()) {
 					totalBill = new BigDecimal(0);
 					@SuppressWarnings("rawtypes")
@@ -212,7 +213,8 @@ public class BillsController {
 
 				}
 			}
-
+			
+			
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 
 		} catch (Exception e) {
@@ -224,6 +226,9 @@ public class BillsController {
 
 		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 	}
+	
+
+	
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/bills/viewBill.html", method = RequestMethod.GET)
@@ -364,6 +369,29 @@ public class BillsController {
 
 	}
 
+	
+
+	@RequestMapping(value = "/admin/bills/reportBill.html", method = RequestMethod.GET)
+	public String reportBill(@RequestParam("id") Integer billId,Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		// display menu
+		setMenu(model, request);
+		List<BillMaster> dataStore = new ArrayList<BillMaster>();
+		try {
+			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		model.addAttribute("data",dataStore);
+
+		return "admin-orders-report-bill";
+
+	}
+	
+	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/bills/printBill.html", method = RequestMethod.GET)
 	public String printBill(@RequestParam("id") Integer billId, Model model,

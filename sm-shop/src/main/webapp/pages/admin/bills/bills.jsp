@@ -12,15 +12,31 @@
 
     					<div class="tab-pane active" id="catalogue-section">
 								<div class="sm-ui-component">
-								<h3><s:message code="label.listBills.title" text="Orders" /></h3>	
-								<br/>
-								 <!-- Listing grid include -->
-								 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
-								 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
-								 <c:set value="/admin/bills/viewBill.html" var="editUrl" scope="request"/>
-								 <c:set value="/admin/bills/list.html" var="afterRemoveUrl" scope="request"/>
-								 <c:set var="entityId" value="id" scope="request"/>
-								 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
+								
+								
+
+			<div>
+			<table width="100%" border="0px">
+				<tr>
+					<td align="left" width="50%">
+						<h3><s:message code="label.listBills.title" text="Orders" /></h3>	
+						 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
+						 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
+						 <c:set value="/admin/bills/viewBill.html" var="editUrl" scope="request"/>
+						 <c:set value="/admin/bills/list.html" var="afterRemoveUrl" scope="request"/>
+						 <c:set var="entityId" value="id" scope="request"/>
+						 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
+								 
+					</td>
+				<td align="right">
+		              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>
+		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.collection" text="Collect"/></button>	              		
+		      	</td>
+		      	</tr>
+	      	</table>	  
+      		</div> 
+      		<br/>
+      		
 								 <c:set var="gridHeader" value="/pages/admin/bills/bills-gridHeader.jsp" scope="request"/>
 								 <c:set var="canRemoveEntry" value="false" scope="request"/>
 				
@@ -32,4 +48,12 @@
    					</div>
   					</div>
 
-				</div>		      			     
+				</div>	
+
+<script>				
+$(document).ready(function(){ 				
+		$("#btReportBill").click(function() {
+			 location.href="<c:url value="/admin/bills/reportBill.html" />?id=0";
+		}); 
+});
+</script>		
