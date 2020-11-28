@@ -14,14 +14,11 @@ import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderList;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
-
 public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
 	
     @PersistenceContext
     private EntityManager em;
-    
-    
     
     private boolean checkEnum(String input){
     	boolean result = false;
@@ -39,7 +36,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     	return result;
     	
     }
-    
     
     /**
      * @deprecated
@@ -86,13 +82,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectBuilderWhere.append(nameQuery);
 		}
 
-		if(!StringUtils.isBlank(criteria.getStartDate())) {
-			String nameQuery =" and TO_CHAR(o.fromDate,'DD/MM/YYYY') = :fdate ";
+		if(criteria.getStartDate()!=null) {
+			String nameQuery =" and o.fromDate >= :fdate ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
-		if(!StringUtils.isBlank(criteria.getEndDate())) {
-			String nameQuery =" and TO_CHAR(o.toDate,'DD/MM/YYYY') = :tdate ";
+		if(criteria.getEndDate()!=null) {
+			String nameQuery =" and o.toDate <= :tdate ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
@@ -122,7 +118,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 		
 		if(criteria.getId()!=null) {
-			String pIdQuery =" and o.id =:pId";
+			String pIdQuery =" and o.id <= :pId";
 			countBuilderWhere.append(pIdQuery);
 			objectBuilderWhere.append(pIdQuery);
 		}
@@ -157,7 +153,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		if(criteria.getStartDate()!=null) {
-			countQ.setParameter("fdate",criteria.getStartDate());
+			countQ.setParameter("fdate", criteria.getStartDate());
 			objectQ.setParameter("fdate",criteria.getStartDate());
 		}
 		if(criteria.getEndDate()!=null) {

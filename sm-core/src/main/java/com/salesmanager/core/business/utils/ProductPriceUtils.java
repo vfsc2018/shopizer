@@ -38,14 +38,14 @@ import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 @Component("priceUtil")
 public class ProductPriceUtils {
 	
-	private final static char DECIMALCOUNT = '2';
-	private final static char DECIMALPOINT = '.';
+	// private final static char DECIMALCOUNT = '2';
+	// private final static char DECIMALPOINT = '.';
 	
-//	private final static char DECIMALCOUNT = '0';
-//	private final static char DECIMALPOINT = '.';
+	private final char DECIMALCOUNT = '0';
+	private final char DECIMALPOINT = '.';
 	
 	
-	private final static char THOUSANDPOINT = ',';
+	private final char THOUSANDPOINT = ',';
 	
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(ProductPriceUtils.class);
@@ -95,7 +95,7 @@ public class ProductPriceUtils {
 		
 		//attributes
 		BigDecimal attributePrice = null;
-		if(attributes!=null && attributes.size()>0) {
+		if(attributes!=null && !attributes.isEmpty()) {
 			for(ProductAttribute attribute : attributes) {
 					if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
 						if(attributePrice==null) {
@@ -105,7 +105,7 @@ public class ProductPriceUtils {
 					}
 			}
 			
-			if(attributePrice!=null && attributePrice.doubleValue()>0) {
+			if(finalPrice!=null && attributePrice!=null && attributePrice.doubleValue()>0) {
 				BigDecimal fp = finalPrice.getFinalPrice();
 				fp = fp.add(attributePrice);
 				finalPrice.setFinalPrice(fp);
@@ -146,19 +146,19 @@ public class ProductPriceUtils {
 		
 		//attributes
 		BigDecimal attributePrice = null;
-		if(product.getAttributes()!=null && product.getAttributes().size()>0) {
+		if(product.getAttributes()!=null && !product.getAttributes().isEmpty()) {
 			for(ProductAttribute attribute : product.getAttributes()) {
-					if(attribute.getAttributeDefault()) {
-						if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
-							if(attributePrice==null) {
-								attributePrice = new BigDecimal(0);
-							}
-							attributePrice = attributePrice.add(attribute.getProductAttributePrice());
-						}
+					
+				if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
+					if(attributePrice==null) {
+						attributePrice = new BigDecimal(0);
 					}
+					attributePrice = attributePrice.add(attribute.getProductAttributePrice());
+				}
+			
 			}
 			
-			if(attributePrice!=null && attributePrice.doubleValue()>0) {
+			if(finalPrice!=null && attributePrice!=null && attributePrice.doubleValue()>0) {
 				BigDecimal fp = finalPrice.getFinalPrice();
 				fp = fp.add(attributePrice);
 				finalPrice.setFinalPrice(fp);
@@ -199,10 +199,8 @@ public class ProductPriceUtils {
 			
 		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
 
-		nf.setMaximumFractionDigits(Integer.parseInt(Character
-					.toString(DECIMALCOUNT)));
-		nf.setMinimumFractionDigits(Integer.parseInt(Character
-					.toString(DECIMALCOUNT)));
+		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
 
 		return nf.format(amount);
 	}
@@ -425,8 +423,8 @@ public class ProductPriceUtils {
 			if (!StringUtils.isBlank(Character.toString(THOUSANDPOINT))) {
 				pat.append("\\d{1,3}(" + THOUSANDPOINT + "?\\d{3})*");
 			}
-
-			pat.append("(\\" + DECIMALPOINT + "\\d{1," + DECIMALCOUNT + "})");
+		    int DECIMALCOUNT_AMOUNT = 2;
+			pat.append("(\\" + DECIMALPOINT + "\\d{1," + DECIMALCOUNT_AMOUNT + "})");
 
 			Pattern pattern = Pattern.compile(pat.toString());
 			Matcher matcher = pattern.matcher(amount);

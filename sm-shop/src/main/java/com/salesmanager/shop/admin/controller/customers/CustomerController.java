@@ -37,6 +37,8 @@ import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.SessionUtil;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -605,18 +607,18 @@ public class CustomerController {
 		
 		try {
 			
-			Enumeration<String> parameterNames = request.getParameterNames();
+			// Enumeration<String> parameterNames = request.getParameterNames();
  
-			while (parameterNames.hasMoreElements()) {
+			// while (parameterNames.hasMoreElements()) {
 	 
-				String paramName = parameterNames.nextElement();
-				String[] paramValues = request.getParameterValues(paramName);
-				for (int i = 0; i < paramValues.length; i++) {
-					String paramValue = paramValues[i];
-					System.out.println(paramName + ":" + paramValue);
-				}
+			// 	String paramName = parameterNames.nextElement();
+			// 	String[] paramValues = request.getParameterValues(paramName);
+			// 	for (int i = 0; i < paramValues.length; i++) {
+			// 		String paramValue = paramValues[i];
+			// 		System.out.println(paramName + ":" + paramValue);
+			// 	}
 	 
-			}
+			// }
 	 
 			
 			//Map<String,Country> countriesMap = countryService.getCountriesMap(language);
@@ -715,13 +717,6 @@ public class CustomerController {
 	
 	}
 	
-	private HttpHeaders getHeader(final String token) {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json"));
-        headers.add("Authorization", "Basic " + token);
-        return headers;
-	}
-	
 	public boolean sendPassword(String pwd, String phone) {
 		
 		String uri = configuration.getProperty("SMS_GATEWAY");
@@ -730,9 +725,9 @@ public class CustomerController {
 		sms.setPhone(phone);
 		sms.setText(text);
 	    RestTemplate restTemplate = new RestTemplate();
-        final HttpEntity<Sms> entity = new HttpEntity<>(sms, getHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
+        final HttpEntity<Sms> entity = new HttpEntity<>(sms, SessionUtil.getBasicHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
 
-		ResponseEntity<?> response = restTemplate.postForEntity(uri, entity, UserPassword.class);
+		ResponseEntity<?> response = restTemplate.postForEntity(uri, entity, String.class);
     
 	    return (response.getStatusCode()==HttpStatus.OK);
 		
@@ -823,7 +818,7 @@ public class CustomerController {
 			}
 			
 			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
-				resp.setErrorString("Invalid customer id");
+				resp.setErrorString("Invalid Merchant Store id");
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
 				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
@@ -843,7 +838,12 @@ public class CustomerController {
 			String encodedPassword = passwordEncoder.encode(password);
 			
 			customer.setPassword(encodedPassword);
-			customer.setNick(userName);
+			if(userName.indexOf('@')>0){
+				customer.setNick(userName);
+			}else{
+				customer.setNick(userName + "@vfsc.vn");
+			}
+			
 			
 			customerService.saveOrUpdate(customer);
 			

@@ -32,8 +32,8 @@
 											} else {
 
 												var msg = isc.XMLTools.selectObjects(jsonData, "/response/statusMessage");
-												console.log('Error received ' + JSON.stringify(jsonData));
-												alert("! " + msg);
+												console.log('List: Error received ' + JSON.stringify(jsonData));
+												// alert("! " + msg);
 											}
 										}
 									}
@@ -45,18 +45,19 @@
 									ID: "entityList",
 									// drawAheadRatio: 0, // <= very important (because there's an dependency between the number of shown rows and grid's height.)
 									showAllRows: false,
-									dataPageSize: 300,
+									dataPageSize: 50,
 									dataFetchMode: "paged",
 									autoFetchData: true,
     								border:1,
 									dataSource: "dataSource",
-									
+									autoFitData: true,
+									autoDraw: false,
     								showRecordComponents: true,    
     								showRecordComponentsByCell: true,
     								canRemoveRecords: <c:out value="${canRemoveEntry}" />,
     								showFilterEditor: true,
     								filterOnKeypress: true,
-									canEdit:<c:choose><c:when test="${canEdit!=null}"><c:out value="${canEdit}" /></c:when><c:otherwise>true</c:otherwise></c:choose>,
+									canEdit:<c:choose><c:when test="${canEdit!=null}"><c:out value="${canEdit}" /></c:when><c:otherwise>false</c:otherwise></c:choose>,
 									editByCell: true,
 									editEvent: "click",
 
@@ -125,12 +126,13 @@
 
 isc.HLayout.create({
     ID:"pageLayout",
-    width: "900",
+    width: "850",
     height: "600",
     position:"relative",
     members:[
         isc.SectionStack.create({
-            ID:"mainLayout",
+			ID:"mainLayout",
+			width:850,
             visibilityMode:"multiple",
             animateSections:true,
             sections:[

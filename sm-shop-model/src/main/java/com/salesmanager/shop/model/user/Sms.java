@@ -16,6 +16,10 @@ public class Sms implements Serializable{
   private static final long serialVersionUID = 1L;
   private String text;
   private String phone;
+  public Sms() {
+	  
+  }
+
   public String getPhone() {
     return phone;
   }

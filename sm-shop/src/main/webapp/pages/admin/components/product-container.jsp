@@ -29,7 +29,8 @@
 										var status = isc.XMLTools.selectObjects(jsonData, "/response/status");
 										if (status != 0 && status !=9999) {
 											var msg = isc.XMLTools.selectObjects(jsonData, "/response/statusMessage");
-												alert("! " + msg);
+											console.log('Product: Error received ' + msg);
+												// alert("! " + msg);
 												//window.location='<c:url value="${reloadUrl}" />';
 										}
 										if(status == 9999) {
@@ -195,7 +196,7 @@ isc.HLayout.create({
     members:[
         isc.SectionStack.create({
             ID:"leftSideLayout",
-            width:200,
+            width:180,
             showResizeBar:true,
             visibilityMode:"multiple",
             animateSections:true,
@@ -205,7 +206,7 @@ isc.HLayout.create({
         }),
         isc.SectionStack.create({
             ID:"middleSideLayout",
-            width:350,
+            width:300,
             visibilityMode:"multiple",
             animateSections:true,
             sections:[
@@ -217,7 +218,7 @@ isc.HLayout.create({
     	}),
     	isc.SectionStack.create({
             ID:"rightSideLayout",
-            width:550,
+            width:350,
             showResizeBar:false,
             visibilityMode:"multiple",
             animateSections:true,

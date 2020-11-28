@@ -147,7 +147,7 @@ public class BillsController {
 			}
 
 			if (!StringUtils.isBlank(billIdRq)) {
-				criteria.setId(Integer.parseInt(billIdRq));
+				criteria.setId(Long.parseLong(billIdRq));
 			}
 
 			if (!StringUtils.isBlank(orderIdRq)) {
@@ -162,8 +162,7 @@ public class BillsController {
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 			// List<IntegrationModule> paymentModules = moduleConfigurationService.getIntegrationModules("PAYMENT");
 
-			BillMasterList billList = billService.getListByStore2(store,
-					criteria);
+			BillMasterList billList = billService.getListByStore2(store, criteria);
 			request.getSession().setAttribute("STORE_BILLDATA",billList.getBillMasters());
 			
 			if (billList.getBillMasters() != null) {
@@ -171,7 +170,7 @@ public class BillsController {
 				resp.setTotalRow(billList.getTotalCount());
 
 				BigDecimal totalBill = null;
-				List<Object> test = new ArrayList<Object>(); 
+				
 				for (BillMaster bill : billList.getBillMasters()) {
 					totalBill = new BigDecimal(0);
 					@SuppressWarnings("rawtypes")
@@ -179,7 +178,7 @@ public class BillsController {
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
 
-					BigDecimal total = new BigDecimal(0.0);
+					BigDecimal total = new BigDecimal(0);
 					if (bill.getItems() != null) {
 						for (BillItem item : bill.getItems()) {
 							if (item.getParentId()!=null && item.getParentId() > 0) {
@@ -257,7 +256,7 @@ public class BillsController {
 			order.setBilling(dbOrder.getBilling());
 			order.setDelivery(dbOrder.getDelivery());
 
-			Integer totalMoney = new Integer("0");
+			Integer totalMoney = 0;
 
 			OrderProductEx ordernew = new OrderProductEx();
 			ordernew.setId(bill.getId());

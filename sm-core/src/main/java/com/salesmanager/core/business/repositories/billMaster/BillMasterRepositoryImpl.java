@@ -49,26 +49,28 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			
 		}
 
-		if(criteria.getId()>0) {
-			
-			baseCountQuery.append(" and c.id = :pId");
-			baseQuery.append(" and c.id = :pId");
-			
+		if(criteria.getId()!=null) {
+			String nameQuery = " and c.id <= :pId ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
 		}
 
-		if(criteria.getOrderId()>0) {
-			
+		if(criteria.getOrderId()!=null) {
 			baseCountQuery.append(" and c.order.id = :pOrderId");
 			baseQuery.append(" and c.order.id = :pOrderId");
 			
 		}
 		if(!StringUtils.isBlank(criteria.getStatus())) {
-			
 			baseCountQuery.append(" and c.status = :pStatus");
 			baseQuery.append(" and c.status = :pStatus");
 			
 		}
-		
+
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			baseQuery.append(" order by c.id desc ");
+		}
 		
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query
@@ -96,14 +98,12 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			countQ.setParameter("nm",nameParam);
 			objectQ.setParameter("nm",nameParam);
 		}		
-		if(criteria.getId()>0) {
-
+		if(criteria.getId()!=null) {
 			countQ.setParameter("pId",criteria.getId());
 			objectQ.setParameter("pId",criteria.getId());
-			
 		}
 
-		if(criteria.getOrderId()>0) {
+		if(criteria.getOrderId()!=null) {
 			
 			countQ.setParameter("pOrderId",criteria.getOrderId());
 			objectQ.setParameter("pOrderId",criteria.getOrderId());
