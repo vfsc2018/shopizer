@@ -51,8 +51,8 @@
 										if (status != 0 && status !=9999) {
 
 											var msg = isc.XMLTools.selectObjects(jsonData, "/response/statusMessage");
-
-												alert("! " + msg);
+											console.log('Products: Error received ' + msg);
+												// alert("! " + msg);
 
 										}
 										

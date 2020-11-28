@@ -6,13 +6,13 @@ public class BillMasterCriteria extends Criteria {
 	
 	private String productName = null;
 	private String sku = null;
-	private int id=0;
-	private long orderId = 0;
+	private Long id;
+	private Long orderId;
 	private String status = null;
 	
 	private String phone;
 	private String date;
-	
+
 	public String getDate() {
 		return date;
 	}
@@ -28,19 +28,19 @@ public class BillMasterCriteria extends Criteria {
 	}
 	
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public long getOrderId() {
+	public Long getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(long orderId) {
+	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
 

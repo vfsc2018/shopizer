@@ -1,5 +1,7 @@
 package com.salesmanager.core.model.order;
 
+import java.util.Date;
+
 import com.salesmanager.core.model.common.Criteria;
 
 public class OrderCriteria extends Criteria {
@@ -12,8 +14,8 @@ public class OrderCriteria extends Criteria {
 	private Long customerId;
 	private String email;
 	private String phone;
-	private String startDate;
-	private String endDate;
+	private Date startDate;
+	private Date endDate;
 	private String date;
 	public String getDate() {
 		return date;
@@ -21,16 +23,16 @@ public class OrderCriteria extends Criteria {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

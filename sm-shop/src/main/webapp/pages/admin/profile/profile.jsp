@@ -88,7 +88,7 @@
 								
 
                   <div class="control-group">
-                        <label><s:message code="label.user.name" text="User name"/></label>
+                        <label><s:message code="label.generic.username" text="User name"/></label>
 	                        <div class="controls">
 	                        		<form:input cssClass="input-large highlight" path="adminName" onblur="validateCode()"/>
 	                                <span class="help-inline"><div id="checkCodeStatus" style="display:none;"></div><form:errors path="adminName" cssClass="error" /></span>
@@ -113,7 +113,7 @@
 
 	       		  <c:if test="${user.id==null || user.id==0}">
                   <div class="control-group">
-	                  <label><s:message code="label.user.password" text="Password"/></label>
+	                  <label><s:message code="label.generic.password" text="Password"/></label>
 	                  <div class="controls">
                    		  <form:password cssClass="input-large highlight" path="adminPassword"/>
                              <span class="help-inline"><form:errors path="adminPassword" cssClass="error" /></span>
@@ -124,7 +124,7 @@
 
                   
                   <div class="control-group">
-                      <label><s:message code="label.user.firstName" text="First name"/> </label>
+                      <label><s:message code="label.generic.firstname" text="First name"/> </label>
                       <div class="controls">
                           <form:input cssClass="input-large" path="firstName"/>
                               <span class="help-inline"><form:errors path="firstName" cssClass="error" /></span>
@@ -132,7 +132,7 @@
                   </div>
 
                   <div class="control-group">
-                      <label><s:message code="label.user.lastName" text="Last name"/> </label>
+                      <label><s:message code="label.generic.lastname" text="Last name"/> </label>
                       <div class="controls">
                           <form:input cssClass="input-large" path="lastName"/>
                               <span class="help-inline"><form:errors path="lastName" cssClass="error" /></span>
@@ -140,7 +140,7 @@
                   </div>
                   
                   <div class="control-group">
-                      <label><s:message code="label.user.defaultLanguage" text="Default language"/> </label>
+                      <label><s:message code="label.defaultlanguage" text="Default language"/> </label>
                       <div class="controls">
                           <form:select cssClass="" items="${languages}" itemValue="id" itemLabel="code" path="defaultLanguage.id"/>
                               <span class="help-inline"><form:errors path="defaultLanguage" cssClass="error" /></span>

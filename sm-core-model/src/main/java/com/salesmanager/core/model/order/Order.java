@@ -202,6 +202,10 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	private String comments;
 
 	@Temporal(TemporalType.DATE)
+	@Column (name ="PAYMENT_TIME")
+	private Date paymentTime;
+
+	@Temporal(TemporalType.DATE)
 	@Column (name ="FROM_DATE")
 	private Date fromDate;
 	
@@ -214,6 +218,14 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public Date getPaymentTime() {
+		return CloneUtils.clone(paymentTime);
+	}
+
+	public void setPaymentTime(Date paymentTime) {
+		this.paymentTime = CloneUtils.clone(paymentTime);
 	}
 
 	public Date getFromDate() {

@@ -90,13 +90,15 @@
   	  												categoryTree.data.addList([newRecord],dropFolder, index);
   												} else {
   													if(msg!=null && msg !='') {
-  														alert("! " + msg);
+														console.log('Hieararchy: Error msg ' + msg);
+  														// alert("! " + msg);
   													}
   												}
   												
   											},
   											error: function(jqXHR,textStatus,errorThrown) { 
-  												alert(jqXHR + "-" + textStatus + "-" + errorThrown);
+												console.log('Hieararchy: Error received ' + jqXHR + "-" + textStatus + "-" + errorThrown);
+  												// alert(jqXHR + "-" + textStatus + "-" + errorThrown);
 
   												//alert(data.statusMessage);
   											}

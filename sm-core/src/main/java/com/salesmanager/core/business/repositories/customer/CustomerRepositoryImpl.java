@@ -39,7 +39,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		objectBuilderWhere.append(whereQuery);
 
 		if(criteria.getId()!=null) {
-			String nameQuery =" and c.id = :cid ";
+			String nameQuery =" and c.id <= :cid ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}

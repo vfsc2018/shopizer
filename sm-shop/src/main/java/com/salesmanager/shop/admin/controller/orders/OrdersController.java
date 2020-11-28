@@ -117,11 +117,11 @@ public class OrdersController {
 			if(!StringUtils.isBlank(date)){
 				criteria.setDate(date);
 			}
-			if(!StringUtils.isBlank(startDate)){
-				criteria.setStartDate(startDate);
+			if(startDate!=null){
+				criteria.setStartDate(DateUtil.getDate(startDate));
 			}
-			if(!StringUtils.isBlank(endDate)){
-				criteria.setEndDate(endDate);
+			if(endDate!=null){
+				criteria.setEndDate(DateUtil.getDate(endDate));
 			}
 
 			if(!StringUtils.isBlank(phone)) {

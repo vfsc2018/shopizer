@@ -1246,10 +1246,10 @@ public class OrderFacadeImpl implements OrderFacade {
 				throw new ConversionException("Requires Payment.amount");
 			}
 
-			String submitedAmount = order.getPayment().getAmount();
+			String submitedAmount = order.getPayment().getAmount().replace(".00", "");
 
 			BigDecimal calculatedAmount = orderTotalSummary.getTotal();
-			String strCalculatedTotal = pricingService.getStringAmount(calculatedAmount, store);
+			String strCalculatedTotal = pricingService.getStringAmount(calculatedAmount, store).replace(".00", "");
 
 			// compare both prices
 			if (!submitedAmount.equals(strCalculatedTotal)) {
@@ -1285,27 +1285,27 @@ public class OrderFacadeImpl implements OrderFacade {
 				LOGGER.error("Cannot delete cart " + cart.getId(), e);
 			}
 
-			if ("true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) {
-				// send email
-				try {
+			// if ("true".equals(coreConfiguration.getProperty("ORDER_EMAIL_API"))) {
+			// 	// send email
+			// 	try {
 
-					// send order confirmation email to customer
-					emailTemplatesUtils.sendOrderEmail(customer.getEmailAddress(), customer, modelOrder, locale,
-							language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
+			// 		// send order confirmation email to customer
+			// 		emailTemplatesUtils.sendOrderEmail(customer.getEmailAddress(), customer, modelOrder, locale,
+			// 				language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
 
-					if (orderService.hasDownloadFiles(modelOrder)) {
-						emailTemplatesUtils.sendOrderDownloadEmail(customer, modelOrder, store, locale,
-								coreConfiguration.getProperty("CONTEXT_PATH"));
-					}
+			// 		if (orderService.hasDownloadFiles(modelOrder)) {
+			// 			emailTemplatesUtils.sendOrderDownloadEmail(customer, modelOrder, store, locale,
+			// 					coreConfiguration.getProperty("CONTEXT_PATH"));
+			// 		}
 
-					// send order confirmation email to merchant
-					emailTemplatesUtils.sendOrderEmail(store.getStoreEmailAddress(), customer, modelOrder, locale,
-							language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
+			// 		// send order confirmation email to merchant
+			// 		emailTemplatesUtils.sendOrderEmail(store.getStoreEmailAddress(), customer, modelOrder, locale,
+			// 				language, store, coreConfiguration.getProperty("CONTEXT_PATH"));
 
-				} catch (Exception e) {
-					LOGGER.error("Cannot send order confirmation email", e);
-				}
-			}
+			// 	} catch (Exception e) {
+			// 		LOGGER.error("Cannot send order confirmation email", e);
+			// 	}
+			// }
 
 			return modelOrder;
 
