@@ -55,5 +55,10 @@ $(document).ready(function(){
 		$("#btReportBill").click(function() {
 			 location.href="<c:url value="/admin/bills/reportBill.html" />?id=0";
 		}); 
+		
+		$("#btCollectBill").click(function() {
+			 location.href="<c:url value="/admin/bills/collectBill.html" />?id=0";
+		});
+		
 });
 </script>		

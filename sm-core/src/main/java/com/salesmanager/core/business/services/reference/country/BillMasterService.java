@@ -9,6 +9,7 @@ import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
+import com.salesmanager.core.model.order.CollectBill;
 
 public interface BillMasterService extends SalesManagerEntityService<Integer, BillMaster> {
 	
@@ -16,5 +17,5 @@ public interface BillMasterService extends SalesManagerEntityService<Integer, Bi
 	public Long countByOrderId(Long orderId);
 	public List<BillMaster> findByOrderId(Long pid);
 	BillMasterList getListByStore2(MerchantStore store, BillMasterCriteria criteria);
-	
+	List<CollectBill> collectBill(String billIds);
 }

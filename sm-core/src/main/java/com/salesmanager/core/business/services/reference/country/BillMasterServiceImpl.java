@@ -13,12 +13,18 @@ import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
+import com.salesmanager.core.model.order.CollectBill;
 
 @Service("billMasterService")
 public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Integer, BillMaster> implements BillMasterService {
 
 	private BillMasterRepository billMasterRepository;
 
+	@Override
+	public List<CollectBill> collectBill(String billIds){
+		return billMasterRepository.collectBill(billIds);
+	}
+	
 	@Override
 	public BillMasterList getListByStore2(MerchantStore store, BillMasterCriteria criteria) {
 		return billMasterRepository.listByStore2(store, criteria);

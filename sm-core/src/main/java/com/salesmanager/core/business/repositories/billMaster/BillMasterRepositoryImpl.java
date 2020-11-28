@@ -1,14 +1,18 @@
 package com.salesmanager.core.business.repositories.billMaster;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
+import com.salesmanager.core.model.order.CollectBill;
 
 
 
@@ -16,6 +20,22 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 
     @PersistenceContext
     private EntityManager em;
+    
+    
+	@Override
+	public List<CollectBill> collectBill(String billIds) {
+		StringBuffer sql = new StringBuffer("")
+			.append(" select code,name,sum(quantity) as quantity,sum(quantity*price) as totalMoney from BillItem  ")
+			.append(" where billMaster.id in("+ billIds +") ")
+			.append(" group by code,name ");
+
+		TypedQuery<CollectBill> query = em.createQuery(sql.toString(), CollectBill.class);
+		return query.getResultList();
+		
+	}
+    
+    
+    
 	@SuppressWarnings("unchecked")
 	@Override
 	public BillMasterList listByStore2(MerchantStore store, BillMasterCriteria criteria) {

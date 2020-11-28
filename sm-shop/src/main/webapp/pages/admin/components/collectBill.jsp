@@ -54,13 +54,11 @@ td, th {
 	<thead> 
 		<tr>
 			<th>STT</th> 
-			<th>Bill Code</th> 
-			<th>OrderId</th> 
-			<th>Customer</th>
-			<th>Phone</th>
-			<th>Address</th>
-			<th>Date exported</th>  
-			<th>Status</th>  
+			<th>Code</th> 
+			<th>Name</th> 
+			<th>Quantity</th>
+			<th>Total money</th>
+  
 		</tr> 
 	</thead>
 	<tbody>
@@ -69,14 +67,11 @@ td, th {
 	<c:set var="stt" value="${stt + 1 }" />
 		<tr>
 				<td><c:out value="${stt}" /></td>
-				<td><c:out value="${entity.id}" /></td>
-				<td><c:out value="${entity.order.id}" /></td>
-				<td><c:out value="${entity.order.billing.firstName}" /></td>
-				<td><c:out value="${entity.phone}" /></td>
-				<td><c:out value="${entity.address}" /></td>
-				<td><c:out value="${entity.dateExported}" /></td>
-				<td><c:out value="${entity.status}" /></td>
-	
+				<td><c:out value="${entity.code}" /></td>
+				<td><c:out value="${entity.name}" /></td>
+				<td><c:out value="${entity.quantity}" /></td>
+				<td><c:out value="${entity.totalMoney}" /></td>
+				
 		</tr>
 	</c:forEach>
 	</tbody>

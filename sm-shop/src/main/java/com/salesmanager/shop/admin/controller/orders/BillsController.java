@@ -43,6 +43,7 @@ import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
+import com.salesmanager.core.model.order.CollectBill;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
@@ -375,7 +376,6 @@ public class BillsController {
 	public String reportBill(@RequestParam("id") Integer billId,Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
 		// display menu
 		setMenu(model, request);
 		List<BillMaster> dataStore = new ArrayList<BillMaster>();
@@ -384,13 +384,37 @@ public class BillsController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		model.addAttribute("data",dataStore);
-
 		return "admin-orders-report-bill";
-
 	}
 	
+	
+	@RequestMapping(value = "/admin/bills/collectBill.html", method = RequestMethod.GET)
+	public String collectBill(@RequestParam("id") Integer billId,Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// display menu
+		setMenu(model, request);
+		List<BillMaster> dataStore = new ArrayList<BillMaster>();
+		List<CollectBill> datas = new ArrayList<CollectBill>();
+		try {
+			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
+			String billIds ="";
+			for(BillMaster billMaster:dataStore){
+				if(billIds.equals("")) {
+					billIds = billMaster.getId() +"";
+				}else{
+					billIds +=","+billMaster.getId();
+				}
+			}
+			
+			datas = billService.collectBill(billIds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("data",datas);
+		return "admin-orders-collect-bill";
+	}	
 	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/bills/printBill.html", method = RequestMethod.GET)
