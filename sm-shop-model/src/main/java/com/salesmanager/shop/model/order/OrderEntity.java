@@ -8,8 +8,10 @@ import java.util.List;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.payment.CreditCard;
 import com.salesmanager.core.model.payments.PaymentType;
-import com.salesmanager.shop.model.order.total.OrderTotal;
+import com.salesmanager.core.utils.CloneUtils;
+// import com.salesmanager.shop.model.order.total.OrderTotal;
 import com.salesmanager.shop.model.order.v0.Order;
+import com.salesmanager.shop.model.order.total.OrderTotal;
 
 public class OrderEntity extends Order implements Serializable {
 
@@ -18,7 +20,7 @@ public class OrderEntity extends Order implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<OrderTotal> totals;
-	private List<OrderAttribute> attributes = new ArrayList<OrderAttribute>();
+	private List<OrderAttribute> attributes = new ArrayList<>();
 	
 	private PaymentType paymentType;
 	private String paymentModule;
@@ -27,6 +29,7 @@ public class OrderEntity extends Order implements Serializable {
 	private OrderStatus orderStatus;
 	private CreditCard creditCard;
 	private Date datePurchased;
+	private Date paymentTime;
 	private String currency;
 	private boolean customerAgreed;
 	private boolean confirmedAddress;
@@ -63,6 +66,15 @@ public class OrderEntity extends Order implements Serializable {
 	public void setCreditCard(CreditCard creditCard) {
 		this.creditCard = creditCard;
 	}
+
+	public Date getPaymentTime() {
+		return CloneUtils.clone(paymentTime);
+	}
+
+	public void setPaymentTime(Date paymentTime) {
+		this.paymentTime = CloneUtils.clone(paymentTime);
+	}
+
 	public Date getDatePurchased() {
 		return datePurchased;
 	}

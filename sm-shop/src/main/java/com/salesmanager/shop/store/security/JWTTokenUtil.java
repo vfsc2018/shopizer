@@ -81,22 +81,22 @@ public class JWTTokenUtil implements Serializable {
 	                .getBody();
 	    }
 
-	    private Boolean isTokenExpired(String token) {
-	        final Date expiration = getExpirationDateFromToken(token);
-	        return expiration.before(DateUtil.getDate());
+	    private boolean isTokenExpired(String token) {
+	        final Date d = getExpirationDateFromToken(token);
+	        return d.before(DateUtil.getDate());
 	    }
 	    
-	    private Boolean isTokenExpiredWithGrace(String token) {
-	            Date expiration = getExpirationDateFromToken(token);
-	            expiration = addSeconds(expiration,GRACE_PERIOD);
-	            return expiration.before(DateUtil.getDate());
+	    private boolean isTokenExpiredWithGrace(String token) {
+	            Date d = getExpirationDateFromToken(token);
+	            d = addSeconds(d,GRACE_PERIOD);
+	            return d.before(DateUtil.getDate());
 	    }
 
-	    private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
+	    private boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
 	        return (lastPasswordReset != null && created.before(lastPasswordReset));
 	    }
 	    
-	    private Boolean isCreatedBeforeLastPasswordResetWithGrace(Date created, Date lastPasswordReset) {
+	    private boolean isCreatedBeforeLastPasswordResetWithGrace(Date created, Date lastPasswordReset) {
 	        return (lastPasswordReset != null && created.before(addSeconds(lastPasswordReset,GRACE_PERIOD)));
 	    }
 	    
@@ -111,7 +111,7 @@ public class JWTTokenUtil implements Serializable {
 	        return AUDIENCE_API;
 	    }
 
-	    private Boolean ignoreTokenExpiration(String token) {
+	    private boolean ignoreTokenExpiration(String token) {
 	        String audience = getAudienceFromToken(token);
 	        return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
 	    }
@@ -137,7 +137,7 @@ public class JWTTokenUtil implements Serializable {
 	                .compact();
 	    }
 	    
-        public Boolean canTokenBeRefreshedWithGrace(String token, Date lastPasswordReset) {
+        public boolean canTokenBeRefreshedWithGrace(String token, Date lastPasswordReset) {
           final Date created = getIssuedAtDateFromToken(token);
           boolean t = isCreatedBeforeLastPasswordResetWithGrace(created, lastPasswordReset);
           boolean u = isTokenExpiredWithGrace(token);
@@ -150,7 +150,7 @@ public class JWTTokenUtil implements Serializable {
           return true;
         }	    
 
-	    public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
+	    public boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
 	        final Date created = getIssuedAtDateFromToken(token);
 	        return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset)
 	                && (!isTokenExpired(token) || ignoreTokenExpiration(token));
@@ -170,7 +170,7 @@ public class JWTTokenUtil implements Serializable {
 	                .compact();
 	    }
 
-	    public Boolean validateToken(String token, UserDetails userDetails) {
+	    public boolean validateToken(String token, UserDetails userDetails) {
 	        JWTUser user = (JWTUser) userDetails;
 	        final String username = getUsernameFromToken(token);
 	        final Date created = getIssuedAtDateFromToken(token);

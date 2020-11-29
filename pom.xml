@@ -20,9 +20,9 @@
 	</licenses>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
+	<groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.3.3.RELEASE</version>
+	<version>2.3.6.RELEASE</version>
   </parent>
 	
 
@@ -60,20 +60,21 @@
 
 		<org.apache.httpcomponent.version>4.5.2</org.apache.httpcomponent.version>
 		<javax.inject.version>1</javax.inject.version>
-		<hibernate-ehcache.version>5.4.12.Final</hibernate-ehcache.version>
+		<hibernate-ehcache.version>5.4.24.Final</hibernate-ehcache.version>
 		<javax.el.version>2.2.4</javax.el.version>
 		<javax.servlet-api-version>3.0.1</javax.servlet-api-version>
 		<javax.annotation>1.3.2</javax.annotation>
 		<infinispan.version>9.4.18.Final</infinispan.version>
 		<infinispan.tree.version>9.4.18.Final</infinispan.tree.version>
-		<mysql-jdbc-version>8.0.21</mysql-jdbc-version>
+		<!-- <mysql-jdbc-version>8.0.21</mysql-jdbc-version> -->
+		<postgresql-jdbc-version>42.2.18</postgresql-jdbc-version>
 		<simple-json-version>1.1.1</simple-json-version>
 		<jackson-version-databind>2.10.2</jackson-version-databind>
 		<jackson-version>2.10.2</jackson-version>
 		<geoip2.version>2.7.0</geoip2.version>
 		<drools.version>7.20.0.Final</drools.version>
 		<google-client-maps-services-version>0.1.6</google-client-maps-services-version>
-		<jwt.version>0.8.0</jwt.version>
+		<jwt.version>0.9.1</jwt.version>
 
 
 		<!-- api documentation -->
@@ -88,7 +89,7 @@
 	<!--BOM -->
 	<dependencyManagement>
 		<dependencies>
-
+			
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
@@ -214,16 +215,16 @@
 			</dependency>
 
 
-			<dependency>
+			<!-- <dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
 				<version>${mysql-jdbc-version}</version>
-			</dependency>
+			</dependency> -->
 			
 			<dependency>
 			    <groupId>org.postgresql</groupId>
-			    <artifactId>postgresql</artifactId>
-			    <version>42.2.16</version>
+				<artifactId>postgresql</artifactId>
+				<version>${postgresql-jdbc-version}</version>
 			</dependency>
 			
 			<!-- Google Map API -->
@@ -488,10 +489,10 @@
 			<version>${elasticsearch.version}</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

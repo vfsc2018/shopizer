@@ -14,7 +14,7 @@ public class ShippingConfiguration implements Serializable {
 
 
 	private boolean taxOnShipping = false;
-	private List<BoxConfiguration> boxConfigurations = new ArrayList<BoxConfiguration>();
+	private List<BoxConfiguration> boxConfigurations = new ArrayList<>();
 
 
 	public boolean isTaxOnShipping() {

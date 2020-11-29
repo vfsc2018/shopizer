@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.shoppingcart;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
@@ -12,7 +11,7 @@ import com.salesmanager.shop.model.order.total.OrderTotal;
 
 @Component
 @Scope(value = "prototype")
-public class ShoppingCartData extends ShopEntity implements Serializable {
+public class ShoppingCartData extends ShopEntity {
 	
 	/**
 	 * 

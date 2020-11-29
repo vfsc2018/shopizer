@@ -48,7 +48,7 @@ public class CacheApi {
         cache.removeAllFromCache(merchantStore);
       }
     } catch (Exception e) {
-      LOGGER.error("Error while clearning cache {}", e.getCause());
+      LOGGER.error("Error while clearning cache {}", e);
       throw new ServiceRuntimeException("Error while clearing cache");
     }
 

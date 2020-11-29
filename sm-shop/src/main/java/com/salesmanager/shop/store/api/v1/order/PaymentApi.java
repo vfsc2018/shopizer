@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.drools.compiler.rule.builder.dialect.java.parser.JavaParser.parExpression_return;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -49,6 +49,8 @@ public class PaymentApi {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PaymentApi.class);
 
+    @Value("${authToken.header}")
+    private String tokenHeader;
 
 	@Inject
 	private CustomerService customerService;
@@ -57,13 +59,6 @@ public class PaymentApi {
 
 	@Inject
 	private OrderService orderService;
-
-    private HttpHeaders getHeader(final String token) {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json"));
-        headers.add("Authorization", "Basic " + token);
-        return headers;
-    }
 
     private Payment vnpayPayload(String bank, String info, String tran, int total) {
         
@@ -84,18 +79,6 @@ public class PaymentApi {
         
     }	
 
-    // public ResponseEntity<?> vnpay(String bank, String info, String tran, int total) {
-        
-    //     String uri = configuration.getProperty("PAYMENT_GATEWAY");
-    //     Payment vnpay = vnpayPayload(bank, info, tran, total);
-
-    //     RestTemplate restTemplate = new RestTemplate();
-    //     final HttpEntity<Payment> entity = new HttpEntity<>(vnpay, getHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
-
-    //     return restTemplate.postForEntity(uri, entity, Payment.class);
-        
-    // }	
-  
 	@RequestMapping(value = { "/private/payment/vnpay" }, method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<?>  vnpay(@Valid @RequestBody Payment payment, HttpServletRequest request, HttpServletResponse response) {
@@ -117,7 +100,7 @@ public class PaymentApi {
             return new ResponseEntity<>("{\"order\":" + id + "}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
         BigDecimal total = order.getTotal();
-        BigDecimal money = BigDecimal.valueOf(payment.getTotalMoney()*0.01);
+        BigDecimal money = BigDecimal.valueOf(payment.getTotalMoney()*1.0);
 
         if (total.compareTo(money) != 0) {
             return new ResponseEntity<>("{\"money\":" + money + "}", httpHeaders, HttpStatus.BAD_REQUEST);
@@ -139,34 +122,49 @@ public class PaymentApi {
         return resp;
     }
     
+	private boolean badToken(HttpServletRequest request, String provider) {
+        
+        String token = request.getHeader(tokenHeader);
+        if(token != null && token.contains("Basic")) {
+            token = token.substring("Basic ".length(),token.length());
+            return !token.equals(provider);
+        }
+        return true;
+    }
 
 	@RequestMapping(value = { "/order/vnpay" }, method = RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<?>  vnpay(@Valid @RequestParam Long id, @Valid @RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+        
         final HttpHeaders httpHeaders= new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-            Date date = null;
-            try{
-                Long time = Long.valueOf(token);
-                date = new Date(time);
-            }catch(Exception e){
-                return new ResponseEntity<>("{\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);
-            }
-			Order order = orderService.getById(id);
-			if (order == null) {
-				return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.BAD_REQUEST);
-            }
-            Date now = new Date();
-            order.setPaymentTime(now);
-            try{
-                orderService.saveOrUpdate(order);
-                LOGGER.info(String.format("VNPAY: from %s to %s", date.toString(), now.toString()));
-            }catch(Exception e){
-                LOGGER.error(String.format("VNPAY (from %s to %s) - setPaymentTime: %s", date.toString(), order.getPaymentTime().toString(), e.toString()));
-                return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.BAD_REQUEST);
-            }
 
-			return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.OK);
+        if (badToken(request,"VNPAY-768968976-jhgcchgssao-13243254-qtrerobn")) {
+            return new ResponseEntity<>("{\"provider\": 0}", httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+
+        Date date = null;
+        try{
+            Long time = Long.valueOf(token);
+            date = new Date(time);
+        }catch(Exception e){
+            return new ResponseEntity<>("{\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+        Order order = orderService.getById(id);
+        if (order == null) {
+            return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+        Date now = new Date();
+        order.setPaymentTime(now);
+        try{
+            orderService.saveOrUpdate(order);
+            LOGGER.info(String.format("VNPAY: from %s to %s", date.toString(), now.toString()));
+        }catch(Exception e){
+            LOGGER.error(String.format("VNPAY (from %s to %s) - setPaymentTime: %s", date.toString(), order.getPaymentTime().toString(), e.toString()));
+            return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.OK);
 	}
   
 }
