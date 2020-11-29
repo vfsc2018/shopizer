@@ -1,11 +1,12 @@
 package com.salesmanager.core.business.repositories.billMaster;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,8 +30,18 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			.append(" where billMaster.id in("+ billIds +") ")
 			.append(" group by code,name ");
 
-		TypedQuery<CollectBill> query = em.createQuery(sql.toString(), CollectBill.class);
-		return query.getResultList();
+		List<CollectBill> dataList = new ArrayList<CollectBill>();
+		List<Object[]> results = em.createQuery(sql.toString(), Object[].class).getResultList();
+		for (Object[] row : results) {
+			CollectBill bean = new CollectBill();
+			bean.setCode((String) row[0]);
+			bean.setName((String) row[1]);
+			bean.setQuantity(((Long) row[2]).intValue());
+			bean.setTotalMoney((BigDecimal) row[3]);
+			dataList.add(bean);
+		}
+		
+		return dataList;
 		
 	}
     

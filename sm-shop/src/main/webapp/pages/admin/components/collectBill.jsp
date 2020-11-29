@@ -48,16 +48,16 @@ td, th {
 </style>	
 <img id="image" src="/resources/img/vfsc.png" alt="logo" />	
 		<div align="center">
-		<h3><s:message code="label.bill.billPrintTitle" text="Title bill"/></h3></td>
+		<h3><s:message code="label.bill.collectbill.title" text="Title bill"/></h3></td>
 		</div>
 <table id="caculatorId" width="100%"> 
 	<thead> 
 		<tr>
-			<th>STT</th> 
-			<th>Code</th> 
-			<th>Name</th> 
-			<th>Quantity</th>
-			<th>Total money</th>
+			<th><s:message code="label.order.reportBill.stt" text="STT"/></th> 
+			<th><s:message code="label.order.reportBill.code" text="Code"/></th> 
+			<th><s:message code="label.order.reportBill.name" text="Name"/></th> 
+			<th><s:message code="label.order.reportBill.quantity" text="Quantity"/></th>
+			<th><s:message code="label.order.reportBill.totalMoney" text="Total money"/></th>
   
 		</tr> 
 	</thead>
@@ -70,7 +70,7 @@ td, th {
 				<td><c:out value="${entity.code}" /></td>
 				<td><c:out value="${entity.name}" /></td>
 				<td><c:out value="${entity.quantity}" /></td>
-				<td><c:out value="${entity.totalMoney}" /></td>
+				<td><sm:monetary value="${entity.totalMoney}" currency="${currency}"/></td>
 				
 		</tr>
 	</c:forEach>

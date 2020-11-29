@@ -384,6 +384,10 @@ public class BillsController {
 			e.printStackTrace();
 		}
 		model.addAttribute("data",dataStore);
+		
+		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		model.addAttribute("currency",sessionStore.getCurrency());
+		
 		return "admin-orders-report-bill";
 	}
 	
@@ -412,6 +416,11 @@ public class BillsController {
 			e.printStackTrace();
 		}
 		model.addAttribute("data",datas);
+		
+		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		model.addAttribute("currency",sessionStore.getCurrency());
+		
+		
 		return "admin-orders-collect-bill";
 	}	
 	

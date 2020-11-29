@@ -4,12 +4,7 @@ import java.math.BigDecimal;
 
 
 public class CollectBill {
-	public int getStt() {
-		return stt;
-	}
-	public void setStt(int stt) {
-		this.stt = stt;
-	}
+
 	public String getCode() {
 		return code;
 	}
@@ -34,7 +29,7 @@ public class CollectBill {
 	public void setTotalMoney(BigDecimal totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-	private int stt;
+
 	private String code;
 	private String name;
 	private int quantity;

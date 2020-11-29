@@ -53,14 +53,14 @@ td, th {
 <table id="caculatorId" width="100%"> 
 	<thead> 
 		<tr>
-			<th>STT</th> 
-			<th>Bill Code</th> 
-			<th>OrderId</th> 
-			<th>Customer</th>
-			<th>Phone</th>
-			<th>Address</th>
-			<th>Date exported</th>  
-			<th>Status</th>  
+			<th><s:message code="label.order.reportBill.stt" text="STT"/></th> 
+			<th><s:message code="label.order.reportBill.billCode" text="Bill Code"/></th> 
+			<th><s:message code="label.order.reportBill.orderId" text="OrderId"/></th> 
+			<th><s:message code="label.order.reportBill.customer" text="Customer"/></th>
+			<th><s:message code="label.order.reportBill.phone" text="Phone"/></th>
+			<th><s:message code="label.order.reportBill.address" text="Address"/></th>
+			<th><s:message code="label.order.reportBill.dateExported" text="Date exported"/></th>  
+			<th><s:message code="label.order.reportBill.status" text="Status"/></th>  
 		</tr> 
 	</thead>
 	<tbody>
