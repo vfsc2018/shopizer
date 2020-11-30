@@ -1,7 +1,5 @@
 package com.salesmanager.core.model.system;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -24,7 +22,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "MERCHANT_LOG", schema= SchemaConstant.SALESMANAGER_SCHEMA)
-public class MerchantLog extends SalesManagerEntity<Long, MerchantLog> implements Serializable {
+public class MerchantLog extends SalesManagerEntity<Long, MerchantLog> {
 
 	
 

@@ -99,6 +99,7 @@ public class OrdersController {
 			String	startDate = request.getParameter("startDate");
 			String	endDate = request.getParameter("endDate");
 			String	date = request.getParameter("date");
+			String	address = request.getParameter("address");
 
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
@@ -116,6 +117,9 @@ public class OrdersController {
 			criteria.setMaxCount(endRow);
 			if(!StringUtils.isBlank(date)){
 				criteria.setDate(date);
+			}
+			if(!StringUtils.isBlank(address)){
+				criteria.setAddress(address);
 			}
 			if(startDate!=null){
 				criteria.setStartDate(DateUtil.getDate(startDate));
@@ -161,6 +165,7 @@ public class OrdersController {
 					entry.put("customer", order.getBilling().getFirstName()); // + " " + order.getBilling().getLastName());
 					entry.put("amount", priceUtil.getAdminFormatedAmountWithCurrency(store,order.getTotal()));//todo format total
 					entry.put("date", DateUtil.formatDate(order.getDatePurchased()));
+					entry.put("purchased", order.getPaymentTime()!=null);
 					entry.put("startDate", DateUtil.formatDate(order.getFromDate()));
 					entry.put("endDate", DateUtil.formatDate(order.getToDate()));
 					entry.put("phone", order.getBilling().getTelephone());

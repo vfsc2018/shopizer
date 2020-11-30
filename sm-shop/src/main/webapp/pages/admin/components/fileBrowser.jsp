@@ -6,10 +6,7 @@
 
 <%@ page session="false" %>
 
-
-<script src="<c:url value="/resources/js/ckeditor/ckeditor.js" charset="utf-8" />"></script>
-
-
+<script src="<c:url value="/resources/js/ckeditor/ckeditor.js" />"></script>
 
 <script language="javascript">
    var imgPrefix = '<sm:contentImage merchantStore="${requestScope.ADMIN_STORE}" imageName="" imageType="IMAGE"/>';

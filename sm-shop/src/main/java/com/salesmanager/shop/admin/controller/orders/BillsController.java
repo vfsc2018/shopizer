@@ -116,12 +116,13 @@ public class BillsController {
 			String paymentModule = request.getParameter("paymentModule");
 			String sku = request.getParameter("sku");
 			String productName = request.getParameter("productName");
-
+			String customerName = request.getParameter("customer");
 			String billIdRq = request.getParameter("id");
 			String orderIdRq = request.getParameter("orderId");
 			String statusRq = request.getParameter("status");
 			String phone = request.getParameter("phone");
 			String date = request.getParameter("date");
+			String address = request.getParameter("address");
 			
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
@@ -135,7 +136,12 @@ public class BillsController {
 			if(!StringUtils.isBlank(date)) {
 				criteria.setDate(date);
 			}
-
+			if(!StringUtils.isBlank(customerName)) {
+				criteria.setCustomerName(customerName);
+			}
+			if(!StringUtils.isBlank(address)){
+				criteria.setAddress(address);
+			}
 			if(!StringUtils.isBlank(phone)) {
 				criteria.setPhone(phone);
 			}

@@ -5,7 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page session="false" %>	
 
-{title:"<s:message code="label.entity.id" text="Id"/>", name:"userId",canFilter:true},
+{title:"<s:message code="label.entity.id" text="Id"/>", name:"userId",canFilter:true, width:40},
 {title:"<s:message code="label.generic.username" text="Username"/>", name:"username",canFilter:true},
 {title:"<s:message code="label.generic.email" text="Email"/>", name:"email",canFilter:true},
 {title:"<s:message code="label.customer.datecreated" text="Date"/>", name:"date",canFilter:false},

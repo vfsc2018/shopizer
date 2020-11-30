@@ -405,9 +405,7 @@ public class ShoppingCartApi {
       return new ResponseEntity<>(updatedCart, HttpStatus.NO_CONTENT);
   }
 
-  @DeleteMapping(
-    value = "/cart/{code}",
-    produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @DeleteMapping(value = "/cart/{code}", produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
 @ApiOperation(
     httpMethod = "DELETE",
     value = "Remove a specific cart", produces = "application/json")

@@ -6,7 +6,6 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.customer.CustomerList;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -56,13 +55,19 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getName())) {
-			String nameQuery =" and c.billing.firstName like:nm or c.billing.lastName like:nm";
+			String nameQuery =" and (c.billing.firstName like:nm or c.billing.lastName like:nm) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getFirstName())) {
 			String nameQuery =" and c.billing.firstName like:fn";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getAddress())) {
+			String nameQuery =" and c.billing.address like:addr";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
@@ -110,7 +115,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 			countQ.setParameter("cid",criteria.getId());
 			objectQ.setParameter("cid",criteria.getId());
 		}
-		if(criteria.getDate()!=null) {
+		if(!StringUtils.isBlank(criteria.getDate())) {
 			countQ.setParameter("dc",criteria.getDate());
 			objectQ.setParameter("dc",criteria.getDate());
 		}
@@ -131,6 +136,12 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 			String nameParam = new StringBuilder().append("%").append(criteria.getFirstName()).append("%").toString();
 			countQ.setParameter("fn",nameParam);
 			objectQ.setParameter("fn",nameParam);
+		}
+
+		if(!StringUtils.isBlank(criteria.getAddress())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getAddress()).append("%").toString();
+			countQ.setParameter("addr",nameParam);
+			objectQ.setParameter("addr",nameParam);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getLastName())) {

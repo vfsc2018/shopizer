@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.shoppingcart;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
@@ -35,7 +34,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "SHOPPING_CART_ITEM", schema=SchemaConstant.SALESMANAGER_SCHEMA)
-public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem> implements Auditable, Serializable {
+public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem> implements Auditable {
 
 
 	private static final long serialVersionUID = 1L;
@@ -103,8 +102,6 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 		this.productVirtual = product.isProductVirtual();
 	}
 
-	/** remove usage to limit possibility to implement bugs, would use constructors above to make sure all needed attributes are set correctly **/
-	@Deprecated
 	public ShoppingCartItem() {
 	}
 

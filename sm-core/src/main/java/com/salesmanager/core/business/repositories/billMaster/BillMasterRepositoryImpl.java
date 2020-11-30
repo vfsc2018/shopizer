@@ -59,7 +59,16 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
-
+		if(!StringUtils.isBlank(criteria.getAddress())) {
+			String nameQuery =" and c.address like:addr  ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+		if(!StringUtils.isBlank(criteria.getCustomerName())){
+			String nameQuery =" and (c.order.billing.firstName like:nm or c.order.billing.lastName like:nm) ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
 		if(!StringUtils.isBlank(criteria.getPhone())) {
 			String nameQuery =" and c.phone like:ph ";
 			baseCountQuery.append(nameQuery);
@@ -67,7 +76,6 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		}
 		
 		if(!StringUtils.isBlank(criteria.getSku())) {
-
 			baseCountQuery.append(" and c.sku like:sk ");
 			baseQuery.append(" and c.sku like:sk ");
 			
@@ -107,15 +115,26 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		//object query
 		Query objectQ = em.createQuery(baseQuery.toString());
 
-		if(criteria.getDate()!=null) {
+		if(!StringUtils.isBlank(criteria.getDate())) {
 			countQ.setParameter("dc",criteria.getDate());
 			objectQ.setParameter("dc",criteria.getDate());
+		}
+		if(!StringUtils.isBlank(criteria.getCustomerName())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getCustomerName()).append("%").toString();
+			countQ.setParameter("nm",nameParam);
+			objectQ.setParameter("nm",nameParam);
 		}
 
 		if(!StringUtils.isBlank(criteria.getPhone())) {
 			String nameParam = new StringBuilder().append("%").append(criteria.getPhone()).append("%").toString();
 			countQ.setParameter("ph",nameParam);
 			objectQ.setParameter("ph",nameParam);
+		}
+
+		if(!StringUtils.isBlank(criteria.getAddress())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getAddress()).append("%").toString();
+			countQ.setParameter("addr",nameParam);
+			objectQ.setParameter("addr",nameParam);
 		}
 
 		if(!StringUtils.isBlank(criteria.getSku())) {

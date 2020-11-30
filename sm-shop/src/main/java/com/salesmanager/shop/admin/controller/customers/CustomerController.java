@@ -633,6 +633,7 @@ public class CustomerController {
 			String	phone = request.getParameter("phone");
 			String	cid = request.getParameter("id");
 			String	date = request.getParameter("date");
+			String	address = request.getParameter("address");
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}
@@ -640,7 +641,10 @@ public class CustomerController {
 			CustomerCriteria criteria = new CustomerCriteria();
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-			
+
+			if(!StringUtils.isBlank(address)) {
+				criteria.setAddress(address);
+			}
 			if(!StringUtils.isBlank(date)) {
 				criteria.setDate(date);
 			}

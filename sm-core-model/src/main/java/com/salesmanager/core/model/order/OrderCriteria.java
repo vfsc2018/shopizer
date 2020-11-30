@@ -17,6 +17,14 @@ public class OrderCriteria extends Criteria {
 	private Date startDate;
 	private Date endDate;
 	private String date;
+
+	private String address;
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public String getDate() {
 		return date;
 	}

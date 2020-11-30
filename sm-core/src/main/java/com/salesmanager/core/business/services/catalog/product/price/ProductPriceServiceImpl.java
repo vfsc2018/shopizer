@@ -11,10 +11,8 @@ import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.catalog.product.ProductRepository;
 import com.salesmanager.core.business.repositories.catalog.product.price.ProductPriceRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
 import com.salesmanager.core.model.catalog.product.price.ProductPriceDescription;
-import com.salesmanager.core.model.reference.language.Language;
 
 @Service("productPrice")
 public class ProductPriceServiceImpl extends SalesManagerEntityServiceImpl<Long, ProductPrice> 

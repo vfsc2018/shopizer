@@ -30,7 +30,7 @@
 					</td>
 				<td align="right">
 		              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>
-		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.collection" text="Collect"/></button>	              		
+		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.summary" text="Summary"/></button>	              		
 		      	</td>
 		      	</tr>
 	      	</table>	  
