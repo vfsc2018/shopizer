@@ -267,6 +267,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			@RequestParam("sku") String[] skus,
 			@RequestParam("productName") String[] productNames,
 			@RequestParam("code") String[] code,
+			@RequestParam("unit") String[] unit,
 			@RequestParam("quantity") int[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("orderHistoryComment") String orderHistoryComment,
@@ -329,7 +330,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 					sub1.setProductCode(bean1111.getSku());
 					sub1.setQuantity(quantity[i]+"");
 					sub1.setSku(sku1);
-					sub1.setUnit("");
+					try {
+						sub1.setUnit(unit[i]);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					details.add(sub1);
 				i++;
 			}
@@ -380,6 +385,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	billItem.setName(combo.getProductName());
 	    	        	billItem.setPrice(combo.getOneTimeCharge());
 	    	        	billItem.setQuantity(combo.getProductQuantity());
+	    	        	
 	    	        	billItem.setParentId(0);
 	    	        	billItem = billItemService.saveBillItem(billItem);
 	    	        	parentId = billItem.getId();
@@ -390,6 +396,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 									billItem = new BillItem();
 									billItem.setCode(code[j]);
 									Product pro = productService.getByCode(code[j], language);
+									billItem.setUnit(unit[j]);
 									billItem.setParentId(parentId);
 									billItem.setName(pro.getProductDescription().getName());
 									billItem.setQuantity(quantity[j]);
@@ -546,7 +553,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 								proRela.setCurrency(dbOrder.getCurrency());
 								
 								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
-								
+								proRela.setUnit(sBean.getUnit());
 								ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
 								
 								proRela.setOneTimeCharge(price!=null?price.getProductPriceAmount().intValue():0);
