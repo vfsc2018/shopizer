@@ -123,13 +123,13 @@ td, th {
 					<c:out value="${entity.name}" />
 				</td> 
 				<td> 
-					<c:out value="${entity.quantity}" />
+					<c:out value="${entity.quantity}" /> <c:out value="${entity.unit}" />
 				</td> 
 				<td> 
-					<c:out value="${entity.price}" />
+					
 				</td> 
 				<td> 
-					<sm:monetary value="${totalSub}" currency="${order.order.currency}"/>
+					
 				</td> 
 			</tr>
 			</c:if>

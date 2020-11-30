@@ -28,7 +28,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		StringBuffer sql = new StringBuffer("")
 			.append(" select code,name,sum(quantity) as quantity,sum(quantity*price) as totalMoney from BillItem  ")
 			.append(" where billMaster.id in("+ billIds +") ")
-			.append(" group by code,name ");
+			.append(" group by code,unit,name ");
 
 		List<CollectBill> dataList = new ArrayList<CollectBill>();
 		List<Object[]> results = em.createQuery(sql.toString(), Object[].class).getResultList();

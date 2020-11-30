@@ -583,6 +583,7 @@ function captureOrder(orderId){
 																			<tr>
 																			
 																				<input type="hidden" id="sku" name="sku" value="${entity.sku}" />
+																				<input type="hidden" id="unit" name="unit" value="${subEntity.unit}" />
 																				<input type="hidden" id="productName" name="productName" value="${entity.productName}" />
 																				<td style="width: 100px" >
 																					<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
