@@ -1,13 +1,5 @@
 package com.salesmanager.shop.model.user;
 
-import java.io.Serializable;
-
-/**
- * Object containing password information
- * for change password request
- * @author carlsamson
- *
- */
 public class VnpayResponse {
 
   private String data;

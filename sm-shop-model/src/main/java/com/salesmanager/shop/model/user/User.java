@@ -1,7 +1,5 @@
 package com.salesmanager.shop.model.user;
 
-import java.io.Serializable;
-
 import com.salesmanager.shop.model.entity.Entity;
 
 /**
@@ -9,7 +7,7 @@ import com.salesmanager.shop.model.entity.Entity;
  * @author carlsamson
  *
  */
-public class User extends Entity implements Serializable {
+public class User extends Entity {
 
 	/**
 	 * 

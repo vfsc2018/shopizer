@@ -58,6 +58,7 @@ public class ReadableOrderPopulator extends
 		target.setPaymentType(source.getPaymentType());
 		target.setPaymentModule(source.getPaymentModuleCode());
 		target.setShippingModule(source.getShippingModuleCode());
+		target.setPaymentTime(source.getPaymentTime());
 		
 		if(source.getMerchant()!=null) {
 			ReadableMerchantStorePopulator merchantPopulator = new ReadableMerchantStorePopulator();

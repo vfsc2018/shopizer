@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.shoppingcart;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import com.salesmanager.shop.model.catalog.product.ReadableProduct;
  * @author c.samson
  *
  */
-public class ReadableShoppingCartItem extends ReadableProduct implements Serializable {
+public class ReadableShoppingCartItem extends ReadableProduct {
 
 	/**
 	 * 
@@ -20,7 +19,7 @@ public class ReadableShoppingCartItem extends ReadableProduct implements Seriali
 	private static final long serialVersionUID = 1L;
 	private BigDecimal subTotal;
 	private String displaySubTotal;
-	private List<ReadableShoppingCartAttribute> cartItemattributes = new ArrayList<ReadableShoppingCartAttribute>();
+	private List<ReadableShoppingCartAttribute> cartItemattributes = new ArrayList<>();
 	
 
 	public BigDecimal getSubTotal() {

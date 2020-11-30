@@ -12,7 +12,6 @@ import com.salesmanager.shop.model.content.ContentFile;
 import com.salesmanager.shop.model.content.ContentFolder;
 import com.salesmanager.shop.model.content.PersistableContentEntity;
 
-import com.salesmanager.shop.model.content.PersistableContentPage;
 import com.salesmanager.shop.model.content.ReadableContentBox;
 import com.salesmanager.shop.model.content.ReadableContentEntity;
 import com.salesmanager.shop.model.content.ReadableContentFull;

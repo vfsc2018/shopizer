@@ -31,7 +31,6 @@ import com.salesmanager.shop.admin.model.customer.attribute.CustomerOptionValue;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.user.Sms;
-import com.salesmanager.shop.model.user.UserPassword;
 import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.DateUtil;
@@ -744,8 +743,6 @@ public class CustomerController {
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		
-		
 		
 		try {
 			

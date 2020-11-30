@@ -3,7 +3,7 @@ package com.salesmanager.shop.model.shipping;
 import java.io.Serializable;
 
 public class BoxConfiguration implements Serializable {
-	
+	private static final long serialVersionUID = 1L;
 	private String code;
 	
 	private double boxWidth = 0;

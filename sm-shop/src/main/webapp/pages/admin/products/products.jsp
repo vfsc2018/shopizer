@@ -159,7 +159,7 @@
 
 isc.HLayout.create({
     ID:"pageLayout",
-    width: "700",
+    width: "800",
     height: "600",
     position:"relative",
     members:[
@@ -174,7 +174,8 @@ isc.HLayout.create({
             ]
         }),
         isc.SectionStack.create({
-            ID:"rightSideLayout",
+			ID:"rightSideLayout",
+			width:600,
             visibilityMode:"multiple",
             animateSections:true,
             sections:[

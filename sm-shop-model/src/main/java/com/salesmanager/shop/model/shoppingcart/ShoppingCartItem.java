@@ -1,13 +1,12 @@
 package com.salesmanager.shop.model.shoppingcart;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 import com.salesmanager.shop.model.entity.ShopEntity;
 
 
-public class ShoppingCartItem extends ShopEntity implements Serializable {
+public class ShoppingCartItem extends ShopEntity {
 	
 	/**
 	 * 

@@ -1,9 +1,5 @@
 package com.salesmanager.shop.model.user;
 
-import java.util.ArrayList;
-import java.util.List;
-import com.salesmanager.shop.model.security.ReadableGroup;
-
 public class UserEntity extends User {
 
   /**
