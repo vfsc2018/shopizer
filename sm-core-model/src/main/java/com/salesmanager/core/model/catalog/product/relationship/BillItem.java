@@ -24,7 +24,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "BILL_ITEM", schema=SchemaConstant.SALESMANAGER_SCHEMA)
-public class BillItem  extends SalesManagerEntity<Integer, BillItem>  implements Auditable {
+public class BillItem  extends SalesManagerEntity<Long, BillItem>  implements Auditable {
 
 	
 	/**
@@ -39,7 +39,7 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem>  implements
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
 	pkColumnValue = "BILL_ITEM_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
-	private Integer id;
+	private Long id;
 	
 
     @Embedded
@@ -78,25 +78,23 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem>  implements
 	private String unit;	
 	
 	@Column(name="PARENT_ID")
-	private Integer parentId;	
+	private Long parentId;	
 	
 	
 
-	public Integer getParentId() {
+	public Long getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Integer parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}
 
-	@Override
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	@Override
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

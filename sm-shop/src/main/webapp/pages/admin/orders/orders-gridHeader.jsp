@@ -8,7 +8,7 @@
 
 	{title:"<s:message code="label.entity.id" text="Id"/>", name:"orderId", width:50},
     {title:"<s:message code="label.order.date" text="Date"/>", name:"date"},
-    {title:"<s:message code="label.purchased" text="Purchased"/>", name:"purchased",type:"boolean"},
+    {title:"<s:message code="label.purchased" text="Purchased"/>", name:"purchased",type:"boolean", canFilter:false},
     {title:"<s:message code="label.customer.name" text="Customer"/>", name:"customer"},
     {title:"<s:message code="label.order.totals" text="Total"/>", name:"amount", align: "right", canFilter:false},
     {title:"<s:message code="label.entity.fromDate" text="From date"/>", name:"startDate"},

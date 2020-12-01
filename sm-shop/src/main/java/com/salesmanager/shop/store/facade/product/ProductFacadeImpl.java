@@ -424,20 +424,30 @@ public class ProductFacadeImpl implements ProductFacade {
 	}
 
 	@Override
-	public List<ReadableProductReview> getProductReviews(Product product, MerchantStore store, Language language)
-			throws Exception {
+	public List<ReadableProductReview> getProductReviews(Product product, Integer start, Integer count, MerchantStore store, Language language)throws Exception {
 
 		List<ProductReview> reviews = productReviewService.getByProduct(product);
 
 		ReadableProductReviewPopulator populator = new ReadableProductReviewPopulator();
 
-		List<ReadableProductReview> productReviews = new ArrayList<ReadableProductReview>();
+		List<ReadableProductReview> productReviews = new ArrayList<>();
 
-		for (ProductReview review : reviews) {
-			ReadableProductReview readableReview = new ReadableProductReview();
-			populator.populate(review, readableReview, store, language);
-			productReviews.add(readableReview);
+		if(start==null) start = 0;
+		for (int i=start;i<reviews.size();i++) {
+			if(count==null || i-start<count){
+				ReadableProductReview readableReview = new ReadableProductReview();
+				populator.populate(reviews.get(i), readableReview, store, language);
+				productReviews.add(readableReview);
+			}else{
+				break;
+			}
 		}
+
+		// for (ProductReview review : reviews) {
+		// 	ReadableProductReview readableReview = new ReadableProductReview();
+		// 	populator.populate(review, readableReview, store, language);
+		// 	productReviews.add(readableReview);
+		// }
 
 		return productReviews;
 	}
@@ -455,8 +465,7 @@ public class ProductFacadeImpl implements ProductFacade {
 			List<ReadableProduct> items = new ArrayList<ReadableProduct>();
 			for (ProductRelationship relationship : relatedItems) {
 				Product relatedProduct = relationship.getRelatedProduct();
-				ReadableProduct proxyProduct = populator.populate(relatedProduct, new ReadableProduct(), store,
-						language);
+				ReadableProduct proxyProduct = populator.populate(relatedProduct, new ReadableProduct(), store, language);
 				items.add(proxyProduct);
 			}
 			return items;

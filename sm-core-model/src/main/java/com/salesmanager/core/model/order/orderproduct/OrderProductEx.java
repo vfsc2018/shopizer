@@ -25,9 +25,9 @@ public class OrderProductEx implements Serializable {
 	List<OrderStatus> orderStatusList = Arrays.asList(OrderStatus.values()); 
 	
 	
-	private int id;
+	private Long id;
 	
-	private int parentId;
+	private Long parentId;
 	private String phone;
 	private String address;
 
@@ -59,16 +59,16 @@ public class OrderProductEx implements Serializable {
 	}
 	private String description;
 	
-	public int getParentId() {
+	public Long getParentId() {
 		return parentId;
 	}
-	public void setParentId(int parentId) {
+	public void setParentId(Long parentId) {
 		this.parentId = parentId;
 	}	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public List<OrderStatus> getOrderStatusList() {

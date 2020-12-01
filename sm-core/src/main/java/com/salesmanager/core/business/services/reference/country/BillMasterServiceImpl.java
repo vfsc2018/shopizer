@@ -16,7 +16,7 @@ import com.salesmanager.core.model.order.BillMasterList;
 import com.salesmanager.core.model.order.CollectBill;
 
 @Service("billMasterService")
-public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Integer, BillMaster> implements BillMasterService {
+public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Long, BillMaster> implements BillMasterService {
 
 	private BillMasterRepository billMasterRepository;
 

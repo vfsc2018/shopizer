@@ -312,20 +312,20 @@ public class CustomerController {
 			 result.addError(error);
 		}
 		 
-		if( customer.getShowBillingStateList().equalsIgnoreCase("yes" ) && customer.getBilling().getZone().getCode() == null ){
-			 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
-			 result.addError(error);
+		// if( customer.getShowBillingStateList().equalsIgnoreCase("yes" ) && customer.getBilling().getZone().getCode() == null ){
+		// 	 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
+		// 	 result.addError(error);
 			 
-		}else if( customer.getShowBillingStateList().equalsIgnoreCase("no" ) && customer.getBilling().getState() == null ){
-				 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
-				 result.addError(error);
+		// }else if( customer.getShowBillingStateList().equalsIgnoreCase("no" ) && customer.getBilling().getState() == null ){
+		// 		 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
+		// 		 result.addError(error);
 			
-		}
+		// }
 		 
-		if( StringUtils.isBlank(customer.getBilling().getPostalCode() ) ){
-			 ObjectError error = new ObjectError("billing.FirstName", messages.getMessage("NotEmpty.customer.billingPostCode", locale));
-			 result.addError(error);
-		}
+		// if( StringUtils.isBlank(customer.getBilling().getPostalCode() ) ){
+		// 	 ObjectError error = new ObjectError("billing.FirstName", messages.getMessage("NotEmpty.customer.billingPostCode", locale));
+		// 	 result.addError(error);
+		// }
 		
 		//check if error from the @valid
 		if (result.hasErrors()) {

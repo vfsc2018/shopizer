@@ -34,7 +34,7 @@ import com.salesmanager.core.model.order.Order;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "BILL_MASTER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
 @Cacheable
-public class BillMaster extends SalesManagerEntity<Integer, BillMaster>  implements Auditable {
+public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements Auditable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -42,7 +42,7 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster>  impleme
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT",
 	pkColumnValue = "BILL_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
-	private Integer id;
+	private Long id;
 	
     @Embedded
 	private AuditSection auditSection = new AuditSection();
@@ -158,15 +158,11 @@ public class BillMaster extends SalesManagerEntity<Integer, BillMaster>  impleme
 	public BillMaster() {
 	}
 
-
-
-	@Override
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	@Override
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

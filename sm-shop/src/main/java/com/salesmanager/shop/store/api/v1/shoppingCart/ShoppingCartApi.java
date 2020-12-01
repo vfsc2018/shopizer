@@ -101,7 +101,7 @@ public class ShoppingCartApi {
           @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
           @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
-  public ResponseEntity<ReadableShoppingCart> modifyCart(
+  public ResponseEntity<?> modifyCart(
           @PathVariable String code,
           @Valid @RequestBody PersistableShoppingCartItem shoppingCartItem,
           @ApiIgnore MerchantStore merchantStore,
@@ -109,11 +109,10 @@ public class ShoppingCartApi {
           HttpServletResponse response) {
 
     try {
-      ReadableShoppingCart cart =
-              shoppingCartFacade.modifyCart(code, shoppingCartItem, merchantStore, language);
+      ReadableShoppingCart cart = shoppingCartFacade.modifyCart(code, shoppingCartItem, merchantStore, language);
 
       if(cart == null) {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity("{}", HttpStatus.OK);
       }
 
       return new ResponseEntity<>(cart, HttpStatus.CREATED);
