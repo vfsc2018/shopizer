@@ -8,7 +8,7 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 
 
-public interface BillItemService extends SalesManagerEntityService<Integer, BillItem> {
-	List<BillItem> getItemByBillId(Integer billId);
+public interface BillItemService extends SalesManagerEntityService<Long, BillItem> {
+	List<BillItem> getItemByBillId(Long billId);
 	BillItem saveBillItem(BillItem form) throws BindException;
 }

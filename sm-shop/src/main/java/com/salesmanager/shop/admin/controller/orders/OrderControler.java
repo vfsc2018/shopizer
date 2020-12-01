@@ -376,7 +376,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						
 	        		billMaster = billMasterService.saveAnnouncement(billMaster);
 	    	        //INSERT BILL ITEM
-	        		BillItem billItem = null; int parentId=0;
+	        		BillItem billItem = null; long parentId=0;
 	        		for(OrderProduct combo : dbOrder.getOrderProducts()){
 	        			//INSERT PARENT
 	    	        	billItem = new BillItem();
@@ -386,7 +386,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	billItem.setPrice(combo.getOneTimeCharge());
 	    	        	billItem.setQuantity(new Double(combo.getProductQuantity()));
 	    	        	
-	    	        	billItem.setParentId(0);
+	    	        	billItem.setParentId(0L);
 	    	        	billItem = billItemService.saveBillItem(billItem);
 	    	        	parentId = billItem.getId();
 	    	        	//INSERT ITEM SUB

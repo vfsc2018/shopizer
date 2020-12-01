@@ -312,20 +312,20 @@ public class CustomerController {
 			 result.addError(error);
 		}
 		 
-		if( customer.getShowBillingStateList().equalsIgnoreCase("yes" ) && customer.getBilling().getZone().getCode() == null ){
-			 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
-			 result.addError(error);
+		// if( customer.getShowBillingStateList().equalsIgnoreCase("yes" ) && customer.getBilling().getZone().getCode() == null ){
+		// 	 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
+		// 	 result.addError(error);
 			 
-		}else if( customer.getShowBillingStateList().equalsIgnoreCase("no" ) && customer.getBilling().getState() == null ){
-				 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
-				 result.addError(error);
+		// }else if( customer.getShowBillingStateList().equalsIgnoreCase("no" ) && customer.getBilling().getState() == null ){
+		// 		 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.customer.billingState", locale));
+		// 		 result.addError(error);
 			
-		}
+		// }
 		 
-		if( StringUtils.isBlank(customer.getBilling().getPostalCode() ) ){
-			 ObjectError error = new ObjectError("billing.FirstName", messages.getMessage("NotEmpty.customer.billingPostCode", locale));
-			 result.addError(error);
-		}
+		// if( StringUtils.isBlank(customer.getBilling().getPostalCode() ) ){
+		// 	 ObjectError error = new ObjectError("billing.FirstName", messages.getMessage("NotEmpty.customer.billingPostCode", locale));
+		// 	 result.addError(error);
+		// }
 		
 		//check if error from the @valid
 		if (result.hasErrors()) {
@@ -633,6 +633,7 @@ public class CustomerController {
 			String	phone = request.getParameter("phone");
 			String	cid = request.getParameter("id");
 			String	date = request.getParameter("date");
+			String	address = request.getParameter("address");
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}
@@ -640,7 +641,10 @@ public class CustomerController {
 			CustomerCriteria criteria = new CustomerCriteria();
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-			
+
+			if(!StringUtils.isBlank(address)) {
+				criteria.setAddress(address);
+			}
 			if(!StringUtils.isBlank(date)) {
 				criteria.setDate(date);
 			}

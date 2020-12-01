@@ -100,9 +100,15 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
-			String nameQuery =" and o.billing.firstName like:nm or o.billing.lastName like:nm";
+			String nameQuery =" and (o.billing.firstName like:nm or o.billing.lastName like:nm) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getAddress())) {
+			String nameParam = " and o.billing.address like:addr";
+			countBuilderWhere.append(nameParam);
+			objectBuilderWhere.append(nameParam);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getPaymentMethod())) {
@@ -146,6 +152,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		countQ.setParameter("mId", store.getId());
 		objectQ.setParameter("mId", store.getId());
 		
+		if(criteria.getAddress()!=null) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getAddress()).append("%").toString();
+			countQ.setParameter("addr",nameParam);
+			objectQ.setParameter("addr",nameParam);
+		}
 
 		if(criteria.getDate()!=null) {
 			countQ.setParameter("dc",criteria.getDate());
@@ -266,6 +277,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
 		}
+
+
+		if(!StringUtils.isBlank(criteria.getAddress())) {
+			String nameQuery =" and o.billing.address like:addr";
+			countBuilderSelect.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
 		
 		if(!StringUtils.isEmpty(criteria.getEmail())) {
 			String nameQuery =  " and o.customerEmailAddress like:email";
@@ -309,7 +327,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			countQ.setParameter("name", like(criteria.getCustomerName()));
 			objectQ.setParameter("name", like(criteria.getCustomerName()));
 		}
-		
+		if(!StringUtils.isEmpty(criteria.getAddress())) {
+			countQ.setParameter("addr", like(criteria.getAddress()));
+			objectQ.setParameter("addr", like(criteria.getAddress()));
+		}
 		//email
 		if(!StringUtils.isEmpty(criteria.getEmail())) {
 			countQ.setParameter("email", like(criteria.getEmail()));

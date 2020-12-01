@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.system;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -32,7 +31,7 @@ import com.salesmanager.core.model.user.User;
 
 @Table(name = "SYSTEM_NOTIFICATION", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
     @UniqueConstraint(columnNames = {"MERCHANT_ID", "CONFIG_KEY"}) )
-public class SystemNotification extends SalesManagerEntity<Long, SystemNotification> implements Serializable, Auditable {
+public class SystemNotification extends SalesManagerEntity<Long, SystemNotification> implements Auditable {
 
 	/**
 	 * 

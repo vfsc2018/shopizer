@@ -460,22 +460,7 @@ function setCredentials(customerId, userName, password){
 	       							</form:select>
                                  	<span class="help-inline"><form:errors path="billing.country.isoCode" cssClass="error" /></span>
 	                        </div>  
-	                    </div> 
-	                 
-	                    <div class="control-group"> 
-	                        <label><s:message code="label.customer.billing.zone" text="State / Province"/></label>
-	                        <div class="controls">		       							
-	       							<form:select cssClass="billing-zone-list" path="billing.zone.code"/>
-                      				<form:input  class="input-large highlight" id="bilstateOther" maxlength="100"  name="bilstateOther" path="billing.state" /> 				       							
-                                 	<span class="help-inline"><form:errors path="billing.zone.code" cssClass="error" /></span>
-	                        </div>
-	                    </div>  
-	                  
-	                    <div class="controls">
-	                   		<label><s:message code="label.customer.billing.postalcode" text="Postal code"/></label>
-			 				<form:input id="billingPostalCode" cssClass="input-large highlight" maxlength="20"  path="billing.postalCode"/>
-			 				<span class="help-inline"><form:errors path="billing.postalCode" cssClass="error" /></span>
-			            </div>	     
+	                    </div>	     
 		              	            	            	            				
 				  </address>		
 					
@@ -537,21 +522,7 @@ function setCredentials(customerId, userName, password){
                                  	<span class="help-inline"><form:errors path="delivery.country.isoCode" cssClass="error" /></span>
 	                        </div>
 	                    </div>  
-     	  	         
-	                    <div class="control-group"> 
-	                        <label><s:message code="label.customer.shipping.zone" text="State / Province"/></label>
-	                        <div class="controls">		       							
-	       							<form:select cssClass="delivery-zone-list" path="delivery.zone.code"/>
-                      				<form:input  class="input-large" id="delstateOther"  maxlength="100" name="delstateOther" path="delivery.state" /> 				       							
-                                 	<span class="help-inline"><form:errors path="delivery.zone.code" cssClass="error" /></span>
-	                        </div> 
-	                    </div>  
-	                    
-	                    <div class="controls">
-	                   		<label><s:message code="label.customer.shipping.postalcode" text="Postal code"/></label>
-			 				<form:input id="deliveryPostalCode" cssClass="input-large" maxlength="20"  path="delivery.postalCode"/>
-			 				<span class="help-inline"><form:errors path="delivery.postalCode" cssClass="error" /></span>
-			            </div>	       	            	            	            				
+     	  	         	       	            	            	            				
 				</address>
 				
 				<c:if test="${fn:length(groups)>0}">

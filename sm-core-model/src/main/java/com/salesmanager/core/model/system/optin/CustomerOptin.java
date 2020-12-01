@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.system.optin;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -35,7 +34,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "CUSTOMER_OPTIN", schema= SchemaConstant.SALESMANAGER_SCHEMA,uniqueConstraints=
 @UniqueConstraint(columnNames = {"EMAIL", "OPTIN_ID"}))
-public class CustomerOptin extends SalesManagerEntity<Long, CustomerOptin> implements Serializable {
+public class CustomerOptin extends SalesManagerEntity<Long, CustomerOptin> {
 
 	
 

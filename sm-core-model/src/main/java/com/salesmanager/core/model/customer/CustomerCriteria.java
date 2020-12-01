@@ -12,6 +12,13 @@ public class CustomerCriteria extends Criteria {
 	private Long id;
 	private String phone;
 	private String date;
+	private String address;
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public String getDate() {
 		return date;
 	}

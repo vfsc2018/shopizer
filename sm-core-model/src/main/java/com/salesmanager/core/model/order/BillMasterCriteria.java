@@ -9,17 +9,28 @@ public class BillMasterCriteria extends Criteria {
 	private Long id;
 	private Long orderId;
 	private String status = null;
-	
+	private String customerName;
 	private String phone;
 	private String date;
-
+	private String address;
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	public String getDate() {
 		return date;
 	}
 	public void setDate(String date) {
 		this.date = date;
 	}
-
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+	public String getCustomerName() {
+		return customerName;
+	}
 	public String getPhone() {
 		return phone;
 	}

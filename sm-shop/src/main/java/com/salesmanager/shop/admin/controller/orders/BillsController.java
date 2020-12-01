@@ -99,9 +99,8 @@ public class BillsController {
 	}
 
 	@PreAuthorize("hasRole('ORDER')")
-	@SuppressWarnings({ "unchecked", "unused" })
 	@RequestMapping(value = "/admin/bills/paging.html", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> pageOrders(
+	public @ResponseBody ResponseEntity<String> pageBills(
 			HttpServletRequest request, HttpServletResponse response,
 			Locale locale) {
 
@@ -116,12 +115,13 @@ public class BillsController {
 			String paymentModule = request.getParameter("paymentModule");
 			String sku = request.getParameter("sku");
 			String productName = request.getParameter("productName");
-
+			String customerName = request.getParameter("customer");
 			String billIdRq = request.getParameter("id");
 			String orderIdRq = request.getParameter("orderId");
 			String statusRq = request.getParameter("status");
 			String phone = request.getParameter("phone");
 			String date = request.getParameter("date");
+			String address = request.getParameter("address");
 			
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
@@ -135,7 +135,12 @@ public class BillsController {
 			if(!StringUtils.isBlank(date)) {
 				criteria.setDate(date);
 			}
-
+			if(!StringUtils.isBlank(customerName)) {
+				criteria.setCustomerName(customerName);
+			}
+			if(!StringUtils.isBlank(address)){
+				criteria.setAddress(address);
+			}
 			if(!StringUtils.isBlank(phone)) {
 				criteria.setPhone(phone);
 			}
@@ -232,7 +237,7 @@ public class BillsController {
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/bills/viewBill.html", method = RequestMethod.GET)
-	public String viewBill(@RequestParam("id") int billId, Model model,
+	public String viewBill(@RequestParam("id") Long billId, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
@@ -325,7 +330,7 @@ public class BillsController {
 		try {
 			Order order = orderService.getById(orderId);
 			// Call API
-			BillMaster bill = billService.getById(id.intValue());
+			BillMaster bill = billService.getById(id);
 			bill.setOrder(order);
 			bill.setStatus(status);
 			bill.setDescription(description);
@@ -346,7 +351,7 @@ public class BillsController {
 			int j = 0;
 			for (Long itemId : itemIds) {
 				sub = new BillItem();
-				sub = billItemService.getById(itemId.intValue());
+				sub = billItemService.getById(itemId);
 				sub.setCode(code[j]);
 				sub.setName(productService.getByCode(sub.getCode(), language)
 						.getProductDescription().getName());
@@ -426,7 +431,7 @@ public class BillsController {
 	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/bills/printBill.html", method = RequestMethod.GET)
-	public String printBill(@RequestParam("id") Integer billId, Model model,
+	public String printBill(@RequestParam("id") Long billId, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 

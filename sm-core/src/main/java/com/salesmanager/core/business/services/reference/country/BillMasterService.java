@@ -11,7 +11,7 @@ import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
 import com.salesmanager.core.model.order.CollectBill;
 
-public interface BillMasterService extends SalesManagerEntityService<Integer, BillMaster> {
+public interface BillMasterService extends SalesManagerEntityService<Long, BillMaster> {
 	
 	public BillMaster saveAnnouncement(BillMaster form) throws BindException;
 	public Long countByOrderId(Long orderId);

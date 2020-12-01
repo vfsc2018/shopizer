@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.system;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -34,8 +33,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "MERCHANT_CONFIGURATION", schema = SchemaConstant.SALESMANAGER_SCHEMA,
     uniqueConstraints = @UniqueConstraint(columnNames = {"MERCHANT_ID", "CONFIG_KEY"}))
-public class MerchantConfiguration extends SalesManagerEntity<Long, MerchantConfiguration>
-    implements Serializable, Auditable {
+public class MerchantConfiguration extends SalesManagerEntity<Long, MerchantConfiguration> implements Auditable {
 
   /**
    * 
@@ -63,7 +61,7 @@ public class MerchantConfiguration extends SalesManagerEntity<Long, MerchantConf
    * activate and deactivate configuration
    */
   @Column(name = "ACTIVE", nullable = true)
-  private Boolean active = new Boolean(false);
+  private Boolean active = false;
 
 
   @Column(name = "VALUE")

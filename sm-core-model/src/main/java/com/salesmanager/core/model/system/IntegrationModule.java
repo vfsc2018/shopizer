@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.system;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -31,7 +30,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Table(name = "MODULE_CONFIGURATION", schema = SchemaConstant.SALESMANAGER_SCHEMA, indexes = {
 		@Index(name = "MODULE_CONFIGURATION_MODULE", columnList = "MODULE") })
 
-public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModule> implements Serializable, Auditable {
+public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModule> implements Auditable {
 
 	/**
 	 * 

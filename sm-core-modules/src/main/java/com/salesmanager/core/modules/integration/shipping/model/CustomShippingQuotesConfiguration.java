@@ -22,10 +22,6 @@ public class CustomShippingQuotesConfiguration extends IntegrationConfiguration 
 	
 	@SuppressWarnings("unchecked")
 	public String toJSONString() {
-		//JSONObject data = new JSONObject();
-		
-		//data.put("active", super.isActive());
-		//data.put("moduleCode", this.getModuleCode());
 		
 		
 		StringBuilder returnString = new StringBuilder();
@@ -36,7 +32,7 @@ public class CustomShippingQuotesConfiguration extends IntegrationConfiguration 
 		
 
 
-		if(regions!=null && regions.size()>0) {
+		if(regions!=null && !regions.isEmpty()) {
 			
 			returnString.append(",");
 			//org.json.simple.JSONArray array=new org.json.simple.JSONArray();

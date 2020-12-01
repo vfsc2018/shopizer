@@ -156,15 +156,17 @@ public class PaymentApi {
         }
         Date now = new Date();
         order.setPaymentTime(now);
+        
         try{
+            LOGGER.info(String.format("VNPAY buy %s - payment %s - money %s", order.getAuditSection().getDateCreated(), date.toString(), now.toString()));
             orderService.saveOrUpdate(order);
-            LOGGER.info(String.format("VNPAY: from %s to %s", date.toString(), now.toString()));
+            return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.OK);
         }catch(Exception e){
-            LOGGER.error(String.format("VNPAY (from %s to %s) - setPaymentTime: %s", date.toString(), order.getPaymentTime().toString(), e.toString()));
-            return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+            LOGGER.error(String.format("VNPAY setPaymentTime: %s: %s", now.toString(), e.getMessage()));
+            return new ResponseEntity<>("{\"paymentTime\":" + e.getMessage() + "}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.OK);
+        
 	}
   
 }

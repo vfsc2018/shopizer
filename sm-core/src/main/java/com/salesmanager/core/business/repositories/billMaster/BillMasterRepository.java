@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import com.salesmanager.core.model.catalog.product.BillMaster;
 
 
-public interface BillMasterRepository extends JpaRepository<BillMaster, Integer>,BillMasterRepositoryCustom {
+public interface BillMasterRepository extends JpaRepository<BillMaster, Long>,BillMasterRepositoryCustom {
 //	
 
 	@Query("SELECT COUNT(u) FROM BillMaster u WHERE u.order.id=:pid")

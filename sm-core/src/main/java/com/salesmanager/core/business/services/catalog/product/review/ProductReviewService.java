@@ -8,8 +8,7 @@ import com.salesmanager.core.model.catalog.product.review.ProductReview;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.reference.language.Language;
 
-public interface ProductReviewService extends
-		SalesManagerEntityService<Long, ProductReview> {
+public interface ProductReviewService extends SalesManagerEntityService<Long, ProductReview> {
 	
 	
 	List<ProductReview> getByCustomer(Customer customer);

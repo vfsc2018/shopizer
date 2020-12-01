@@ -196,8 +196,7 @@ public interface ProductFacade {
    * @return
    * @throws Exception
    */
-  List<ReadableProductReview> getProductReviews(Product product, MerchantStore store,
-      Language language) throws Exception;
+  List<ReadableProductReview> getProductReviews(Product product, Integer start, Integer count, MerchantStore store, Language language) throws Exception;
 
   /**
    * validates if product exists

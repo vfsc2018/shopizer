@@ -12,14 +12,14 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 
 @Service("billItemService")
-public class BillItemServiceImpl extends SalesManagerEntityServiceImpl<Integer, BillItem>
+public class BillItemServiceImpl extends SalesManagerEntityServiceImpl<Long, BillItem>
 		implements BillItemService {
 	
 
 	private BillItemRepository billItemRepository;
 	
 	
-	public List<BillItem> getItemByBillId(Integer billId){
+	public List<BillItem> getItemByBillId(Long billId){
 		return billItemRepository.getItemByBillId(billId);
 	}
 
