@@ -67,7 +67,7 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem>  implements
 	private String name;	
 	
 	@Column(name="QUANTITY")
-	private int quantity;	
+	private Double quantity;	
 
 	
 	@Column(name="PRICE")
@@ -133,12 +133,12 @@ public class BillItem  extends SalesManagerEntity<Integer, BillItem>  implements
 	}
 
 
-	public int getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
 
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
 

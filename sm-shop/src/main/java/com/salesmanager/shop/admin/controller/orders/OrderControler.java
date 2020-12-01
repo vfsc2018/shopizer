@@ -268,7 +268,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			@RequestParam("productName") String[] productNames,
 			@RequestParam("code") String[] code,
 			@RequestParam("unit") String[] unit,
-			@RequestParam("quantity") int[] quantity,
+			@RequestParam("quantity") Double[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("orderHistoryComment") String orderHistoryComment,
 			@RequestParam("dateExported") String dateExported,
@@ -371,8 +371,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	        		billMaster.setStatus(status);
 					billMaster.setDescription(orderHistoryComment);
 	        		
-	        			billMaster.setPhone(phone); // dbOrder.getBilling().getTelephone());
-						billMaster.setAddress(address);// dbOrder.getBilling().getAddress());
+        			billMaster.setPhone(phone); // dbOrder.getBilling().getTelephone());
+					billMaster.setAddress(address);// dbOrder.getBilling().getAddress());
 						
 	        		billMaster = billMasterService.saveAnnouncement(billMaster);
 	    	        //INSERT BILL ITEM
@@ -384,7 +384,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	billItem.setCode(combo.getSku());
 	    	        	billItem.setName(combo.getProductName());
 	    	        	billItem.setPrice(combo.getOneTimeCharge());
-	    	        	billItem.setQuantity(combo.getProductQuantity());
+	    	        	billItem.setQuantity(new Double(combo.getProductQuantity()));
 	    	        	
 	    	        	billItem.setParentId(0);
 	    	        	billItem = billItemService.saveBillItem(billItem);
@@ -437,7 +437,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	@ResponseBody
 	@RequestMapping(value="/admin/orders/validationCode.html", method=RequestMethod.POST)
 	public OrderProductEx getData(@RequestParam("orderId") long orderId,
-			@RequestParam("quantity") int quantity,
+			@RequestParam("quantity") Double quantity,
 			HttpServletRequest request, 
 			HttpServletResponse response) {
 		
@@ -533,9 +533,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						ordernew.setProductName(bean.getProductName());
 						ordernew.setSku(bean.getSku());
 						ordernew.setCurrency(dbOrder.getCurrency());
-						ordernew.setProductQuantity(bean.getProductQuantity());
+						ordernew.setProductQuantity(new Double(bean.getProductQuantity()));
 						ordernew.setOneTimeCharge(bean.getOneTimeCharge().intValue());
-						ordernew.setTotal(bean.getOneTimeCharge().intValue() * bean.getProductQuantity());
+						ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())).doubleValue());
 						
 		
 						if(dbProduct!=null){
@@ -552,7 +552,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 								}
 								proRela.setCurrency(dbOrder.getCurrency());
 								
-								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
+								proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity():0);
 								proRela.setUnit(sBean.getUnit());
 								ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
 								

@@ -45,10 +45,10 @@ public class OrderProductEx implements Serializable {
 	}
 	private String productName;
 	private String sku;
-	private int productQuantity;
+	private Double productQuantity;
 	private Integer oneTimeCharge;
 	private Currency currency;
-	private Integer total;
+	private Double total;
 	private String status;
 	private String unit;
 	public String getUnit() {
@@ -120,10 +120,10 @@ public class OrderProductEx implements Serializable {
 	public void setSku(String sku) {
 		this.sku = sku;
 	}
-	public int getProductQuantity() {
+	public Double getProductQuantity() {
 		return productQuantity;
 	}
-	public void setProductQuantity(int productQuantity) {
+	public void setProductQuantity(Double productQuantity) {
 		this.productQuantity = productQuantity;
 	}
 	public Integer getOneTimeCharge() {
@@ -138,10 +138,10 @@ public class OrderProductEx implements Serializable {
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-	public Integer getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(Integer total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 
