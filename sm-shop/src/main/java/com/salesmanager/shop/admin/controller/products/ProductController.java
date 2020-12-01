@@ -355,7 +355,7 @@ public class ProductController {
 			//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
 			//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
 			
-			Integer totalMoney = new Integer("0");
+			Double totalMoney = new Double("0");
 			if(dbProduct!=null){
 				
 				List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
@@ -371,7 +371,7 @@ public class ProductController {
 					}
 					proRela.setCurrency(sessionStore.getCurrency());
 					
-					proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity().intValue():0);
+					proRela.setProductQuantity(sBean.getQuantity()!=null?sBean.getQuantity():0);
 					
 					ProductPrice price = productPriceService.getProductPriceByid(sBean.getRelatedProduct().getId());
 					

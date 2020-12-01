@@ -262,7 +262,7 @@ public class BillsController {
 			order.setBilling(dbOrder.getBilling());
 			order.setDelivery(dbOrder.getDelivery());
 
-			Integer totalMoney = 0;
+			Double totalMoney = new Double(0);
 
 			OrderProductEx ordernew = new OrderProductEx();
 			ordernew.setId(bill.getId());
@@ -311,7 +311,7 @@ public class BillsController {
 			@RequestParam("id") Long id, @RequestParam("orderId") Long orderId,
 			@RequestParam("itemId") Long[] itemIds,
 			@RequestParam("code") String[] code,
-			@RequestParam("quantity") int[] quantity,
+			@RequestParam("quantity") Double[] quantity,
 			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
 			@RequestParam("description") String description,
 			@RequestParam("dateExported") String dateExported,
