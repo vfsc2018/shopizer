@@ -17,23 +17,23 @@ public class CollectBill {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getQuantity() {
+	public Double getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(int quantity) {
+	public void setQuantity(Double quantity) {
 		this.quantity = quantity;
 	}
-	public BigDecimal getTotalMoney() {
+	public Double getTotalMoney() {
 		return totalMoney;
 	}
-	public void setTotalMoney(BigDecimal totalMoney) {
+	public void setTotalMoney(Double totalMoney) {
 		this.totalMoney = totalMoney;
 	}
 
 	private String code;
 	private String name;
-	private int quantity;
-	private BigDecimal totalMoney;
+	private Double quantity;
+	private Double totalMoney;
 
 
 }

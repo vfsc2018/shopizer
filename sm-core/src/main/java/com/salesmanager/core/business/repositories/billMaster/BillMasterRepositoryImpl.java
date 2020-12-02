@@ -36,8 +36,8 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			CollectBill bean = new CollectBill();
 			bean.setCode((String) row[0]);
 			bean.setName((String) row[1]);
-			bean.setQuantity(((Long) row[2]).intValue());
-			bean.setTotalMoney((BigDecimal) row[3]);
+			bean.setQuantity((Double) row[2]);
+			bean.setTotalMoney((Double) row[3]);
 			dataList.add(bean);
 		}
 		
