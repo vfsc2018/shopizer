@@ -45,7 +45,28 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		
 	}
     
-    
+	@Override
+	public List<CollectBill> collectOrder(String orderIds) {
+		StringBuffer sql = new StringBuffer("")
+			.append(" select sku,productName,sum(productQuantity),sum(productQuantity*oneTimeCharge) as totalMoney from OrderProduct ")
+			.append(" where order.id in("+ orderIds +") ")
+			.append(" group by sku,productName ");
+
+		List<CollectBill> dataList = new ArrayList<CollectBill>();
+		List<Object[]> results = em.createQuery(sql.toString(), Object[].class).getResultList();
+		for (Object[] row : results) {
+			CollectBill bean = new CollectBill();
+			bean.setCode((String) row[0]);
+			bean.setName((String) row[1]);
+			bean.setQuantity(((Long) row[2]).doubleValue());
+			bean.setTotalMoney(((BigDecimal) row[3]).doubleValue());
+			dataList.add(bean);
+		}
+		
+		return dataList;
+		
+	}
+	
     
 	@SuppressWarnings("unchecked")
 	@Override

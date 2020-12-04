@@ -18,4 +18,5 @@ public interface BillMasterService extends SalesManagerEntityService<Long, BillM
 	public List<BillMaster> findByOrderId(Long pid);
 	BillMasterList getListByStore2(MerchantStore store, BillMasterCriteria criteria);
 	List<CollectBill> collectBill(String billIds);
+	List<CollectBill> collectOrder(String orderIds);
 }

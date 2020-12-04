@@ -15,4 +15,5 @@ public interface BillMasterRepositoryCustom {
 	//CustomerList listByStore(MerchantStore store, CustomerCriteria criteria);
 	BillMasterList listByStore2(MerchantStore store, BillMasterCriteria criteria);
 	List<CollectBill> collectBill(String billIds);
+	public List<CollectBill> collectOrder(String orderIds);
 }

@@ -2,12 +2,15 @@ package com.salesmanager.shop.admin.controller.orders;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.services.reference.country.BillMasterService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.CollectBill;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.OrderList;
@@ -16,6 +19,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +32,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -52,6 +59,9 @@ public class OrdersController {
 	@Inject
 	OrderService orderService;
 	
+	
+	@Inject
+	BillMasterService billService;
 	@Inject
 	LabelUtils messages;
 	
@@ -153,7 +163,9 @@ public class OrdersController {
 
 
 			OrderList orderList = orderService.listByStore(store, criteria);
-		
+			request.getSession().setAttribute("STORE_ORDERDATA",orderList.getOrders());
+			
+			
 			if(orderList.getOrders()!=null) {	
 				resp.setTotalRow(orderList.getTotalCount());
 
@@ -205,6 +217,63 @@ public class OrdersController {
 
 		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 	}
+	
+	
+
+	@RequestMapping(value = "/admin/orders/reportOrder.html", method = RequestMethod.GET)
+	public String reportBill(@RequestParam("id") Integer billId,Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// display menu
+		setMenu(model, request);
+		List<Order> dataStore = new ArrayList<Order>();
+		try {
+			dataStore = (List<Order>)request.getSession().getAttribute("STORE_ORDERDATA");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("data",dataStore);
+		
+		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		model.addAttribute("currency",sessionStore.getCurrency());
+		
+		return "admin-orders-report-order";
+	}
+	
+	
+	@RequestMapping(value = "/admin/orders/collectOrder.html", method = RequestMethod.GET)
+	public String collectBill(@RequestParam("id") Integer billId,Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// display menu
+		setMenu(model, request);
+		List<Order> dataStore = new ArrayList<Order>();
+		List<CollectBill> datas = new ArrayList<CollectBill>();
+		try {
+			dataStore = (List<Order>)request.getSession().getAttribute("STORE_ORDERDATA");
+			String billIds ="";
+			for(Order billMaster:dataStore){
+				if(billIds.equals("")) {
+					billIds = billMaster.getId() +"";
+				}else{
+					billIds +=","+billMaster.getId();
+				}
+			}
+			
+			datas = billService.collectOrder(billIds);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("data",datas);
+		
+		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		model.addAttribute("currency",sessionStore.getCurrency());
+		
+		
+		return "admin-orders-collect-order";
+	}		
+	
+	
 	
 	
 	private void setMenu(Model model, HttpServletRequest request) {

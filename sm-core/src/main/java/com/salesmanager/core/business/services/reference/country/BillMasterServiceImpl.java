@@ -26,6 +26,11 @@ public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Long, B
 	}
 	
 	@Override
+	public List<CollectBill> collectOrder(String orderIds){
+		return billMasterRepository.collectOrder(orderIds);
+	}
+	
+	@Override
 	public BillMasterList getListByStore2(MerchantStore store, BillMasterCriteria criteria) {
 		return billMasterRepository.listByStore2(store, criteria);
 	}
