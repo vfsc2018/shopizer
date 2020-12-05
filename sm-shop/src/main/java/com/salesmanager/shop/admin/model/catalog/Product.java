@@ -28,7 +28,7 @@ public class Product implements Serializable {
 	private com.salesmanager.core.model.catalog.product.Product product;
 	
 	@Valid
-	private List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+	private List<ProductDescription> descriptions = new ArrayList<>();
 	
 	@Valid
 	private ProductAvailability availability = null;

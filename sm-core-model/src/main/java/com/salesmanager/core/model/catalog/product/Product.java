@@ -69,21 +69,21 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private AuditSection auditSection = new AuditSection();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+	private Set<ProductDescription> descriptions = new HashSet<>();
 	
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="product")
-	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
+	private Set<ProductAvailability> availabilities = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductAttribute> attributes = new HashSet<ProductAttribute>();
+	private Set<ProductAttribute> attributes = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")//cascade is set to remove because product save requires logic to create physical image first and then save the image id in the database, cannot be done in cascade
-	private Set<ProductImage> images = new HashSet<ProductImage>();
+	private Set<ProductImage> images = new HashSet<>();
 
 	//@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")
-	private Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
+	private Set<ProductRelationship> relationships = new HashSet<>();
 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -104,7 +104,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private Set<Category> categories = new HashSet<Category>();
+	private Set<Category> categories = new HashSet<>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)

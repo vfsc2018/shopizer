@@ -427,6 +427,17 @@ function captureOrder(orderId){
  			<div class="span4" style="margin-left:0px;"> 
 			
 			<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
+			<c:if test="${order.paymentTime==null}">
+			<label style="color:red">
+				<strong><s:message code="label.purchased.notavailable" text="Purchase not available"/></strong>
+			</label>
+			</c:if>
+			<c:if test="${order.paymentTime!=null}">
+			<label>
+				<s:message code="label.purchased.status" text="Purchased"/>: <strong><c:out value="${order.paymentTime}"/></strong>
+			</label>
+			</c:if>
+
 			<address>			        
 
 				<label><s:message code="label.customer.firstname" text="First Name"/></label>
@@ -473,11 +484,6 @@ function captureOrder(orderId){
 				       			</form:select>
 			            </div>
 			            
-			            <label><s:message code="label.customer.billing.postalcode" text="Billing postal code"/></label>
-			            <div class="controls">
-				 				<form:input id="billingPostalCode" cssClass="input-large highlight" path="order.billing.postalCode"/>
-				 				<span class="help-inline"><form:errors path="order.billing.postalCode" cssClass="error" /></span>
-			            </div>
 			            <label><s:message code="label.customer.telephone" text="Customer phone"/></label>
 			            <div class="controls">
 				 				<form:input id="phoneNumber" cssClass="input-large highlight" path="order.billing.telephone"/>
@@ -531,11 +537,7 @@ function captureOrder(orderId){
 				 				<form:select cssClass="country-list" path="order.delivery.country.isoCode">
 					  					<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
 				       			</form:select>
-			            </div>
-			            <label><s:message code="label.customer.shipping.postalcode" text="Postal code"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.postalCode"/>
-			            </div>	            	            	            	            				
+			            </div>            	            	            	            				
 				</address>	
 	            
 	            
@@ -546,12 +548,8 @@ function captureOrder(orderId){
    				<div class="span8">
 				<s:message code="label.customer.order.date" text="Order date"/>			 		
 			 	<div class="controls">
-							<form:input  cssClass="input-large" path="datePurchased" 
+							<form:input  readonly="true" cssClass="input-large" path="datePurchased" 
 							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#datePurchased').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="datePurchased" cssClass="error" /></span>
 	            </div>  
 	
 

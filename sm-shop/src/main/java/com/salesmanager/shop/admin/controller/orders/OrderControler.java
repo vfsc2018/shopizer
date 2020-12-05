@@ -719,6 +719,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			if( dbOrder.getDatePurchased() !=null ){
 				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
+
+			if( dbOrder.getPaymentTime() !=null ){
+				order.setPaymentTime(DateUtil.formatTimeDate(dbOrder.getPaymentTime()));
+			}
 			
 			long customerId = dbOrder.getCustomerId();
 			
@@ -787,9 +791,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		model.addAttribute("order", entityOrder);
 		
-		Set<OrderProduct> orderProducts = new HashSet<OrderProduct>();
-		Set<OrderTotal> orderTotal = new HashSet<OrderTotal>();
-		Set<OrderStatusHistory> orderHistory = new HashSet<OrderStatusHistory>();
+		Set<OrderProduct> orderProducts = new HashSet<>();
+		Set<OrderTotal> orderTotal = new HashSet<>();
+		Set<OrderStatusHistory> orderHistory = new HashSet<>();
 		
 		Date date = new Date();
 		if(!StringUtils.isBlank(entityOrder.getDatePurchased() ) ){
@@ -926,7 +930,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		newOrder.setCustomerEmailAddress(entityOrder.getOrder().getCustomerEmailAddress() );
 		newOrder.setStatus(entityOrder.getOrder().getStatus() );		
 		
-		newOrder.setDatePurchased(date);
+		// newOrder.setDatePurchased(date);
 		newOrder.setFromDate(fromDate);
 		newOrder.setToDate(toDate);
 		newOrder.setLastModified( new Date() );

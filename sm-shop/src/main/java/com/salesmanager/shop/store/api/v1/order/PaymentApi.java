@@ -154,7 +154,7 @@ public class PaymentApi {
         if (order == null) {
             return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
-        Date now = new Date();
+        Date now = new Date(System.currentTimeMillis());
         order.setPaymentTime(now);
         
         try{

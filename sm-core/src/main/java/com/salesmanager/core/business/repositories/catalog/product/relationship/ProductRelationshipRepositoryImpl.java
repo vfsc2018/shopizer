@@ -358,7 +358,7 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
     	q.setParameter("id", id);
 
 
-    	@SuppressWarnings("unchecked")
+    	// @SuppressWarnings("unchecked")
     	ProductRelationship relations =  (ProductRelationship) q.getSingleResult();
 
     	

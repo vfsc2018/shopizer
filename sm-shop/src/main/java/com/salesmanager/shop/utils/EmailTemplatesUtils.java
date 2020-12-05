@@ -21,7 +21,6 @@ import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.shop.ContactForm;
 import org.apache.commons.lang3.StringUtils;
 import com.salesmanager.core.business.utils.CoreConfiguration;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

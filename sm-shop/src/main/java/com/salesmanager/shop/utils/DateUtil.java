@@ -59,7 +59,14 @@ public class DateUtil {
 		return format.format(dt);
 
 	}
-	
+	public static String formatTimeDate(Date dt) {
+
+		if (dt == null)
+			return null;
+		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_TIMEDATE_FORMAT);
+		return format.format(dt);
+
+	}
 	public static String formatYear(Date dt) {
 
 		if (dt == null)

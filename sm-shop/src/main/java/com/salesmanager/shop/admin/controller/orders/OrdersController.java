@@ -89,7 +89,7 @@ public class OrdersController {
 
 
 	@PreAuthorize("hasRole('ORDER')")
-	@SuppressWarnings({ "unchecked", "unused"})
+	@SuppressWarnings({ "unchecked"})
 	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageOrders(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
@@ -110,6 +110,7 @@ public class OrdersController {
 			String	endDate = request.getParameter("endDate");
 			String	date = request.getParameter("date");
 			String	address = request.getParameter("address");
+			String purchased = request.getParameter("purchased");
 
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
@@ -125,6 +126,9 @@ public class OrdersController {
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
+
+			criteria.setPurchased(purchased!=null && purchased.equals("true"));
+
 			if(!StringUtils.isBlank(date)){
 				criteria.setDate(date);
 			}

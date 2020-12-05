@@ -44,10 +44,7 @@ public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Long, B
 	
 	
 	public BillMaster saveAnnouncement(BillMaster form) throws BindException {
-		BillMaster entity =new BillMaster();
-			
-		entity = billMasterRepository.saveAndFlush(form);
-		return entity;
+		return billMasterRepository.saveAndFlush(form);
 	}
 	
 	public Long countByOrderId(Long orderId){
