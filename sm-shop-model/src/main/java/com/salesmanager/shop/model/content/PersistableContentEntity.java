@@ -1,16 +1,15 @@
 package com.salesmanager.shop.model.content;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersistableContentEntity extends ContentEntity implements Serializable {
+public class PersistableContentEntity extends ContentEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ContentDescriptionEntity> descriptions = new ArrayList<ContentDescriptionEntity>();
+	private List<ContentDescriptionEntity> descriptions = new ArrayList<>();
 
 	public List<ContentDescriptionEntity> getDescriptions() {
 		return descriptions;

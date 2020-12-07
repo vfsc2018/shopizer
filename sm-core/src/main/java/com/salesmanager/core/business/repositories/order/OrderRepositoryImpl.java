@@ -112,7 +112,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameParam = " and o.billing.address like:addr";
+			String nameParam = " and (o.billing.address like :addr OR o.billing.city like :addr OR o.billing.state like :addr OR o.delivery.address like :addr OR o.delivery.city like :addr OR o.delivery.state like :addr) "; // or o.billing.zone.code like :addr or o.delivery.zone.code like :addr) ";
 			countBuilderWhere.append(nameParam);
 			objectBuilderWhere.append(nameParam);
 		}

@@ -178,17 +178,17 @@ public class BillsController {
 				BigDecimal totalBill = null;
 				
 				for (BillMaster bill : billList.getBillMasters()) {
-					totalBill = new BigDecimal(0);
+					totalBill = BigDecimal.valueOf(0);
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
 
-					BigDecimal total = new BigDecimal(0);
+					BigDecimal total = BigDecimal.valueOf(0);
 					if (bill.getItems() != null) {
 						for (BillItem item : bill.getItems()) {
 							if (item.getParentId()!=null && item.getParentId() > 0) {
-								total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
+								total = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
 								totalBill = totalBill.add(total);
 							}
 						}
@@ -199,13 +199,13 @@ public class BillsController {
 					}
 					entry.put("customer", bill.getOrder().getBilling().getFirstName()); // + " " +
 												// bill.getOrder().getBilling().getLastName());
-					if (bill.getPhone() == null || bill.getPhone().equals("")) {
+					if (StringUtils.isBlank(bill.getPhone())) {
 						entry.put("phone", bill.getOrder().getBilling().getTelephone());
 					} else {
 						entry.put("phone", bill.getPhone());
 					}
 
-					if (bill.getAddress() == null || bill.getAddress().equals("")) {
+					if (StringUtils.isBlank(bill.getAddress())) {
 						entry.put("address", bill.getOrder().getBilling().getAddress());
 					} else {
 						entry.put("address", bill.getAddress());
@@ -262,7 +262,7 @@ public class BillsController {
 			order.setBilling(dbOrder.getBilling());
 			order.setDelivery(dbOrder.getDelivery());
 
-			Double totalMoney = new Double(0);
+			Double totalMoney = 0.0;
 
 			OrderProductEx ordernew = new OrderProductEx();
 			ordernew.setId(bill.getId());
@@ -294,8 +294,7 @@ public class BillsController {
 			}
 			ordernew.setRelationships(proRelaList);
 
-			model.addAttribute("orderStatusList",
-					Arrays.asList(OrderStatus.values()));
+			model.addAttribute("orderStatusList", Arrays.asList(OrderStatus.values()));
 			model.addAttribute("dataEx", ordernew);
 			model.addAttribute("order", order);
 			model.addAttribute("totalMoney", totalMoney);

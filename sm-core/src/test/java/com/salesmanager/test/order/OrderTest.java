@@ -1,10 +1,8 @@
 package com.salesmanager.test.order;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -198,9 +196,9 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	     * Create a complex product
 	     */
 	    Product product = new Product();
-	    product.setProductHeight(new BigDecimal(4));
-	    product.setProductLength(new BigDecimal(3));
-	    product.setProductWidth(new BigDecimal(1));
+	    product.setProductHeight(BigDecimal.valueOf(4));
+	    product.setProductLength(BigDecimal.valueOf(3));
+	    product.setProductWidth(BigDecimal.valueOf(1));
 	    product.setSku("TB12345");
 	    product.setManufacturer(addidas);
 	    product.setType(generalType);
@@ -226,7 +224,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    //price
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
-	    dprice.setProductPriceAmount(new BigDecimal(29.99));
+	    dprice.setProductPriceAmount(BigDecimal.valueOf(29.99));
 	    dprice.setProductAvailability(availability);
 	    
 	    
@@ -247,8 +245,8 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    whiteAttribute.setProduct(product);
 	    whiteAttribute.setProductOption(option);
 	    whiteAttribute.setAttributeDefault(true);
-	    whiteAttribute.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    whiteAttribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
+	    whiteAttribute.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+	    whiteAttribute.setProductAttributeWeight(BigDecimal.valueOf(0));//no weight variation
 	    whiteAttribute.setProductOption(option);
 	    whiteAttribute.setProductOptionValue(white);
 	    
@@ -257,8 +255,8 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 	    ProductAttribute blackAttribute = new ProductAttribute();
 	    blackAttribute.setProduct(product);
 	    blackAttribute.setProductOption(option);
-	    blackAttribute.setProductAttributePrice(new BigDecimal(5));//5 + dollars
-	    blackAttribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
+	    blackAttribute.setProductAttributePrice(BigDecimal.valueOf(5));//5 + dollars
+	    blackAttribute.setProductAttributeWeight(BigDecimal.valueOf(0));//no weight variation
 	    blackAttribute.setProductOption(option);
 	    blackAttribute.setProductOptionValue(black);
 	    
@@ -289,8 +287,8 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 		order.setCurrency(currency);
 		order.setMerchant(merchant);
 		order.setLastModified(new Date());
-		order.setCurrencyValue(new BigDecimal(1));//no price variation because of the currency
-		order.setCustomerId(new Long(1) );
+		order.setCurrencyValue(BigDecimal.valueOf(1));//no price variation because of the currency
+		order.setCustomerId(1L);
 		order.setDelivery(delivery);
 		order.setIpAddress("ipAddress" );
 		order.setMerchant(merchant);
@@ -334,7 +332,7 @@ public class OrderTest extends com.salesmanager.test.common.AbstractSalesManager
 		
 		OrderProductAttribute orderProductAttribute = new OrderProductAttribute();
 		orderProductAttribute.setOrderProduct(oproduct);
-		orderProductAttribute.setProductAttributePrice(new BigDecimal("0.00"));//no extra charge
+		orderProductAttribute.setProductAttributePrice(BigDecimal.valueOf(0.00));//no extra charge
 		orderProductAttribute.setProductAttributeName(whiteDescription.getName());
 		orderProductAttribute.setProductOptionId(option.getId());
 		orderProductAttribute.setProductOptionValueId(white.getId());

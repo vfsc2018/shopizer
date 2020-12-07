@@ -1,10 +1,8 @@
 package com.salesmanager.shop.model.order;
 
-import java.io.Serializable;
 import java.util.List;
 
-public class ReadableOrderProduct extends OrderProductEntity implements
-		Serializable {
+public class ReadableOrderProduct extends OrderProductEntity  {
 
 	/**
 	 * 

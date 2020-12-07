@@ -19,8 +19,6 @@ public class CustomShippingQuotesConfiguration extends IntegrationConfiguration 
 	
 	private static final long serialVersionUID = 1L;
 
-	
-	@SuppressWarnings("unchecked")
 	public String toJSONString() {
 		
 		

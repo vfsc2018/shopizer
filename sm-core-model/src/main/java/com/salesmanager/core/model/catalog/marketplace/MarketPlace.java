@@ -1,11 +1,8 @@
 package com.salesmanager.core.model.catalog.marketplace;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Embedded;
 
-import com.salesmanager.core.model.catalog.catalog.Catalog;
+// import com.salesmanager.core.model.catalog.catalog.Catalog;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
@@ -36,7 +33,7 @@ public class MarketPlace extends SalesManagerEntity<Long, MarketPlace> implement
 	
 	private String code;
 	
-	private Set<Catalog> catalogs = new HashSet<Catalog>();
+	// private Set<Catalog> catalogs = new HashSet<Catalog>();
 	
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
@@ -47,7 +44,7 @@ public class MarketPlace extends SalesManagerEntity<Long, MarketPlace> implement
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
+	public void setAuditSection(AuditSection auditSection) {
 		this.auditSection = auditSection;	
 	}
 

@@ -105,9 +105,9 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    // -- non variable informations
 
 	    Product summerShoes = new Product();
-	    summerShoes.setProductHeight(new BigDecimal(3));
-	    summerShoes.setProductLength(new BigDecimal(9));//average
-	    summerShoes.setProductWidth(new BigDecimal(4));
+	    summerShoes.setProductHeight(BigDecimal.valueOf(3));
+	    summerShoes.setProductLength(BigDecimal.valueOf(9));//average
+	    summerShoes.setProductWidth(BigDecimal.valueOf(4));
 	    summerShoes.setSku("BR12345");
 	    summerShoes.setManufacturer(brown);
 	    summerShoes.setType(generalType);
@@ -150,8 +150,8 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
         size_nine.setProduct(summerShoes);
         size_nine.setProductOption(size);
         size_nine.setAttributeDefault(true);
-        size_nine.setProductAttributePrice(new BigDecimal(0));//no price variation
-        size_nine.setProductAttributeWeight(new BigDecimal(0));//no weight variation
+        size_nine.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+        size_nine.setProductAttributeWeight(BigDecimal.valueOf(0));//no weight variation
         size_nine.setProductOptionValue(nine);
         
         summerShoes.getAttributes().add(size_nine);
@@ -160,8 +160,8 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    ProductAttribute size_nine_half = new ProductAttribute();
 	    size_nine_half.setProduct(summerShoes);
 	    size_nine_half.setProductOption(size);
-	    size_nine_half.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    size_nine_half.setProductAttributeWeight(new BigDecimal(0));//weight variation
+	    size_nine_half.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+	    size_nine_half.setProductAttributeWeight(BigDecimal.valueOf(0));//weight variation
 	    size_nine_half.setProductOptionValue(nineHalf);
 	    
 	    summerShoes.getAttributes().add(size_nine_half);
@@ -170,15 +170,15 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 	    ProductAttribute size_ten = new ProductAttribute();
 	    size_ten.setProduct(summerShoes);
 	    size_ten.setProductOption(size);
-	    size_ten.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    size_ten.setProductAttributeWeight(new BigDecimal(0));//weight variation
+	    size_ten.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+	    size_ten.setProductAttributeWeight(BigDecimal.valueOf(0));//weight variation
 	    size_ten.setProductOptionValue(ten);
 	    
 	    summerShoes.getAttributes().add(size_ten);	    
 	    
 	    
 	    // ---- variable informations - inventory - variants - prices
-	    ProductAvailability availability = createInventory(store, 100, new BigDecimal("99.99"));
+	    ProductAvailability availability = createInventory(store, 100, BigDecimal.valueOf(99.99));
 	    summerShoes.getAvailabilities().add(availability);
 	    // ---- add available sizes
 	    

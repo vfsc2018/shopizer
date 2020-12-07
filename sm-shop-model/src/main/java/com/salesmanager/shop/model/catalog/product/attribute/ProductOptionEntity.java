@@ -1,8 +1,6 @@
 package com.salesmanager.shop.model.catalog.product.attribute;
 
-import java.io.Serializable;
-
-public class ProductOptionEntity extends ProductOption implements Serializable {
+public class ProductOptionEntity extends ProductOption {
 
 	/**
 	 * 
@@ -18,9 +16,12 @@ public class ProductOptionEntity extends ProductOption implements Serializable {
 		return order;
 	}
 
+	@Override
 	public void setType(String type) {
 		this.type = type;
 	}
+
+	@Override
 	public String getType() {
 		return type;
 	}

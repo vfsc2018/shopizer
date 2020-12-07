@@ -1,8 +1,6 @@
 package com.salesmanager.shop.store.api.v0.category;
 
 
-import java.util.Map;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

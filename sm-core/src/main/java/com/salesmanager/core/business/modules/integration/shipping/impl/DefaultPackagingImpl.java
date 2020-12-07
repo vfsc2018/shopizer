@@ -58,21 +58,21 @@ public class DefaultPackagingImpl implements Packaging {
 			throw new ServiceException("ShippingConfiguration not found for merchant " + store.getCode());
 		}
 		
-		width = new Double(shippingConfiguration.getBoxWidth()).doubleValue();
-		length = new Double(shippingConfiguration.getBoxLength()).doubleValue();
-		height = new Double(shippingConfiguration.getBoxHeight()).doubleValue();
-		weight = new Double(shippingConfiguration.getBoxWeight()).doubleValue();
-		maxweight = new Double(shippingConfiguration.getMaxWeight()).doubleValue();
+		width = shippingConfiguration.getBoxWidth()*1.0;
+		length = shippingConfiguration.getBoxLength()*1.0;
+		height = shippingConfiguration.getBoxHeight()*1.0;
+		weight = shippingConfiguration.getBoxWeight();
+		maxweight = shippingConfiguration.getMaxWeight();
 		
 
 
-		List<PackageDetails> boxes = new ArrayList<PackageDetails>();
+		List<PackageDetails> boxes = new ArrayList<>();
 
 		// maximum number of boxes
 		int maxBox = 100;
 		int iterCount = 0;
 
-		List<Product> individualProducts = new ArrayList<Product>();
+		List<Product> individualProducts = new ArrayList<>();
 
 		// need to put items individually
 		for(ShippingProduct shippingProduct : products){
@@ -92,18 +92,18 @@ public class DefaultPackagingImpl implements Packaging {
 			BigDecimal l = product.getProductLength();
 			BigDecimal wd = product.getProductWidth();
 			if(w==null) {
-				w = new BigDecimal(defaultWeight);
+				w = BigDecimal.valueOf(defaultWeight);
 			}
 			if(h==null) {
-				h = new BigDecimal(defaultHeight);
+				h = BigDecimal.valueOf(defaultHeight);
 			}
 			if(l==null) {
-				l = new BigDecimal(defaultLength);
+				l = BigDecimal.valueOf(defaultLength);
 			}
 			if(wd==null) {
-				wd = new BigDecimal(defaultWidth);
+				wd = BigDecimal.valueOf(defaultWidth);
 			}
-			if (attrs != null && attrs.size() > 0) {
+			if (attrs != null && !attrs.isEmpty()) {
 				for(ProductAttribute attribute : attrs) {
 					if(attribute.getProductAttributeWeight()!=null) {
 						w = w.add(attribute.getProductAttributeWeight());
@@ -144,7 +144,7 @@ public class DefaultPackagingImpl implements Packaging {
 
 		int productCount = individualProducts.size();
 
-		List<PackingBox> boxesList = new ArrayList<PackingBox>();
+		List<PackingBox> boxesList = new ArrayList<>();
 
 		//start the creation of boxes
 		PackingBox box = new PackingBox();
@@ -170,12 +170,12 @@ public class DefaultPackagingImpl implements Packaging {
 		boxesList.add(box);//assign first box
 
 		//int boxCount = 1;
-		List<Product> assignedProducts = new ArrayList<Product>();
+		List<Product> assignedProducts = new ArrayList<>();
 
 		// calculate the volume for the next object
 		if (assignedProducts.size() > 0) {
 			individualProducts.removeAll(assignedProducts);
-			assignedProducts = new ArrayList<Product>();
+			assignedProducts = new ArrayList<>();
 		}
 
 		boolean productAssigned = false;
@@ -331,18 +331,18 @@ public class DefaultPackagingImpl implements Packaging {
 			BigDecimal l = product.getProductLength();
 			BigDecimal wd = product.getProductWidth();
 			if(w==null) {
-				w = new BigDecimal(defaultWeight);
+				w = BigDecimal.valueOf(defaultWeight);
 			}
 			if(h==null) {
-				h = new BigDecimal(defaultHeight);
+				h = BigDecimal.valueOf(defaultHeight);
 			}
 			if(l==null) {
-				l = new BigDecimal(defaultLength);
+				l = BigDecimal.valueOf(defaultLength);
 			}
 			if(wd==null) {
-				wd = new BigDecimal(defaultWidth);
+				wd = BigDecimal.valueOf(defaultWidth);
 			}
-			if (attributes != null && attributes.size() > 0) {
+			if (attributes != null && !attributes.isEmpty()) {
 				for(ProductAttribute attribute : attributes) {
 					if(attribute.getAttributeAdditionalWeight()!=null) {
 						w = w.add(attribute.getProductAttributeWeight());
@@ -382,7 +382,7 @@ public class DefaultPackagingImpl implements Packaging {
 							.doubleValue());
 					detail.setShippingQuantity(shippingProduct.getQuantity());
 					String description = "item";
-					if(product.getDescriptions().size()>0) {
+					if(!product.getDescriptions().isEmpty()) {
 						description = product.getDescriptions().iterator().next().getName();
 					}
 					detail.setItemName(description);

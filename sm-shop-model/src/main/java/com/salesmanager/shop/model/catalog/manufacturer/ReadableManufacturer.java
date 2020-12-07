@@ -1,9 +1,6 @@
 package com.salesmanager.shop.model.catalog.manufacturer;
 
-import java.io.Serializable;
-
-public class ReadableManufacturer extends ManufacturerEntity implements
-		Serializable {
+public class ReadableManufacturer extends ManufacturerEntity {
 
 	/**
 	 * 

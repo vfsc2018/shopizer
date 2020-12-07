@@ -96,8 +96,8 @@ public class ManufacturerShippingCodeOrderTotalModuleImpl implements OrderTotalP
 				FinalPrice productPrice = pricingService.calculateProductPrice(product);
 				
 				Double discount = inputParameters.getDiscount();
-				BigDecimal reduction = productPrice.getFinalPrice().multiply(new BigDecimal(discount));
-				reduction = reduction.multiply(new BigDecimal(shoppingCartItem.getQuantity()));
+				BigDecimal reduction = productPrice.getFinalPrice().multiply(BigDecimal.valueOf(discount));
+				reduction = reduction.multiply(BigDecimal.valueOf(shoppingCartItem.getQuantity()));
 				
 				orderTotal.setValue(reduction);
 		}

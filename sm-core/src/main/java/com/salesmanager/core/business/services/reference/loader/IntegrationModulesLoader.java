@@ -25,7 +25,7 @@ public class IntegrationModulesLoader {
 	public List<IntegrationModule> loadIntegrationModules(String jsonFilePath) throws Exception {
 		
 		
-		List<IntegrationModule> modules = new ArrayList<IntegrationModule>();
+		List<IntegrationModule> modules = new ArrayList<>();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
@@ -71,17 +71,17 @@ public class IntegrationModulesLoader {
 	    	}
 	    	
 	    	if(object.get("customModule")!=null) {
-	    		Object o = object.get("customModule");
+	    		// Object o = object.get("customModule");
 	    		Boolean b = false;
-	    		if(o instanceof Boolean) {
-	    			b = (Boolean)object.get("customModule");
-	    		} else {
+	    		// if(o instanceof Boolean) {
+	    		// 	b = (Boolean)object.get("customModule");
+	    		// } else {
 	    			try {
-	    				b = new Boolean((String)object.get("customModule"));
+	    				b =  (Boolean)object.get("customModule");
 	    			} catch(Exception e) {
-	    				LOGGER.error("Cannot cast " + o.getClass() + " tp a boolean value");
+	    				LOGGER.error("Cannot cast " + e.getMessage() + " tp a boolean value");
 	    			}
-	    		}
+	    		// }
 	    		module.setCustomModule(b);
 	    	}
 	    	//module.setRegions(regions)
@@ -120,7 +120,7 @@ public class IntegrationModulesLoader {
 	    	if(confs!=null) {
 	    		StringBuilder configString = new StringBuilder();
 	    		configString.append("[");
-	    		Map<String,ModuleConfig> moduleConfigs = new HashMap<String,ModuleConfig>();
+	    		Map<String,ModuleConfig> moduleConfigs = new HashMap<>();
 	        	int count=0;
 	    		for(Object oo : confs) {
 	        		

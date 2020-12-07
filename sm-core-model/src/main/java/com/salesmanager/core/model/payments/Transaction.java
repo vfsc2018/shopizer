@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.payments;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,7 +40,7 @@ import com.salesmanager.core.model.order.Order;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "SM_TRANSACTION", schema= SchemaConstant.SALESMANAGER_SCHEMA)
-public class Transaction extends SalesManagerEntity<Long, Transaction> implements Serializable, Auditable, JSONAware {
+public class Transaction extends SalesManagerEntity<Long, Transaction> implements Auditable, JSONAware {
 	
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(Transaction.class);
@@ -84,7 +83,7 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	private String details;
 	
 	@Transient
-	private Map<String,String> transactionDetails= new HashMap<String,String>();
+	private Map<String,String> transactionDetails= new HashMap<>();
 
 	@Override
 	public AuditSection getAuditSection() {
@@ -92,8 +91,8 @@ public class Transaction extends SalesManagerEntity<Long, Transaction> implement
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 		
 	}
 

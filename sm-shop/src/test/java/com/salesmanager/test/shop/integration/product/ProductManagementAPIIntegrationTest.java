@@ -330,10 +330,10 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         // product.setImages(images);
         
         ProductSpecification specifications = new ProductSpecification();
-        specifications.setHeight(new BigDecimal(20));
-        specifications.setLength(new BigDecimal(21));
-        specifications.setWeight(new BigDecimal(22));
-        specifications.setWidth(new BigDecimal(23));
+        specifications.setHeight(BigDecimal.valueOf(20));
+        specifications.setLength(BigDecimal.valueOf(21));
+        specifications.setWeight(BigDecimal.valueOf(22));
+        specifications.setWidth(BigDecimal.valueOf(23));
 
         product.setProductSpecifications(specifications);
         product.setQuantity(5);
@@ -342,8 +342,8 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         final PersistableProductPrice productPrice = new PersistableProductPrice();
         productPrice.setDefaultPrice(true);
 
-        productPrice.setOriginalPrice(new BigDecimal(250));
-        productPrice.setDiscountedPrice(new BigDecimal(125));
+        productPrice.setOriginalPrice(BigDecimal.valueOf(250));
+        productPrice.setDiscountedPrice(BigDecimal.valueOf(125));
 
         final List<PersistableProductPrice> productPriceList = new ArrayList<>();
         productPriceList.add(productPrice);

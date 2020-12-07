@@ -1,7 +1,5 @@
 package com.salesmanager.shop.model.customer;
 
-import java.io.Serializable;
-
 import javax.validation.Valid;
 
 import javax.validation.constraints.Email;
@@ -11,7 +9,7 @@ import com.salesmanager.shop.model.customer.address.Address;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringEscapeUtils;
 
-public class CustomerEntity extends Customer implements Serializable {
+public class CustomerEntity extends Customer {
 
 	/**
 	 *

@@ -1,11 +1,9 @@
 package com.salesmanager.shop.model.order.transaction;
 
-import java.io.Serializable;
-
 import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.TransactionType;
 
-public class ReadableTransaction extends TransactionEntity implements Serializable {
+public class ReadableTransaction extends TransactionEntity{
 
 	/**
 	 * 

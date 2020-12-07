@@ -224,7 +224,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	
 	public Product getByFriendlyUrl(MerchantStore store, String seUrl, Locale locale) {
 
-		List regionList = new ArrayList();
+		List<String> regionList = new ArrayList();
 		regionList.add("*");
 		regionList.add(locale.getCountry());
 

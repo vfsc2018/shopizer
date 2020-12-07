@@ -1,12 +1,11 @@
 package com.salesmanager.shop.model.catalog.product.attribute;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.salesmanager.shop.model.catalog.product.attribute.api.ProductAttributeEntity;
 
-public class ReadableProductAttribute extends ProductAttributeEntity implements Serializable {
+public class ReadableProductAttribute extends ProductAttributeEntity {
 
 	/**
 	 * 
@@ -18,7 +17,7 @@ public class ReadableProductAttribute extends ProductAttributeEntity implements 
 	private String code;
 	private String type;
 	
-	private List<ReadableProductAttributeValue> attributeValues = new ArrayList<ReadableProductAttributeValue>();
+	private List<ReadableProductAttributeValue> attributeValues = new ArrayList<>();
 	
 	public String getName() {
 		return name;

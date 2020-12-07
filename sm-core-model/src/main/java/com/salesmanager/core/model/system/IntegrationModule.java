@@ -98,8 +98,8 @@ public class IntegrationModule extends SalesManagerEntity<Long, IntegrationModul
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 
 	}
 

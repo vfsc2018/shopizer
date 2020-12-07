@@ -6,6 +6,8 @@ import com.salesmanager.core.model.user.User;
 import java.util.List;
 
 public class UserUtils {
+
+	private UserUtils(){}
 	
 	public static boolean userInGroup(User user,String groupName) {
 		

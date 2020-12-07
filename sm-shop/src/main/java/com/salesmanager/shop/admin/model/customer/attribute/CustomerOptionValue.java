@@ -1,12 +1,10 @@
 package com.salesmanager.shop.admin.model.customer.attribute;
 
-import java.io.Serializable;
-
 import com.salesmanager.shop.model.entity.ShopEntity;
 
 
 
-public class CustomerOptionValue extends ShopEntity implements Serializable {
+public class CustomerOptionValue extends ShopEntity {
 	
 	/**
 	 * 

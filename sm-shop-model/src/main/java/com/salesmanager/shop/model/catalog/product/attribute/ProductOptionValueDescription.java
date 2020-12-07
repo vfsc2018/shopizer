@@ -1,11 +1,8 @@
 package com.salesmanager.shop.model.catalog.product.attribute;
 
-import java.io.Serializable;
-
 import com.salesmanager.shop.model.catalog.NamedEntity;
 
-public class ProductOptionValueDescription extends NamedEntity implements
-		Serializable {
+public class ProductOptionValueDescription extends NamedEntity {
 
 	/**
 	 * 

@@ -50,7 +50,7 @@ public class Permission extends SalesManagerEntity<Integer, Permission> implemen
 	private String permissionName;
 
 	@ManyToMany(mappedBy = "permissions")
-	private List<Group> groups = new ArrayList<Group>();
+	private List<Group> groups = new ArrayList<>();
 	
 	@Embedded
 	private AuditSection auditSection = new AuditSection();
@@ -73,8 +73,8 @@ public class Permission extends SalesManagerEntity<Integer, Permission> implemen
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 		
 	}
 

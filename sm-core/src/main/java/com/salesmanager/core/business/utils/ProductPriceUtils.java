@@ -61,7 +61,7 @@ public class ProductPriceUtils {
 	 */
 	public BigDecimal getPrice(MerchantStore store, Product product, Locale locale) {
 		
-		BigDecimal defaultPrice = new BigDecimal(0);
+		BigDecimal defaultPrice = BigDecimal.valueOf(0);
 
 		Set<ProductAvailability> availabilities = product.getAvailabilities();
 		for(ProductAvailability availability : availabilities) {
@@ -99,7 +99,7 @@ public class ProductPriceUtils {
 			for(ProductAttribute attribute : attributes) {
 					if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
 						if(attributePrice==null) {
-							attributePrice = new BigDecimal(0);
+							attributePrice = BigDecimal.valueOf(0);
 						}
 						attributePrice = attributePrice.add(attribute.getProductAttributePrice());
 					}
@@ -151,7 +151,7 @@ public class ProductPriceUtils {
 					
 				if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
 					if(attributePrice==null) {
-						attributePrice = new BigDecimal(0);
+						attributePrice = BigDecimal.valueOf(0);
 					}
 					attributePrice = attributePrice.add(attribute.getProductAttributePrice());
 				}
@@ -451,7 +451,7 @@ public class ProductPriceUtils {
 	public BigDecimal getOrderProductTotalPrice(MerchantStore store, OrderProduct orderProduct) {
 		
 		BigDecimal finalPrice = orderProduct.getOneTimeCharge();
-		finalPrice = finalPrice.multiply(new BigDecimal(orderProduct.getProductQuantity()));
+		finalPrice = finalPrice.multiply(BigDecimal.valueOf(orderProduct.getProductQuantity()));
 		return finalPrice;
 	}
 	

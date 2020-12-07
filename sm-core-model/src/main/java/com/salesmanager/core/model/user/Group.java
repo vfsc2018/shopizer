@@ -70,7 +70,7 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
             joinColumns = @JoinColumn(name = "GROUP_ID"),
             inverseJoinColumns = @JoinColumn(name = "PERMISSION_ID")
         )
-	private Set<Permission> permissions = new HashSet<Permission>();
+	private Set<Permission> permissions = new HashSet<>();
 
 	public Set<Permission> getPermissions() {
 		return permissions;
@@ -89,8 +89,8 @@ public class Group extends SalesManagerEntity<Integer, Group> implements Auditab
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 	}
 
 	@Override

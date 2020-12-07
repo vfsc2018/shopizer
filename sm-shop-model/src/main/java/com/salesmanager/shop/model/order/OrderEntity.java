@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.order;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +12,7 @@ import com.salesmanager.core.utils.CloneUtils;
 import com.salesmanager.shop.model.order.v0.Order;
 import com.salesmanager.shop.model.order.total.OrderTotal;
 
-public class OrderEntity extends Order implements Serializable {
+public class OrderEntity extends Order {
 
 	/**
 	 * 
@@ -29,6 +28,8 @@ public class OrderEntity extends Order implements Serializable {
 	private OrderStatus orderStatus;
 	private CreditCard creditCard;
 	private Date datePurchased;
+	private Date fromDate;
+	private Date toDate;
 	private Date paymentTime;
 	private String currency;
 	private boolean customerAgreed;
@@ -75,6 +76,21 @@ public class OrderEntity extends Order implements Serializable {
 		this.paymentTime = CloneUtils.clone(paymentTime);
 	}
 
+	public Date getFromDate() {
+		return CloneUtils.clone(fromDate);
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = CloneUtils.clone(fromDate);
+	}
+
+	public Date getToDate() {
+		return CloneUtils.clone(toDate);
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = CloneUtils.clone(toDate);
+	}
 	public Date getDatePurchased() {
 		return datePurchased;
 	}

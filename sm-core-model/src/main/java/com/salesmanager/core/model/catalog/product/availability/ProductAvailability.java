@@ -230,8 +230,8 @@ public class ProductAvailability extends SalesManagerEntity<Long, ProductAvailab
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 
 	}
 

@@ -1,6 +1,4 @@
 package com.salesmanager.shop.model.customer;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +6,14 @@ import com.salesmanager.shop.model.customer.attribute.ReadableCustomerAttribute;
 import com.salesmanager.shop.model.security.ReadableGroup;
 
 
-public class ReadableCustomer extends CustomerEntity implements Serializable {
+public class ReadableCustomer extends CustomerEntity{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ReadableCustomerAttribute> attributes = new ArrayList<ReadableCustomerAttribute>();
-	private List<ReadableGroup> groups = new ArrayList<ReadableGroup>();
+	private List<ReadableCustomerAttribute> attributes = new ArrayList<>();
+	private List<ReadableGroup> groups = new ArrayList<>();
 	
 	public void setAttributes(List<ReadableCustomerAttribute> attributes) {
 		this.attributes = attributes;

@@ -1,8 +1,6 @@
 package com.salesmanager.shop.model.order.total;
 
-import java.io.Serializable;
-
-public class ReadableOrderTotal extends OrderTotal implements Serializable {
+public class ReadableOrderTotal extends OrderTotal {
 
 	/**
 	 * 

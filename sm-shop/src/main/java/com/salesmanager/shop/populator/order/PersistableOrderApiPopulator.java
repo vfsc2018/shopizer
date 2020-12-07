@@ -137,7 +137,7 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 			target.setComments(source.getComments());
 			target.setDatePurchased(new Date());
 			target.setCurrency(currency);
-			target.setCurrencyValue(new BigDecimal(0));
+			target.setCurrencyValue(BigDecimal.valueOf(0));
 			target.setMerchant(store);
 			target.setChannel(OrderChannel.API);
 			//need this

@@ -1,7 +1,5 @@
 package com.salesmanager.core.model.reference.currency;
 
-import java.io.Serializable;
-
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +15,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @Table(name = "CURRENCY", schema = SchemaConstant.SALESMANAGER_SCHEMA)
 @Cacheable
-public class Currency extends SalesManagerEntity<Long, Currency> implements Serializable {
+public class Currency extends SalesManagerEntity<Long, Currency> {
 	private static final long serialVersionUID = -999926410367685145L;
 	
 	@Id
@@ -69,7 +67,7 @@ public class Currency extends SalesManagerEntity<Long, Currency> implements Seri
 	}
 	
 	public String getCode() {
-		if (currency.getCurrencyCode() != code) {
+		if (code!=null && currency.getCurrencyCode()!=null && !currency.getCurrencyCode().equals(code)) {
 			return currency.getCurrencyCode();
 		}
 		return code;

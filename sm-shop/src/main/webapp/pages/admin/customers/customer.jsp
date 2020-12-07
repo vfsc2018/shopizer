@@ -497,11 +497,11 @@ function setCredentials(customerId, userName, password){
 		              		<form:input  cssClass="input-large"  maxlength="100" path="delivery.company"/>	
 			            </div>
 			            <div class="controls">
-		              		<label><s:message code="label.customer.shipping.firstName" text="First name"/></label>
+		              		<label><s:message code="label.customer.shipping.firstname" text="First name"/></label>
 		              		<form:input  cssClass="input-large"  maxlength="64" path="delivery.firstName"/>	
 			            </div>
 			            <div class="controls">
-		              		<label><s:message code="label.customer.shipping.lastName" text="Last name"/></label>
+		              		<label><s:message code="label.customer.shipping.lastname" text="Last name"/></label>
 		              		<form:input  cssClass="input-large"  maxlength="64" path="delivery.lastName"/>	
 			            </div>
 			            <div class="controls">

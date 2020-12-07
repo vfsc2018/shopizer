@@ -102,7 +102,7 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	
 	//What was the exchange rate
 	@Column (name ="CURRENCY_VALUE")
-	private BigDecimal currencyValue = new BigDecimal(1);//default 1-1
+	private BigDecimal currencyValue = BigDecimal.valueOf(1);//default 1-1
 	
 	@Column (name ="ORDER_TOTAL")
 	private BigDecimal total;

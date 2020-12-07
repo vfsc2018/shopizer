@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.customer;
 
-import java.io.Serializable;
 import javax.validation.constraints.Size;
 import com.salesmanager.shop.validation.FieldMatch;
 
@@ -9,7 +8,7 @@ import com.salesmanager.shop.validation.FieldMatch;
     @FieldMatch(first="password",second="checkPassword",message="password.notequal")
     
 })
-public class SecuredCustomer extends PersistableCustomer implements Serializable {
+public class SecuredCustomer extends PersistableCustomer {
 
 	/**
 	 *

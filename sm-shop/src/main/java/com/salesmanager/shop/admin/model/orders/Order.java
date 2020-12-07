@@ -4,7 +4,6 @@ import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
-import javax.persistence.Embedded;
 import javax.persistence.Transient;
 
 import java.io.Serializable;

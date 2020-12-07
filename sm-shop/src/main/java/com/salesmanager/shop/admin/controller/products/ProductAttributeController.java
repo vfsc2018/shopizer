@@ -306,7 +306,7 @@ public class ProductAttributeController {
 		//validate weight
 		try {
 			Integer weight = Integer.parseInt(attribute.getAttributeAdditionalWeight());
-			attribute.setProductAttributeWeight(new BigDecimal(weight));
+			attribute.setProductAttributeWeight(BigDecimal.valueOf(weight));
 		} catch(Exception e) {
 			ObjectError error = new ObjectError("attributeAdditionalWeight",messages.getMessage("message.number.invalid", locale));
 			result.addError(error);

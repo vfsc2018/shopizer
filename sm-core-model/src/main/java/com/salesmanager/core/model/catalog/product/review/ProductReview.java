@@ -52,7 +52,7 @@ public class ProductReview extends SalesManagerEntity<Long, ProductReview> imple
 	private Long id;
 	
 	@Embedded
-	private AuditSection audit = new AuditSection();
+	private AuditSection auditSection = new AuditSection();
 	
 	@Column(name = "REVIEWS_RATING")
 	private Double reviewRating;
@@ -77,7 +77,7 @@ public class ProductReview extends SalesManagerEntity<Long, ProductReview> imple
 	private Product product;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productReview")
-	private Set<ProductReviewDescription> descriptions = new HashSet<ProductReviewDescription>();
+	private Set<ProductReviewDescription> descriptions = new HashSet<>();
 	
 	public ProductReview() {
 	}
@@ -140,12 +140,12 @@ public class ProductReview extends SalesManagerEntity<Long, ProductReview> imple
 	
 	@Override
 	public AuditSection getAuditSection() {
-		return audit;
+		return auditSection;
 	}
 	
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.audit = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 	}
 	
 	public Date getReviewDate() {

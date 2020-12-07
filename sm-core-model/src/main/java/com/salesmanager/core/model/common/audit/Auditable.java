@@ -4,5 +4,5 @@ public interface Auditable {
 	
 	AuditSection getAuditSection();
 	
-	void setAuditSection(AuditSection audit);
+	void setAuditSection(AuditSection auditSection);
 }

@@ -1,6 +1,4 @@
 package com.salesmanager.shop.model.order;
-
-import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +14,7 @@ import com.salesmanager.shop.model.order.v0.PersistableOrder;
  * @author Carl Samson
  *
  */
-public class ShopOrder extends PersistableOrder implements Serializable {
+public class ShopOrder extends PersistableOrder {
 
 	/**
 	 * 

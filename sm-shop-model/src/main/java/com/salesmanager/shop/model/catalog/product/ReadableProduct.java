@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.salesmanager.shop.model.catalog.category.ReadableCategory;
@@ -9,7 +8,7 @@ import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductAttr
 import com.salesmanager.shop.model.catalog.product.attribute.ReadableProductOption;
 import com.salesmanager.shop.model.catalog.product.type.ReadableProductType;
 
-public class ReadableProduct extends ProductEntity implements Serializable {
+public class ReadableProduct extends ProductEntity {
 
 	/**
 	 * 

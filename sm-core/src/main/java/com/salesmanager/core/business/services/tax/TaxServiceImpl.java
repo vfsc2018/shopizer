@@ -178,13 +178,13 @@ public class TaxServiceImpl
 				BigDecimal itemPrice = item.getItemPrice();
 				TaxClass taxClass = item.getProduct().getTaxClass();
 				int quantity = item.getQuantity();
-				itemPrice = itemPrice.multiply(new BigDecimal(quantity));
+				itemPrice = itemPrice.multiply(BigDecimal.valueOf(quantity));
 				if(taxClass==null) {
 					taxClass = taxClassService.getByCode(DEFAULT_TAX_CLASS);
 				}
 				BigDecimal subTotal = taxClassAmountMap.get(taxClass.getId());
 				if(subTotal==null) {
-					subTotal = new BigDecimal(0);
+					subTotal = BigDecimal.valueOf(0);
 					subTotal.setScale(0, RoundingMode.HALF_UP);
 				}
 					
@@ -205,7 +205,7 @@ public class TaxServiceImpl
 				//taxClasses.put(defaultTaxClass.getId(), defaultTaxClass);
 				BigDecimal amnt = taxClassAmountMap.get(defaultTaxClass.getId());
 				if(amnt==null) {
-					amnt = new BigDecimal(0);
+					amnt = BigDecimal.valueOf(0);
 					amnt.setScale(0, RoundingMode.HALF_UP);
 				}
 				ShippingSummary shippingSummary = orderSummary.getShippingSummary();
@@ -237,7 +237,7 @@ public class TaxServiceImpl
 				continue;
 			}
 			BigDecimal taxedItemValue = null;
-			BigDecimal totalTaxedItemValue = new BigDecimal(0);
+			BigDecimal totalTaxedItemValue = BigDecimal.valueOf(0);
 			totalTaxedItemValue.setScale(0, RoundingMode.HALF_UP);
 			BigDecimal beforeTaxeAmount = taxClassAmountMap.get(taxClassId);
 			for(TaxRate taxRate : taxRates) {
@@ -252,8 +252,8 @@ public class TaxServiceImpl
 				} //else just use nominal taxing (combine)
 				
 				double value  = (beforeTaxeAmount.doubleValue() * taxRateDouble)/100;
-				double roundedValue = new BigDecimal(value).setScale(0, RoundingMode.HALF_UP).doubleValue();
-				taxedItemValue = new BigDecimal(roundedValue).setScale(0, RoundingMode.HALF_UP);
+				double roundedValue = BigDecimal.valueOf(value).setScale(0, RoundingMode.HALF_UP).doubleValue();
+				taxedItemValue = BigDecimal.valueOf(roundedValue).setScale(0, RoundingMode.HALF_UP);
 				totalTaxedItemValue = beforeTaxeAmount.add(taxedItemValue);
 				
 				TaxItem taxItem = new TaxItem();

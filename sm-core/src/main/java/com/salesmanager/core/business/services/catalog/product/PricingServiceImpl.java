@@ -57,7 +57,7 @@ public class PricingServiceImpl implements PricingService {
 	
 	@Override
 	public BigDecimal calculatePriceQuantity(BigDecimal price, int quantity) {
-		return price.multiply(new BigDecimal(quantity));
+		return price.multiply(BigDecimal.valueOf(quantity));
 	}
 
 	@Override

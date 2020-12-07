@@ -84,7 +84,7 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private List<Group> groups = new ArrayList<Group>();
+	private List<Group> groups = new ArrayList<>();
 	
 	@NotEmpty
 	@Email
@@ -160,8 +160,8 @@ public class User extends SalesManagerEntity<Long, User> implements Auditable {
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 		
 	}
 

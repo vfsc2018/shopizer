@@ -111,8 +111,8 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 
 	}
 

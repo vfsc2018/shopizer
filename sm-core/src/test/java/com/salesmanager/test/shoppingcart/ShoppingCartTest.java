@@ -150,9 +150,9 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	     * Create a complex product
 	     */
 	    Product product = new Product();
-	    product.setProductHeight(new BigDecimal(4));
-	    product.setProductLength(new BigDecimal(3));
-	    product.setProductWidth(new BigDecimal(1));
+	    product.setProductHeight(BigDecimal.valueOf(4));
+	    product.setProductLength(BigDecimal.valueOf(3));
+	    product.setProductWidth(BigDecimal.valueOf(1));
 	    product.setSku("XABC12");
 	    product.setManufacturer(addidas);
 	    product.setType(generalType);
@@ -178,7 +178,7 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    //price
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
-	    dprice.setProductPriceAmount(new BigDecimal(29.99));
+	    dprice.setProductPriceAmount(BigDecimal.valueOf(29.99));
 	    dprice.setProductAvailability(availability);
 	    
 	    
@@ -199,8 +199,8 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    whiteAttribute.setProduct(product);
 	    whiteAttribute.setProductOption(option);
 	    whiteAttribute.setAttributeDefault(true);
-	    whiteAttribute.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    whiteAttribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
+	    whiteAttribute.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+	    whiteAttribute.setProductAttributeWeight(BigDecimal.valueOf(0));//no weight variation
 	    whiteAttribute.setProductOption(option);
 	    whiteAttribute.setProductOptionValue(white);
 	    
@@ -209,8 +209,8 @@ public class ShoppingCartTest extends com.salesmanager.test.common.AbstractSales
 	    ProductAttribute blackAttribute = new ProductAttribute();
 	    blackAttribute.setProduct(product);
 	    blackAttribute.setProductOption(option);
-	    blackAttribute.setProductAttributePrice(new BigDecimal(5));//5 + dollars
-	    blackAttribute.setProductAttributeWeight(new BigDecimal(0));//no weight variation
+	    blackAttribute.setProductAttributePrice(BigDecimal.valueOf(5));//5 + dollars
+	    blackAttribute.setProductAttributeWeight(BigDecimal.valueOf(0));//no weight variation
 	    blackAttribute.setProductOption(option);
 	    blackAttribute.setProductOptionValue(black);
 	    

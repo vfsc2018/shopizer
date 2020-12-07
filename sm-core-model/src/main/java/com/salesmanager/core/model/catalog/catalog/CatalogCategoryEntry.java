@@ -92,9 +92,8 @@ public class CatalogCategoryEntry extends SalesManagerEntity<Long, CatalogCatego
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		auditSection = audit;
-		
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 	}
 
 	public boolean isVisible() {

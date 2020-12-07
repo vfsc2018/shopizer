@@ -1,7 +1,5 @@
 package com.salesmanager.core.model.catalog.product.relationship;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +17,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 
 @Entity
 @Table(name = "PRODUCT_RELATIONSHIP", schema=SchemaConstant.SALESMANAGER_SCHEMA)
-public class ProductRelationship extends SalesManagerEntity<Long, ProductRelationship> implements Serializable {
+public class ProductRelationship extends SalesManagerEntity<Long, ProductRelationship> {
 	private static final long serialVersionUID = -9045331138054246299L;
 	
 	@Id

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class CoreConfiguration {
 	
 
-	public Properties properties = new Properties();
+	private Properties properties = new Properties();
 	private static final Logger LOGGER = LoggerFactory.getLogger(CoreConfiguration.class);
 	
 	public Properties getProperties() {

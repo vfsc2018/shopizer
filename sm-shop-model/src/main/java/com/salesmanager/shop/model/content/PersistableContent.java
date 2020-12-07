@@ -1,11 +1,10 @@
 package com.salesmanager.shop.model.content;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 import com.salesmanager.shop.model.entity.Entity;
 
-public class PersistableContent extends Entity implements Serializable {
+public class PersistableContent extends Entity {
   
   /**
    * 
@@ -38,6 +37,6 @@ public class PersistableContent extends Entity implements Serializable {
     this.isDisplayedInMenu = isDisplayedInMenu;
   }
 
-  private List<ObjectContent> descriptions = new ArrayList<ObjectContent>();
+  private List<ObjectContent> descriptions = new ArrayList<>();
 
 }
