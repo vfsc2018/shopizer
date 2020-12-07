@@ -402,6 +402,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 									billItem.setQuantity(quantity[j]);
 									billItem.setPrice(oneTimeCharge[j]);
 									billItem.setBillMaster(billMaster);
+									
+									billItem.setQuantityOfParent(new Double(combo.getProductQuantity()));
+									
 									billItemService.saveBillItem(billItem);
 								}
 							j++;

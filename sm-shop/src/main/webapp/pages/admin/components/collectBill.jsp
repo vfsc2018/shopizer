@@ -69,7 +69,7 @@ td, th {
 				<td><c:out value="${stt}" /></td>
 				<td><c:out value="${entity.code}" /></td>
 				<td><c:out value="${entity.name}" /></td>
-				<td><c:out value="${entity.quantity}" /></td>
+				<td><c:out value="${entity.quantity}" />&nbsp;<c:out value="${entity.unit}" /> </td>
 				<td><sm:monetary value="${entity.totalMoney}" currency="${currency}"/></td>
 				
 		</tr>

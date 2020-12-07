@@ -32,8 +32,23 @@ public class CollectBill {
 
 	private String code;
 	private String name;
+	private String unit;
 	private Double quantity;
 	private Double totalMoney;
+	private Long parentId;	
+	
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 
 
 }

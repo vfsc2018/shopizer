@@ -26,7 +26,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 	@Override
 	public List<CollectBill> collectBill(String billIds) {
 		StringBuffer sql = new StringBuffer("")
-			.append(" select code,name,sum(quantity) as quantity,sum(quantity*price) as totalMoney from BillItem  ")
+			.append(" select code,name,unit,sum(quantity*quantityOfParent) as quantity,sum(quantity*quantityOfParent*price) as totalMoney from BillItem  ")
 			.append(" where billMaster.id in("+ billIds +") ")
 			.append(" group by code,unit,name ");
 
@@ -36,8 +36,15 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			CollectBill bean = new CollectBill();
 			bean.setCode((String) row[0]);
 			bean.setName((String) row[1]);
-			bean.setQuantity((Double) row[2]);
-			bean.setTotalMoney((Double) row[3]);
+			bean.setUnit((String) row[2]);
+			bean.setQuantity((Double) row[3]);
+			bean.setTotalMoney((Double) row[4]);
+			
+			//get Quantity parentId
+			sql = new StringBuffer("");
+			
+			
+			
 			dataList.add(bean);
 		}
 		
@@ -51,7 +58,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			.append(" select sku,productName,sum(productQuantity),sum(productQuantity*oneTimeCharge) as totalMoney from OrderProduct ")
 			.append(" where order.id in("+ orderIds +") ")
 			.append(" group by sku,productName ");
-
+		
 		List<CollectBill> dataList = new ArrayList<CollectBill>();
 		List<Object[]> results = em.createQuery(sql.toString(), Object[].class).getResultList();
 		for (Object[] row : results) {
