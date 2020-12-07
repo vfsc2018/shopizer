@@ -215,9 +215,9 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    // PRODUCT 1
 
 	    Product product = new Product();
-	    product.setProductHeight(new BigDecimal(4));
-	    product.setProductLength(new BigDecimal(3));
-	    product.setProductWidth(new BigDecimal(1));
+	    product.setProductHeight(BigDecimal.valueOf(4));
+	    product.setProductLength(BigDecimal.valueOf(3));
+	    product.setProductWidth(BigDecimal.valueOf(1));
 	    product.setSku("CT12345");
 	    product.setManufacturer(oreilley);
 	    product.setType(generalType);
@@ -248,7 +248,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
-	    dprice.setProductPriceAmount(new BigDecimal(29.99));
+	    dprice.setProductPriceAmount(BigDecimal.valueOf(29.99));
 	    dprice.setProductAvailability(availability);
 
 	    ProductPriceDescription dpd = new ProductPriceDescription();
@@ -308,13 +308,13 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 		
 		//Get first price, which is the only one created
 		ProductPrice updatablePrice = updatableAvailability.getPrices().iterator().next();
-		updatablePrice.setProductPriceAmount(new BigDecimal(19.99));
+		updatablePrice.setProductPriceAmount(BigDecimal.valueOf(19.99));
 		
 		
 		//Add a second price
 	    ProductPrice anotherPrice = new ProductPrice();
 	    anotherPrice.setCode("eco");
-	    anotherPrice.setProductPriceAmount(new BigDecimal(1.99));
+	    anotherPrice.setProductPriceAmount(BigDecimal.valueOf(1.99));
 	    anotherPrice.setProductAvailability(updatableAvailability);
 
 	    ProductPriceDescription anotherPriceD = new ProductPriceDescription();
@@ -469,8 +469,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
         color_blue.setProduct(product);
         color_blue.setProductOption(color);
         color_blue.setAttributeDefault(true);
-        color_blue.setProductAttributePrice(new BigDecimal(0));//no price variation
-        color_blue.setProductAttributeWeight(new BigDecimal(1));//weight variation
+        color_blue.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+        color_blue.setProductAttributeWeight(BigDecimal.valueOf(1));//weight variation
         color_blue.setProductOptionValue(blue);
         
         productAttributeService.create(color_blue);
@@ -484,8 +484,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    color_red.setProduct(product);
 	    color_red.setProductOption(color);
 	    color_red.setAttributeDefault(true);
-	    color_red.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    color_red.setProductAttributeWeight(new BigDecimal(1));//weight variation
+	    color_red.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+	    color_red.setProductAttributeWeight(BigDecimal.valueOf(1));//weight variation
 	    color_red.setProductOptionValue(red);
 	    
 	    productAttributeService.create(color_red);
@@ -497,8 +497,8 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    smallAttr.setProduct(product);
 	    smallAttr.setProductOption(size);
 	    smallAttr.setAttributeDefault(true);
-	    smallAttr.setProductAttributePrice(new BigDecimal(0));//no price variation
-	    smallAttr.setProductAttributeWeight(new BigDecimal(1));//weight variation
+	    smallAttr.setProductAttributePrice(BigDecimal.valueOf(0));//no price variation
+	    smallAttr.setProductAttributeWeight(BigDecimal.valueOf(1));//weight variation
 	    smallAttr.setProductOptionValue(small);
 	    
 	    productAttributeService.create(smallAttr);
@@ -604,9 +604,9 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    // PRODUCT 1
 
 	    Product related = new Product();
-	    related.setProductHeight(new BigDecimal(4));
-	    related.setProductLength(new BigDecimal(3));
-	    related.setProductWidth(new BigDecimal(1));
+	    related.setProductHeight(BigDecimal.valueOf(4));
+	    related.setProductLength(BigDecimal.valueOf(3));
+	    related.setProductWidth(BigDecimal.valueOf(1));
 	    related.setSku("TB67891");
 	    related.setManufacturer(oreilley);
 	    related.setType(generalType);
@@ -637,7 +637,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
-	    dprice.setProductPriceAmount(new BigDecimal(39.99));
+	    dprice.setProductPriceAmount(BigDecimal.valueOf(39.99));
 	    dprice.setProductAvailability(availability);
 
 	    ProductPriceDescription dpd = new ProductPriceDescription();

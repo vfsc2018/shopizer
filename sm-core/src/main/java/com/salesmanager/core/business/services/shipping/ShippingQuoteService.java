@@ -7,7 +7,6 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.shipping.Quote;
-import com.salesmanager.core.model.shipping.ShippingQuote;
 import com.salesmanager.core.model.shipping.ShippingSummary;
 
 /**

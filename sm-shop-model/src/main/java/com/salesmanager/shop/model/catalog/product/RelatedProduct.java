@@ -1,8 +1,6 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import java.io.Serializable;
-
-public class RelatedProduct extends Product implements Serializable {
+public class RelatedProduct extends Product {
 
 	/**
 	 * 

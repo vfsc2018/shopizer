@@ -8,7 +8,7 @@ import com.salesmanager.core.business.services.customer.attribute.CustomerOption
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.language.LanguageService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
-import com.salesmanager.core.business.services.system.EmailService;
+// import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
@@ -34,9 +34,10 @@ import com.salesmanager.shop.model.user.Sms;
 import com.salesmanager.shop.populator.customer.ReadableCustomerOptionPopulator;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.DateUtil;
-import com.salesmanager.shop.utils.EmailUtils;
+// import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.SessionUtil;
+import com.salesmanager.shop.utils.SmsUtils;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +58,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestClientException;
+// import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.inject.Inject;
@@ -68,15 +69,12 @@ import javax.validation.Valid;
 import java.util.*;
 import java.util.regex.Pattern;
 
-
-
 @Controller
 public class CustomerController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerController.class);
 	
 	private static final String CUSTOMER_ID_PARAMETER = "customer";
-	
 	
 	@Inject
 	private CoreConfiguration configuration;
@@ -115,11 +113,11 @@ public class CustomerController {
 	@Named("passwordEncoder")
 	private PasswordEncoder passwordEncoder;
 	
-	@Inject
-	private EmailService emailService;
+	// @Inject
+	// private EmailService emailService;
 	
-	@Inject
-	private EmailUtils emailUtils;
+	// @Inject
+	// private EmailUtils emailUtils;
 	
 	@Inject
 	private CustomerFacade customerFacade;
@@ -141,7 +139,7 @@ public class CustomerController {
 		this.setMenu(model, request);
 		
 		//get groups
-		List<Group> groups = new ArrayList<Group>();
+		List<Group> groups = new ArrayList<>();
 		List<Group> userGroups = groupService.listGroup(GroupType.CUSTOMER);
 		for(Group group : userGroups) {
 			groups.add(group);
@@ -191,7 +189,7 @@ public class CustomerController {
 	
 	private void getCustomerOptions(Model model, Customer customer, MerchantStore store, Language language) throws Exception {
 
-		Map<Long,CustomerOption> options = new HashMap<Long,CustomerOption>();
+		Map<Long,CustomerOption> options = new HashMap<>();
 		//get options
 		List<CustomerOptionSet> optionSet = customerOptionSetService.listByStore(store, language);
 		if(!CollectionUtils.isEmpty(optionSet)) {
@@ -476,7 +474,7 @@ public class CustomerController {
 		}
 		
 		List<CustomerAttribute> customerAttributes = customerAttributeService.getByCustomer(store, customer);
-		Map<Long,CustomerAttribute> customerAttributesMap = new HashMap<Long,CustomerAttribute>();
+		Map<Long,CustomerAttribute> customerAttributesMap = new HashMap<>();
 		
 		for(CustomerAttribute attr : customerAttributes) {
 			customerAttributesMap.put(attr.getCustomerOption().getId(), attr);
@@ -722,17 +720,17 @@ public class CustomerController {
 	
 	public boolean sendPassword(String pwd, String phone) {
 		
-		String uri = configuration.getProperty("SMS_GATEWAY");
 		String text = configuration.getProperty("SMS_RESET_PASSWORD") + pwd;
-		Sms sms = new Sms();
-		sms.setPhone(phone);
-		sms.setText(text);
-	    RestTemplate restTemplate = new RestTemplate();
-        final HttpEntity<Sms> entity = new HttpEntity<>(sms, SessionUtil.getBasicHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
+		return SmsUtils.sendTextMessage(phone, text);
+		// Sms sms = new Sms();
+		// sms.setPhone(phone);
+		// sms.setText(text);
+	    // RestTemplate restTemplate = new RestTemplate();
+        // final HttpEntity<Sms> entity = new HttpEntity<>(sms, SessionUtil.getBasicHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
 
-		ResponseEntity<?> response = restTemplate.postForEntity(uri, entity, String.class);
+		// ResponseEntity<?> response = restTemplate.postForEntity(uri, entity, String.class);
     
-	    return (response.getStatusCode()==HttpStatus.OK);
+	    // return (response.getStatusCode()==HttpStatus.OK);
 		
 	}	
 	

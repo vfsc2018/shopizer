@@ -109,7 +109,7 @@ public class PersistableOrderPopulator extends
 			target.setCurrency(currency);
 			target.setDatePurchased(source.getDatePurchased());
 			//target.setCurrency(store.getCurrency());
-			target.setCurrencyValue(new BigDecimal(0));
+			target.setCurrencyValue(BigDecimal.valueOf(0));
 			target.setMerchant(store);
 			target.setStatus(source.getOrderStatus());
 			target.setPaymentModuleCode(source.getPaymentModule());

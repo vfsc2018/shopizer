@@ -402,8 +402,8 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	}
 
 	@Override
-	public void setAuditSection(AuditSection audit) {
-		this.auditSection = audit;
+	public void setAuditSection(AuditSection auditSection) {
+		this.auditSection = auditSection;
 
 	}
 

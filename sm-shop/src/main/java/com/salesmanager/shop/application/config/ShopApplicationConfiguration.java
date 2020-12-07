@@ -4,7 +4,7 @@ import static org.springframework.http.MediaType.IMAGE_GIF;
 import static org.springframework.http.MediaType.IMAGE_JPEG;
 import static org.springframework.http.MediaType.IMAGE_PNG;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,13 +62,14 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
   @Bean
   public TilesConfigurer tilesConfigurer() {
     TilesConfigurer tilesConfigurer = new TilesConfigurer();
-    tilesConfigurer.setDefinitions(
-        "/WEB-INF/tiles/tiles-admin.xml");
+    tilesConfigurer.setDefinitions("/WEB-INF/tiles/tiles-admin.xml");
+    // tilesConfigurer.setDefinitions(
+        // "/WEB-INF/tiles/tiles-admin.xml");
         // "/WEB-INF/tiles/tiles-shop.xml");
     // tilesConfigurer.setDefinitions(
     //   "classpath*:/webapp/WEB-INF/tiles/tiles-admin.xml", 
     //   "classpath*:/webapp/WEB-INF/tiles/tiles-shop.xml");
-      tilesConfigurer.setCheckRefresh(true);
+      // tilesConfigurer.setCheckRefresh(true);
     return tilesConfigurer;
   }
 
@@ -89,9 +90,9 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
 
       MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
       List<MediaType> supportedMediaTypes = new ArrayList<>();
-      MediaType textMedia = new MediaType(MediaType.TEXT_PLAIN, Charset.forName("UTF-8"));
+      MediaType textMedia = new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8); // Charset.forName("UTF-8"));
       supportedMediaTypes.add(textMedia);
-      MediaType jsonMedia = new MediaType(MediaType.APPLICATION_JSON, Charset.forName("UTF-8"));
+      MediaType jsonMedia = new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8);// Charset.forName("UTF-8"));
       supportedMediaTypes.add(jsonMedia);jsonConverter.setSupportedMediaTypes(supportedMediaTypes);
       
       converters.add(jsonConverter);

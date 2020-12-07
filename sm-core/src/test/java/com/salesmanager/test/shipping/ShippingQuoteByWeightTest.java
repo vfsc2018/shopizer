@@ -70,10 +70,10 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    store.setStorepostalcode("J4B-9J9");
 
 	    Product product = new Product();
-	    product.setProductHeight(new BigDecimal(4));
-	    product.setProductLength(new BigDecimal(3));
-	    product.setProductWidth(new BigDecimal(5));
-	    product.setProductWeight(new BigDecimal(8));
+	    product.setProductHeight(BigDecimal.valueOf(4));
+	    product.setProductLength(BigDecimal.valueOf(3));
+	    product.setProductWidth(BigDecimal.valueOf(5));
+	    product.setProductWeight(BigDecimal.valueOf(8));
 	    product.setSku("TESTSKU");
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
@@ -103,7 +103,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
-	    dprice.setProductPriceAmount(new BigDecimal(29.99));
+	    dprice.setProductPriceAmount(BigDecimal.valueOf(29.99));
 	    dprice.setProductAvailability(availability);
 
 	    ProductPriceDescription dpd = new ProductPriceDescription();
@@ -175,13 +175,13 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 		
 		CustomShippingQuoteWeightItem caQuote4 = new CustomShippingQuoteWeightItem();
 		caQuote4.setMaximumWeight(4);
-		caQuote4.setPrice(new BigDecimal(20));
+		caQuote4.setPrice(BigDecimal.valueOf(20));
 		CustomShippingQuoteWeightItem caQuote10 = new CustomShippingQuoteWeightItem();
 		caQuote10.setMaximumWeight(10);
-		caQuote10.setPrice(new BigDecimal(50));
+		caQuote10.setPrice(BigDecimal.valueOf(50));
 		CustomShippingQuoteWeightItem caQuote100 = new CustomShippingQuoteWeightItem();
 		caQuote100.setMaximumWeight(100);
-		caQuote100.setPrice(new BigDecimal(120));
+		caQuote100.setPrice(BigDecimal.valueOf(120));
 		List<CustomShippingQuoteWeightItem> quotes = new ArrayList<CustomShippingQuoteWeightItem>();
 		quotes.add(caQuote4);
 		quotes.add(caQuote10);

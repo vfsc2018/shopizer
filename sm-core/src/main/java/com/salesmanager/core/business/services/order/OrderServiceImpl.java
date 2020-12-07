@@ -220,7 +220,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
         ShippingConfiguration shippingConfiguration = null;
 
-        BigDecimal grandTotal = new BigDecimal(0);
+        BigDecimal grandTotal = BigDecimal.valueOf(0);
         grandTotal.setScale(0, RoundingMode.HALF_UP);
 
         //price by item
@@ -228,11 +228,11 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
          * qty * price
          * subtotal
          */
-        BigDecimal subTotal = new BigDecimal(0);
+        BigDecimal subTotal = BigDecimal.valueOf(0);
         subTotal.setScale(0, RoundingMode.HALF_UP);
         for(ShoppingCartItem item : summary.getProducts()) {
 
-            BigDecimal st = item.getItemPrice().multiply(new BigDecimal(item.getQuantity()));
+            BigDecimal st = item.getItemPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
             item.setSubTotal(st);
             subTotal = subTotal.add(st);
             //Other prices
@@ -256,13 +256,13 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
                             BigDecimal orderTotalValue = itemSubTotal.getValue();
                             if(orderTotalValue==null) {
-                                orderTotalValue = new BigDecimal(0);
+                                orderTotalValue = BigDecimal.valueOf(0);
                                 orderTotalValue.setScale(0, RoundingMode.HALF_UP);
                             }
 
                             orderTotalValue = orderTotalValue.add(price.getFinalPrice());
                             itemSubTotal.setValue(orderTotalValue);
-                            if(price.getProductPrice().getProductPriceType().name().equals(OrderValueType.ONE_TIME)) {
+                            if(price.getProductPrice().getProductPriceType() == OrderValueType.ONE_TIME) {
                                 subTotal = subTotal.add(price.getFinalPrice());
                             }
                         }
@@ -328,8 +328,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                 shippingSubTotal.setValue(summary.getShippingSummary().getShipping());
                 grandTotal=grandTotal.add(summary.getShippingSummary().getShipping());
             } else {
-                shippingSubTotal.setValue(new BigDecimal(0));
-                grandTotal=grandTotal.add(new BigDecimal(0));
+                shippingSubTotal.setValue(BigDecimal.valueOf(0));
+                grandTotal=grandTotal.add(BigDecimal.valueOf(0));
             }
 
             //check handling fees
@@ -353,7 +353,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         //tax
         List<TaxItem> taxes = taxService.calculateTax(summary, customer, store, language);
         if(taxes!=null && taxes.size()>0) {
-        	BigDecimal totalTaxes = new BigDecimal(0);
+        	BigDecimal totalTaxes = BigDecimal.valueOf(0);
         	totalTaxes.setScale(0, RoundingMode.HALF_UP);
             int taxCount = 200;
             for(TaxItem tax : taxes) {

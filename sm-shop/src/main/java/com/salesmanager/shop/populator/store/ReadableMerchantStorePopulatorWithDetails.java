@@ -1,12 +1,9 @@
 package com.salesmanager.shop.populator.store;
 
 import com.salesmanager.core.business.exception.ConversionException;
-import com.salesmanager.core.business.services.reference.country.CountryService;
-import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
-import com.salesmanager.shop.utils.ImageFilePath;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

@@ -61,7 +61,7 @@ public class ReadableOrderProductPopulator extends
 		
 		//subtotal = price * quantity
 		BigDecimal subTotal = source.getOneTimeCharge();
-		subTotal = subTotal.multiply(new BigDecimal(source.getProductQuantity()));
+		subTotal = subTotal.multiply(BigDecimal.valueOf(source.getProductQuantity()));
 		
 		try {
 			String subTotalPrice = pricingService.getDisplayAmount(subTotal, store);

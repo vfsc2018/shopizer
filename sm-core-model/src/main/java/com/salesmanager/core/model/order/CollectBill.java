@@ -1,7 +1,5 @@
 package com.salesmanager.core.model.order;
 
-import java.math.BigDecimal;
-
 
 public class CollectBill {
 

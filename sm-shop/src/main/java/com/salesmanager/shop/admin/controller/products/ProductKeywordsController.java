@@ -104,11 +104,11 @@ public class ProductKeywordsController {
 		List<String> keyWordsList = null;
 		if(!StringUtils.isBlank(keywords)) {
 			String[] splits = keywords.split(",");
-			keyWordsList = new ArrayList(Arrays.asList(splits));
+			keyWordsList = Arrays.asList(splits);
 		}
 		
 		if(keyWordsList==null) {
-			keyWordsList = new ArrayList<String>();
+			keyWordsList = new ArrayList<>();
 		}
 		keyWordsList.add(keyword.getKeyword());
 		
@@ -118,7 +118,7 @@ public class ProductKeywordsController {
 		}
 		
 		productDescription.setMetatagKeywords(kwString.toString());
-		Set<ProductDescription> updatedDescriptions = new HashSet<ProductDescription>();
+		Set<ProductDescription> updatedDescriptions = new HashSet<>();
 		for(ProductDescription description : descriptions) {
 			
 			if(!description.getLanguage().getCode().equals(keyword.getLanguageCode())) {

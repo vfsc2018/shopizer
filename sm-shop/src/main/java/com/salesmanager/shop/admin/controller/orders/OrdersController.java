@@ -7,7 +7,6 @@ import com.salesmanager.core.business.services.system.ModuleConfigurationService
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.CollectBill;
@@ -89,7 +88,7 @@ public class OrdersController {
 
 
 	@PreAuthorize("hasRole('ORDER')")
-	@SuppressWarnings({ "unchecked", "unused"})
+	@SuppressWarnings({ "unchecked"})
 	@RequestMapping(value="/admin/orders/paging.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageOrders(HttpServletRequest request, HttpServletResponse response, Locale locale) {
 		
@@ -110,6 +109,7 @@ public class OrdersController {
 			String	endDate = request.getParameter("endDate");
 			String	date = request.getParameter("date");
 			String	address = request.getParameter("address");
+			String purchased = request.getParameter("purchased");
 
 			if(date!=null && date.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
@@ -125,6 +125,9 @@ public class OrdersController {
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
+
+			criteria.setPurchased(purchased!=null && purchased.equals("true"));
+
 			if(!StringUtils.isBlank(date)){
 				criteria.setDate(date);
 			}
@@ -226,7 +229,7 @@ public class OrdersController {
 			throws Exception {
 		// display menu
 		setMenu(model, request);
-		List<Order> dataStore = new ArrayList<Order>();
+		List<Order> dataStore = new ArrayList<>();
 		try {
 			dataStore = (List<Order>)request.getSession().getAttribute("STORE_ORDERDATA");
 		} catch (Exception e) {
@@ -247,8 +250,8 @@ public class OrdersController {
 			throws Exception {
 		// display menu
 		setMenu(model, request);
-		List<Order> dataStore = new ArrayList<Order>();
-		List<CollectBill> datas = new ArrayList<CollectBill>();
+		List<Order> dataStore = new ArrayList<>();
+		List<CollectBill> datas = new ArrayList<>();
 		try {
 			dataStore = (List<Order>)request.getSession().getAttribute("STORE_ORDERDATA");
 			String billIds ="";
@@ -286,7 +289,7 @@ public class OrdersController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("order");
+		Menu currentMenu = menus.get("order");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

@@ -1,7 +1,5 @@
 package com.salesmanager.shop.model.customer.address;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.NotEmpty;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -11,7 +9,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * @author carlsamson
  *
  */
-public class Address extends AddressLocation implements Serializable {
+public class Address extends AddressLocation {
 	
 	/**
 	 * 

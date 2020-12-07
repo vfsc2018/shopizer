@@ -49,7 +49,7 @@ public class OrderStatusHistory implements Serializable {
 	private Date dateAdded;
 	
 	@Column(name = "CUSTOMER_NOTIFIED")
-	private java.lang.Integer customerNotified;
+	private Long customerNotified;
 	
 	@Column(name = "COMMENTS")
 	@Type(type = "org.hibernate.type.TextType")
@@ -90,11 +90,11 @@ public class OrderStatusHistory implements Serializable {
 		this.dateAdded = CloneUtils.clone(dateAdded);
 	}
 
-	public java.lang.Integer getCustomerNotified() {
+	public Long getCustomerNotified() {
 		return customerNotified;
 	}
 
-	public void setCustomerNotified(java.lang.Integer customerNotified) {
+	public void setCustomerNotified(Long customerNotified) {
 		this.customerNotified = customerNotified;
 	}
 

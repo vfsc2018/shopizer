@@ -93,7 +93,7 @@ public class AuthenticateCustomerApi {
             customer.setUserName(customer.getEmailAddress());
             
             Validate.notNull(customer.getUserName(),"Username cannot be null");
-            Validate.notNull(customer.getBilling(),"Requires customer Country code");
+            Validate.notNull(customer.getBilling(),"Requires billing information");
             Validate.notNull(customer.getBilling().getCountry(),"Requires customer Country code");
             
             customerFacade.registerCustomer(customer, merchantStore, language);

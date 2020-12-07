@@ -4,7 +4,6 @@ import com.salesmanager.core.model.common.Billing;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
-import javax.persistence.Embedded;
 import javax.persistence.Transient;
 
 import java.io.Serializable;
@@ -24,6 +23,7 @@ public class Order implements Serializable {
 	
 	private List<OrderStatus> orderStatusList = Arrays.asList(OrderStatus.values());     
 	private String datePurchased = "";
+	private String paymentTime;
 	
 	private String fromDate = "";
 	private String toDate = "";
@@ -69,6 +69,14 @@ public class Order implements Serializable {
 
 	public void setDatePurchased(String datePurchased) {
 		this.datePurchased = datePurchased;
+	}
+
+	public String getPaymentTime() {
+		return paymentTime;
+	}
+
+	public void setPaymentTime(String paymentTime) {
+		this.paymentTime = paymentTime;
 	}
 
 	public Long getId() {

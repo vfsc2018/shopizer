@@ -1,17 +1,16 @@
 package com.salesmanager.shop.model.catalog.category;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersistableCategory extends CategoryEntity implements Serializable {
+public class PersistableCategory extends CategoryEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<CategoryDescription> descriptions;//always persist description
-	private List<PersistableCategory> children = new ArrayList<PersistableCategory>();
+	private List<PersistableCategory> children = new ArrayList<>();
 	
 	public List<CategoryDescription> getDescriptions() {
 		return descriptions;

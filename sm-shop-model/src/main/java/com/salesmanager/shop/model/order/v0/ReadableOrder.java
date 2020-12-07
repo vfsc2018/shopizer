@@ -10,11 +10,10 @@ import com.salesmanager.shop.model.order.ReadableOrderProduct;
 import com.salesmanager.shop.model.order.total.OrderTotal;
 import com.salesmanager.shop.model.store.ReadableMerchantStore;
 
-import java.io.Serializable;
 import java.util.List;
 
 
-public class ReadableOrder extends OrderEntity implements Serializable {
+public class ReadableOrder extends OrderEntity {
 
 	/**
 	 * 

@@ -709,7 +709,7 @@ public class ShippingServiceImpl implements ShippingService {
 					
 					if(freeShipping) {
 						q.setFreeShipping(true);
-						q.setPrice(new BigDecimal(0));
+						q.setPrice(BigDecimal.valueOf(0));
 						q.setModule("FREE");
 						q.setOptionCode("FREE");
 						q.setOptionName("FREE");
@@ -855,10 +855,10 @@ public class ShippingServiceImpl implements ShippingService {
 
 	private BigDecimal calculateOrderTotal(List<ShippingProduct> products, MerchantStore store) throws Exception {
 		
-		BigDecimal total = new BigDecimal(0);
+		BigDecimal total = BigDecimal.valueOf(0);
 		for(ShippingProduct shippingProduct : products) {
 			BigDecimal currentPrice = shippingProduct.getFinalPrice().getFinalPrice();
-			currentPrice = currentPrice.multiply(new BigDecimal(shippingProduct.getQuantity()));
+			currentPrice = currentPrice.multiply(BigDecimal.valueOf(shippingProduct.getQuantity()));
 			total = total.add(currentPrice);
 		}
 		

@@ -18,7 +18,17 @@ public class OrderCriteria extends Criteria {
 	private Date endDate;
 	private String date;
 
+	private boolean purchased = false;
+
 	private String address;
+
+	public boolean getPurchased() {
+		return purchased;
+	}
+	public void setPurchased(boolean purchased) {
+		this.purchased = purchased;
+	}
+
 	public String getAddress() {
 		return address;
 	}

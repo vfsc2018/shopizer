@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author Carl Samson
  *
  */
-public class ProductPriceEntity extends ProductPrice implements Serializable {
+public class ProductPriceEntity extends ProductPrice {
 	
 	/**
 	 * 

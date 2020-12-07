@@ -1,7 +1,5 @@
 package com.salesmanager.shop.admin.controller.products;
 
-import antlr.StringUtils;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;

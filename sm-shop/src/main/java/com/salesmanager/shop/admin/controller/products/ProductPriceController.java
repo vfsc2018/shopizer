@@ -157,7 +157,7 @@ public class ProductPriceController {
 			
 			
 			for(ProductPrice price : prices) {
-				Map entry = new HashMap();
+				Map entry = new HashMap<>();
 				entry.put("priceId", price.getId());
 				
 				

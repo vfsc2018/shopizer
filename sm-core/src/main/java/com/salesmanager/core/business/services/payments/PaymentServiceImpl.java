@@ -354,7 +354,7 @@ public class PaymentServiceImpl implements PaymentService {
 		TransactionType transactionType = TransactionType.valueOf(sTransactionType);
 		if(transactionType==null) {
 			transactionType = payment.getTransactionType();
-			if(transactionType.equals(TransactionType.CAPTURE.name())) {
+			if(transactionType == TransactionType.CAPTURE) {
 				throw new ServiceException("This method does not allow to process capture transaction. Use processCapturePayment");
 			}
 		}

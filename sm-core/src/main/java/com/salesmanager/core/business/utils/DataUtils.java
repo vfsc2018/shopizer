@@ -19,9 +19,7 @@ public class DataUtils {
 	 */
 	public static String trimPostalCode(String postalCode) {
 
-		String pc = postalCode.replaceAll("[^a-zA-Z0-9]", "");
-
-		return pc;
+		return postalCode.replaceAll("[^a-zA-Z0-9]", "");
 
 	}
 	
@@ -46,7 +44,7 @@ public class DataUtils {
 						RoundingMode.HALF_UP).doubleValue();
 			} else {// pound = kilogram
 				double answer = weight * weightConstant;
-				BigDecimal w = new BigDecimal(answer);
+				BigDecimal w = BigDecimal.valueOf(answer);
 				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 			}
 		} else {// need KG
@@ -56,7 +54,7 @@ public class DataUtils {
 			} else {
 
 				double answer = weight / weightConstant;
-				BigDecimal w = new BigDecimal(answer);
+				BigDecimal w = BigDecimal.valueOf(answer);
 				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
 			}
@@ -84,7 +82,7 @@ public class DataUtils {
 				double measureConstant = 2.54;
 
 				double answer = measure * measureConstant;
-				BigDecimal w = new BigDecimal(answer);
+				BigDecimal w = BigDecimal.valueOf(answer);
 				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
 			}
@@ -96,7 +94,7 @@ public class DataUtils {
 				double measureConstant = 0.39;
 
 				double answer = measure * measureConstant;
-				BigDecimal w = new BigDecimal(answer);
+				BigDecimal w = BigDecimal.valueOf(answer);
 				return w.setScale(2, RoundingMode.HALF_UP).doubleValue();
 
 			}

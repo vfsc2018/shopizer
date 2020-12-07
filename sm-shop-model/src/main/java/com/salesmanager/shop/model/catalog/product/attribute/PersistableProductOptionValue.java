@@ -1,12 +1,10 @@
 package com.salesmanager.shop.model.catalog.product.attribute;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.salesmanager.shop.model.catalog.product.attribute.api.ProductOptionValueEntity;
 
-public class PersistableProductOptionValue extends ProductOptionValueEntity
-		implements Serializable {
+public class PersistableProductOptionValue extends ProductOptionValueEntity {
 	
 	/**
 	 * 

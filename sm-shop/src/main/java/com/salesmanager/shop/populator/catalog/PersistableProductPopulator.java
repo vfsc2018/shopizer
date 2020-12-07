@@ -197,7 +197,7 @@ public class PersistableProductPopulator extends
 			target.setProductVirtual(source.isProductVirtual());
 			target.setProductShipeable(source.isProductShipeable());
 			if(source.getRating() != null) {
-				target.setProductReviewAvg(new BigDecimal(source.getRating()));
+				target.setProductReviewAvg(BigDecimal.valueOf(source.getRating()));
 			}
 			target.setProductReviewCount(source.getRatingCount());
 			

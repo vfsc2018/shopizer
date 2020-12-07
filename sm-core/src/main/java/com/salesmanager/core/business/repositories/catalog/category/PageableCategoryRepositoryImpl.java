@@ -1,6 +1,5 @@
 package com.salesmanager.core.business.repositories.catalog.category;
 
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

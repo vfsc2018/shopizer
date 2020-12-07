@@ -19,7 +19,7 @@ public class BeanUtils
     
     @SuppressWarnings( "nls" )
     public Object getPropertyValue( Object bean, String property )
-        throws IntrospectionException, IllegalArgumentException, IllegalAccessException, InvocationTargetException
+        throws IntrospectionException, IllegalAccessException, InvocationTargetException
     {
         
         if (bean == null) {

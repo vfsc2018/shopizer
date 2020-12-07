@@ -208,7 +208,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				
 				if(total.getModule().equals(Constants.OT_TAX_MODULE_CODE)) {
 					if(tax==null) {
-						tax = new BigDecimal("0");
+						tax = BigDecimal.valueOf(0);
 					}
 					tax = tax.add(total.getValue());
 				}

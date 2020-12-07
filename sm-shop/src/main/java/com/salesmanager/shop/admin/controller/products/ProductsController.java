@@ -155,11 +155,7 @@ public class ProductsController {
 			}
 			
 			if(!StringUtils.isBlank(available)) {
-				if(available.equals("true")) {
-					criteria.setAvailable(new Boolean(true));
-				} else {
-					criteria.setAvailable(new Boolean(false));
-				}
+				criteria.setAvailable(available.equals("true"));
 			}
 			
 			ProductList productList = productService.listByStore(store, language, criteria);

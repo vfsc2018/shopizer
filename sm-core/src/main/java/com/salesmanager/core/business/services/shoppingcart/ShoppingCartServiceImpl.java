@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -383,7 +382,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 		item.setItemPrice(price.getFinalPrice());
 		item.setFinalPrice(price);
 
-		BigDecimal subTotal = item.getItemPrice().multiply(new BigDecimal(item.getQuantity().intValue()));
+		BigDecimal subTotal = item.getItemPrice().multiply(BigDecimal.valueOf(item.getQuantity().intValue()));
 		item.setSubTotal(subTotal);
 
 	}

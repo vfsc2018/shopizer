@@ -54,18 +54,18 @@ public class CustomerReviewServiceImpl extends
 
 		BigDecimal averageRating = customer.getCustomerReviewAvg();
 		if(averageRating==null) {
-			averageRating = new BigDecimal(0);
+			averageRating = BigDecimal.valueOf(0);
 		}
 		//get reviews
 
 		
-		BigDecimal totalRating = averageRating.multiply(new BigDecimal(count));
-		totalRating = totalRating.add(new BigDecimal(review.getReviewRating()));
+		BigDecimal totalRating = averageRating.multiply(BigDecimal.valueOf(count));
+		totalRating = totalRating.add(BigDecimal.valueOf(review.getReviewRating()));
 		
 		count = count + 1;
 		double avg = totalRating.doubleValue() / count.intValue();
 		
-		customer.setCustomerReviewAvg(new BigDecimal(avg));
+		customer.setCustomerReviewAvg(BigDecimal.valueOf(avg));
 		customer.setCustomerReviewCount(count);
 		super.save(review);
 		

@@ -353,12 +353,12 @@ public class ProductController {
 			ordernew.setCurrency(sessionStore.getCurrency());
 			//ordernew.setProductQuantity(product.getProductQuantity());
 			//ordernew.setOneTimeCharge(bean.getOneTimeCharge());
-			//ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())));
+			//ordernew.setTotal(bean.getOneTimeCharge().multiply(BigDecimal.valueOf(bean.getProductQuantity())));
 			
-			Double totalMoney = new Double("0");
+			Double totalMoney = 0.0;
 			if(dbProduct!=null){
 				
-				List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+				List<OrderProductEx> proRelaList =new ArrayList<>();
 				OrderProductEx proRela = null;
 				for(ProductRelationship sBean : dbProduct.getRelationships()){
 					
@@ -616,7 +616,7 @@ public class ProductController {
 			//submitedPrice = priceUtil.getAmount(product.getProductPrice());
 			if(product.getProductPrice()!=null){
 				submitedPrice = priceUtil.getAmount(product.getProductPrice());
-				// submitedPrice = new BigDecimal(product.getProductPrice());
+				// submitedPrice = BigDecimal.valueOf(product.getProductPrice());
 			}
 		} catch (Exception e) {
 			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));

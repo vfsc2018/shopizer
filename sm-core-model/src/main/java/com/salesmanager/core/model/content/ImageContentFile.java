@@ -1,8 +1,6 @@
 package com.salesmanager.core.model.content;
 
-import java.io.Serializable;
-
-public class ImageContentFile extends InputContentFile implements Serializable {
+public class ImageContentFile extends InputContentFile {
 
 	
 

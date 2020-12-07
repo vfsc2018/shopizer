@@ -221,8 +221,29 @@ function captureOrder(orderId){
 	});
 }
 
+	function selectSms(e){
+		alert(e.value);
+	}
 	$(document).ready(function(){ 
-	
+		// ORDERED("ordered"),
+		// PROCESSING("processing"),
+		// PROCESSED("processed"),
+		// DELIVERING("delivering"),
+		// DELIVERED("delivered"),
+		// REFUNDED("refunded"),
+		// CANCELED("canceled"),
+		// DONE("done");
+		
+		$("#orderStatus").on('change', function() {
+			var comment = '';
+			if(this.value=='PROCESSING'){
+				comment = 'sms: VFT da nhan don hang #<c:out value="${order.order.id}"/>, quy khach cai dat ung dung tren dien thoai de nhan thong tin va theo doi don hang';
+			}else if(this.value=='CANCELED'){
+				comment = 'sms: Xin loi Quy khach, VFT chua sap xep duoc ke hoach giao don hang #<c:out value="${order.order.id}"/>. Chung toi se lien he quy khach trong thoi gian som nhat';
+			}
+			$("#orderComment").html(comment);
+		}); 
+
 		$("#refundAction").click(function() {
 			resetMessages();
 			$('#refundModal').modal();
@@ -264,7 +285,7 @@ function captureOrder(orderId){
 		
 		$(".billing-country-list").change(function() {
 			getZones('#billingZoneList','#billingZoneText',$(this).val(),'<c:out value="${order.billing.zone.code}" />');
-	    })
+		})
 		
 		
 		<c:if test="${order.billing.state!=null && order.billing.state!=''}">
@@ -427,6 +448,17 @@ function captureOrder(orderId){
  			<div class="span4" style="margin-left:0px;"> 
 			
 			<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
+			<c:if test="${order.paymentTime==null}">
+			<label style="color:red">
+				<strong><s:message code="label.purchased.notavailable" text="Purchase not available"/></strong>
+			</label>
+			</c:if>
+			<c:if test="${order.paymentTime!=null}">
+			<label>
+				<s:message code="label.purchased.status" text="Purchased"/>: <strong><c:out value="${order.paymentTime}"/></strong>
+			</label>
+			</c:if>
+
 			<address>			        
 
 				<label><s:message code="label.customer.firstname" text="First Name"/></label>
@@ -473,11 +505,6 @@ function captureOrder(orderId){
 				       			</form:select>
 			            </div>
 			            
-			            <label><s:message code="label.customer.billing.postalcode" text="Billing postal code"/></label>
-			            <div class="controls">
-				 				<form:input id="billingPostalCode" cssClass="input-large highlight" path="order.billing.postalCode"/>
-				 				<span class="help-inline"><form:errors path="order.billing.postalCode" cssClass="error" /></span>
-			            </div>
 			            <label><s:message code="label.customer.telephone" text="Customer phone"/></label>
 			            <div class="controls">
 				 				<form:input id="phoneNumber" cssClass="input-large highlight" path="order.billing.telephone"/>
@@ -519,7 +546,7 @@ function captureOrder(orderId){
 			            
 			            <div class="control-group"> 
 	                        <label><s:message code="label.customer.shipping.zone" text="State / Province"/></label>
-	                        <div class="controls">		       							
+							<div class="controls">		    							
 	       							<form:select id="shippingZoneList" cssClass="shiiping-zone-list" path="order.delivery.zone.code"/>
                       				<form:input  class="input-large highlight" id="shippingZoneText" maxlength="100"  name="shippingZoneText" path="order.delivery.state" /> 				       							
                                  	<span class="help-inline"><form:errors path="order.delivery.zone.code" cssClass="error" /></span>
@@ -531,11 +558,7 @@ function captureOrder(orderId){
 				 				<form:select cssClass="country-list" path="order.delivery.country.isoCode">
 					  					<form:options items="${countries}" itemValue="isoCode" itemLabel="name"/>
 				       			</form:select>
-			            </div>
-			            <label><s:message code="label.customer.shipping.postalcode" text="Postal code"/></label>
-			            <div class="controls">
-				 				<form:input  cssClass="input-large" path="order.delivery.postalCode"/>
-			            </div>	            	            	            	            				
+			            </div>            	            	            	            				
 				</address>	
 	            
 	            
@@ -546,12 +569,8 @@ function captureOrder(orderId){
    				<div class="span8">
 				<s:message code="label.customer.order.date" text="Order date"/>			 		
 			 	<div class="controls">
-							<form:input  cssClass="input-large" path="datePurchased" 
+							<form:input  readonly="true" cssClass="input-large" path="datePurchased" 
 							 data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-							  <script type="text/javascript">
-                                 $('#datePurchased').datepicker();
-                              </script>
-		 						<span class="help-inline"><form:errors path="datePurchased" cssClass="error" /></span>
 	            </div>  
 	
 
@@ -663,31 +682,34 @@ function captureOrder(orderId){
 		           <div class="control-group">
 		                  <label><s:message code="label.entity.status" text="Status"/></label>	 
 		                  <div class="controls">      
-	                   			<form:select path="order.status">
+	                   			<form:select id="orderStatus" path="order.status">
 				  						<form:options items="${orderStatusList}" />
 			       				</form:select>      
 		                   </div>
 		           </div>  
-		     					
+				   <div class="control-group">  
+	                    <label><s:message code="label.entity.status" text="Status"/></label>
+	                     <div class="controls">
+							<form:textarea id="orderComment"  cols="15" cssClass="input-large highlight" rows="5" path="orderHistoryComment"/>
+							 
+				 			<span class="help-inline"><form:errors path="orderHistoryComment" cssClass="error" /></span>
+	                    </div> 
+				   </div>
+				   	
            	       <div class="control-group">
                        <label><s:message code="label.order.history" text="History"/></label>
                        <div class="controls">
 							 <dl class="dl-horizontal">
 								<c:forEach items="${order.order.orderHistory}" var="orderHistory" varStatus="counter">
 									<c:if test="${orderHistory.comments!=null}">
-									<dd><fmt:formatDate type="both" dateStyle="long" value="${orderHistory.dateAdded}" /> - <c:out value="${orderHistory.comments}"/>   
+									<dd><fmt:formatDate type="both" dateStyle="long" value="${orderHistory.dateAdded}" /> #<c:out value="${orderHistory.customerNotified}"/> - <c:out value="${orderHistory.status}"/> - <c:out value="${orderHistory.comments}"/>   
 									</c:if>                           
 	              				</c:forEach> 
 							</dl> 
 					   </div>
               	   </div> 
               
-	     		   <div class="control-group">  
-	                    <label><s:message code="label.entity.status" text="Status"/></label>
-	                     <div class="controls">
-	                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
-	                    </div> 
-	               </div>
+	     		   
               
 	              <div class="form-actions">
 	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>

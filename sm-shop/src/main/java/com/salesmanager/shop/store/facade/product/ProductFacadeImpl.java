@@ -89,13 +89,13 @@ public class ProductFacadeImpl implements ProductFacade {
 	@Override
 	public PersistableProduct saveProduct(MerchantStore store, PersistableProduct product, Language language) {
 
-		String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
-		if (product.getProductSpecifications() != null) {
-			manufacturer = product.getProductSpecifications().getManufacturer();
-		} else {
-			ProductSpecification specifications = new ProductSpecification();
-			specifications.setManufacturer(manufacturer);
-		}
+		// String manufacturer = Manufacturer.DEFAULT_MANUFACTURER;
+		// if (product.getProductSpecifications() != null) {
+		// 	manufacturer = product.getProductSpecifications().getManufacturer();
+		// } else {
+		// 	ProductSpecification specifications = new ProductSpecification();
+		// 	specifications.setManufacturer(manufacturer);
+		// }
 
 		Product target = null;
 		if (product.getId() != null && product.getId().longValue() > 0) {
@@ -120,36 +120,36 @@ public class ProductFacadeImpl implements ProductFacade {
 
 	}
 
-	public void updateProduct(MerchantStore store, PersistableProduct product, Language language) {
+	// public void updateProduct(MerchantStore store, PersistableProduct product, Language language) {
 
-		Validate.notNull(product, "Product must not be null");
-		Validate.notNull(product.getId(), "Product id must not be null");
+	// 	Validate.notNull(product, "Product must not be null");
+	// 	Validate.notNull(product.getId(), "Product id must not be null");
 
-		// get original product
-		Product productModel = productService.getById(product.getId());
+	// 	// get original product
+	// 	Product productModel = productService.getById(product.getId());
 
-		// merge original product with persistable product
+	// 	// merge original product with persistable product
 
-		/*
-		 * String manufacturer = Manufacturer.DEFAULT_MANUFACTURER; if
-		 * (product.getProductSpecifications() != null) { manufacturer =
-		 * product.getProductSpecifications().getManufacturer(); } else {
-		 * ProductSpecification specifications = new ProductSpecification();
-		 * specifications.setManufacturer(manufacturer); }
-		 *
-		 * Product target = null; if (product.getId() != null &&
-		 * product.getId().longValue() > 0) { target =
-		 * productService.getById(product.getId()); } else { target = new
-		 * Product(); }
-		 *
-		 *
-		 * try { persistableProductPopulator.populate(product, target, store,
-		 * language); productService.create(target);
-		 * product.setId(target.getId()); return product; } catch (Exception e)
-		 * { throw new ServiceRuntimeException(e); }
-		 */
+	// 	/*
+	// 	 * String manufacturer = Manufacturer.DEFAULT_MANUFACTURER; if
+	// 	 * (product.getProductSpecifications() != null) { manufacturer =
+	// 	 * product.getProductSpecifications().getManufacturer(); } else {
+	// 	 * ProductSpecification specifications = new ProductSpecification();
+	// 	 * specifications.setManufacturer(manufacturer); }
+	// 	 *
+	// 	 * Product target = null; if (product.getId() != null &&
+	// 	 * product.getId().longValue() > 0) { target =
+	// 	 * productService.getById(product.getId()); } else { target = new
+	// 	 * Product(); }
+	// 	 *
+	// 	 *
+	// 	 * try { persistableProductPopulator.populate(product, target, store,
+	// 	 * language); productService.create(target);
+	// 	 * product.setId(target.getId()); return product; } catch (Exception e)
+	// 	 * { throw new ServiceRuntimeException(e); }
+	// 	 */
 
-	}
+	// }
 
 	@Override
 	public ReadableProduct getProduct(MerchantStore store, Long id, Language language) throws Exception {

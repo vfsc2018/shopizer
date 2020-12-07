@@ -178,7 +178,7 @@ public class CustomerPopulator extends
 			}
 			
 			if(source.getRating() != null) {
-				target.setCustomerReviewAvg(new BigDecimal(source.getRating().doubleValue()));
+				target.setCustomerReviewAvg(BigDecimal.valueOf(source.getRating().doubleValue()));
 			}
 			
 			target.setCustomerReviewCount(source.getRatingCount());

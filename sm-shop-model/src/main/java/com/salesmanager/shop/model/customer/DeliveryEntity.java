@@ -1,13 +1,11 @@
 package com.salesmanager.shop.model.customer;
 
-import java.io.Serializable;
-
 import javax.persistence.Transient;
 
 import com.salesmanager.shop.model.customer.address.Address;
 
 
-public class DeliveryEntity extends Address implements Serializable {
+public class DeliveryEntity extends Address {
 	
 
 	

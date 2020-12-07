@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import com.salesmanager.core.model.catalog.product.ProductCondition;
 import com.salesmanager.core.model.catalog.product.RentalStatus;
@@ -12,7 +11,7 @@ import com.salesmanager.core.model.catalog.product.RentalStatus;
  * @author Carl Samson
  *
  */
-public class ProductEntity extends Product implements Serializable {
+public class ProductEntity extends Product {
 
 	/**
 	 * 
@@ -30,10 +29,6 @@ public class ProductEntity extends Product implements Serializable {
 	private boolean available;
 	private boolean visible = true;
 
-	/*
-	 * private BigDecimal productLength; private BigDecimal productWidth;
-	 * private BigDecimal productHeight; private BigDecimal productWeight;
-	 */
 	private ProductSpecification productSpecifications;
 	private Double rating = 0D;
 	private int ratingCount;

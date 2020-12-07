@@ -625,7 +625,7 @@ function captureOrder(orderId){
 				     		   <div class="control-group">  
 				                    <label></label>
 				                     <div class="controls">
-				                     	 <form:textarea  cssClass="input-large highlight" cols="10" rows="3" path="description"/>
+				                     	 <form:textarea  cssClass="input-large" cols="10" rows="3" path="description"/>
 				                     	    
 				                    </div> 
 				               </div>      				

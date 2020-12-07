@@ -76,6 +76,12 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		countBuilderWhere.append(whereQuery);
 		objectBuilderWhere.append(whereQuery);
 		
+		if(criteria.getPurchased()) {
+			String nameQuery =" and o.paymentTime is not NULL ";
+			countBuilderWhere.append(nameQuery);
+			objectBuilderWhere.append(nameQuery);
+		}
+
 		if(!StringUtils.isBlank(criteria.getDate())) {
 			String nameQuery =" and TO_CHAR(o.datePurchased,'DD/MM/YYYY') = :dc ";
 			countBuilderWhere.append(nameQuery);
@@ -106,7 +112,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameParam = " and o.billing.address like:addr";
+			String nameParam = " and (o.billing.address like :addr OR o.billing.city like :addr OR o.billing.state like :addr OR o.delivery.address like :addr OR o.delivery.city like :addr OR o.delivery.state like :addr) "; // or o.billing.zone.code like :addr or o.delivery.zone.code like :addr) ";
 			countBuilderWhere.append(nameParam);
 			objectBuilderWhere.append(nameParam);
 		}
@@ -151,7 +157,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 
 		countQ.setParameter("mId", store.getId());
 		objectQ.setParameter("mId", store.getId());
-		
+
 		if(criteria.getAddress()!=null) {
 			String nameParam = new StringBuilder().append("%").append(criteria.getAddress()).append("%").toString();
 			countQ.setParameter("addr",nameParam);

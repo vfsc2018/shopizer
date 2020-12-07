@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import com.salesmanager.shop.model.catalog.category.Category;
@@ -8,17 +7,17 @@ import com.salesmanager.shop.model.catalog.product.attribute.PersistableProductA
 
 
 
-public class PersistableProduct extends ProductEntity implements Serializable {
+public class PersistableProduct extends ProductEntity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+	private List<ProductDescription> descriptions = new ArrayList<>();
 	private List<PersistableProductAttribute> attributes;//persist attribute and save reference
 	private List<PersistableImage> images;//persist images and save reference
 	private List<PersistableProductPrice> productPrices;//to be set when using discounts
-	private List<Category> categories = new ArrayList<Category>();
+	private List<Category> categories = new ArrayList<>();
 	private List<RelatedProduct> relatedProducts;//save reference
 	private String type;
 	

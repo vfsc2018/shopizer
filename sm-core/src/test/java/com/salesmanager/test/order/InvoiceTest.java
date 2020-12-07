@@ -73,10 +73,10 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 
 	    //create a product
 	    Product product = new Product();
-	    product.setProductHeight(new BigDecimal(4));
-	    product.setProductLength(new BigDecimal(3));
-	    product.setProductWidth(new BigDecimal(5));
-	    product.setProductWeight(new BigDecimal(8));
+	    product.setProductHeight(BigDecimal.valueOf(4));
+	    product.setProductLength(BigDecimal.valueOf(3));
+	    product.setProductWidth(BigDecimal.valueOf(5));
+	    product.setProductWeight(BigDecimal.valueOf(8));
 	    product.setSku("TESTSKU");
 	    product.setType(generalType);
 	    product.setMerchantStore(store);
@@ -102,7 +102,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	    //price
 	    ProductPrice dprice = new ProductPrice();
 	    dprice.setDefaultPrice(true);
-	    dprice.setProductPriceAmount(new BigDecimal(29.99));
+	    dprice.setProductPriceAmount(BigDecimal.valueOf(29.99));
 	    dprice.setProductAvailability(availability);
 
 	    ProductPriceDescription dpd = new ProductPriceDescription();
@@ -116,7 +116,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	    //create an attribute
 	    ProductAttribute colorAttribute = new ProductAttribute();
 	    colorAttribute.setProduct(product);
-	    colorAttribute.setProductAttributePrice(new BigDecimal(5));
+	    colorAttribute.setProductAttributePrice(BigDecimal.valueOf(5));
 	    colorAttribute.setProductOption(color);
 	    colorAttribute.setProductOptionValue(red);
 	    
@@ -182,7 +182,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		order.setLocale(l);
 
 
-		order.setCurrencyValue(new BigDecimal(0.98));//compared to based currency (not necessary)
+		order.setCurrencyValue(BigDecimal.valueOf(0.98));//compared to based currency (not necessary)
 		order.setCustomerId(customer.getId());
 		order.setDelivery(delivery);
 		order.setIpAddress("ipAddress" );
@@ -201,7 +201,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		order.setPaymentType(PaymentType.PAYPAL);
 		order.setPaymentModuleCode("paypal");
 		order.setStatus( OrderStatus.DELIVERED);
-		order.setTotal(new BigDecimal(23.99));
+		order.setTotal(BigDecimal.valueOf(23.99));
 		
 		
 		//OrderProductDownload - Digital download
@@ -213,14 +213,14 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		//OrderProductPrice
 		OrderProductPrice oproductprice = new OrderProductPrice();
 		oproductprice.setDefaultPrice(true);	
-		oproductprice.setProductPrice(new BigDecimal(19.99) );
+		oproductprice.setProductPrice(BigDecimal.valueOf(19.99) );
 		oproductprice.setProductPriceCode("baseprice" );
 		oproductprice.setProductPriceName("Base Price" );
 
 		//OrderProduct
 		OrderProduct oproduct = new OrderProduct();
 		oproduct.getDownloads().add( orderProductDownload);
-		oproduct.setOneTimeCharge( new BigDecimal(19.99) );
+		oproduct.setOneTimeCharge( BigDecimal.valueOf(19.99) );
 		oproduct.setOrder(order);		
 		oproduct.setProductName( "Product name" );
 		oproduct.setProductQuantity(2);
@@ -250,13 +250,13 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		//product #2
 		OrderProductPrice oproductprice2 = new OrderProductPrice();
 		oproductprice2.setDefaultPrice(true);	
-		oproductprice2.setProductPrice(new BigDecimal(9.99) );
+		oproductprice2.setProductPrice(BigDecimal.valueOf(9.99) );
 		oproductprice2.setProductPriceCode("baseprice" );
 		oproductprice2.setProductPriceName("Base Price" );
 
 		//OrderProduct
 		OrderProduct oproduct2 = new OrderProduct();
-		oproduct2.setOneTimeCharge( new BigDecimal(9.99) );
+		oproduct2.setOneTimeCharge( BigDecimal.valueOf(9.99) );
 		oproduct2.setOrder(order);		
 		oproduct2.setProductName( "Additional item name" );
 		oproduct2.setProductQuantity(1);
@@ -283,7 +283,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		subtotal.setSortOrder(0);
 		subtotal.setText("Summary" );
 		subtotal.setTitle("Summary" );
-		subtotal.setValue(new BigDecimal(19.99 ) );
+		subtotal.setValue(BigDecimal.valueOf(19.99 ) );
 		subtotal.setOrder(order);
 		
 		order.getOrderTotal().add(subtotal);
@@ -293,7 +293,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		tax.setSortOrder(1);
 		tax.setText("Tax" );
 		tax.setTitle("Tax" );
-		tax.setValue(new BigDecimal(4) );
+		tax.setValue(BigDecimal.valueOf(4) );
 		tax.setOrder(order);
 		
 		order.getOrderTotal().add(tax);
@@ -303,7 +303,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		total.setSortOrder(2);
 		total.setText("Total" );
 		total.setTitle("Total" );
-		total.setValue(new BigDecimal(23.99) );
+		total.setValue(BigDecimal.valueOf(23.99) );
 		total.setOrder(order);
 		
 		order.getOrderTotal().add(total);

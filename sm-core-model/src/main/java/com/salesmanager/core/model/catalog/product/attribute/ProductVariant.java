@@ -59,9 +59,9 @@ public class ProductVariant extends SalesManagerEntity<Long, ProductVariant> imp
 		return auditSection;
 	}
 	@Override
-	public void setAuditSection(AuditSection audit) {
+	public void setAuditSection(AuditSection auditSection) {
 		// TODO Auto-generated method stub
-		this.auditSection = audit;
+		this.auditSection = auditSection;
 		
 	}
 	@Override

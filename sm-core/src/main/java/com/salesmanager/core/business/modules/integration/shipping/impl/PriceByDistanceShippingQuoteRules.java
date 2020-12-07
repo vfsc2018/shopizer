@@ -97,7 +97,7 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 		List<ShippingOption> options = quote.getShippingOptions();
 		
 		if(options == null) {
-			options = new ArrayList<ShippingOption>();
+			options = new ArrayList<>();
 			quote.setShippingOptions(options);
 		}
 		
@@ -105,11 +105,11 @@ public class PriceByDistanceShippingQuoteRules implements ShippingQuoteModule {
 		BigDecimal total = null;
 		
 		if(distance<=20) {
-			price = new BigDecimal(69);//TODO from the admin
-			total = new BigDecimal(distance).multiply(price);
+			price = BigDecimal.valueOf(69);//TODO from the admin
+			total = BigDecimal.valueOf(distance).multiply(price);
 		} else {
-			price = new BigDecimal(3);//TODO from the admin
-			total = new BigDecimal(distance).multiply(price);
+			price = BigDecimal.valueOf(3);//TODO from the admin
+			total = BigDecimal.valueOf(distance).multiply(price);
 		}
 		
 		

@@ -43,9 +43,6 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 	public final static String MODULE_CODE = "storePickUp";
 
 	@Inject
-	private MerchantConfigurationService merchantConfigurationService;
-	
-	@Inject
 	private ProductPriceUtils productPriceUtils;
 
 
@@ -63,21 +60,21 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 		Map<String,String> keys = integrationConfiguration.getIntegrationKeys();
 		//if(keys==null || StringUtils.isBlank(keys.get("price"))) {
 		if(keys==null) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("price");
 		} else {
 			//validate it can be parsed to BigDecimal
 			try {
 				BigDecimal price = new BigDecimal(keys.get("price"));
 			} catch(Exception e) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 				errorFields.add("price");
 			}
 		}
 		
 		//if(keys==null || StringUtils.isBlank(keys.get("note"))) {
 		if(keys==null) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("note");
 		}
 

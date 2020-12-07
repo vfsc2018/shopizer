@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+// import org.h2.engine.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -53,6 +54,7 @@ import com.salesmanager.core.business.services.reference.country.BillMasterServi
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
+import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
@@ -76,16 +78,15 @@ import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
-import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.core.model.user.User;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.constants.EmailConstants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
-import com.salesmanager.shop.utils.LocaleUtils;
+import com.salesmanager.shop.utils.SmsUtils;
 
 /**
  * Manage order details
@@ -100,6 +101,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	@Inject
 	private LabelUtils messages;
 	
+	@Inject
+	private UserService userService;
+
 	@Inject
 	private OrderService orderService;
 	
@@ -213,7 +217,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			        billToSend.setDescription(orderHistoryComment);
 		
 			        Language language = (Language)request.getAttribute("LANGUAGE");
-					List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
+					List<BillDetailToSend> details = new ArrayList<>();
 					BillDetailToSend sub1 = null;
 					i = 0;
 					for(String sku1:skus){
@@ -315,7 +319,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	        }*/
 
 	        
-			List<BillDetailToSend> details = new ArrayList<BillDetailToSend>();
+			List<BillDetailToSend> details = new ArrayList<>();
 			BillDetailToSend sub1 = null;
 			i = 0;
 			for(String sku1:skus){
@@ -376,7 +380,8 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						
 	        		billMaster = billMasterService.saveAnnouncement(billMaster);
 	    	        //INSERT BILL ITEM
-	        		BillItem billItem = null; long parentId=0;
+					BillItem billItem = null; 
+					long parentId=0;
 	        		for(OrderProduct combo : dbOrder.getOrderProducts()){
 	        			//INSERT PARENT
 	    	        	billItem = new BillItem();
@@ -384,7 +389,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	billItem.setCode(combo.getSku());
 	    	        	billItem.setName(combo.getProductName());
 	    	        	billItem.setPrice(combo.getOneTimeCharge());
-	    	        	billItem.setQuantity(new Double(combo.getProductQuantity()));
+	    	        	billItem.setQuantity(Double.valueOf(combo.getProductQuantity()));
 	    	        	
 	    	        	billItem.setParentId(0L);
 	    	        	billItem = billItemService.saveBillItem(billItem);
@@ -512,6 +517,16 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			if( dbOrder.getDatePurchased() !=null ){
 				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
+			if( dbOrder.getPaymentTime() !=null ){
+				order.setPaymentTime(DateUtil.formatTimeDate(dbOrder.getPaymentTime()));
+			}
+
+			if( dbOrder.getFromDate() !=null ){
+				order.setFromDate(DateUtil.formatDate(dbOrder.getFromDate()));
+			}
+			if( dbOrder.getToDate() !=null ){
+				order.setToDate(DateUtil.formatDate(dbOrder.getToDate()));
+			}
 			
 			long customerId = dbOrder.getCustomerId();
 			
@@ -536,9 +551,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						ordernew.setProductName(bean.getProductName());
 						ordernew.setSku(bean.getSku());
 						ordernew.setCurrency(dbOrder.getCurrency());
-						ordernew.setProductQuantity(new Double(bean.getProductQuantity()));
+						ordernew.setProductQuantity(1.0*bean.getProductQuantity());
 						ordernew.setOneTimeCharge(bean.getOneTimeCharge().intValue());
-						ordernew.setTotal(bean.getOneTimeCharge().multiply(new BigDecimal(bean.getProductQuantity())).doubleValue());
+						ordernew.setTotal(bean.getOneTimeCharge().multiply(BigDecimal.valueOf(bean.getProductQuantity())).doubleValue());
 						
 		
 						if(dbProduct!=null){
@@ -616,12 +631,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 		//display menu
 		setMenu(model,request);
-		List<OrderProductEx> listOrderNew= new ArrayList<OrderProductEx>();   
+		List<OrderProductEx> listOrderNew= new ArrayList<>();   
 		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
-		Language language = (Language)request.getAttribute("LANGUAGE");
+		// Language language = (Language)request.getAttribute("LANGUAGE");
 
 		if(orderId>0) {	
-			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+			// MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			Order dbOrder = orderService.getById(orderId);	
 			
 			
@@ -634,11 +649,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			
 			
 			List<BillMaster> bills = billMasterService.findByOrderId(orderId);
-			if(bills!=null && bills.size()>0){
-				Integer totalMoney = new Integer("0");
+			if(bills!=null && !bills.isEmpty()){
+				Integer totalMoney = 0;
 
-				OrderProductEx ordernew=null;
-				for(BillMaster bean : bills){
+				// OrderProductEx ordernew=null;
+				// for(BillMaster bean : bills){
 					
 /*					ordernew = new OrderProductEx();
 					Product dbProduct = productService.getByCode(bean.getSku(), language);
@@ -664,7 +679,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						ordernew.setRelationships(proRelaList);
 					}
 					listOrderNew.add(ordernew);*/
-				}
+				// }
 				//add to list
 				
 				model.addAttribute("dataEx",listOrderNew);
@@ -721,6 +736,17 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 			if( dbOrder.getDatePurchased() !=null ){
 				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
+			}
+
+			if( dbOrder.getPaymentTime() !=null ){
+				order.setPaymentTime(DateUtil.formatTimeDate(dbOrder.getPaymentTime()));
+			}
+
+			if( dbOrder.getFromDate() !=null ){
+				order.setFromDate(DateUtil.formatDate(dbOrder.getFromDate()));
+			}
+			if( dbOrder.getToDate() !=null ){
+				order.setToDate(DateUtil.formatDate(dbOrder.getToDate()));
 			}
 			
 			long customerId = dbOrder.getCustomerId();
@@ -787,25 +813,31 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		//set the id if fails
 		entityOrder.setId(entityOrder.getOrder().getId());
-		
+		String comment = entityOrder.getOrderHistoryComment();
+
 		model.addAttribute("order", entityOrder);
 		
-		Set<OrderProduct> orderProducts = new HashSet<OrderProduct>();
-		Set<OrderTotal> orderTotal = new HashSet<OrderTotal>();
-		Set<OrderStatusHistory> orderHistory = new HashSet<OrderStatusHistory>();
+		Set<OrderProduct> orderProducts = new HashSet<>();
+		Set<OrderTotal> orderTotal = new HashSet<>();
+		Set<OrderStatusHistory> orderHistory = new HashSet<>();
 		
-		Date date = new Date();
-		if(!StringUtils.isBlank(entityOrder.getDatePurchased() ) ){
-			try {
-				date = DateUtil.getDate(entityOrder.getDatePurchased());
-			} catch (Exception e) {
-				ObjectError error = new ObjectError("datePurchased",messages.getMessage("message.invalid.date", locale));
-				result.addError(error);
-			}
+		// Date date = new Date();
+		// if(!StringUtils.isBlank(entityOrder.getDatePurchased() ) ){
+		// 	try {
+		// 		date = DateUtil.getDate(entityOrder.getDatePurchased());
+		// 	} catch (Exception e) {
+		// 		ObjectError error = new ObjectError("datePurchased",messages.getMessage("message.invalid.date", locale));
+		// 		result.addError(error);
+		// 	}
 			
-		} else{
-			date = null;
-		}
+		// } else{
+		// 	date = null;
+		// }
+		if( StringUtils.isBlank(comment)){
+			ObjectError error = new ObjectError("orderHistoryComment", messages.getMessage("NotEmpty.order.status", locale));
+			result.addError(error);
+	    }
+
 		Date fromDate = new Date();
 		if(!StringUtils.isBlank(entityOrder.getFromDate() ) ){
 			try {
@@ -850,7 +882,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			 result.addError(error);
 		}
 		
-		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getFirstName() ) ){
+		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getLastName() ) ){
 			 ObjectError error = new ObjectError("billingLastName", messages.getMessage("NotEmpty.order.billingLastName", locale));
 			 result.addError(error);
 		}
@@ -865,17 +897,17 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			 result.addError(error);
 		}
 		 
-		if( entityOrder.getOrder().getBilling().getZone()==null){
-			if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getState())){
-				 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.order.billingState", locale));
-				 result.addError(error);
-			}
-		}
+		// if( entityOrder.getOrder().getBilling().getZone()==null){
+		// 	if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getState())){
+		// 		 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.order.billingState", locale));
+		// 		 result.addError(error);
+		// 	}
+		// }
 		 
-		if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getPostalCode() ) ){
-			 ObjectError error = new ObjectError("billingPostalCode", messages.getMessage("NotEmpty.order.billingPostCode", locale));
-			 result.addError(error);
-		}
+		// if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getPostalCode() ) ){
+		// 	 ObjectError error = new ObjectError("billingPostalCode", messages.getMessage("NotEmpty.order.billingPostCode", locale));
+		// 	 result.addError(error);
+		// }
 		
 		com.salesmanager.core.model.order.Order newOrder = orderService.getById(entityOrder.getOrder().getId() );
 		
@@ -916,33 +948,41 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		Country deliveryCountry = countryService.getByCode( entityOrder.getOrder().getDelivery().getCountry().getIsoCode()); 
 		Country billingCountry  = countryService.getByCode( entityOrder.getOrder().getBilling().getCountry().getIsoCode()) ;
-		Zone billingZone = null;
-		Zone deliveryZone = null;
-		if(entityOrder.getOrder().getBilling().getZone()!=null) {
-			billingZone = zoneService.getByCode(entityOrder.getOrder().getBilling().getZone().getCode());
-		}
+		// Zone billingZone = null;
+		// Zone deliveryZone = null;
+		// if(entityOrder.getOrder().getBilling().getZone()!=null) {
+		// 	billingZone = zoneService.getByCode(entityOrder.getOrder().getBilling().getZone().getCode());
+		// }
 		
-		if(entityOrder.getOrder().getDelivery().getZone()!=null) {
-			deliveryZone = zoneService.getByCode(entityOrder.getOrder().getDelivery().getZone().getCode());
-		}
+		// if(entityOrder.getOrder().getDelivery().getZone()!=null) {
+		// 	deliveryZone = zoneService.getByCode(entityOrder.getOrder().getDelivery().getZone().getCode());
+		// }
 
 		newOrder.setCustomerEmailAddress(entityOrder.getOrder().getCustomerEmailAddress() );
 		newOrder.setStatus(entityOrder.getOrder().getStatus() );		
 		
-		newOrder.setDatePurchased(date);
+		// newOrder.setDatePurchased(date);
 		newOrder.setFromDate(fromDate);
 		newOrder.setToDate(toDate);
-		newOrder.setLastModified( new Date() );
-		
-		if(!StringUtils.isBlank(entityOrder.getOrderHistoryComment() ) ) {
-			orderStatusHistory.setComments( entityOrder.getOrderHistoryComment() );
-			orderStatusHistory.setCustomerNotified(1);
+		newOrder.setLastModified( new Date(System.currentTimeMillis()) );
+		// boolean sendSMS = comment.length()>4 && comment.substring(0,4).toLowerCase(Locale.getDefault()).equals("sms:");
+		// if(!StringUtils.isBlank(comment) ) {
+			
+			// if(sendSMS){
+			// 	comment = comment.substring(4).trim();
+			// }
+
+			String sCurrentUser = request.getRemoteUser();
+			User user = userService.getByUserName(sCurrentUser);
+
+			orderStatusHistory.setComments(comment);
+			orderStatusHistory.setCustomerNotified(user.getId());
 			orderStatusHistory.setStatus(entityOrder.getOrder().getStatus());
-			orderStatusHistory.setDateAdded(new Date() );
+			orderStatusHistory.setDateAdded(new Date(System.currentTimeMillis()) );
 			orderStatusHistory.setOrder(newOrder);
 			newOrder.getOrderHistory().add( orderStatusHistory );
 			entityOrder.setOrderHistoryComment( "" );
-		}		
+		// }		
 		
 		newOrder.setDelivery( entityOrder.getOrder().getDelivery() );
 		newOrder.setBilling( entityOrder.getOrder().getBilling() );
@@ -951,13 +991,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		newOrder.getDelivery().setCountry(deliveryCountry );
 		newOrder.getBilling().setCountry(billingCountry );	
 		
-		if(billingZone!=null) {
-			newOrder.getBilling().setZone(billingZone);
-		}
+		// if(billingZone!=null) {
+		// 	newOrder.getBilling().setZone(billingZone);
+		// }
 		
-		if(deliveryZone!=null) {
-			newOrder.getDelivery().setZone(deliveryZone);
-		}
+		// if(deliveryZone!=null) {
+		// 	newOrder.getDelivery().setZone(deliveryZone);
+		// }
 		
 		orderService.saveOrUpdate(newOrder);
 		entityOrder.setOrder(newOrder);
@@ -1038,6 +1078,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		
 		model.addAttribute("success","success");
 
+		if(comment.length()>4 && comment.substring(0,4).toLowerCase(Locale.getDefault()).equals("sms:")){
+			String sms = comment.substring(4).trim();
+			String phone = newOrder.getBilling().getTelephone();
+			SmsUtils.sendTextMessage(phone, sms);
+		}
 		
 		return  ControllerConstants.Tiles.Order.ordersEdit;
 	    /*	"admin-orders-edit";  */

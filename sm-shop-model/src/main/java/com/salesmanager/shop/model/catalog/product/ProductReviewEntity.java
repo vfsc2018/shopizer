@@ -1,7 +1,5 @@
 package com.salesmanager.shop.model.catalog.product;
 
-import java.io.Serializable;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -11,7 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import com.salesmanager.shop.model.entity.ShopEntity;
 
 
-public class ProductReviewEntity extends ShopEntity implements Serializable {
+public class ProductReviewEntity extends ShopEntity {
 	
 	/**
 	 * 

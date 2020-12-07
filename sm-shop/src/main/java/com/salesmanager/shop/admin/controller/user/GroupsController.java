@@ -257,7 +257,7 @@ public class GroupsController {
 				List<Group> groups = groupService.list();
 
 				for(Group group : groups) {
-					Map entry = new HashMap();
+					Map entry = new HashMap<>();
 					entry.put("groupId", group.getId());
 					entry.put("name", group.getGroupName());
 					entry.put("type", group.getGroupType().name());

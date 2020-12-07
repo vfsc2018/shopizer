@@ -53,7 +53,7 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	private String code = DEFAULT_PRICE_CODE;
 
 	@Column(name = "PRODUCT_PRICE_AMOUNT", nullable=false)
-	private BigDecimal productPriceAmount = new BigDecimal(0);
+	private BigDecimal productPriceAmount = BigDecimal.valueOf(0);
 
 	@Column(name = "PRODUCT_PRICE_TYPE", length=20)
 	@Enumerated(value = EnumType.STRING)

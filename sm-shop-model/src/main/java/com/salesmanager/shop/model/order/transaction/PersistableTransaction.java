@@ -1,6 +1,5 @@
 package com.salesmanager.shop.model.order.transaction;
 
-import java.io.Serializable;
 import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.TransactionType;
 
@@ -9,7 +8,7 @@ import com.salesmanager.core.model.payments.TransactionType;
  * @author c.samson
  *
  */
-public class PersistableTransaction extends TransactionEntity implements Serializable {
+public class PersistableTransaction extends TransactionEntity {
 
 	/**
 	 * 

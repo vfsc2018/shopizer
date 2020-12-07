@@ -405,21 +405,19 @@ public class ShoppingCartApi {
   }
 
   @DeleteMapping(value = "/cart/{code}", produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
-@ApiOperation(
-    httpMethod = "DELETE",
-    value = "Remove a specific cart", produces = "application/json")
-@ApiImplicitParams({
-  @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")
-})
-public ResponseEntity<ReadableShoppingCart> deleteCart(
-    @PathVariable("code") String cartCode,
-    @ApiIgnore MerchantStore merchantStore) throws Exception{
+  @ApiOperation(
+      httpMethod = "DELETE",
+      value = "Remove a specific cart", produces = "application/json")
+  @ApiImplicitParams({
+    @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT")
+  })
+  public ResponseEntity<ReadableShoppingCart> deleteCart(@PathVariable("code") String cartCode, @ApiIgnore MerchantStore merchantStore) throws Exception{
 
       try{
         shoppingCartFacade.deleteShoppingCart(cartCode, merchantStore);
         return new ResponseEntity<>(HttpStatus.OK);
       }catch(Exception e){}
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
 }

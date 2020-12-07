@@ -1,6 +1,5 @@
 package com.salesmanager.core.model.content;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +37,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @Table(name = "CONTENT", schema= SchemaConstant.SALESMANAGER_SCHEMA,
 indexes = { @Index(name="CODE_IDX", columnList = "CODE")},
 	uniqueConstraints = @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
-public class Content extends SalesManagerEntity<Long, Content> implements Serializable {
+public class Content extends SalesManagerEntity<Long, Content> {
 
 	
 

@@ -362,7 +362,7 @@ public class CmsStaticContentFileManagerImpl
 	 * @param folder
 	 * @return
 	 */
-	private String getFolder(final String storeCode, String folder) {
+	// private String getFolder(final String storeCode, String folder) {
 
 /*		StringBuilder nodePath = new StringBuilder();
 		nodePath.append(storeCode).append("/").append(contentType.name());
@@ -370,9 +370,9 @@ public class CmsStaticContentFileManagerImpl
 		return nodePath.toString();*/
 		
 		
-		return null;
+	// 	return null;
 
-	}
+	// }
 
 	public CacheManager getCacheManager() {
 		return cacheManager;

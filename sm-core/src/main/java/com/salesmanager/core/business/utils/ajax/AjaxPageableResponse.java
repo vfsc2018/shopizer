@@ -49,7 +49,7 @@ public class AjaxPageableResponse extends AjaxResponse {
 		returnString.append(getJsonInfo()).append(",");
 		returnString.append(getPageInfo());
 
-		if(this.getData().size()>0) {
+		if(!this.getData().isEmpty()){
 			StringBuilder dataEntries = null;
 			int count = 0;
 			for(Map keyValue : this.getData()) {
