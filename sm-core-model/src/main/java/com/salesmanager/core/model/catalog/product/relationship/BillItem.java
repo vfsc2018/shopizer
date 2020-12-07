@@ -69,7 +69,17 @@ public class BillItem  extends SalesManagerEntity<Long, BillItem>  implements Au
 	@Column(name="QUANTITY")
 	private Double quantity;	
 
+	@Column(name="QUANTITY_OF_PARENT")
+	private Double quantityOfParent;	
 	
+	public Double getQuantityOfParent() {
+		return quantityOfParent;
+	}
+
+	public void setQuantityOfParent(Double quantityOfParent) {
+		this.quantityOfParent = quantityOfParent;
+	}
+
 	@Column(name="PRICE")
 	private BigDecimal price;	
 	
