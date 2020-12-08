@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.reference.country.BillMasterService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
@@ -71,15 +73,18 @@ public class OrderApi {
 	private OrderFacade orderFacade;
 
 	@Inject
+	private BillMasterService billMasterService;
+
+	@Inject
 	private ShoppingCartService shoppingCartService;
 
 	@Autowired
 	private CustomerFacade customerFacade;
 
-	@Inject
-	private AuthorizationUtils authorizationUtils;
+	// @Inject
+	// private AuthorizationUtils authorizationUtils;
 	
-	private static final String DEFAULT_ORDER_LIST_COUNT = "25";
+	// private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
 	/**
 	 * Get a list of orders for a given customer accept request parameter
@@ -90,48 +95,48 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/private/orders/customers/{id}" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public ReadableOrderList list(@PathVariable final Long id,
-			@RequestParam(value = "start", required = false) Integer start,
-			@RequestParam(value = "count", required = false) Integer count, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletResponse response) throws Exception {
+	// @RequestMapping(value = { "/private/orders/customers/{id}" }, method = RequestMethod.GET)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	// public ReadableOrderList list(@PathVariable final Long id,
+	// 		@RequestParam(value = "start", required = false) Integer start,
+	// 		@RequestParam(value = "count", required = false) Integer count, @ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language, HttpServletResponse response) throws Exception {
 
-		Customer customer = customerService.getById(id);
+	// 	Customer customer = customerService.getById(id);
 
-		if (customer == null) {
-			LOGGER.error("Customer is null for id " + id);
-			response.sendError(404, "Customer is null for id " + id);
-			return null;
-		}
+	// 	if (customer == null) {
+	// 		LOGGER.error("Customer is null for id " + id);
+	// 		response.sendError(404, "Customer is null for id " + id);
+	// 		return null;
+	// 	}
 
-		if (start == null) {
-			start = 0;
-		}
-		if (count == null) {
-			count = 100;
-		}
+	// 	if (start == null) {
+	// 		start = 0;
+	// 	}
+	// 	if (count == null) {
+	// 		count = 100;
+	// 	}
 
-		ReadableCustomer readableCustomer = new ReadableCustomer();
-		ReadableCustomerPopulator customerPopulator = new ReadableCustomerPopulator();
-		customerPopulator.populate(customer, readableCustomer, merchantStore, language);
+	// 	ReadableCustomer readableCustomer = new ReadableCustomer();
+	// 	ReadableCustomerPopulator customerPopulator = new ReadableCustomerPopulator();
+	// 	customerPopulator.populate(customer, readableCustomer, merchantStore, language);
 
-		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, start, count,
-				language);
+	// 	ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, customer, start, count,
+	// 			language);
 
-		List<ReadableOrder> orders = returnList.getOrders();
+	// 	List<ReadableOrder> orders = returnList.getOrders();
 
-		if (!CollectionUtils.isEmpty(orders)) {
-			for (ReadableOrder order : orders) {
-				order.setCustomer(readableCustomer);
-			}
-		}
+	// 	if (!CollectionUtils.isEmpty(orders)) {
+	// 		for (ReadableOrder order : orders) {
+	// 			order.setCustomer(readableCustomer);
+	// 		}
+	// 	}
 
-		return returnList;
-	}
+	// 	return returnList;
+	// }
 
 	/**
 	 * List orders for authenticated customers
@@ -200,53 +205,53 @@ public class OrderApi {
 	 * @return List of orders
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/private/orders" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	public ReadableOrderList list(
-			@RequestParam(value = "count", required = false, defaultValue = DEFAULT_ORDER_LIST_COUNT) Integer count,
-			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-			@RequestParam(value = "name", required = false) String name,
-			@RequestParam(value = "id", required = false) Long id,
-			@RequestParam(value = "status", required = false) String status,
-			@RequestParam(value = "phone", required = false) String phone,
-			@RequestParam(value = "email", required = false) String email,
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+	// @RequestMapping(value = { "/private/orders" }, method = RequestMethod.GET)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// public ReadableOrderList list(
+	// 		@RequestParam(value = "count", required = false, defaultValue = DEFAULT_ORDER_LIST_COUNT) Integer count,
+	// 		@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+	// 		@RequestParam(value = "name", required = false) String name,
+	// 		@RequestParam(value = "id", required = false) Long id,
+	// 		@RequestParam(value = "status", required = false) String status,
+	// 		@RequestParam(value = "phone", required = false) String phone,
+	// 		@RequestParam(value = "email", required = false) String email,
+	// 		@ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language) {
 		
 		
-		//long startTime = System.nanoTime();
+	// 	//long startTime = System.nanoTime();
 
 
-		OrderCriteria orderCriteria = new OrderCriteria();
-		orderCriteria.setPageSize(count);
-		orderCriteria.setStartPage(page);
+	// 	OrderCriteria orderCriteria = new OrderCriteria();
+	// 	orderCriteria.setPageSize(count);
+	// 	orderCriteria.setStartPage(page);
 
-		orderCriteria.setCustomerName(name);
-		orderCriteria.setCustomerPhone(phone);
-		orderCriteria.setStatus(status);
-		orderCriteria.setEmail(email);
-		orderCriteria.setId(id);
+	// 	orderCriteria.setCustomerName(name);
+	// 	orderCriteria.setCustomerPhone(phone);
+	// 	orderCriteria.setStatus(status);
+	// 	orderCriteria.setEmail(email);
+	// 	orderCriteria.setId(id);
 
 
-		String user = authorizationUtils.authenticatedUser();
-		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
-				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+	// 	String user = authorizationUtils.authenticatedUser();
+	// 	authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+	// 			Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
-		ReadableOrderList orders = orderFacade.getReadableOrderList(orderCriteria, merchantStore);
+	// 	ReadableOrderList orders = orderFacade.getReadableOrderList(orderCriteria, merchantStore);
 		
-		/**
-		long endTime = System.nanoTime();
+	// 	/**
+	// 	long endTime = System.nanoTime();
 		
-		long timeElapsed = endTime - startTime;
+	// 	long timeElapsed = endTime - startTime;
 
-		System.out.println("Execution time in milliseconds : " +
-								timeElapsed / 1000000);
-								**/
+	// 	System.out.println("Execution time in milliseconds : " +
+	// 							timeElapsed / 1000000);
+	// 							**/
 		
-		return orders;
+	// 	return orders;
 
-	}
+	// }
 
 	/**
 	 * Order details
@@ -255,25 +260,25 @@ public class OrderApi {
 	 * @param language
 	 * @return
 	 */
-	@RequestMapping(value = { "/private/orders/{id}" }, method = RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public ReadableOrder get(
-			@PathVariable final Long id, 
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+	// @RequestMapping(value = { "/private/orders/{id}" }, method = RequestMethod.GET)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	// public ReadableOrder get(
+	// 		@PathVariable final Long id, 
+	// 		@ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language) {
 		
-		String user = authorizationUtils.authenticatedUser();
-		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
-				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+	// 	String user = authorizationUtils.authenticatedUser();
+	// 	authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+	// 			Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
 
-		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+	// 	ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
-		return order;
-	}
+	// 	return order;
+	// }
 
 	/**
 	 * Get a given order by id
@@ -304,23 +309,18 @@ public class OrderApi {
 		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
 		if (order == null) {
-			LOGGER.error("Order is null for id " + id);
 			response.sendError(404, "Order is null for id " + id);
 			return null;
 		}
 
-		if (order.getCustomer() == null) {
-			LOGGER.error("Order is null for customer " + principal);
+		if (order.getCustomer() == null || order.getCustomer().getId() == null|| order.getCustomer().getId().longValue() != customer.getId().longValue()) {
 			response.sendError(404, "Order is null for customer " + principal);
 			return null;
 		}
 
-		if (order.getCustomer().getId() != null
-				&& order.getCustomer().getId().longValue() != customer.getId().longValue()) {
-			LOGGER.error("Order is null for customer " + principal);
-			response.sendError(404, "Order is null for customer " + principal);
-			return null;
-		}
+		List<BillMaster> bills = billMasterService.findByOrderId(id);
+
+		order.setBills(bills);
 
 		return order;
 	}
@@ -453,8 +453,7 @@ public class OrderApi {
 
 			order.setShoppingCartId(cart.getId());
 
-			Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language,
-					LocaleUtils.getLocale(language));
+			Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language, LocaleUtils.getLocale(language));
 			Long orderId = modelOrder.getId();
 			order.setId(orderId);
 			// set customer id
@@ -470,25 +469,25 @@ public class OrderApi {
 
 	}
 	
-	@RequestMapping(value = { "/private/orders/{id}/customer" }, method = RequestMethod.PATCH)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public void updateOrderCustomer(
-			@PathVariable final Long id,
-			@Valid @RequestBody PersistableCustomer orderCustomer, 
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language) {
+	// @RequestMapping(value = { "/private/orders/{id}/customer" }, method = RequestMethod.PATCH)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ 
+	// 		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	// public void updateOrderCustomer(
+	// 		@PathVariable final Long id,
+	// 		@Valid @RequestBody PersistableCustomer orderCustomer, 
+	// 		@ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language) {
 		
-		String user = authorizationUtils.authenticatedUser();
-		authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
-				Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
+	// 	String user = authorizationUtils.authenticatedUser();
+	// 	authorizationUtils.authorizeUser(user, Stream.of(Constants.GROUP_SUPERADMIN, Constants.GROUP_ADMIN,
+	// 			Constants.GROUP_ADMIN_ORDER, Constants.GROUP_ADMIN_RETAIL).collect(Collectors.toList()), merchantStore);
 
 		
-		orderFacade.updateOrderCustomre(id, orderCustomer, merchantStore);
-		return;
+	// 	orderFacade.updateOrderCustomre(id, orderCustomer, merchantStore);
+	// 	return;
 		
-	}
+	// }
 }

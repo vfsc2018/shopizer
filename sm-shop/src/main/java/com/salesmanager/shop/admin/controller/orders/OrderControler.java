@@ -73,6 +73,7 @@ import com.salesmanager.core.model.order.orderproduct.BillToSend;
 import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderproduct.OrderProductDownload;
 import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
@@ -490,11 +491,11 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 		
 		
-		long vcheck = 0 ;
+		// long vcheck = 0 ;
 
 		//display menu
 		setMenu(model,request);
-		List<OrderProductEx> listOrderNew= new ArrayList<OrderProductEx>();   
+		List<OrderProductEx> listOrderNew= new ArrayList<>();   
 		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		// List<Country> countries = countryService.getCountries(language);
@@ -557,7 +558,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						
 		
 						if(dbProduct!=null){
-							List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+							List<OrderProductEx> proRelaList =new ArrayList<>();
 							OrderProductEx proRela = null;
 							for(ProductRelationship sBean : dbProduct.getRelationships()){
 								
@@ -613,12 +614,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		}	
 		
 		// model.addAttribute("countries", countries);
+		order.getOrder().setStatus(OrderStatus.PROCESSING); 
 		model.addAttribute("order",order);
-		if(vcheck >0 ){
-			return  ControllerConstants.Tiles.Order.ordersBillEdit;	
-		}else{
+		// if(vcheck >0 ){
+		// 	return  ControllerConstants.Tiles.Order.ordersBillEdit;	
+		// }else{
 			return  ControllerConstants.Tiles.Order.ordersBill;
-		}
+		// }
 		
 		
 	}

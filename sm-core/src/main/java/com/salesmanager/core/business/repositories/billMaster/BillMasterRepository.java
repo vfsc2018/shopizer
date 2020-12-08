@@ -15,7 +15,7 @@ public interface BillMasterRepository extends JpaRepository<BillMaster, Long>,Bi
 	@Query("SELECT COUNT(u) FROM BillMaster u WHERE u.order.id=:pid")
     Long countByOrderId(@Param("pid") Long pid);
 	
-	@Query("SELECT u FROM BillMaster u WHERE u.order.id=:pid")
+	@Query("SELECT u FROM BillMaster u WHERE u.order.id=:pid Order by u.id DESC")
 	List<BillMaster> findByOrderId(@Param("pid") Long pid);
 	
 //	

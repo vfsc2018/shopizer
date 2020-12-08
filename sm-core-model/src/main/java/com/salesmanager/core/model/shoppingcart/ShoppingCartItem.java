@@ -65,7 +65,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	private boolean productVirtual;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "shoppingCartItem")
-	private Set<ShoppingCartAttributeItem> attributes = new HashSet<ShoppingCartAttributeItem>();
+	private Set<ShoppingCartAttributeItem> attributes = new HashSet<>();
 
 	@JsonIgnore
 	@Transient
@@ -190,7 +190,7 @@ public class ShoppingCartItem extends SalesManagerEntity<Long, ShoppingCartItem>
 	}
 
 	public void removeAllAttributes(){
-		this.attributes.removeAll(Collections.EMPTY_SET);
+		this.attributes.removeAll(Collections.emptySet());
 	}
 
 	public void setSubTotal(BigDecimal subTotal) {

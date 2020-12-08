@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 
 public class BeanUtils
 {
- private BeanUtils(){
+    private BeanUtils(){
         
     }
     

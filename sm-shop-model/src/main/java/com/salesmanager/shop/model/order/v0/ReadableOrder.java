@@ -1,5 +1,6 @@
 package com.salesmanager.shop.model.order.v0;
 
+import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.shop.model.customer.ReadableBilling;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
@@ -26,6 +27,8 @@ public class ReadableOrder extends OrderEntity {
 	private ReadableBilling billing;
 	private ReadableDelivery delivery;
 	private ReadableMerchantStore store;
+
+	private List<BillMaster> bills;
 	
 	
 	
@@ -60,6 +63,15 @@ public class ReadableOrder extends OrderEntity {
 	public void setProducts(List<ReadableOrderProduct> products) {
 		this.products = products;
 	}
+
+
+	public List<BillMaster> getBills() {
+		return bills;
+	}
+	public void setBills(List<BillMaster> bills) {
+		this.bills = bills;
+	}
+
 
 	public Currency getCurrencyModel() {
 		return currencyModel;

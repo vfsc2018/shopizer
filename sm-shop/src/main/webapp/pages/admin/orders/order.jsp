@@ -237,9 +237,9 @@ function captureOrder(orderId){
 		$("#orderStatus").on('change', function() {
 			var comment = '';
 			if(this.value=='PROCESSING'){
-				comment = 'sms: VFT da nhan don hang #<c:out value="${order.order.id}"/>, quy khach cai dat ung dung tren dien thoai de nhan thong tin va theo doi don hang';
+				comment = 'sms: VfSC da nhan don hang #<c:out value="${order.order.id}"/>, quy khach cai dat ung dung tren dien thoai de nhan thong tin va theo doi don hang';
 			}else if(this.value=='CANCELED'){
-				comment = 'sms: Xin loi Quy khach, VFT chua sap xep duoc ke hoach giao don hang #<c:out value="${order.order.id}"/>. Chung toi se lien he quy khach trong thoi gian som nhat';
+				comment = 'sms: Xin loi Quy khach, VfSC chua sap xep duoc ke hoach giao don hang #<c:out value="${order.order.id}"/>. Chung toi se lien he quy khach trong thoi gian som nhat';
 			}
 			$("#orderComment").html(comment);
 		}); 
@@ -519,9 +519,9 @@ function captureOrder(orderId){
 		 				<span class="help-inline"><form:errors path="order.customerEmailAddress" cssClass="error" /></span>
 	            </div>
 	            
-	            </div>
+	        </div>
 	            
-	            <div span="4">
+	        <div class="span4">
 	            
 	            
 				<h6><s:message code="label.customer.shippinginformation" text="Shipping information"/></h6>
@@ -562,11 +562,11 @@ function captureOrder(orderId){
 				</address>	
 	            
 	            
-	            </div>
+	        </div>
 	            
-	            </div>
+	    </div>
 	
-   				<div class="span8">
+   		<div class="span8">
 				<s:message code="label.customer.order.date" text="Order date"/>			 		
 			 	<div class="controls">
 							<form:input  readonly="true" cssClass="input-large" path="datePurchased" 
@@ -597,13 +597,9 @@ function captureOrder(orderId){
 				
 
 				
-				</div>
+		</div>
 
-						
-
-	
-      
-      	  <div class="span8" style="margin-top:20px;">
+      	<div class="span8" style="margin-top:20px;">
 		      <table class="table table-bordered table-striped"> 
 					<thead> 
 						<tr> 
@@ -646,78 +642,79 @@ function captureOrder(orderId){
 						</c:forEach> 	 
 					</tbody>    
 				</table>
-    	  </div>  
+    	</div>  
 
-		  	               
+		<div class="span8">               
 	        
-			<div class="span8">
-		           <div class="control-group">
-		                  <label><s:message code="label.entity.fromDate" text="From date"/></label>	 
-		                  <div class="controls">      
-									<form:input  cssClass="input-large" path="fromDate"
-									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-									<script type="text/javascript">
-										$('#fromDate').datepicker();
-									</script>
-									<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>	                   			  
-		                   </div>
-		           </div>  			
+				<div class="span3" style="margin-left:0px;"> 
+						<div class="control-group">
+								<label><s:message code="label.entity.fromDate" text="From date"/></label>	 
+								<div class="controls">      
+											<form:input  cssClass="input-large" path="fromDate"
+											data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+											<script type="text/javascript">
+												$('#fromDate').datepicker();
+											</script>
+											<span class="help-inline"><form:errors path="fromDate" cssClass="error" /></span>	                   			  
+								</div>
+						</div>  			
 
-		           <div class="control-group">
-		                  <label><s:message code="label.entity.toDate" text="To date"/></label>	 
-		                  <div class="controls">      
-									<form:input  cssClass="input-large" path="toDate"
-									data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
-									<script type="text/javascript">
-										$('#toDate').datepicker();
-									</script>
-									<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>                 			  
-		                   </div>
-		           </div>  
-		           					  
-		  
-		  	</div>
-		  	
-            <div class="span8">
-		           <div class="control-group">
-		                  <label><s:message code="label.entity.status" text="Status"/></label>	 
-		                  <div class="controls">      
-	                   			<form:select id="orderStatus" path="order.status">
-				  						<form:options items="${orderStatusList}" />
-			       				</form:select>      
-		                   </div>
-		           </div>  
-				   <div class="control-group">  
-	                    <label><s:message code="label.entity.status" text="Status"/></label>
-	                     <div class="controls">
-							<form:textarea id="orderComment"  cols="15" cssClass="input-large highlight" rows="5" path="orderHistoryComment"/>
-							 
-				 			<span class="help-inline"><form:errors path="orderHistoryComment" cssClass="error" /></span>
-	                    </div> 
-				   </div>
-				   	
-           	       <div class="control-group">
-                       <label><s:message code="label.order.history" text="History"/></label>
-                       <div class="controls">
-							 <dl class="dl-horizontal">
-								<c:forEach items="${order.order.orderHistory}" var="orderHistory" varStatus="counter">
-									<c:if test="${orderHistory.comments!=null}">
-									<dd><fmt:formatDate type="both" dateStyle="long" value="${orderHistory.dateAdded}" /> #<c:out value="${orderHistory.customerNotified}"/> - <c:out value="${orderHistory.status}"/> - <c:out value="${orderHistory.comments}"/>   
-									</c:if>                           
-	              				</c:forEach> 
-							</dl> 
-					   </div>
-              	   </div> 
-              
-	     		   
-              
+						<div class="control-group">
+								<label><s:message code="label.entity.toDate" text="To date"/></label>	 
+								<div class="controls">      
+											<form:input  cssClass="input-large" path="toDate"
+											data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>" />
+											<script type="text/javascript">
+												$('#toDate').datepicker();
+											</script>
+											<span class="help-inline"><form:errors path="toDate" cssClass="error" /></span>                 			  
+								</div>
+						</div>  
+											
+				
+				
+						<div class="control-group">
+								<label><s:message code="label.entity.status" text="Status"/></label>	 
+								<div class="controls">      
+										<form:select id="orderStatus" path="order.status">
+												<form:options items="${orderStatusList}" />
+										</form:select>      
+								</div>
+						</div>  
+						<div class="control-group">  
+								<label><s:message code="label.entity.note" text="Note"/></label>
+								<div class="controls">
+									<form:textarea id="orderComment"  cols="15" cssClass="input-large highlight" rows="5" path="orderHistoryComment"/>
+									
+									<span class="help-inline"><form:errors path="orderHistoryComment" cssClass="error" /></span>
+								</div> 
+						</div>
+				</div>
+				<div class="span5"> 
+						<div class="control-group">
+							<label><s:message code="label.order.history" text="History"/></label>
+							<div class="controls">
+									<ol class="dl-horizontal">
+										<c:forEach items="${order.order.orderHistory}" var="orderHistory" varStatus="counter">
+											<c:if test="${orderHistory.comments!=null}">
+											<li><fmt:formatDate type="both" dateStyle="long" value="${orderHistory.dateAdded}" /> #<c:out value="${orderHistory.customerNotified}"/> - <c:out value="${orderHistory.status}"/> - <c:out value="${orderHistory.comments}"/> </li>  
+											</c:if>                           
+										</c:forEach> 
+									</dl> 
+							</div>
+						</div> 
+					
+				</div> 	
+		</div>
+
+		<div class="span8"> 
 	              <div class="form-actions">
 	              		<button  type="submit" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
 	              		
 	              		<button  type="button" id="btPrepareBill" class="btn btn-medium btn-primary" ><s:message code="button.label.preparebill" text="Draft Bill"/></button>
 	              		
 	      		  </div>
-      		</div> 
+      	</div> 
             <br/>   
     
     	  </div>

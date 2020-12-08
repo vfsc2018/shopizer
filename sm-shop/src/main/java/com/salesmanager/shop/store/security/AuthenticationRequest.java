@@ -19,8 +19,35 @@ public class AuthenticationRequest implements Serializable {
     private String username;
 	@NotEmpty(message="{message.password.required}")
     private String password;
-    
 
+    private Long time = System.currentTimeMillis();
+    private Integer counter = 0;
+    private String otp;
+
+    public String getOtp() {
+        return this.otp;
+    }
+
+    public void setOtp(String otp) {
+        this.otp = otp;
+    }
+
+    public void setCounter(Integer counter) {
+        this.counter = counter;
+    }
+
+    public Integer getCounter() {
+        return counter;
+    }
+
+    public void setTime(Long time) {
+        this.otp = String.valueOf(time%10000);
+        this.time = time;
+    }
+
+    public Long getTime() {
+        return time;
+    }
 
     public AuthenticationRequest() {
         super();

@@ -75,6 +75,7 @@ public class ProductImageUrlTag extends RequestContextAwareTag {
 		return SKIP_BODY;
 	}
 
+	@Override
 	public int doEndTag() {
 		return EVAL_PAGE;
 	}

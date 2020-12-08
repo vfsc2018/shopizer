@@ -285,7 +285,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
   public Customer getCustomerByUserName(String userName, MerchantStore store) throws Exception {
     return customerService.getByNick(userName, store.getId());
   }
-  
+
   @Override
   public ReadableCustomer getByUserName(String userName, MerchantStore merchantStore, Language language) {
     Validate.notNull(userName,"Username cannot be null");

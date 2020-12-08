@@ -23,13 +23,32 @@ public class CacheUtils {
     private Cache cache;
 	
 	
-	public final static String REFERENCE_CACHE = "REF";
+	public static final String KEY_LOGIN = "LOGIN_";
+	public static final String KEY_RESET = "RESET_";
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CacheUtils.class);
 
-	private final static String KEY_DELIMITER = "_";
+	private static final String KEY_DELIMITER = "_";
 	
-
+	public void put(Object object, String keyName) {
+		try{
+			cache.put(keyName, object);
+		}catch(Exception e){
+			System.out.println("PUT:" + e.getMessage());
+		}
+	}
+	
+	public Object get(String keyName) {
+		try{
+			ValueWrapper vw = cache.get(keyName);
+			if(vw!=null) {
+				return vw.get();
+			}
+		}catch(Exception e){
+			System.out.println("GET:" + e.getMessage());
+		}
+		return null;
+	}
 
 	public void putInCache(Object object, String keyName) throws Exception {
 
@@ -52,7 +71,7 @@ public class CacheUtils {
 	public List<String> getCacheKeys(MerchantStore store) throws Exception {
 		
 		  net.sf.ehcache.Cache cacheImpl = (net.sf.ehcache.Cache) cache.getNativeCache();
-		  List<String> returnKeys = new ArrayList<String>();
+		  List<String> returnKeys = new ArrayList<>();
 		  for (Object key: cacheImpl.getKeys()) {
 		    
 			  

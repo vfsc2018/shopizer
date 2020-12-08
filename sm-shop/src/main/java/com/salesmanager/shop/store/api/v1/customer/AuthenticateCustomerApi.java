@@ -1,5 +1,9 @@
 package com.salesmanager.shop.store.api.v1.customer;
 
+import javax.inject.Named;
+
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +30,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.utils.CacheUtils;
+import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -37,6 +45,8 @@ import com.salesmanager.shop.store.security.JWTTokenUtil;
 import com.salesmanager.shop.store.security.PasswordRequest;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LanguageUtils;
+import com.salesmanager.shop.utils.SmsUtils;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
@@ -55,6 +65,16 @@ public class AuthenticateCustomerApi {
     @Value("${authToken.header}")
     private String tokenHeader;
 
+	@Inject
+	private CustomerService customerService;
+
+	@Inject
+	@Named("passwordEncoder")
+    private PasswordEncoder passwordEncoder;
+    
+	@Inject
+    private CoreConfiguration configuration;
+    
     @Inject
     private AuthenticationManager jwtCustomerAuthenticationManager;
 
@@ -66,6 +86,9 @@ public class AuthenticateCustomerApi {
     
     @Inject
     private CustomerFacade customerFacade;
+
+    @Inject
+    private CacheUtils cache;
     
     @Inject
     private StoreFacade storeFacade;
@@ -143,17 +166,24 @@ public class AuthenticateCustomerApi {
 
     	//TODO SET STORE in flow
         // Perform the security
+        String keyName = CacheUtils.KEY_LOGIN + authenticationRequest.getUsername();
         Authentication authentication = null;
         try {
             
-    
+            Integer counter = (Integer)cache.getFromCache(keyName);
+            if(counter==null || counter.intValue()<5){
+                counter = counter==null?1:(counter+1);
+                cache.putInCache(counter, authenticationRequest.getUsername());
+            }else{
+                return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);
+            }
                 //to be used when username and password are set
-                authentication = jwtCustomerAuthenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                authenticationRequest.getUsername(),
-                                authenticationRequest.getPassword()
-                        )
-                );
+            authentication = jwtCustomerAuthenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            authenticationRequest.getUsername(),
+                            authenticationRequest.getPassword()
+                    )
+            );
 
         } catch(BadCredentialsException unn) {
         	return new ResponseEntity<>("{\"message\":\"Bad credentials\"}",HttpStatus.UNAUTHORIZED);
@@ -163,6 +193,11 @@ public class AuthenticateCustomerApi {
         
         if(authentication == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try{
+            cache.removeFromCache(keyName);
+        }catch(Exception e){
+
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -180,23 +215,98 @@ public class AuthenticateCustomerApi {
     @PutMapping(value = "/customer/password/reset")
     @ApiOperation(httpMethod = "PUT", value = "Reset customer password", notes = "Reset password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> resetPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
-  
-        try {
-            
-            MerchantStore merchantStore = storeFacade.getByCode(request);
-            Language language = languageUtils.getRESTLanguage(request);
-            
-            Customer customer = customerFacade.getCustomerByUserName(authenticationRequest.getUsername(), merchantStore);
+                 
+        MerchantStore merchantStore = storeFacade.getByCode(request);
+        try{
+            String username = authenticationRequest.getUsername() + "@vfsc.vn";
+            Customer customer = customerFacade.getCustomerByUserName(username, merchantStore);
             
             if(customer == null){
                 return ResponseEntity.notFound().build();
             }
-            
-            customerFacade.resetPassword(customer, merchantStore, language);            
-            return ResponseEntity.ok(Void.class);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body("Exception when reseting password");
+        }
+        
+        String keyName = CacheUtils.KEY_RESET + authenticationRequest.getUsername();
+        AuthenticationRequest auth = (AuthenticationRequest)cache.get(keyName);
+        
+        if(auth==null){
+            authenticationRequest.setCounter(0);
+            authenticationRequest.setTime(System.currentTimeMillis());
+            cache.put(authenticationRequest, keyName);
+        }else if(auth.getCounter().intValue()<3){
+            auth.setTime(System.currentTimeMillis());
+            auth.setCounter(auth.getCounter() + 1);
+            cache.put(auth, keyName);
+        }else{
+            long diff = System.currentTimeMillis()-auth.getTime();
+            long diffHours = TimeUnit.MILLISECONDS.toHours(diff);
+            // long remain = diff % (24 * 60 * 60 * 1000);
+            // long diffHours = remain / (60 * 60 * 1000);
+            if(diffHours>7){
+                authenticationRequest.setCounter(0);
+                authenticationRequest.setTime(System.currentTimeMillis());
+                cache.put(authenticationRequest, keyName);
+            }else{
+                return ResponseEntity.badRequest().body("Exception when reseting password");
+            }
+        }
+
+            auth = (AuthenticationRequest)cache.get(keyName);
+            String telephone = auth.getUsername();
+            String text = configuration.getProperty("SMS_OTP_PASSWORD") + auth.getOtp();
+            if(SmsUtils.sendTextMessage(telephone, text)){
+                return ResponseEntity.ok("OTP have been sent to " + telephone);
+            }
+                     
+            return ResponseEntity.badRequest().body("Exception when reseting password: " + telephone);
+    }
+
+    @PutMapping(value = "/customer/password/otp")
+    @ApiOperation(httpMethod = "PUT", value = "Reset customer password", notes = "Reset password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
+    public ResponseEntity<?> otpPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
+  
+        String keyName = CacheUtils.KEY_RESET + authenticationRequest.getUsername();
+        AuthenticationRequest auth = (AuthenticationRequest)cache.get(keyName);
+        if(auth==null || auth.getOtp()==null || authenticationRequest.getOtp()==null){
+            return ResponseEntity.badRequest().body("NULL OTP when reset password");
+        }
+
+        long diff = System.currentTimeMillis()-auth.getTime();
+        long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+
+        if(diffMinutes>5){
+            return ResponseEntity.badRequest().body("Invalid OTP when reset password");
+        }
+        
+        try {
+            if(auth.getOtp().equals(authenticationRequest.getOtp()) 
+                && auth.getUsername().equals(authenticationRequest.getUsername()) 
+                && auth.getPassword().equals(authenticationRequest.getPassword())){
+                MerchantStore merchantStore = storeFacade.getByCode(request);
+                // Language language = languageUtils.getRESTLanguage(request);
+                String username = authenticationRequest.getUsername() + "@vfsc.vn";
+                Customer customer = customerFacade.getCustomerByUserName(username, merchantStore);
+                if(customer == null){
+                    return ResponseEntity.notFound().build();
+                }
+                String encodedPassword = passwordEncoder.encode(auth.getPassword());
+			
+			    customer.setPassword(encodedPassword);
+			
+			    customerService.saveOrUpdate(customer);
+                 
+                cache.removeFromCache(keyName);         
+                return ResponseEntity.ok("Reset password successfull for " + auth.getUsername());
+            }else{
+                auth.setOtp(null);
+                cache.put(auth,keyName);
+                return ResponseEntity.badRequest().body("Wrong OTP when reset password");
+            }
             
         } catch(Exception e) {
-            return ResponseEntity.badRequest().body("Exception when reseting password "+e.getMessage());
+            return ResponseEntity.badRequest().body("Exception when reseting password " + e.getMessage());
         }
     }
     

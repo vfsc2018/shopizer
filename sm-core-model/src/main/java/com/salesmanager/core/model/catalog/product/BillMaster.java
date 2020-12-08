@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,8 +20,11 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.OrderBy;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 import com.salesmanager.core.model.common.audit.AuditListener;
@@ -44,6 +48,7 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+	@JsonIgnore
     @Embedded
 	private AuditSection auditSection = new AuditSection();
 	
@@ -133,13 +138,14 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 
 	@OneToMany(mappedBy = "billMaster")
 	@OrderBy(clause = "ID asc")
-	private Set<BillItem> items = new HashSet<BillItem>();
+	private Set<BillItem> items = new HashSet<>();
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt = new Date();
 
+	@JsonIgnore
 	@ManyToOne(targetEntity = Order.class)
-	@JoinColumn(name = "ORDER_ID", nullable=false)
+	@JoinColumn(name = "ORDER_ID", updatable=false, nullable=false)
 	private Order order;
 
 

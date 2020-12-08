@@ -123,8 +123,8 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 			Billing billing = customer.getBilling();
 			target.setBilling(billing);
 			
-			if(source.getAttributes() != null && source.getAttributes().size() > 0) {
-				Set<OrderAttribute> attrs = new HashSet<OrderAttribute>();
+			if(source.getAttributes() != null && !source.getAttributes().isEmpty()) {
+				Set<OrderAttribute> attrs = new HashSet<>();
 				for(com.salesmanager.shop.model.order.OrderAttribute attribute : source.getAttributes()) {
 					OrderAttribute attr = new OrderAttribute();
 					attr.setKey(attribute.getKey());
@@ -155,6 +155,7 @@ public class PersistableOrderApiPopulator extends AbstractDataPopulator<Persista
 				statusHistory.setOrder(target);
 				statusHistory.setComments(source.getComments());
 				statusHistory.setDateAdded(new Date());
+				// statusHistory.setCustomerNotified(customer.getId());
 				target.getOrderHistory().add(statusHistory);
 			}
 			

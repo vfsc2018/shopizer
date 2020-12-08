@@ -118,7 +118,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	private Language defaultLanguage;
 	
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
-	private List<ProductReview> reviews = new ArrayList<ProductReview>();
+	private List<ProductReview> reviews = new ArrayList<>();
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)

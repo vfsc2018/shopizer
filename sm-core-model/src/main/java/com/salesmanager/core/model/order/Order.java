@@ -166,22 +166,22 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	//private Set<OrderAccount> orderAccounts = new HashSet<OrderAccount>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	private Set<OrderProduct> orderProducts = new LinkedHashSet<OrderProduct>();
+	private Set<OrderProduct> orderProducts = new LinkedHashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	@OrderBy(clause = "sort_order asc")
-	private Set<OrderTotal> orderTotal = new LinkedHashSet<OrderTotal>();
+	private Set<OrderTotal> orderTotal = new LinkedHashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	@OrderBy(clause = "ORDER_STATUS_HISTORY_ID asc")
-	private Set<OrderStatusHistory> orderHistory = new LinkedHashSet<OrderStatusHistory>();
+	private Set<OrderStatusHistory> orderHistory = new LinkedHashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	private Set<OrderAttribute> orderAttributes = new LinkedHashSet<OrderAttribute>();
+	private Set<OrderAttribute> orderAttributes = new LinkedHashSet<>();
 	
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-	private Set<BillMaster> billMasters = new LinkedHashSet<BillMaster>();
+	private Set<BillMaster> billMasters = new LinkedHashSet<>();
 	
 	
 	public Set<BillMaster> getBillMasters() {

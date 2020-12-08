@@ -1183,9 +1183,9 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			Set<ShoppingCartItem> shoppingCartItems = cart.getLineItems();
 
-			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(shoppingCartItems);
+			List<ShoppingCartItem> items = new ArrayList<>(shoppingCartItems);
 
-			Set<OrderProduct> orderProducts = new LinkedHashSet<OrderProduct>();
+			Set<OrderProduct> orderProducts = new LinkedHashSet<>();
 
 			OrderProductPopulator orderProductPopulator = new OrderProductPopulator();
 			orderProductPopulator.setDigitalProductService(digitalProductService);
@@ -1205,8 +1205,8 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			modelOrder.setOrderProducts(orderProducts);
 
-			if (order.getAttributes() != null && order.getAttributes().size() > 0) {
-				Set<OrderAttribute> attrs = new HashSet<OrderAttribute>();
+			if (order.getAttributes() != null && !order.getAttributes().isEmpty()) {
+				Set<OrderAttribute> attrs = new HashSet<>();
 				for (com.salesmanager.shop.model.order.OrderAttribute attribute : order.getAttributes()) {
 					OrderAttribute attr = new OrderAttribute();
 					attr.setKey(attribute.getKey());
@@ -1237,7 +1237,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			OrderSummary orderSummary = new OrderSummary();
 			orderSummary.setShippingSummary(shippingSummary);
-			List<ShoppingCartItem> itemsSet = new ArrayList<ShoppingCartItem>(cart.getLineItems());
+			List<ShoppingCartItem> itemsSet = new ArrayList<>(cart.getLineItems());
 			orderSummary.setProducts(itemsSet);
 
 			orderTotalSummary = orderService.caculateOrderTotal(orderSummary, customer, store, language);
@@ -1259,7 +1259,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			modelOrder.setTotal(calculatedAmount);
 			List<com.salesmanager.core.model.order.OrderTotal> totals = orderTotalSummary.getTotals();
-			Set<com.salesmanager.core.model.order.OrderTotal> set = new HashSet<com.salesmanager.core.model.order.OrderTotal>();
+			Set<com.salesmanager.core.model.order.OrderTotal> set = new HashSet<>();
 
 			if (!CollectionUtils.isEmpty(totals)) {
 				for (com.salesmanager.core.model.order.OrderTotal total : totals) {

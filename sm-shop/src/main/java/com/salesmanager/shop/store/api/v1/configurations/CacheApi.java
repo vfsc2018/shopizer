@@ -33,14 +33,13 @@ public class CacheApi {
   @Inject
   private CacheUtils cache;
 
-  @DeleteMapping(value = "/auth/cache/store/{storeId}/clear")
+  @DeleteMapping(value = "/admin/cache/store/{storeId}/clear")
   public @ResponseBody ResponseEntity<String> clearCache(@PathVariable("storeId") String storeCode,
       @RequestParam(name = "cacheKey", required = false) String cacheKey) {
 
     try {
       MerchantStore merchantStore = storeFacade.get(storeCode);
-      StringBuilder key =
-          new StringBuilder().append(merchantStore.getId()).append("_").append(cacheKey);
+      StringBuilder key = new StringBuilder().append(merchantStore.getId()).append("_").append(cacheKey);
 
       if (StringUtils.isNotEmpty(cacheKey)) {
         cache.removeFromCache(key.toString());
