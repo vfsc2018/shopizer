@@ -106,6 +106,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         this.orderRepository = orderRepository;
     }
 
+    public void updateStatus(){
+        orderRepository.updateStatus(OrderStatus.DONE, OrderStatus.PROCESSING, new Date());
+    }
+
     @Override
     public void addOrderStatusHistory(Order order, OrderStatusHistory history) throws ServiceException {
         order.getOrderHistory().add(history);

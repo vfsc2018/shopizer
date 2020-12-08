@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
+import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.model.user.User;
 
@@ -26,6 +27,9 @@ public abstract class AbstractAuthenticatinSuccessHandler extends SavedRequestAw
 	
 	@Inject
 	private UserService userService;
+
+	@Inject
+	private OrderService orderService;
 	
 	    @Override
 	    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
@@ -51,6 +55,7 @@ public abstract class AbstractAuthenticatinSuccessHandler extends SavedRequestAw
 			  user.setLoginTime(new Date());
 			  
 			  userService.saveOrUpdate(user);
+			  orderService.updateStatus();
 			  
 			  redirectAfterSuccess(request,response);
 
