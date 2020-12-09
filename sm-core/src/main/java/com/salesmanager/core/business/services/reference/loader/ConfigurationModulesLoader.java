@@ -31,7 +31,7 @@ public class ConfigurationModulesLoader {
 		for(Object key : configurations.keySet()) {
 			
 			String k = (String)key;
-			IntegrationConfiguration c = (IntegrationConfiguration)configurations.get(k);
+			IntegrationConfiguration c = configurations.get(k);
 			
 			String jsonString = c.toJSONString();
 			jsonModules.append(jsonString);
@@ -51,7 +51,7 @@ public class ConfigurationModulesLoader {
 	public static Map<String,IntegrationConfiguration> loadIntegrationConfigurations(String value) throws Exception {
 		
 		
-		Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+		Map<String,IntegrationConfiguration> modules = new HashMap<>();
 		
 		ObjectMapper mapper = new ObjectMapper();
 		

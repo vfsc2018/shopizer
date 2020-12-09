@@ -335,7 +335,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("transactionId", transaction.getId());
-					entry.put("transactionDate", DateUtil.formatLongDate(transaction.getTransactionDate()));
+					entry.put("transactionDate", DateUtil.formatTimeDate(transaction.getTransactionDate()));
 					entry.put("transactionType", transaction.getTransactionType().name());
 					entry.put("paymentType", transaction.getPaymentType().name());
 					entry.put("transactionAmount", pricingService.getStringAmount(transaction.getAmount(), store));
@@ -430,8 +430,45 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		
 	}
-	
-	
+
+	@PreAuthorize("hasRole('ORDER')")
+	@RequestMapping(value="/admin/orders/updatePayment.html", method=RequestMethod.GET)
+	public @ResponseBody ResponseEntity<String> updatePayment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		String sId = request.getParameter("id");
+		
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
+		if(sId==null) {
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
+		}
+
+		try {
+			
+			Long id = Long.parseLong(sId);
+			if(!orderService.paymentConfirm(id,false)) {
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
+			}
+			
+			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+			
+		} catch(Exception e) {
+			LOGGER.error("Cannot get transactions for order id " + sId, e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+			resp.setErrorString(e.getMessage());
+			resp.setErrorMessage(e);
+		}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
+		
+	}
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/updateStatus.html", method=RequestMethod.GET)

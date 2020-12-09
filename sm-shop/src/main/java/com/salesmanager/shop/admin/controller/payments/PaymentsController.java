@@ -74,7 +74,8 @@ public class PaymentsController {
 			configuration = new IntegrationConfiguration();
 			configuration.setEnvironment(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 			
-			Map<String,String> keys = new HashMap<String,String>();
+			Map<String,String> keys = new HashMap<>();
+			
 			keys.put("transaction", TransactionType.AUTHORIZECAPTURE.name());
 			
 			configuration.setIntegrationKeys(keys);
@@ -83,7 +84,7 @@ public class PaymentsController {
 		
 		configuration.setModuleCode(code);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 		

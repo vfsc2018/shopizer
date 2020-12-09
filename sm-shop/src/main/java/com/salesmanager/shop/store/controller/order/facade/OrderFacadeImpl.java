@@ -183,7 +183,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		order.setCustomer(persistableCustomer);
 
 		// keep list of shopping cart items for core price calculation
-		List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+		List<ShoppingCartItem> items = new ArrayList<>(shoppingCart.getLineItems());
 		order.setShoppingCartItems(items);
 
 		return order;
@@ -210,7 +210,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		populator.setProductService(productService);
 		populator.setShoppingCartService(shoppingCartService);
 
-		List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>();
+		List<ShoppingCartItem> items = new ArrayList<>();
 		for (PersistableOrderProduct orderProduct : orderProducts) {
 			ShoppingCartItem item = populator.populate(orderProduct, new ShoppingCartItem(), store, language);
 			items.add(item);
@@ -218,9 +218,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		Customer customer = customer(order.getCustomer(), store, language);
 
-		OrderTotalSummary summary = this.calculateOrderTotal(store, customer, order, language);
-
-		return summary;
+		return this.calculateOrderTotal(store, customer, order, language);
 	}
 
 	private OrderTotalSummary calculateOrderTotal(MerchantStore store, Customer customer,
@@ -278,22 +276,19 @@ public class OrderFacadeImpl implements OrderFacade {
 			throws Exception {
 
 		PersistableCustomerPopulator customerPopulator = new PersistableCustomerPopulator();
-		PersistableCustomer persistableCustomer = customerPopulator.populate(customer, new PersistableCustomer(), store,
-				language);
-		return persistableCustomer;
+		return customerPopulator.populate(customer, new PersistableCustomer(), store, language);
 
 	}
 
 	private Customer customer(PersistableCustomer customer, MerchantStore store, Language language) throws Exception {
 
-		Customer cust = customerPopulator.populate(customer, new Customer(), store, language);
-		return cust;
+		return customerPopulator.populate(customer, new Customer(), store, language);
 
 	}
 
 	private void setOrderTotals(OrderEntity order, OrderTotalSummary summary) {
 
-		List<OrderTotal> totals = new ArrayList<OrderTotal>();
+		List<OrderTotal> totals = new ArrayList<>();
 		List<com.salesmanager.core.model.order.OrderTotal> orderTotals = summary.getTotals();
 		for (com.salesmanager.core.model.order.OrderTotal t : orderTotals) {
 			OrderTotal total = new OrderTotal();
@@ -326,6 +321,15 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	}
 
+
+	public boolean payment(Long id, Transaction transaction){
+		Order order = orderService.getById(id);
+		if(order!=null){
+			
+		}
+		return false;
+	}
+
 	private Order processOrderModel(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store,
 			Language language) throws ServiceException {
 
@@ -354,7 +358,7 @@ public class OrderFacadeImpl implements OrderFacade {
 																// formatting
 
 			List<ShoppingCartItem> shoppingCartItems = order.getShoppingCartItems();
-			Set<OrderProduct> orderProducts = new LinkedHashSet<OrderProduct>();
+			Set<OrderProduct> orderProducts = new LinkedHashSet<>();
 
 			if (!StringUtils.isBlank(order.getComments())) {
 				OrderStatusHistory statusHistory = new OrderStatusHistory();
@@ -418,7 +422,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			});
 
-			Set<com.salesmanager.core.model.order.OrderTotal> modelTotals = new LinkedHashSet<com.salesmanager.core.model.order.OrderTotal>();
+			Set<com.salesmanager.core.model.order.OrderTotal> modelTotals = new LinkedHashSet<>();
 			for (com.salesmanager.core.model.order.OrderTotal total : totals) {
 				total.setOrder(modelOrder);
 				modelTotals.add(total);
@@ -452,94 +456,93 @@ public class OrderFacadeImpl implements OrderFacade {
 																								// payment
 																								// token
 				String paymentToken = order.getPayment().get("paymentToken");
-				Map<String, String> paymentMetaData = new HashMap<String, String>();
+				Map<String, String> paymentMetaData = new HashMap<>();
 				payment.setPaymentMetaData(paymentMetaData);
 				paymentMetaData.put("paymentToken", paymentToken);
 			}
 
-			if (PaymentType.CREDITCARD.name().equals(paymentType)) {
+			// if (PaymentType.CREDITCARD.name().equals(paymentType)) {
 
-				payment = new CreditCardPayment();
-				((CreditCardPayment) payment).setCardOwner(order.getPayment().get("creditcard_card_holder"));
-				((CreditCardPayment) payment)
-						.setCredidCardValidationNumber(order.getPayment().get("creditcard_card_cvv"));
-				((CreditCardPayment) payment).setCreditCardNumber(order.getPayment().get("creditcard_card_number"));
-				((CreditCardPayment) payment)
-						.setExpirationMonth(order.getPayment().get("creditcard_card_expirationmonth"));
-				((CreditCardPayment) payment)
-						.setExpirationYear(order.getPayment().get("creditcard_card_expirationyear"));
+			// 	payment = new CreditCardPayment();
+			// 	((CreditCardPayment) payment).setCardOwner(order.getPayment().get("creditcard_card_holder"));
+			// 	((CreditCardPayment) payment)
+			// 			.setCredidCardValidationNumber(order.getPayment().get("creditcard_card_cvv"));
+			// 	((CreditCardPayment) payment).setCreditCardNumber(order.getPayment().get("creditcard_card_number"));
+			// 	((CreditCardPayment) payment)
+			// 			.setExpirationMonth(order.getPayment().get("creditcard_card_expirationmonth"));
+			// 	((CreditCardPayment) payment)
+			// 			.setExpirationYear(order.getPayment().get("creditcard_card_expirationyear"));
 
-				Map<String, String> paymentMetaData = order.getPayment();
-				payment.setPaymentMetaData(paymentMetaData);
-				payment.setPaymentType(PaymentType.valueOf(paymentType));
-				payment.setAmount(order.getOrderTotalSummary().getTotal());
-				payment.setModuleName(order.getPaymentModule());
-				payment.setCurrency(modelOrder.getCurrency());
+			// 	Map<String, String> paymentMetaData = order.getPayment();
+			// 	payment.setPaymentMetaData(paymentMetaData);
+			// 	payment.setPaymentType(PaymentType.valueOf(paymentType));
+			// 	payment.setAmount(order.getOrderTotalSummary().getTotal());
+			// 	payment.setModuleName(order.getPaymentModule());
+			// 	payment.setCurrency(modelOrder.getCurrency());
 
-				CreditCardType creditCardType = null;
-				String cardType = order.getPayment().get("creditcard_card_type");
+			// 	CreditCardType creditCardType = null;
+			// 	String cardType = order.getPayment().get("creditcard_card_type");
 
-				// supported credit cards
-				if (CreditCardType.AMEX.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.AMEX;
-				} else if (CreditCardType.VISA.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.VISA;
-				} else if (CreditCardType.MASTERCARD.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.MASTERCARD;
-				} else if (CreditCardType.DINERS.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.DINERS;
-				} else if (CreditCardType.DISCOVERY.name().equalsIgnoreCase(cardType)) {
-					creditCardType = CreditCardType.DISCOVERY;
-				}
+			// 	// supported credit cards
+			// 	if (CreditCardType.AMEX.name().equalsIgnoreCase(cardType)) {
+			// 		creditCardType = CreditCardType.AMEX;
+			// 	} else if (CreditCardType.VISA.name().equalsIgnoreCase(cardType)) {
+			// 		creditCardType = CreditCardType.VISA;
+			// 	} else if (CreditCardType.MASTERCARD.name().equalsIgnoreCase(cardType)) {
+			// 		creditCardType = CreditCardType.MASTERCARD;
+			// 	} else if (CreditCardType.DINERS.name().equalsIgnoreCase(cardType)) {
+			// 		creditCardType = CreditCardType.DINERS;
+			// 	} else if (CreditCardType.DISCOVERY.name().equalsIgnoreCase(cardType)) {
+			// 		creditCardType = CreditCardType.DISCOVERY;
+			// 	}
 
-				((CreditCardPayment) payment).setCreditCard(creditCardType);
+			// 	((CreditCardPayment) payment).setCreditCard(creditCardType);
 
-				if (creditCardType != null) {
+			// 	if (creditCardType != null) {
 
-					CreditCard cc = new CreditCard();
-					cc.setCardType(creditCardType);
-					cc.setCcCvv(((CreditCardPayment) payment).getCredidCardValidationNumber());
-					cc.setCcOwner(((CreditCardPayment) payment).getCardOwner());
-					cc.setCcExpires(((CreditCardPayment) payment).getExpirationMonth() + "-"
-							+ ((CreditCardPayment) payment).getExpirationYear());
+			// 		CreditCard cc = new CreditCard();
+			// 		cc.setCardType(creditCardType);
+			// 		cc.setCcCvv(((CreditCardPayment) payment).getCredidCardValidationNumber());
+			// 		cc.setCcOwner(((CreditCardPayment) payment).getCardOwner());
+			// 		cc.setCcExpires(((CreditCardPayment) payment).getExpirationMonth() + "-"
+			// 				+ ((CreditCardPayment) payment).getExpirationYear());
 
-					// hash credit card number
-					if (!StringUtils.isBlank(cc.getCcNumber())) {
-						String maskedNumber = CreditCardUtils
-								.maskCardNumber(order.getPayment().get("creditcard_card_number"));
-						cc.setCcNumber(maskedNumber);
-						modelOrder.setCreditCard(cc);
-					}
+			// 		// hash credit card number
+			// 		if (!StringUtils.isBlank(cc.getCcNumber())) {
+			// 			String maskedNumber = CreditCardUtils
+			// 					.maskCardNumber(order.getPayment().get("creditcard_card_number"));
+			// 			cc.setCcNumber(maskedNumber);
+			// 			modelOrder.setCreditCard(cc);
+			// 		}
 
-				}
+			// 	}
 
-			}
+			// }
 
-			if (PaymentType.PAYPAL.name().equals(paymentType)) {
+			// if (PaymentType.PAYPAL.name().equals(paymentType)) {
 
-				// check for previous transaction
-				if (transaction == null) {
-					throw new ServiceException("payment.error");
-				}
+			// 	// check for previous transaction
+			// 	if (transaction == null) {
+			// 		throw new ServiceException("payment.error");
+			// 	}
 
-				payment = new com.salesmanager.core.model.payments.PaypalPayment();
+			// 	payment = new com.salesmanager.core.model.payments.PaypalPayment();
 
-				((com.salesmanager.core.model.payments.PaypalPayment) payment)
-						.setPayerId(transaction.getTransactionDetails().get("PAYERID"));
-				((com.salesmanager.core.model.payments.PaypalPayment) payment)
-						.setPaymentToken(transaction.getTransactionDetails().get("TOKEN"));
+			// 	((com.salesmanager.core.model.payments.PaypalPayment) payment)
+			// 			.setPayerId(transaction.getTransactionDetails().get("PAYERID"));
+			// 	((com.salesmanager.core.model.payments.PaypalPayment) payment)
+			// 			.setPaymentToken(transaction.getTransactionDetails().get("TOKEN"));
 
-			}
+			// }
 
 			modelOrder.setShoppingCartCode(shoppingCartCode);
 			modelOrder.setPaymentModuleCode(order.getPaymentModule());
 			payment.setModuleName(order.getPaymentModule());
 
-			if (transaction != null) {
+			if (transaction == null) {
 				orderService.processOrder(modelOrder, customer, order.getShoppingCartItems(), summary, payment, store);
 			} else {
-				orderService.processOrder(modelOrder, customer, order.getShoppingCartItems(), summary, payment,
-						transaction, store);
+				orderService.processOrder(modelOrder, customer, order.getShoppingCartItems(), summary, payment, transaction, store);
 			}
 
 			return modelOrder;
@@ -1526,7 +1529,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	public List<ReadableTransaction> listTransactions(Long orderId, MerchantStore store) {
 		Validate.notNull(orderId, "orderId must not be null");
 		Validate.notNull(store, "MerchantStore must not be null");
-		List<ReadableTransaction> trx = new ArrayList<ReadableTransaction>();
+		List<ReadableTransaction> trx = new ArrayList<>();
 		try {
 			Order modelOrder = orderService.getOrder(orderId, store);
 			

@@ -138,6 +138,31 @@ function sendInvoice(orderId){
 	
 	});
 }
+function updatePayment(orderId){
+
+$.ajax({
+	  type: 'GET',
+	  url: '<c:url value="/admin/orders/updatePayment.html"/>?id=' + orderId,
+	  dataType: 'json',
+	  success: function(response){
+			var status = response.response.status;
+			var data = response.response.data;
+			//console.log(status);
+			if(status==0 || status ==9999) {
+				$(".alert-success").show();
+			} else {
+				$(".alert-error").show();
+			}
+			$('#paymentNotYet').html(new Date());
+			$('.sm').hideLoading();
+	  },
+		error: function(xhr, textStatus, errorThrown) {
+		  alert('error ' + errorThrown);
+		  $('.sm').hideLoading();
+	  }
+
+});
+}
 
 function updateStatus(orderId){
 
@@ -237,7 +262,7 @@ function captureOrder(orderId){
 		$("#orderStatus").on('change', function() {
 			var comment = '';
 			if(this.value=='PROCESSING'){
-				comment = 'sms: VfSC da nhan don hang #<c:out value="${order.order.id}"/>, quy khach cai dat ung dung tren dien thoai de nhan thong tin va theo doi don hang';
+				comment = 'sms: VfSC da nhan don hang #<c:out value="${order.order.id}"/>. Quy khach cai dat ung dung VfscFood tren dien thoai de nhan thong tin va theo doi don hang';
 			}else if(this.value=='CANCELED'){
 				comment = 'sms: Xin loi Quy khach, VfSC chua sap xep duoc ke hoach giao don hang #<c:out value="${order.order.id}"/>. Chung toi se lien he quy khach trong thoi gian som nhat';
 			}
@@ -254,6 +279,12 @@ function captureOrder(orderId){
 			listTransactions('<c:out value="${order.order.id}"/>');
 		});
 		
+		$("#confirmPaymentAction").click(function() {
+			resetMessages();
+			$('.sm').showLoading();
+			updatePayment('<c:out value="${order.order.id}"/>');
+		});
+
 		$("#sendInvoiceAction").click(function() {
 			resetMessages();
 			$('.sm').showLoading();
@@ -396,29 +427,23 @@ function captureOrder(orderId){
 		    <div class="btn-group" style="z-index:400000;">
                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.generic.moreoptions" text="More options"/> ... <span class="caret"></span></button>
                      <ul class="dropdown-menu">
-				    	<li><a id="transactionsAction" href="#"><s:message code="label.order.transactions" text="Transactions list"/></a></li>
-				    	<li><a id="sendInvoiceAction" href="#"><s:message code="label.order.sendinvoice" text="Send email invoice"/></a></li>
-				    	<li><a id="updateStatusAction" href="#"><s:message code="label.order.updatestatus" text="Send order status email"/></a></li>
+						<li><a id="transactionsAction" href="#"><s:message code="label.order.transactions" text="Transactions list"/></a></li>
+						<li><a id="confirmPaymentAction" href="#"><s:message code="label.order.paymentCapture" text="Confirm payment by cash"/></a></li>
+						<c:if test="${customer!=null}">
+							<li>
+								<a href="<c:url value="/admin/customers/customer.html?id=${customer.id}"/>"><s:message code="label.order.editcustomer" text="Edit customer"/></a>
+							</li>
+						</c:if>
 				    	<li>
-				    		<c:if test="${downloads!=null}">
-								<a id="updateDownloadsAction" href="#"><s:message code="label.order.downloademail" text="Send download email"/></a>
-							</c:if>
-				    	</li>
+				    		<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Draft Bill"/></a>
+						</li>
+				    	<!-- <li><a id="sendInvoiceAction" href="#"><s:message code="label.order.sendinvoice" text="Send email invoice"/></a></li> -->
+				    	<!-- <li><a id="updateStatusAction" href="#"><s:message code="label.order.updatestatus" text="Send order status email"/></a></li> -->
+				    	<!-- <li><c:if test="${downloads!=null}"><a id="updateDownloadsAction" href="#"><s:message code="label.order.downloademail" text="Send download email"/></a></c:if></li> -->
 				    	
 				    	<!--<li><a href="<c:url value="/admin/orders/printInvoice.html?id=${order.id}" />"><s:message code="label.order.printinvoice" text="Print invoice"/></a></li>-->
 				    	<!-- available soon <li><a href="<c:url value="/admin/orders/printShippingLabel.html?id=${order.id}" />"><s:message code="label.order.packing" text="Print packing slip"/></a></li>-->
-				    	<li>
-				    		<c:if test="${customer!=null}">
-								<a href="<c:url value="/admin/customers/customer.html?id=${customer.id}"/>"><s:message code="label.order.editcustomer" text="Edit customer"/></a>
-							</c:if>
-						</li>
-				    	<li>
-				    		<c:if test="${customer!=null}">
-								<a href="<c:url value="/admin/orders/prepareBill.html?id=${order.id}"/>"><s:message code="label.order.preparebill" text="Draft Bill"/></a>
-							</c:if>
-						</li>
-						
-												
+																		
                      </ul>
                 	&nbsp;
                 	<c:if test="${order.order.total>0}">
@@ -449,7 +474,7 @@ function captureOrder(orderId){
 			
 			<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
 			<c:if test="${order.paymentTime==null}">
-			<label style="color:red">
+			<label id="paymentNotYet" style="color:red">
 				<strong><s:message code="label.purchased.notavailable" text="Purchase not available"/></strong>
 			</label>
 			</c:if>
@@ -490,7 +515,7 @@ function captureOrder(orderId){
 			            </div>
 			            
 			            <div class="control-group"> 
-	                        <label><s:message code="label.customer.billing.zone" text="State / Province"/></label>
+	                        <label><strong><s:message code="label.customer.billing.zone" text="State / Province"/></strong></label>
 	                        <div class="controls">		       							
 	       							<form:select id="billingZoneList" cssClass="billing-zone-list" path="order.billing.zone.code"/>
                       				<form:input  class="input-large highlight" id="billingZoneText" maxlength="100"  name="billingZoneText" path="order.billing.state" /> 				       							
@@ -545,7 +570,7 @@ function captureOrder(orderId){
 
 			            
 			            <div class="control-group"> 
-	                        <label><s:message code="label.customer.shipping.zone" text="State / Province"/></label>
+	                        <label><strong><s:message code="label.customer.shipping.zone" text="State / Province"/></strong></label>
 							<div class="controls">		    							
 	       							<form:select id="shippingZoneList" cssClass="shiiping-zone-list" path="order.delivery.zone.code"/>
                       				<form:input  class="input-large highlight" id="shippingZoneText" maxlength="100"  name="shippingZoneText" path="order.delivery.state" /> 				       							

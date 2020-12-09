@@ -142,31 +142,20 @@ public class PaymentApi {
         if (badToken(request,"VNPAY-768968976-jhgcchgssao-13243254-qtrerobn")) {
             return new ResponseEntity<>("{\"provider\": 0}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
-
-        Date date = null;
+    
         try{
             Long time = Long.valueOf(token);
-            date = new Date(time);
+            Date date = new Date(time);
+            System.out.println("PAYMENT Date: " + date.toString());
+            if (orderService.paymentConfirm(id, true)) {
+                return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("{\"id\":" + id + ",\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+            }
         }catch(Exception e){
-            return new ResponseEntity<>("{\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+            System.out.println("PAYMENT ERROR: " + e.getMessage());
         }
-        Order order = orderService.getById(id);
-        if (order == null) {
-            return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.BAD_REQUEST);
-        }
-        Date now = new Date(System.currentTimeMillis());
-        order.setPaymentTime(now);
-        
-        try{
-            LOGGER.info(String.format("VNPAY buy %s - payment %s - money %s", order.getAuditSection().getDateCreated(), date.toString(), now.toString()));
-            orderService.saveOrUpdate(order);
-            return new ResponseEntity<>("{\"paymentTime\":" + now + "}", httpHeaders, HttpStatus.OK);
-        }catch(Exception e){
-            LOGGER.error(String.format("VNPAY setPaymentTime: %s: %s", now.toString(), e.getMessage()));
-            return new ResponseEntity<>("{\"paymentTime\":" + e.getMessage() + "}", httpHeaders, HttpStatus.BAD_REQUEST);
-        }
-
-        
+        return new ResponseEntity<>("{\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);
 	}
   
 }

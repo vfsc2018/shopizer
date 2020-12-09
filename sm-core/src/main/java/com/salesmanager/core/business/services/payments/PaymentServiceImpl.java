@@ -255,7 +255,7 @@ public class PaymentServiceImpl implements PaymentService {
 		
 
 		try {
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(PAYMENT_MODULES, store);
 			if(merchantConfiguration!=null) {
 
@@ -328,7 +328,8 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		String sTransactionType = configuration.getIntegrationKeys().get("transaction");
 		if(sTransactionType==null) {
-			sTransactionType = TransactionType.AUTHORIZECAPTURE.name();
+			sTransactionType = TransactionType.INIT.name();
+			// sTransactionType = TransactionType.AUTHORIZECAPTURE.name();
 		}
 		
 
@@ -368,8 +369,7 @@ public class PaymentServiceImpl implements PaymentService {
 			transaction = module.initTransaction(store, customer, amount, payment, configuration, integrationModule);
 		}
 
-
-		if(transactionType != TransactionType.INIT) {
+		if(transaction!=null) { //transactionType != TransactionType.INIT && 
 			transactionService.create(transaction);
 		}
 		

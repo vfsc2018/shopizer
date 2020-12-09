@@ -741,7 +741,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			}
 
 			if( dbOrder.getPaymentTime() !=null ){
-				order.setPaymentTime(DateUtil.formatTimeDate(dbOrder.getPaymentTime()));
+				order.setPaymentTime(DateUtil.formatDate(dbOrder.getPaymentTime()));
 			}
 
 			if( dbOrder.getFromDate() !=null ){

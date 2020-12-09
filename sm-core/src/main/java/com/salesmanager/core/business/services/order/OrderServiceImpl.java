@@ -58,6 +58,7 @@ import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.Payment;
+import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
@@ -104,6 +105,42 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     public OrderServiceImpl(OrderRepository orderRepository) {
         super(orderRepository);
         this.orderRepository = orderRepository;
+    }
+
+    public boolean paymentConfirm(Long id, boolean online){
+        Order order = this.getById(id);
+        if(order!=null){
+            Date now = new Date();
+            order.setPaymentTime(now);
+            try{
+                this.saveOrUpdate(order);
+                return paymentConfirm(order, online);
+            }catch(Exception e){
+                LOGGER.error(String.format("VNPAY paymentConfirm: %s", e.getMessage()));
+            }
+        }
+        return false;
+
+    }
+
+    public boolean paymentConfirm(Order order, boolean online){
+        try{
+            Transaction transaction = new Transaction();
+            transaction.setOrder(order);
+            transaction.setAmount(order.getTotal());
+            if(online){
+                transaction.setTransactionType(TransactionType.AUTHORIZECAPTURE);
+            }else{
+                transaction.setTransactionType(TransactionType.CAPTURE);
+            }
+            transaction.setTransactionDate(new Date());
+            transaction.setPaymentType(PaymentType.MONEYORDER);
+            transactionService.create(transaction);
+            return true;
+        }catch(Exception e){
+            LOGGER.error(String.format("PaymentConfirm: %s", e.getMessage()));
+        }
+        return false;
     }
 
     public void updateStatus(){
@@ -179,6 +216,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     		}
     	}
         //first process payment
+        // payment.setTransactionType(TransactionType.INIT);
         Transaction processTransaction = paymentService.processPayment(customer, store, payment, items, order);
 
     	if(processTransaction!=null) {
@@ -608,12 +646,12 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
 		if(!CollectionUtils.isEmpty(transactions)) {
 			
-			returnOrders = new ArrayList<Order>();
+			returnOrders = new ArrayList<>();
 			
 			//order id
-			Map<Long,Order> preAuthOrders = new HashMap<Long,Order> ();
+			Map<Long,Order> preAuthOrders = new HashMap<> ();
 			//order id
-			Map<Long,List<Transaction>> processingTransactions = new HashMap<Long,List<Transaction>> ();
+			Map<Long,List<Transaction>> processingTransactions = new HashMap<> ();
 			
 			for(Transaction trx : transactions) {
 				Order order = trx.getOrder();
@@ -626,7 +664,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 				if(processingTransactions.containsKey(order.getId())) {
 					listTransactions = processingTransactions.get(order.getId());
 				} else {
-					listTransactions = new ArrayList<Transaction>();
+					listTransactions = new ArrayList<>();
 					processingTransactions.put(order.getId(), listTransactions);
 				}
 				listTransactions.add(trx);
@@ -650,20 +688,17 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 				List<Transaction> trx = processingTransactions.get(orderId);
 				if(CollectionUtils.isNotEmpty(trx)) {
 					
-					boolean capturable = true;
+					boolean capturable = false;
 					for(Transaction t : trx) {
-						
-						if(TransactionType.CAPTURE.name().equals(t.getTransactionType().name())) {
-							capturable = false;
-						} else if(TransactionType.AUTHORIZECAPTURE.name().equals(t.getTransactionType().name())) {
-							capturable = false;
-						} else if(TransactionType.REFUND.name().equals(t.getTransactionType().name())) {
-							capturable = false;
-						}
-						
+                        capturable = 
+                        (TransactionType.CAPTURE==t.getTransactionType()) || 
+                        (TransactionType.AUTHORIZECAPTURE==t.getTransactionType()) ||
+                        (TransactionType.REFUND==t.getTransactionType());
+                            
+                        if(capturable) break;
 					}
 					
-					if(capturable) {
+					if(!capturable) {
 						Order o = preAuthOrders.get(orderId);
 						returnOrders.add(o);
 					}
