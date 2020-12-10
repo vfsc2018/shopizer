@@ -249,20 +249,17 @@
 
 {
 "menu":{
-"code":"notification",
+"code":"notifications",
 "icon":"icon-shopping-cart", 
 "url":"/admin/notifications/list.html", 
 "role":"ORDER",
 "order":8,
 "menus":[
 	{"menu":{
-		"code":"notification-list","url":"/admin/notifications/list.html","role":"ORDER","order":0
+		"code":"notifications-list","url":"/admin/notifications/list.html","role":"ORDER","order":0
 	}}
 ]
 }},
-
-
-
 {
 "menu":{
 "code":"order",

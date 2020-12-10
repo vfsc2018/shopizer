@@ -194,14 +194,14 @@ public class NotificationsController {
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();
-		activeMenus.put("bills", "bills");
-		activeMenus.put("order-list-bill", "order-list-bill");
+		activeMenus.put("notifications", "notifications");
+		activeMenus.put("order-list-notifications", "order-list-notifications");
 
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>) request
 				.getAttribute("MENUMAP");
 
-		Menu currentMenu = (Menu) menus.get("bills");
+		Menu currentMenu = (Menu) menus.get("notifications");
 		model.addAttribute("currentMenu", currentMenu);
 		model.addAttribute("activeMenus", activeMenus);
 		//
