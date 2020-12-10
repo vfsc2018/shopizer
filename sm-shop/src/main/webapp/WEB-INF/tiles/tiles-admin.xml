@@ -317,15 +317,28 @@
   		<put-attribute name="body" value="/pages/admin/bills/bills.jsp" /> 
   	</definition>
   	
+  	<definition name="admin-notifications" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/notifications/notifications.jsp" /> 
+  	</definition>
+  	  	
   	
   	<definition name="admin-bills-edit" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/bills/bill.jsp" /> 
   	</definition>
   	
+  	<definition name="admin-notifications-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/notifications/notification.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-notifications-transactions" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/notifications/transactions.jsp" /> 
+  	</definition>
+  	
     <definition name="admin-bills-transactions" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/bills/transactions.jsp" /> 
   	</definition>
-  	
+
+
   	  	
   	<definition name="tax-classes" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/tax/taxClass.jsp" /> 
