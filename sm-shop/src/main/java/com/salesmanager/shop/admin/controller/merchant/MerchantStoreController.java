@@ -106,7 +106,7 @@ public class MerchantStoreController {
 			for (MerchantStore store : stores) {
 
 				if (!store.getCode().equals(MerchantStore.DEFAULT_STORE)) {
-					Map<String, String> entry = new HashMap<String, String>();
+					Map<String, String> entry = new HashMap<>();
 					entry.put("storeId", String.valueOf(store.getId()));
 					entry.put("code", store.getCode());
 					entry.put("name", store.getStorename());
@@ -457,7 +457,7 @@ public class MerchantStoreController {
 	private void setMenu(Model model, HttpServletRequest request) {
 
 		// display menu
-		Map<String, String> activeMenus = new HashMap<String, String>();
+		Map<String, String> activeMenus = new HashMap<>();
 		activeMenus.put("store", "store");
 		activeMenus.put("storeDetails", "storeDetails");
 

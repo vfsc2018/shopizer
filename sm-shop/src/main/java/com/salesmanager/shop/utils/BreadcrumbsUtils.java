@@ -50,7 +50,7 @@ public class BreadcrumbsUtils {
 		
 
 			List<String> categoryIds = parseCategoryLineage(categoryClicked.getLineage());
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			for(String c : categoryIds) {
 				ids.add(Long.parseLong(c));
 			}
@@ -96,7 +96,7 @@ public class BreadcrumbsUtils {
 		if(!StringUtils.isBlank(refContent)) {
 
 			List<String> categoryIds = parseBreadCrumb(refContent);
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			for(String c : categoryIds) {
 				ids.add(Long.parseLong(c));
 			}

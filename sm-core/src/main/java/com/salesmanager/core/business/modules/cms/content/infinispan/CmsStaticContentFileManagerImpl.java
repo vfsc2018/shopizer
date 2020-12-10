@@ -240,7 +240,7 @@ public class CmsStaticContentFileManagerImpl
 		if (cacheManager.getTreeCache() == null) {
 			throw new ServiceException("CmsStaticContentFileManagerInfinispan has a null cacheManager.getTreeCache()");
 		}
-		List<OutputContentFile> images = new ArrayList<OutputContentFile>();
+		List<OutputContentFile> images = new ArrayList<>();
 		try {
 
 			FileNameMap fileNameMap = URLConnection.getFileNameMap();
@@ -407,7 +407,7 @@ public class CmsStaticContentFileManagerImpl
 				LOGGER.warn("Unable to find content attribute for given merchant");
 				return Collections.<String>emptyList();
 			}
-			return new ArrayList<String>(objectNode.getKeys());
+			return new ArrayList<>(objectNode.getKeys());
 
 		} catch (final Exception e) {
 			LOGGER.error("Error while fetching file for {} merchant ", merchantStoreCode);

@@ -80,8 +80,8 @@ public class PersistableUserPopulator extends AbstractDataPopulator<PersistableU
     // set default language
     target.setDefaultLanguage(lang);
 
-    List<Group> userGroups = new ArrayList<Group>();
-    List<String> names = new ArrayList<String>();
+    List<Group> userGroups = new ArrayList<>();
+    List<String> names = new ArrayList<>();
     for (PersistableGroup group : source.getGroups()) {
       names.add(group.getName());
     }

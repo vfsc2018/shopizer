@@ -649,7 +649,7 @@ public class ShippingServiceImpl implements ShippingService {
 				shippingQuote.setSelectedShippingOption(selectedOption);
 				
 				if(selectedOption!=null && !shippingOptionPriceType.name().equals(ShippingOptionPriceType.ALL.name())) {
-					shippingOptions = new ArrayList<ShippingOption>();
+					shippingOptions = new ArrayList<>();
 					shippingOptions.add(selectedOption);
 				}
 
@@ -754,7 +754,7 @@ public class ShippingServiceImpl implements ShippingService {
 	@Override
 	public List<String> getSupportedCountries(MerchantStore store) throws ServiceException {
 		
-		List<String> supportedCountries = new ArrayList<String>();
+		List<String> supportedCountries = new ArrayList<>();
 		MerchantConfiguration configuration = merchantConfigurationService.getMerchantConfiguration(SUPPORTED_COUNTRIES, store);
 		
 		if(configuration!=null) {
@@ -782,7 +782,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		ShippingConfiguration shippingConfiguration = getShippingConfiguration(store);
 		ShippingType shippingType = ShippingType.INTERNATIONAL;
-		List<String> supportedCountries = new ArrayList<String>();
+		List<String> supportedCountries = new ArrayList<>();
 		if(shippingConfiguration==null) {
 			shippingConfiguration = new ShippingConfiguration();
 		}
@@ -922,7 +922,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		// configured modules
 		Map<String,IntegrationConfiguration> modules = getShippingModulesConfigured(store);
-		List<String> moduleKeys = new ArrayList<String>();
+		List<String> moduleKeys = new ArrayList<>();
 		if(modules!=null) {
 			for(String key : modules.keySet()) {
 				moduleKeys.add(key);
@@ -932,7 +932,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		// pre processors
 		List<ShippingQuotePrePostProcessModule> preProcessors = this.shippingModulePreProcessors;
-		List<String> preProcessorKeys = new ArrayList<String>();
+		List<String> preProcessorKeys = new ArrayList<>();
 		if(preProcessors!=null) {
 			for(ShippingQuotePrePostProcessModule processor : preProcessors) {
 				preProcessorKeys.add(processor.getModuleCode());
@@ -945,7 +945,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 		//post processors
 		List<ShippingQuotePrePostProcessModule> postProcessors = this.shippingModulePostProcessors;
-		List<String> postProcessorKeys = new ArrayList<String>();
+		List<String> postProcessorKeys = new ArrayList<>();
 		if(postProcessors!=null) {
 			for(ShippingQuotePrePostProcessModule processor : postProcessors) {
 				postProcessorKeys.add(processor.getModuleCode());

@@ -50,7 +50,7 @@ public abstract class AbstractCustomerServices implements UserDetailsService{
 	public UserDetails loadUserByUsername(String userName)
 			throws UsernameNotFoundException, DataAccessException {
 		Customer user = null;
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 
 		try {
 			
@@ -68,7 +68,7 @@ public abstract class AbstractCustomerServices implements UserDetailsService{
 			GrantedAuthority role = new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_CUSTOMER_AUTHENTICATED);//required to login
 			authorities.add(role); 
 			
-			List<Integer> groupsId = new ArrayList<Integer>();
+			List<Integer> groupsId = new ArrayList<>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
 				groupsId.add(group.getId());

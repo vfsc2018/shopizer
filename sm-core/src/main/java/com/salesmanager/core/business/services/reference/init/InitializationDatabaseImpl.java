@@ -122,7 +122,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		
 		  //create permissions
 		  //Map name object
-		  Map<String, Permission> permissionKeys = new HashMap<String, Permission>();
+		  Map<String, Permission> permissionKeys = new HashMap<>();
 		  Permission AUTH = new Permission("AUTH");
 		  permissionService.create(AUTH);
 		  permissionKeys.put(AUTH.getPermissionName(), AUTH);
@@ -294,7 +294,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		LOGGER.info(String.format("%s : Populating Zones ", name));
         try {
 
-    		  Map<String,Zone> zonesMap = new HashMap<String,Zone>();
+    		  Map<String,Zone> zonesMap = new HashMap<>();
     		  zonesMap = zonesLoader.loadZones("reference/zoneconfig.json");
     		  
     		  this.addZonesToDb(zonesMap);
@@ -388,7 +388,7 @@ public class InitializationDatabaseImpl implements InitializationDatabase {
 		Currency currency = currencyService.getByCode("VND");
 		Zone qc = zoneService.getByCode("QC");
 		
-		List<Language> supportedLanguages = new ArrayList<Language>();
+		List<Language> supportedLanguages = new ArrayList<>();
 		supportedLanguages.add(en);
 		
 		//create a merchant

@@ -32,7 +32,7 @@ public class ReadableShippingSummary implements Serializable {
 	private List<ShippingOption> shippingOptions = null;
 	
 	/** additional information that comes from the quote **/
-	private Map<String,String> quoteInformations = new HashMap<String,String>();
+	private Map<String,String> quoteInformations = new HashMap<>();
 	
 	
 	public BigDecimal getShipping() {

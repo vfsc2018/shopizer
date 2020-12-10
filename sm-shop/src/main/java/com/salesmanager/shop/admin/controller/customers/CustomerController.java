@@ -13,6 +13,8 @@ import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
+import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.customer.CustomerList;
@@ -167,13 +169,21 @@ public class CustomerController {
 			}
 			
 		} else {
-			 customer = new Customer();
+			customer = new Customer();
+			Billing billing = new Billing();
+			Delivery delivery = new Delivery();
+			Country country = new Country();
+			country.setIsoCode(Constants.DEFAULT_COUNTRY);
+			billing.setCountry(country);
+			delivery.setCountry(country);
+			customer.setBilling(billing);
+			customer.setDelivery(delivery);
 		}
 		//get list of countries (see merchant controller)
 		Language language = (Language)request.getAttribute("LANGUAGE");				
 		//get countries
 		List<Country> countries = countryService.getCountries(language);
-		
+
 		//get list of zones
 		List<Zone> zones = zoneService.list();
 		
@@ -261,7 +271,7 @@ public class CustomerController {
 		model.addAttribute("languages",languages);
 		
 		//get groups
-		List<Group> groups = new ArrayList<Group>();
+		List<Group> groups = new ArrayList<>();
 		List<Group> userGroups = groupService.listGroup(GroupType.CUSTOMER);
 		for(Group group : userGroups) {
 			groups.add(group);
@@ -352,7 +362,7 @@ public class CustomerController {
 		}
 		
 		List<Group> submitedGroups = customer.getGroups();
-		Set<Integer> ids = new HashSet<Integer>();
+		Set<Integer> ids = new HashSet<>();
 		for(Group group : submitedGroups) {
 			ids.add(group.getId());
 		}

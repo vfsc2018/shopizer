@@ -127,7 +127,7 @@
 isc.HLayout.create({
     ID:"pageLayout",
     width: "850",
-    height: "600",
+    height: "800",
     position:"relative",
     members:[
         isc.SectionStack.create({

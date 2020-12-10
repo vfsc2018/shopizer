@@ -257,8 +257,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     private OrderTotalSummary caculateOrder(OrderSummary summary, Customer customer, final MerchantStore store, final Language language) throws Exception {
 
         OrderTotalSummary totalSummary = new OrderTotalSummary();
-        List<OrderTotal> orderTotals = new ArrayList<OrderTotal>();
-        Map<String,OrderTotal> otherPricesTotals = new HashMap<String,OrderTotal>();
+        List<OrderTotal> orderTotals = new ArrayList<>();
+        Map<String,OrderTotal> otherPricesTotals = new HashMap<>();
 
         ShippingConfiguration shippingConfiguration = null;
 
@@ -491,7 +491,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     		}
     	}    	
     	
-    	List<ShoppingCartItem> itemList = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+    	List<ShoppingCartItem> itemList = new ArrayList<>(shoppingCart.getLineItems());
     	//filter out unavailable
     	itemList = itemList.stream().filter(p -> p.getProduct().isAvailable()).collect(Collectors.toList());
     	orderSummary.setProducts(itemList);

@@ -77,21 +77,21 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 		//validate integrationKeys['account']
 		Map<String,String> keys = integrationConfiguration.getIntegrationKeys();
 		if(keys==null || StringUtils.isBlank(keys.get("account"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("identifier");
 		}
 
 		//validate at least one integrationOptions['packages']
 		Map<String,List<String>> options = integrationConfiguration.getIntegrationOptions();
 		if(options==null) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("identifier");
 		}
 		
 		List<String> packages = options.get("packages");
 		if(packages==null || packages.size()==0) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("packages");
 		}
@@ -99,14 +99,14 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 /*		List<String> services = options.get("services");
 		if(services==null || services.size()==0) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("services");
 		}
 		
 		if(services!=null && services.size()>3) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("services");
 		}*/
@@ -606,7 +606,7 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 
 			if (shippingOptions != null && shippingOptions.size() > 0) {
 
-				returnOptions = new ArrayList<ShippingOption>();
+				returnOptions = new ArrayList<>();
 				// Map selectedintlservices =
 				// (Map)config.getConfiguration("service-global-usps");
 				// need to create a Map of LABEL - LABLEL
@@ -705,7 +705,7 @@ class USPSParsedElements {
 	private String statusMessage;
 	private String error = "";
 	private String errorCode = "";
-	private List<ShippingOption> options = new ArrayList<ShippingOption>();
+	private List<ShippingOption> options = new ArrayList<>();
 
 	public void addOption(ShippingOption option) {
 		options.add(option);

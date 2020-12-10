@@ -14,7 +14,7 @@ public class CustomShippingQuotesConfiguration extends IntegrationConfiguration 
 	 */
 	private String moduleCode;
 	
-	private List<CustomShippingQuotesRegion> regions = new ArrayList<CustomShippingQuotesRegion>();
+	private List<CustomShippingQuotesRegion> regions = new ArrayList<>();
 	
 	
 	private static final long serialVersionUID = 1L;

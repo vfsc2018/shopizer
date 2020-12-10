@@ -451,6 +451,7 @@ public class OrderApi {
 			}
 
 			Customer customer = new Customer();
+			
 			customer = customerFacade.populateCustomerModel(customer, order.getCustomer(), merchantStore, language);
 
 			order.setShoppingCartId(cart.getId());

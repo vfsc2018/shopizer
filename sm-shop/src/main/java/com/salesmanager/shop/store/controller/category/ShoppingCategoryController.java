@@ -183,7 +183,7 @@ public class ShoppingCategoryController {
 		
 		//TODO add to caching
 		List<Category> subCategs = categoryService.getListByLineage(store, lineage);
-		List<Long> subIds = new ArrayList<Long>();
+		List<Long> subIds = new ArrayList<>();
 		if(subCategs!=null && subCategs.size()>0) {
 			for(Category c : subCategs) {
 				if(c.isVisible()) {
@@ -489,7 +489,7 @@ public class ShoppingCategoryController {
 			
 			List<Category> categories = categoryService.getListByLineage(store, lineage);
 			
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			if(categories!=null && categories.size()>0) {
 				for(Category c : categories) {
 					ids.add(c.getId());
@@ -636,7 +636,7 @@ public class ShoppingCategoryController {
 			
 			List<Category> categories = categoryService.getListByLineage(store, lineage);
 			
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			if(categories!=null && categories.size()>0) {
 				for(Category c : categories) {
 					if(c.isVisible()) {

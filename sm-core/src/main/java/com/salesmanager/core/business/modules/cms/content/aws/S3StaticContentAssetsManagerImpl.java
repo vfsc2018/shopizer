@@ -95,7 +95,7 @@ public class S3StaticContentAssetsManagerImpl implements ContentAssetsManager {
 					continue;
 				}
 				if (fileNames == null) {
-					fileNames = new ArrayList<String>();
+					fileNames = new ArrayList<>();
 				}
 				String mimetype = URLConnection.guessContentTypeFromName(os.getKey());
 				if (!StringUtils.isBlank(mimetype)) {

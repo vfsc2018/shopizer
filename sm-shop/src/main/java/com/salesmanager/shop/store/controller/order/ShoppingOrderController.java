@@ -204,7 +204,7 @@ public class ShoppingOrderController extends AbstractController {
 	    boolean freeShoppingCart = true;
 	    
 	    //Filter items, delete unavailable
-        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> availables = new HashSet<ShoppingCartItem>();
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> availables = new HashSet<>();
         //Take out items no more available
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cart.getLineItems();
         for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
@@ -739,7 +739,7 @@ public class ShoppingOrderController extends AbstractController {
 		        boolean freeShoppingCart = true;
 
 				Set<ShoppingCartItem> items = cart.getLineItems();
-				List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>(items);
+				List<ShoppingCartItem> cartItems = new ArrayList<>(items);
 				order.setShoppingCartItems(cartItems);
 				
 		        for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem item : items) {
@@ -913,7 +913,7 @@ public class ShoppingOrderController extends AbstractController {
 				order.setOrderTotalSummary(totalSummary);
 				
 			
-				orderFacade.validateOrder(order, bindingResult, new HashMap<String,String>(), store, locale);
+				orderFacade.validateOrder(order, bindingResult, new HashMap<>(), store, locale);
 		        
 		        if ( bindingResult.hasErrors() )
 		        {
@@ -1170,7 +1170,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 			
 			//set list of shopping cart items for core price calculation
-			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
+			List<ShoppingCartItem> items = new ArrayList<>(cart.getLineItems());
 			order.setShoppingCartItems(items);
 			order.setCartCode(cart.getShoppingCartCode());
 
@@ -1320,7 +1320,7 @@ public class ShoppingOrderController extends AbstractController {
 			}
 			
 			//set list of shopping cart items for core price calculation
-			List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(cart.getLineItems());
+			List<ShoppingCartItem> items = new ArrayList<>(cart.getLineItems());
 			order.setShoppingCartItems(items);
 			order.setCartCode(shoppingCartCode);
 			

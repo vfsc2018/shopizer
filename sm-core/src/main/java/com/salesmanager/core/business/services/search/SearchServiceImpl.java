@@ -135,7 +135,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			
 			Set<Category> categories = product.getCategories();
 			if(!CollectionUtils.isEmpty(categories)) {
-				List<String> categoryList = new ArrayList<String>();
+				List<String> categoryList = new ArrayList<>();
 				for(Category category : categories) {
 					categoryList.add(category.getCode());
 				}

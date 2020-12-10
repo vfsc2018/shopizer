@@ -289,7 +289,7 @@ public class ProductPriceController {
 		List<Language> languages = store.getLanguages();
 		
 		Set<ProductPriceDescription> productPriceDescriptions = productPrice.getDescriptions();
-		List<ProductPriceDescription> descriptions = new ArrayList<ProductPriceDescription>();
+		List<ProductPriceDescription> descriptions = new ArrayList<>();
 		for(Language l : languages) {
 			ProductPriceDescription productPriceDesc = null;
 			for(ProductPriceDescription desc : productPriceDescriptions) {
@@ -421,8 +421,8 @@ public class ProductPriceController {
 		
 		
 		
-		Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
-		if(price.getDescriptions()!=null && price.getDescriptions().size()>0) {
+		Set<ProductPriceDescription> descriptions = new HashSet<>();
+		if(price.getDescriptions()!=null && !price.getDescriptions().isEmpty()) {
 			
 			for(ProductPriceDescription description : price.getDescriptions()) {
 				description.setProductPrice(price.getPrice());

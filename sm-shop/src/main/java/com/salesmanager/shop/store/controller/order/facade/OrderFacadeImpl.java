@@ -600,7 +600,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			order.setCustomer(persistableCustomer);
 		}
 
-		List<ShoppingCartItem> items = new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+		List<ShoppingCartItem> items = new ArrayList<>(shoppingCart.getLineItems());
 		order.setShoppingCartItems(items);
 
 		return;
@@ -936,7 +936,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				return returnList;
 			}
 
-			List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<com.salesmanager.shop.model.order.v0.ReadableOrder>();
+			List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<>();
 			for (Order order : orders) {
 				com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder = new com.salesmanager.shop.model.order.v0.ReadableOrder();
 				readableOrderPopulator.populate(order, readableOrder, null, null);
@@ -1006,7 +1006,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		Locale locale = LocaleUtils.getLocale(language);
 		readableOrderPopulator.setLocale(locale);
 
-		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<com.salesmanager.shop.model.order.v0.ReadableOrder>();
+		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<>();
 		for (Order order : orders) {
 			com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder = new com.salesmanager.shop.model.order.v0.ReadableOrder();
 			try {
@@ -1028,7 +1028,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	private void setOrderProductList(final Order order, final Locale locale, final MerchantStore store,
 			final Language language, final com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder)
 			throws ConversionException {
-		List<ReadableOrderProduct> orderProducts = new ArrayList<ReadableOrderProduct>();
+		List<ReadableOrderProduct> orderProducts = new ArrayList<>();
 		for (OrderProduct p : order.getOrderProducts()) {
 			ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
 			orderProductPopulator.setLocale(locale);
@@ -1066,7 +1066,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			return returnList;
 		}
 
-		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<com.salesmanager.shop.model.order.v0.ReadableOrder>();
+		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<>();
 		for (Order order : orders) {
 			com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder = new com.salesmanager.shop.model.order.v0.ReadableOrder();
 			readableOrderPopulator.populate(order, readableOrder, store, language);
@@ -1116,7 +1116,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			readableOrderPopulator.populate(modelOrder, readableOrder, store, language);
 			
 			// order products
-			List<ReadableOrderProduct> orderProducts = new ArrayList<ReadableOrderProduct>();
+			List<ReadableOrderProduct> orderProducts = new ArrayList<>();
 			for (OrderProduct p : modelOrder.getOrderProducts()) {
 				ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
 				orderProductPopulator.setProductService(productService);
@@ -1339,7 +1339,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			return null;
 		}
 
-		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<com.salesmanager.shop.model.order.v0.ReadableOrder>();
+		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<>();
 		for (Order order : orders) {
 			com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder = new com.salesmanager.shop.model.order.v0.ReadableOrder();
 			readableOrderPopulator.populate(order, readableOrder, store, language);

@@ -48,12 +48,11 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 
 	private UserDetails userDetails(String userName, User user, Collection<GrantedAuthority> authorities) {
         
-		AuditSection section = null;
-		section = user.getAuditSection();
+		AuditSection section = user.getAuditSection();
 		Date lastModified = null;
-		//if(section != null) {//does not represent password change
-		//	lastModified = section.getDateModified();
-		//}
+		if(section != null) {//does not represent password change
+			lastModified = section.getDateModified();
+		}
 		
 		return new JWTUser(
         		user.getId(),
@@ -71,7 +70,7 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		User user = null;
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 
 		try {
 			
@@ -87,7 +86,7 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 			GrantedAuthority role = new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_AUTHENTICATED);//required to login
 			authorities.add(role); 
 			
-			List<Integer> groupsId = new ArrayList<Integer>();
+			List<Integer> groupsId = new ArrayList<>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
 				groupsId.add(group.getId());

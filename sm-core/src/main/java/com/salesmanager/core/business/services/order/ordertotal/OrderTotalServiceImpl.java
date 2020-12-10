@@ -57,7 +57,7 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 						continue;
 					}
 					if(totals==null) {
-						totals = new ArrayList<OrderTotal>();
+						totals = new ArrayList<>();
 						variation.setVariations(totals);
 					}
 					

@@ -86,7 +86,7 @@ public class ShippingMethodsController {
 		
 		configuration.setModuleCode(code);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 		
@@ -107,7 +107,7 @@ public class ShippingMethodsController {
 		String moduleCode = configuration.getModuleCode();
 		LOGGER.debug("Saving module code " + moduleCode);
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 

@@ -82,7 +82,7 @@ public class CaptchaRequestUtils {
 	      
 	      String json = new String(responseBody);
 	      
-	      Map<String,String> map = new HashMap<String,String>();
+	      Map<String,String> map = new HashMap<>();
 	  	  ObjectMapper mapper = new ObjectMapper();
 	  	  
 	  	  map = mapper.readValue(json, 

@@ -131,7 +131,7 @@ public class ProductsController {
 					
 					List<Category> categories = categoryService.getListByLineage(store, lineage.toString());
 					
-					List<Long> categoryIds = new ArrayList<Long>();
+					List<Long> categoryIds = new ArrayList<>();
 					
 					for(Category cat : categories) {
 						categoryIds.add(cat.getId());

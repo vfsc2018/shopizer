@@ -7,7 +7,7 @@ public class ExpeditionConfiguration {
 	
 	private boolean iternationalShipping = false;
 	private boolean taxOnShipping = false;
-	private List<String> shipToCountry = new ArrayList<String>();
+	private List<String> shipToCountry = new ArrayList<>();
 
 	public boolean isIternationalShipping() {
 		return iternationalShipping;

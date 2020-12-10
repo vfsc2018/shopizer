@@ -98,7 +98,7 @@ public class OrderProductEx implements Serializable {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	private List<OrderProductEx> relationships = new ArrayList<OrderProductEx>();
+	private List<OrderProductEx> relationships = new ArrayList<>();
 	
 	
 	public List<OrderProductEx> getRelationships() {

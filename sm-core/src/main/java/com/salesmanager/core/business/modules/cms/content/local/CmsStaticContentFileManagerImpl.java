@@ -332,7 +332,7 @@ public class CmsStaticContentFileManagerImpl implements ContentAssetsManager {
 
 			if (Files.exists(path)) {
 
-				fileNames = new ArrayList<String>();
+				fileNames = new ArrayList<>();
 				try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(path)) {
 					for (Path dirPath : directoryStream) {
 

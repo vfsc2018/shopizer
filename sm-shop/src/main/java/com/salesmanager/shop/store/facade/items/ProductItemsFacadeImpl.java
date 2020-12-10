@@ -127,7 +127,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		List<ProductRelationship> groups = productRelationshipService.getByGroup(store, group, language);
 
 		if(group!=null) {
-			List<Long> ids = new ArrayList<Long>();
+			List<Long> ids = new ArrayList<>();
 			for(ProductRelationship relationship : groups) {
 				Product product = relationship.getRelatedProduct();
 				ids.add(product.getId());

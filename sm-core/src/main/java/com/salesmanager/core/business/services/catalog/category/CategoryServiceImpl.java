@@ -249,7 +249,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 			Collections.reverse(categories);
 
-			List<Long> categoryIds = new ArrayList<Long>();
+			List<Long> categoryIds = new ArrayList<>();
 
 			for (Category c : categories) {
 				categoryIds.add(c.getId());

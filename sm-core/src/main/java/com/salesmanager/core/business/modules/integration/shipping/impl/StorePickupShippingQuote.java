@@ -151,7 +151,7 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 			List<ShippingOption> options = quote.getShippingOptions();
 			
 			if(options == null) {
-				options = new ArrayList<ShippingOption>();
+				options = new ArrayList<>();
 				quote.setShippingOptions(options);
 			}
 

@@ -1,6 +1,6 @@
 package com.salesmanager.shop.admin.controller.payments;
 
-import com.salesmanager.core.business.modules.integration.IntegrationException;
+import com.salesmanager.core.modules.integration.IntegrationException;
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.payments.TransactionType;
@@ -105,7 +105,7 @@ public class PaymentsController {
 		
 
 		
-		List<String> environments = new ArrayList<String>();
+		List<String> environments = new ArrayList<>();
 		environments.add(com.salesmanager.core.business.constants.Constants.TEST_ENVIRONMENT);
 		environments.add(com.salesmanager.core.business.constants.Constants.PRODUCTION_ENVIRONMENT);
 
@@ -115,7 +115,7 @@ public class PaymentsController {
 		try {
 			paymentService.savePaymentModuleConfiguration(configuration, store);
 		} catch (Exception e) {
-			if(e instanceof com.salesmanager.core.business.modules.integration.IntegrationException) {
+			if(e instanceof com.salesmanager.core.modules.integration.IntegrationException) {
 				if(((IntegrationException)e).getErrorCode()==IntegrationException.ERROR_VALIDATION_SAVE) {
 					
 					List<String> errorCodes = ((IntegrationException)e).getErrorFields();

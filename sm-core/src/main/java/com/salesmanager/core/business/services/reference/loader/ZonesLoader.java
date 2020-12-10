@@ -163,7 +163,7 @@ public class ZonesLoader {
 
 			Map<String, Zone> zonesMap = new HashMap<String, Zone>();
 			Map<String, List<ZoneDescription>> zonesDescriptionsMap = new HashMap<String, List<ZoneDescription>>();
-			Map<String, String> zonesMark = new HashMap<String, String>();
+			Map<String, String> zonesMark = new HashMap<>();
 
 			for (Language l : languages) {
 				@SuppressWarnings("rawtypes")

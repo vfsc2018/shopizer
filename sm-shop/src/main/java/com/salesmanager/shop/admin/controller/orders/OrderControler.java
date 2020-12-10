@@ -309,7 +309,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	        
 	        
-/*	        Map<String, String> hMapData = new HashMap<String, String>();
+/*	        Map<String, String> hMapData = new HashMap<>();
 	        for( int k = 0; k < productNames.length; k++ ){
 	            hMapData.put( productNames[k], productNames[k] );
 	        }

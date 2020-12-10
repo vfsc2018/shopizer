@@ -66,31 +66,31 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 		//validate integrationKeys['accessKey']
 		Map<String,String> keys = integrationConfiguration.getIntegrationKeys();
 		if(keys==null || StringUtils.isBlank(keys.get("accessKey"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("accessKey");
 		}
 		
 		if(keys==null || StringUtils.isBlank(keys.get("userId"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("userId");
 		}
 		
 		if(keys==null || StringUtils.isBlank(keys.get("password"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("password");
 		}
 
 		//validate at least one integrationOptions['packages']
 		Map<String,List<String>> options = integrationConfiguration.getIntegrationOptions();
 		if(options==null) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("packages");
 		}
 		
 		List<String> packages = options.get("packages");
 		if(packages==null || packages.size()==0) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("packages");
 		}
@@ -98,14 +98,14 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 /*		List<String> services = options.get("services");
 		if(services==null || services.size()==0) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("services");
 		}
 		
 		if(services!=null && services.size()>3) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("services");
 		}*/
@@ -656,7 +656,7 @@ class UPSParsedElements  {
 	private String statusMessage;
 	private String error = "";
 	private String errorCode = "";
-	private List<ShippingOption> options = new ArrayList<ShippingOption>();
+	private List<ShippingOption> options = new ArrayList<>();
 
 	public void addOption(ShippingOption option) {
 		options.add(option);

@@ -189,7 +189,7 @@ public class ProductItemsRESTController {
 			if(group!=null) {
 				
 				Date today = new Date();
-				List<Long> ids = new ArrayList<Long>();
+				List<Long> ids = new ArrayList<>();
 				for(ProductRelationship relationship : group) {
 					Product product = relationship.getRelatedProduct();
 					if(product.isAvailable() && DateUtil.dateBeforeEqualsDate(product.getDateAvailable(), today)) {

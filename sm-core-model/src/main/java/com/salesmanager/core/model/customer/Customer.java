@@ -73,7 +73,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	private AuditSection auditSection = new AuditSection();
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-	private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>();
+	private Set<CustomerAttribute> attributes = new HashSet<>();
 	
 	@Column(name="CUSTOMER_GENDER", length=1, nullable=true)
 	@Enumerated(value = EnumType.STRING)
@@ -151,7 +151,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private List<Group> groups = new ArrayList<Group>();
+	private List<Group> groups = new ArrayList<>();
 	
 	@JsonIgnore
 	@Transient

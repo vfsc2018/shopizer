@@ -88,7 +88,7 @@ public class GCPStaticContentAssetsManagerImpl implements ContentAssetsManager {
 			Page<Blob> blobs = bucket.list(Storage.BlobListOption.prefix(nodePath(merchantStoreCode, fileContentType)),
 				Storage.BlobListOption.fields(BlobField.NAME));
 	
-			List<String> fileNames = new ArrayList<String>();
+			List<String> fileNames = new ArrayList<>();
 	
 			for (Blob blob : blobs.iterateAll()) {
 				if (isInsideSubFolder(blob.getName()))

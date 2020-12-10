@@ -10,7 +10,7 @@ public class ValueList implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<String> values = new ArrayList<String>();
+	private List<String> values = new ArrayList<>();
 	public List<String> getValues() {
 		return values;
 	}

@@ -40,7 +40,7 @@ public class ContentBoxesController {
 	
 	@ModelAttribute("boxPositions") 
     public Set<Map.Entry<String, String>> boxPositions() { 
-        final Map<String, String> map = new HashMap<String, String>(); 
+        final Map<String, String> map = new HashMap<>(); 
 
         map.put("LEFT", "LEFT");
         map.put("RIGHT", "RIGHT");
@@ -86,7 +86,7 @@ public class ContentBoxesController {
 		}
 		
 		//add positions
-		List<String> positions = new ArrayList<String>();
+		List<String> positions = new ArrayList<>();
 		positions.add("LEFT");
 		positions.add("RIGHT");
 		
@@ -108,7 +108,7 @@ public class ContentBoxesController {
 		Content content = contentService.getById(id);
 		
 
-		List<String> positions = new ArrayList<String>();
+		List<String> positions = new ArrayList<>();
 		positions.add("LEFT");
 		positions.add("RIGHT");
 		
@@ -161,7 +161,7 @@ public class ContentBoxesController {
 		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
-		List<String> positions = new ArrayList<String>();
+		List<String> positions = new ArrayList<>();
 		positions.add("LEFT");
 		positions.add("RIGHT");
 		

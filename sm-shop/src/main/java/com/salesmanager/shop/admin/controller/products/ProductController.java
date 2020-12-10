@@ -147,7 +147,7 @@ public class ProductController {
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		List<Language> languages = store.getLanguages();
 		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
-		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		List<ProductDescription> descriptions = new ArrayList<>();
 		Stamps stamp = new Stamps();
 		if(productId > 0) {//edit mode
 			
@@ -264,7 +264,7 @@ public class ProductController {
 		List<Language> languages = store.getLanguages();
 
 		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
-		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		List<ProductDescription> descriptions = new ArrayList<>();
 		if(productId > 0) {//edit mode
 			
 			Product dbProduct = productService.getById(productId);
@@ -339,7 +339,7 @@ public class ProductController {
 			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 			
 			com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();	
-		List<OrderProductEx> listOrderNew= new ArrayList<OrderProductEx>();   	
+		List<OrderProductEx> listOrderNew= new ArrayList<>();   	
 		OrderProductEx ordernew = new OrderProductEx();
 		
 			//Product dbProduct = productService.getByCode(bean.getSku(), language);
@@ -459,7 +459,7 @@ public class ProductController {
 
 		
 		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
-		List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+		List<ProductDescription> descriptions = new ArrayList<>();
 
 		if(productId!=null && productId!=0) {//edit mode
 			
@@ -702,8 +702,8 @@ public class ProductController {
 		//get tax class
 		//TaxClass taxClass = newProduct.getTaxClass();
 		//TaxClass dbTaxClass = taxClassService.getById(taxClass.getId());
-		Set<ProductPrice> prices = new HashSet<ProductPrice>();
-		Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();	
+		Set<ProductPrice> prices = new HashSet<>();
+		Set<ProductAvailability> availabilities = new HashSet<>();	
 
 		if(product.getProduct().getId()!=null && product.getProduct().getId().longValue()>0) {
 		
@@ -774,7 +774,7 @@ public class ProductController {
 		}
 		
 		if(productPriceDescriptions==null) {
-			productPriceDescriptions = new HashSet<ProductPriceDescription>();
+			productPriceDescriptions = new HashSet<>();
 			for(ProductDescription description : product.getDescriptions()) {
 				ProductPriceDescription ppd = new ProductPriceDescription();
 				ppd.setProductPrice(newProductPrice);
@@ -804,7 +804,7 @@ public class ProductController {
 			
 		newProduct.setAvailabilities(availabilities);
 
-		Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+		Set<ProductDescription> descriptions = new HashSet<>();
 		if(product.getDescriptions()!=null && product.getDescriptions().size()>0) {
 			
 			for(ProductDescription description : product.getDescriptions()) {
@@ -833,7 +833,7 @@ public class ProductController {
 			productImage.setProductImage(imageName);
 			
 			
-			List<ProductImageDescription> imagesDescriptions = new ArrayList<ProductImageDescription>();
+			List<ProductImageDescription> imagesDescriptions = new ArrayList<>();
 
 			for(Language l : languages) {
 				
@@ -910,7 +910,7 @@ public class ProductController {
 		//Make a copy of the product
 		com.salesmanager.shop.admin.model.catalog.Product product = new com.salesmanager.shop.admin.model.catalog.Product();
 		
-		Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
+		Set<ProductAvailability> availabilities = new HashSet<>();
 		//availability - price
 		for(ProductAvailability pAvailability : dbProduct.getAvailabilities()) {
 			
@@ -939,7 +939,7 @@ public class ProductController {
 				price.setProductPriceSpecialStartDate(pPrice.getProductPriceSpecialStartDate());
 				price.setProductPriceType(pPrice.getProductPriceType());
 				
-				Set<ProductPriceDescription> priceDescriptions = new HashSet<ProductPriceDescription>();
+				Set<ProductPriceDescription> priceDescriptions = new HashSet<>();
 				//price descriptions
 				for(ProductPriceDescription pPriceDescription : pPrice.getDescriptions()) {
 					
@@ -975,7 +975,7 @@ public class ProductController {
 		
 		
 		//attributes
-		Set<ProductAttribute> attributes = new HashSet<ProductAttribute>();
+		Set<ProductAttribute> attributes = new HashSet<>();
 		for(ProductAttribute pAttribute : dbProduct.getAttributes()) {
 			
 			ProductAttribute attribute = new ProductAttribute();
@@ -996,7 +996,7 @@ public class ProductController {
 		newProduct.setAttributes(attributes);
 		
 		//relationships
-		Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
+		Set<ProductRelationship> relationships = new HashSet<>();
 		for(ProductRelationship pRelationship : dbProduct.getRelationships()) {
 			
 			ProductRelationship relationship = new ProductRelationship();
@@ -1012,8 +1012,8 @@ public class ProductController {
 		newProduct.setRelationships(relationships);
 		
 		//product description
-		Set<ProductDescription> descsset = new HashSet<ProductDescription>();
-		List<ProductDescription> desclist = new ArrayList<ProductDescription>();
+		Set<ProductDescription> descsset = new HashSet<>();
+		List<ProductDescription> desclist = new ArrayList<>();
 		Set<ProductDescription> descriptions = dbProduct.getDescriptions();
 		for(ProductDescription pDescription : descriptions) {
 			

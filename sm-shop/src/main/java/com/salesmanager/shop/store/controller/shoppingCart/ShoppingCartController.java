@@ -260,8 +260,8 @@ public class ShoppingCartController extends AbstractController {
         
         Language lang = languageUtils.getRequestLanguage(request, response);
         //Filter unavailables
-        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
-        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
+        List<ShoppingCartItem> unavailables = new ArrayList<>();
+        List<ShoppingCartItem> availables = new ArrayList<>();
         //Take out items no more available
         List<ShoppingCartItem> items = shoppingCart.getShoppingCartItems();
         for(ShoppingCartItem item : items) {
@@ -306,8 +306,8 @@ public class ShoppingCartController extends AbstractController {
 			
 	        Language lang = languageUtils.getRequestLanguage(request, response);
 	        //Filter unavailables
-	        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
-	        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
+	        List<ShoppingCartItem> unavailables = new ArrayList<>();
+	        List<ShoppingCartItem> availables = new ArrayList<>();
 	        //Take out items no more available
 	        List<ShoppingCartItem> items = cart.getShoppingCartItems();
 	        for(ShoppingCartItem item : items) {

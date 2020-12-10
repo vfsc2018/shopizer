@@ -381,7 +381,7 @@ public class BillsController {
 			throws Exception {
 		// display menu
 		setMenu(model, request);
-		List<BillMaster> dataStore = new ArrayList<BillMaster>();
+		List<BillMaster> dataStore = new ArrayList<>();
 		try {
 			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
 		} catch (Exception e) {
@@ -402,10 +402,10 @@ public class BillsController {
 			throws Exception {
 		// display menu
 		setMenu(model, request);
-		List<BillMaster> dataStore = new ArrayList<BillMaster>();
-		List<CollectBill> datas = new ArrayList<CollectBill>();
+		List<BillMaster> dataStore = new ArrayList<>();
+		List<CollectBill> datas = new ArrayList<>();
 		try {
-			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
+			dataStore = (List<BillMaster>)(request.getSession().getAttribute("STORE_BILLDATA"));
 			String billIds ="";
 			for(BillMaster billMaster:dataStore){
 				if(billIds.equals("")) {
@@ -469,7 +469,7 @@ public class BillsController {
 			throws Exception {
 
 		// display menu
-		Map<String, String> activeMenus = new HashMap<String, String>();
+		Map<String, String> activeMenus = new HashMap<>();
 		activeMenus.put("bills", "bills");
 		activeMenus.put("order-list-bill", "order-list-bill");
 
