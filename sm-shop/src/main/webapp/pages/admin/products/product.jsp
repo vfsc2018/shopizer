@@ -48,16 +48,19 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 				url: "<c:url value="/admin/products/readProductVfsc.html" />",
 				data: "code="+$("#refSku").val(),
 				success: function(result) { 
-					$("#sku").val(result.code);
-
-					<c:forEach items="${product.descriptions}" var="description" varStatus="counter">		
-						$("#name${counter.index}").val(result.name);
-						$("#name${counter.index}").friendurl({id : 'seUrl${counter.index}'});
-				    </c:forEach>
-				
+					if(result.code!=''){
+						alert("Da lay thanh cong ma :"+ result.code);
+						$("#sku").val(result.code);
+						<c:forEach items="${product.descriptions}" var="description" varStatus="counter">		
+							$("#name${counter.index}").val(result.name);
+							$("#name${counter.index}").friendurl({id : 'seUrl${counter.index}'});
+					    </c:forEach>
+					}else{
+						alert("Ma "+ $("#refSku").val() + " khong ton tai!");
+					}
 				},
 				error: function(jqXHR,textStatus,errorThrown) { 
-					alert(notFound);
+					alert("Vui long kiem tra lai API ");
 				}
 				
 		});

@@ -16,7 +16,7 @@
 		padding-bottom: 0px;
 	}
 </style>
-
+<script src="<c:url value="/resources/js/barcode/JsBarcode.all.min.js" />"></script>
 <script> 
     function print() { 
         var divContents = document.getElementById('printSection').innerHTML; 
@@ -32,6 +32,7 @@
         return false; 
     } 
 </script> 
+
 
 
 <div class="tabbable">
@@ -55,7 +56,9 @@
 				<div id="printSection">
 					<table class="styleClass">
 						<tr>
-							<td rowspan="5" ><H1>Vt</H1></td>
+							<td colspan="2" align="center" >
+								<svg id="barcode"></svg>
+							</td>
 						</tr>
 						<tr>
 							<td><s:message code="label.stamp.productname" text="Product"/></td>
@@ -83,4 +86,10 @@
 					</div>
 			</div>
 		</div>
+		
+		<script>
+		
+			JsBarcode("#barcode", "<c:out value="${stamp.sku}" />");
+		
+		</script> 
 	</div>	
