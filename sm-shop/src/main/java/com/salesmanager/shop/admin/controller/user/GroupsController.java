@@ -73,7 +73,7 @@ public class GroupsController {
 		setMenu(model, request);
 		
 		GroupType[] groupTypes = GroupType.values();
-		List<String> groups = new ArrayList<String>();
+		List<String> groups = new ArrayList<>();
 
 		for(GroupType t : groupTypes) {
 			if(GroupType.ADMIN.name() != t.name()) {
@@ -166,7 +166,7 @@ public class GroupsController {
 		setMenu(model, request);
 		
 		GroupType[] groupTypes = GroupType.values();
-		List<String> groups = new ArrayList<String>();
+		List<String> groups = new ArrayList<>();
 
 		for(GroupType t : groupTypes) {
 			if(GroupType.ADMIN.name() != t.name()) {
@@ -213,7 +213,7 @@ public class GroupsController {
 		setMenu(model, request);
 		
 		GroupType[] groupTypes = GroupType.values();
-		List<String> groups = new ArrayList<String>();
+		List<String> groups = new ArrayList<>();
 
 		for(GroupType t : groupTypes) {
 			if(GroupType.ADMIN.name() != t.name()) {
@@ -297,7 +297,7 @@ public class GroupsController {
 			throws Exception {
 
 		// display menu
-		Map<String, String> activeMenus = new HashMap<String, String>();
+		Map<String, String> activeMenus = new HashMap<>();
 		activeMenus.put("profile", "profile");
 		activeMenus.put("security", "security");
 

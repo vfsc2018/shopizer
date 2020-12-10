@@ -23,12 +23,12 @@ import com.salesmanager.shop.store.security.user.CustomerDetails;
 @Service("customerDetailsService")
 public class CustomerServicesImpl extends AbstractCustomerServices{
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServicesImpl.class);
+	// private static final Logger LOGGER = LoggerFactory.getLogger(CustomerServicesImpl.class);
 	
 
-	private CustomerService customerService;
-	private PermissionService  permissionService;
-	private GroupService   groupService;
+	// private CustomerService customerService;
+	// private PermissionService  permissionService;
+	// private GroupService   groupService;
 	
 	@Inject
 	public CustomerServicesImpl(CustomerService customerService, PermissionService permissionService, GroupService groupService) {

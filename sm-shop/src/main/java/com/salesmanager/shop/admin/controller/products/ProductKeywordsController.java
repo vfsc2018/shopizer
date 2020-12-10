@@ -176,7 +176,7 @@ public class ProductKeywordsController {
 			}
 			
 			Set<ProductDescription> descriptions = product.getDescriptions();
-			Set<ProductDescription> editedDescriptions = new HashSet<ProductDescription>();
+			Set<ProductDescription> editedDescriptions = new HashSet<>();
 			for(ProductDescription description : descriptions) {
 
 				Language lang = description.getLanguage();
@@ -185,7 +185,7 @@ public class ProductKeywordsController {
 					continue;
 				}
 
-				List<String> keyWordsList = new ArrayList<String>();
+				List<String> keyWordsList = new ArrayList<>();
 	
 				
 				String keywords = description.getMetatagKeywords();

@@ -39,14 +39,14 @@ public class BraintreePayment implements PaymentModule {
 		
 		//validate integrationKeys['merchant_id']
 		if(keys==null || StringUtils.isBlank(keys.get("merchant_id"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("merchant_id");
 		}
 		
 		//validate integrationKeys['public_key']
 		if(keys==null || StringUtils.isBlank(keys.get("public_key"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("public_key");
 		}
@@ -54,7 +54,7 @@ public class BraintreePayment implements PaymentModule {
 		//validate integrationKeys['private_key']
 		if(keys==null || StringUtils.isBlank(keys.get("private_key"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("private_key");
 		}
@@ -62,7 +62,7 @@ public class BraintreePayment implements PaymentModule {
 		//validate integrationKeys['tokenization_key']
 		if(keys==null || StringUtils.isBlank(keys.get("tokenization_key"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("tokenization_key");
 		}

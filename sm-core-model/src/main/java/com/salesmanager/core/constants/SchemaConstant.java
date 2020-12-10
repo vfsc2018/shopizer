@@ -59,7 +59,7 @@ public class SchemaConstant {
 	/**
 	 * Currency codes with name
 	 */
-	public static final HashMap<String, String> CURRENCY_MAP = new HashMap<String, String>();
+	public static final HashMap<String, String> CURRENCY_MAP = new HashMap<>();
 	
 	static {
 		CURRENCY_MAP.put("AFN", "Afghani");

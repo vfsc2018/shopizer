@@ -412,7 +412,7 @@ public class ProductApi {
       criteria.setStatus(status);
     }
     if (category != null) {
-      List<Long> categoryIds = new ArrayList<Long>();
+      List<Long> categoryIds = new ArrayList<>();
       categoryIds.add(category);
       criteria.setCategoryIds(categoryIds);
     }

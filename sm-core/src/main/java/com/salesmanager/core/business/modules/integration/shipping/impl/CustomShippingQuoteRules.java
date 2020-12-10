@@ -98,13 +98,13 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 				volume = tmpVolume;
 			} 
 			//largest size
-			List<Double> sizeList = new ArrayList<Double>();
+			List<Double> sizeList = new ArrayList<>();
 			sizeList.add(pack.getShippingHeight());
 			sizeList.add(pack.getShippingWeight());
 			sizeList.add(pack.getShippingLength());
-			Double maxSize = (Double)Collections.max(sizeList);
+			Double maxSize = Collections.max(sizeList);
 			if(size==null || maxSize.doubleValue() > size.doubleValue()) {
-				size = maxSize.doubleValue();
+				size = maxSize;
 			}
 		}
 		
@@ -133,7 +133,7 @@ public class CustomShippingQuoteRules implements ShippingQuoteModule {
 		List<ShippingOption> options = quote.getShippingOptions();
 		
 		if(options == null) {
-			options = new ArrayList<ShippingOption>();
+			options = new ArrayList<>();
 			quote.setShippingOptions(options);
 		}
 		

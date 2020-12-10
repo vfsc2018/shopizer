@@ -28,7 +28,7 @@ public class SendEmailTest extends AbstractSalesManagerCoreTestCase {
     
       MerchantStore merchant = merchantService.getByCode( MerchantStore.DEFAULT_STORE );
       
-      Map<String, String> templateTokens = new HashMap<String,String>();
+      Map<String, String> templateTokens = new HashMap<>();
       templateTokens.put("EMAIL_ADMIN_LABEL", "");
       templateTokens.put("EMAIL_STORE_NAME", "");
       templateTokens.put("EMAIL_FOOTER_COPYRIGHT", "");

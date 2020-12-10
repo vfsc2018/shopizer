@@ -99,7 +99,7 @@ public class ProductImagesController {
 			return "redirect:/admin/products/products.html";
 		}
 		
-        Map< String, String > mediaTypes = new HashMap<String, String>();  
+        Map< String, String > mediaTypes = new HashMap<>();  
         mediaTypes.put("0", "IMAGE");  
         mediaTypes.put("1", "VIDEO");   
 		
@@ -339,7 +339,7 @@ public class ProductImagesController {
 
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		
-        Map< String, String > mediaTypes = new HashMap<String, String>();  
+        Map< String, String > mediaTypes = new HashMap<>();  
         mediaTypes.put("0", "IMAGE");  
         mediaTypes.put("1", "VIDEO");   
 

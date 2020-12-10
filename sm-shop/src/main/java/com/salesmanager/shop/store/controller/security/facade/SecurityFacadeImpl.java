@@ -45,7 +45,7 @@ public class SecurityFacadeImpl implements SecurityFacade {
 
       // TODO if groups == null
 
-      List<Integer> ids = new ArrayList<Integer>();
+      List<Integer> ids = new ArrayList<>();
       for (Group g : userGroups) {
         ids.add(g.getId());
       }

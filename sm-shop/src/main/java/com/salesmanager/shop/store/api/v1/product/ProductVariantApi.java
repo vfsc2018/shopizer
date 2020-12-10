@@ -96,7 +96,7 @@ public class ProductVariantApi {
     List<ReadableProductVariantValue> variants = options.getOptions();
     
     
-    List<ProductAttribute> attributes = new ArrayList<ProductAttribute>();
+    List<ProductAttribute> attributes = new ArrayList<>();
     
     Set<ProductAttribute> productAttributes = product.getAttributes();
     for(ProductAttribute attribute : productAttributes) {

@@ -352,7 +352,7 @@ public class ShopProductController {
 		Product product = productService.getById(productId);
 		
 		@SuppressWarnings("unchecked")
-		List<Long> ids = new ArrayList<Long>(Arrays.asList(attributeIds));
+		List<Long> ids = new ArrayList<>(Arrays.asList(attributeIds));
 		List<ProductAttribute> attributes = productAttributeService.getByAttributeIds(store, product, ids);      
 		
 		for(ProductAttribute attribute : attributes) {

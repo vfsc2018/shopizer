@@ -71,7 +71,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 			Integer merchantId = null;
 			Integer parentId = null;
-			List<Integer> ids = new ArrayList<Integer>();
+			List<Integer> ids = new ArrayList<>();
 
 			StringBuilder qs = new StringBuilder();
 			/*qs.append("select distinct p from Product as p ");

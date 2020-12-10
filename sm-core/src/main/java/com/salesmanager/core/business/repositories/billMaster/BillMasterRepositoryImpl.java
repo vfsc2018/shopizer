@@ -30,7 +30,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			.append(" where billMaster.id in("+ billIds +") ")
 			.append(" group by code,unit,name ");
 
-		List<CollectBill> dataList = new ArrayList<CollectBill>();
+		List<CollectBill> dataList = new ArrayList<>();
 		List<Object[]> results = em.createQuery(sql.toString(), Object[].class).getResultList();
 		for (Object[] row : results) {
 			CollectBill bean = new CollectBill();
@@ -59,7 +59,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			.append(" where order.id in("+ orderIds +") ")
 			.append(" group by sku,productName ");
 		
-		List<CollectBill> dataList = new ArrayList<CollectBill>();
+		List<CollectBill> dataList = new ArrayList<>();
 		List<Object[]> results = em.createQuery(sql.toString(), Object[].class).getResultList();
 		for (Object[] row : results) {
 			CollectBill bean = new CollectBill();

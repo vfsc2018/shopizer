@@ -420,20 +420,20 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     Validate.notNull(customer, "Customer cannot be null");
 
-    Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    Collection<GrantedAuthority> authorities = new ArrayList<>();
     GrantedAuthority role =
         new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_CUSTOMER_AUTHENTICATED);// required
                                                                                               // to
                                                                                               // login
     authorities.add(role);
-    List<Integer> groupsId = new ArrayList<Integer>();
+    List<Integer> groupsId = new ArrayList<>();
     List<Group> groups = customer.getGroups();
     if (groups != null) {
       for (Group group : groups) {
         groupsId.add(group.getId());
 
       }
-      if (groupsId != null && groupsId.size() > 0) {
+      if (groupsId != null && !groupsId.isEmpty()) {
         List<Permission> permissions = permissionService.getPermissions(groupsId);
         for (Permission permission : permissions) {
           GrantedAuthority auth = new SimpleGrantedAuthority(permission.getPermissionName());

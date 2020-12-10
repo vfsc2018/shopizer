@@ -10,7 +10,7 @@ public class ReadableProductFull extends ReadableProduct {
    */
   private static final long serialVersionUID = 1L;
   
-  List<ProductDescription> descriptions = new ArrayList<ProductDescription>();
+  List<ProductDescription> descriptions = new ArrayList<>();
 
   public List<ProductDescription> getDescriptions() {
     return descriptions;

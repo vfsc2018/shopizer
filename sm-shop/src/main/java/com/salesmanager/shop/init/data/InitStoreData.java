@@ -172,7 +172,7 @@ public class InitStoreData implements InitData {
 		    bookFrenchDescription.setLanguage(fr);
 		    bookFrenchDescription.setSeUrl("livres-informatiques");
 
-		    Set<CategoryDescription> descriptions = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> descriptions = new HashSet<>();
 		    descriptions.add(bookEnglishDescription);
 		    descriptions.add(bookFrenchDescription);
 
@@ -197,7 +197,7 @@ public class InitStoreData implements InitData {
 		    novsFrenchDescription.setLanguage(fr);
 		    novsFrenchDescription.setSeUrl("romans");
 
-		    Set<CategoryDescription> descriptions2 = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> descriptions2 = new HashSet<>();
 		    descriptions2.add(novsEnglishDescription);
 		    descriptions2.add(novsFrenchDescription);
 
@@ -221,7 +221,7 @@ public class InitStoreData implements InitData {
 		    techFrenchDescription.setLanguage(fr);
 		    techFrenchDescription.setSeUrl("technologie");
 
-		    Set<CategoryDescription> descriptions4 = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> descriptions4 = new HashSet<>();
 		    descriptions4.add(techEnglishDescription);
 		    descriptions4.add(techFrenchDescription);
 
@@ -249,7 +249,7 @@ public class InitStoreData implements InitData {
 		    webFrenchDescription.setLanguage(fr);
 		    webFrenchDescription.setSeUrl("le-web");
 
-		    Set<CategoryDescription> descriptions3 = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> descriptions3 = new HashSet<>();
 		    descriptions3.add(webEnglishDescription);
 		    descriptions3.add(webFrenchDescription);
 
@@ -279,7 +279,7 @@ public class InitStoreData implements InitData {
 		    fictionFrenchDescription.setLanguage(fr);
 		    fictionFrenchDescription.setSeUrl("fiction");
 
-		    Set<CategoryDescription> fictiondescriptions = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> fictiondescriptions = new HashSet<>();
 		    fictiondescriptions.add(fictionEnglishDescription);
 		    fictiondescriptions.add(fictionFrenchDescription);
 
@@ -308,7 +308,7 @@ public class InitStoreData implements InitData {
 		    businessFrenchDescription.setLanguage(fr);
 		    businessFrenchDescription.setSeUrl("affaires");
 
-		    Set<CategoryDescription> businessdescriptions = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> businessdescriptions = new HashSet<>();
 		    businessdescriptions.add(businessEnglishDescription);
 		    businessdescriptions.add(businessFrenchDescription);
 
@@ -336,7 +336,7 @@ public class InitStoreData implements InitData {
 		    cloudFrenchDescription.setLanguage(fr);
 		    cloudFrenchDescription.setSeUrl("programmation-cloud");
 
-		    Set<CategoryDescription> clouddescriptions = new HashSet<CategoryDescription>();
+		    Set<CategoryDescription> clouddescriptions = new HashSet<>();
 		    clouddescriptions.add(cloudEnglishDescription);
 		    clouddescriptions.add(cloudFrenchDescription);
 

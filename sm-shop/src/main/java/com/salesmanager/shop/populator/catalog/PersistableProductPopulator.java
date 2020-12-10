@@ -128,7 +128,7 @@ public class PersistableProductPopulator extends
 			target.setMerchantStore(store);
 			
 			List<Language> languages = new ArrayList<Language>();
-			Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+			Set<ProductDescription> descriptions = new HashSet<>();
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for(com.salesmanager.shop.model.catalog.product.ProductDescription description : source.getDescriptions()) {
 					

@@ -683,7 +683,7 @@ public class BeanStreamPayment implements PaymentModule {
 	}
 
 	private Map formatUrlResponse(String payload) throws Exception {
-		HashMap<String,String> nvp = new HashMap<String,String> ();
+		HashMap<String,String> nvp = new HashMap<> ();
 		StringTokenizer stTok = new StringTokenizer(payload, "&");
 		while (stTok.hasMoreTokens()) {
 			StringTokenizer stInternalTokenizer = new StringTokenizer(stTok
@@ -712,14 +712,14 @@ public class BeanStreamPayment implements PaymentModule {
 		
 		//validate integrationKeys['merchantid']
 		if(keys==null || StringUtils.isBlank(keys.get("merchantid"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("merchantid");
 		}
 		
 		//validate integrationKeys['username']
 		if(keys==null || StringUtils.isBlank(keys.get("username"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("username");
 		}
@@ -728,7 +728,7 @@ public class BeanStreamPayment implements PaymentModule {
 		//validate integrationKeys['password']
 		if(keys==null || StringUtils.isBlank(keys.get("password"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("password");
 		}

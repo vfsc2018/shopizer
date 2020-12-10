@@ -70,7 +70,7 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 			throws ServiceException {
 
 		/*
-		 * List<String> contentTypes = new ArrayList<String>(); for (int i = 0;
+		 * List<String> contentTypes = new ArrayList<>(); for (int i = 0;
 		 * i < contentType.size(); i++) {
 		 * contentTypes.add(contentType.get(i).name()); }
 		 */

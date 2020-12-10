@@ -200,7 +200,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 	                  	</div>
 	                  	
 	                  	<div class="control-group">
-                        	<label><s:message code="label.product.manufacturer" text="Manufacturer"/></label>
+                        	<label><s:message code="label.product.manufacturer" text="Manufacturer, Distributor"/></label>
                           	<div class="controls">
                           		      <form:select items="${manufacturers}" itemValue="id" itemLabel="descriptions[0].name"  path="product.manufacturer.id"/> 
 	                                  <span class="help-inline"></span>

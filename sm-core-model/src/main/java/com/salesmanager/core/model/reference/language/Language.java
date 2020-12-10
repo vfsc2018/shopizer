@@ -58,7 +58,7 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
 
   @JsonIgnore
   @ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class, fetch = FetchType.LAZY)
-  private List<MerchantStore> stores = new ArrayList<MerchantStore>();
+  private List<MerchantStore> stores = new ArrayList<>();
 
   public Language() {}
 

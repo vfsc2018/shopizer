@@ -121,7 +121,7 @@ public class OrderTotalApi {
   //     OrderSummary orderSummary = new OrderSummary();
   //     orderSummary.setShippingSummary(shippingSummary);
   //     List<ShoppingCartItem> itemsSet =
-  //         new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+  //         new ArrayList<>(shoppingCart.getLineItems());
   //     orderSummary.setProducts(itemsSet);
 
   //     orderTotalSummary =
@@ -192,7 +192,7 @@ public class OrderTotalApi {
       OrderSummary orderSummary = new OrderSummary();
       orderSummary.setShippingSummary(shippingSummary);
       List<ShoppingCartItem> itemsSet =
-          new ArrayList<ShoppingCartItem>(shoppingCart.getLineItems());
+          new ArrayList<>(shoppingCart.getLineItems());
       orderSummary.setProducts(itemsSet);
 
       orderTotalSummary = orderService.caculateOrderTotal(orderSummary, merchantStore, language);

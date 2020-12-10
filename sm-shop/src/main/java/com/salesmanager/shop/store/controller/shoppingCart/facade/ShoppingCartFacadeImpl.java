@@ -529,8 +529,8 @@ public class ShoppingCartFacadeImpl
 
         ShoppingCartData shoppingCartData = shoppingCartDataPopulator.populate( cart, merchantStore, language );
 
-/*        List<ShoppingCartItem> unavailables = new ArrayList<ShoppingCartItem>();
-        List<ShoppingCartItem> availables = new ArrayList<ShoppingCartItem>();
+/*        List<ShoppingCartItem> unavailables = new ArrayList<>();
+        List<ShoppingCartItem> availables = new ArrayList<>();
         //Take out items no more available
         List<ShoppingCartItem> items = shoppingCartData.getShoppingCartItems();
         for(ShoppingCartItem item : items) {
@@ -632,7 +632,7 @@ public class ShoppingCartFacadeImpl
 
                 LOG.info( "Updating cart entry quantity to" + newQuantity );
                 entryToUpdate.setQuantity( (int) newQuantity );
-                List<ProductAttribute> productAttributes = new ArrayList<ProductAttribute>();
+                List<ProductAttribute> productAttributes = new ArrayList<>();
                 productAttributes.addAll( entryToUpdate.getProduct().getAttributes() );
                 final FinalPrice finalPrice =
                     productPriceUtils.getFinalProductPrice( entryToUpdate.getProduct(), productAttributes );
@@ -683,7 +683,7 @@ public class ShoppingCartFacadeImpl
                 LOG.info( "Updating cart entry quantity to" + item.getQuantity() );
                 entryToUpdate.setQuantity( (int) item.getQuantity() );
 
-                List<ProductAttribute> productAttributes = new ArrayList<ProductAttribute>();
+                List<ProductAttribute> productAttributes = new ArrayList<>();
                 productAttributes.addAll( entryToUpdate.getProduct().getAttributes() );
 
                 final FinalPrice finalPrice =

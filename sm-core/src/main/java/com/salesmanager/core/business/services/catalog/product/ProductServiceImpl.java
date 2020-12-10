@@ -94,7 +94,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 
 		if(product.getDescriptions()==null) {
-			product.setDescriptions(new HashSet<ProductDescription>());
+			product.setDescriptions(new HashSet<>());
 		}
 
 		product.getDescriptions().add(description);
@@ -177,7 +177,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		//Get the category list
 		StringBuilder lineage = new StringBuilder().append(category.getLineage()).append(category.getId()).append("/");
 		List<Category> categories = categoryService.getListByLineage(category.getMerchantStore(),lineage.toString());
-		Set<Long> categoryIds = new HashSet<Long>();
+		Set<Long> categoryIds = new HashSet<>();
 		for(Category c : categories) {
 
 			categoryIds.add(c.getId());
@@ -274,7 +274,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		Validate.notEmpty(product.getAvailabilities(),"product must have at least one availability");
 
 		//take care of product images separately
-	    Set<ProductImage> originalProductImages = new HashSet<ProductImage>(product.getImages());
+	    Set<ProductImage> originalProductImages = new HashSet<>(product.getImages());
 
 		/** save product first **/
 
@@ -287,7 +287,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		/**
 		 * Image creation needs extra service to save the file in the CMS
 		 */
-		List<Long> newImageIds = new ArrayList<Long>();
+		List<Long> newImageIds = new ArrayList<>();
 		Set<ProductImage> images = product.getImages();
 
 		try {

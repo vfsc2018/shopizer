@@ -151,7 +151,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 	    shippingConfiguration.setBoxWeight(1);
 	    shippingConfiguration.setMaxWeight(10);
 	    
-	    List<String> supportedCountries = new ArrayList<String>();
+	    List<String> supportedCountries = new ArrayList<>();
 	    supportedCountries.add("CA");
 	    supportedCountries.add("US");
 	    supportedCountries.add("UK");
@@ -167,7 +167,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 		CustomShippingQuotesRegion northRegion = new CustomShippingQuotesRegion();
 		northRegion.setCustomRegionName("NORTH");
 		
-		List<String> countries = new ArrayList<String>();
+		List<String> countries = new ArrayList<>();
 		countries.add("CA");
 		countries.add("US");
 		

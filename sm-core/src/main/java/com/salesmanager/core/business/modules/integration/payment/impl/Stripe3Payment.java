@@ -118,14 +118,14 @@ public class Stripe3Payment implements PaymentModule {
 		
 		//validate integrationKeys['secretKey']
 		if(keys==null || StringUtils.isBlank(keys.get("secretKey"))) {
-			errorFields = new ArrayList<String>();
+			errorFields = new ArrayList<>();
 			errorFields.add("secretKey");
 		}
 		
 		//validate integrationKeys['publishableKey']
 		if(keys==null || StringUtils.isBlank(keys.get("publishableKey"))) {
 			if(errorFields==null) {
-				errorFields = new ArrayList<String>();
+				errorFields = new ArrayList<>();
 			}
 			errorFields.add("publishableKey");
 		}

@@ -315,7 +315,7 @@ public class DefaultPackagingImpl implements Packaging {
 			throws ServiceException {
 		
 		
-		List<PackageDetails> packages = new ArrayList<PackageDetails>();
+		List<PackageDetails> packages = new ArrayList<>();
 		for(ShippingProduct shippingProduct : products) {
 			Product product = shippingProduct.getProduct();
 

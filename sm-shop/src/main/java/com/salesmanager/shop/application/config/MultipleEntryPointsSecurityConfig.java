@@ -70,97 +70,82 @@ public class MultipleEntryPointsSecurityConfig {
 	}
 
 	
-	
-	/**
-	 * shop / customer
-	 * 
-	 * @author dur9213
-	 *
-	 */
-	@Configuration
-	@Order(1)
-	public static class CustomerConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
-		@Bean("customerAuthenticationManager")
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
-		}
+	// @Configuration
+	// @Order(1)
+	// public static class CustomerConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
-		@Autowired
-		private UserDetailsService customerDetailsService;
+	// 	@Bean("customerAuthenticationManager")
+	// 	@Override
+	// 	public AuthenticationManager authenticationManagerBean() throws Exception {
+	// 		return super.authenticationManagerBean();
+	// 	}
 
-		public CustomerConfigurationAdapter() {
-			super();
-		}
+	// 	@Autowired
+	// 	private UserDetailsService customerDetailsService;
 
-		// @Bean
-		// @Order(Ordered.HIGHEST_PRECEDENCE)
-		// CharacterEncodingFilter characterEncodingFilter() {
-		// 	CharacterEncodingFilter filter = new CharacterEncodingFilter();
-		// 	filter.setEncoding("UTF-8");
-		// 	filter.setForceEncoding(false);
-		// 	return filter;
-		// }
-		
-		@Override
-		public void configure(WebSecurity web) {
-			web.ignoring().antMatchers("/");
-			web.ignoring().antMatchers("/shop");
-			web.ignoring().antMatchers("/admin");
-			web.ignoring().antMatchers("/error");
-			web.ignoring().antMatchers("/resources/**");
-			web.ignoring().antMatchers("/static/**");
-			web.ignoring().antMatchers("/WEB-INF/**");
-			web.ignoring().antMatchers("/services/public/**");
-		}
+	// 	public CustomerConfigurationAdapter() {
+	// 		super();
+	// 	}
+
+	// 	@Override
+	// 	public void configure(WebSecurity web) {
+	// 		web.ignoring().antMatchers("/");
+	// 		web.ignoring().antMatchers("/shop");
+	// 		web.ignoring().antMatchers("/admin");
+	// 		web.ignoring().antMatchers("/error");
+	// 		web.ignoring().antMatchers("/resources/**");
+	// 		web.ignoring().antMatchers("/static/**");
+	// 		web.ignoring().antMatchers("/WEB-INF/**");
+	// 		web.ignoring().antMatchers("/services/public/**");
+	// 	}
 
 
-		@Override
-		public void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(customerDetailsService);
-		}
+	// 	@Override
+	// 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	// 		auth.userDetailsService(customerDetailsService);
+	// 	}
 
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
+	// 	@Override
+	// 	protected void configure(HttpSecurity http) throws Exception {
 			
-			http
-			.antMatcher("/shop/**")
-			.csrf().disable()			
-			.authorizeRequests()
-					.antMatchers("/shop/").permitAll()
-					.antMatchers("/shop/**").permitAll()
-					.antMatchers("/shop/customer/logon*").permitAll()
-					.antMatchers("/shop/customer/registration*").permitAll()
-					.antMatchers("/shop/customer/logout*").permitAll()
-					.antMatchers("/shop/customer/customLogon*").permitAll()
-					.antMatchers("/shop/customer/denied*").permitAll()
-					.antMatchers("/shop/customer/**").hasRole("AUTH_CUSTOMER")
-					.anyRequest().authenticated()
-					.and()
-					.httpBasic()
-					.authenticationEntryPoint(shopAuthenticationEntryPoint())
-					.and()
-					.logout()
-					.logoutUrl("/shop/customer/logout")
-					.logoutSuccessUrl("/shop/")
-					.invalidateHttpSession(true)
-					.deleteCookies("JSESSIONID")
+	// 		http
+	// 		.antMatcher("/shop/**")
+	// 		.csrf().disable()			
+	// 		.authorizeRequests()
+	// 				.antMatchers("/shop/").permitAll()
+	// 				.antMatchers("/shop/**").permitAll()
+	// 				.antMatchers("/shop/customer/logon*").permitAll()
+	// 				.antMatchers("/shop/customer/registration*").permitAll()
+	// 				.antMatchers("/shop/customer/logout*").permitAll()
+	// 				.antMatchers("/shop/customer/customLogon*").permitAll()
+	// 				.antMatchers("/shop/customer/denied*").permitAll()
+	// 				.antMatchers("/shop/customer/**").hasRole("AUTH_CUSTOMER")
+	// 				.anyRequest().authenticated()
+	// 				.and()
+	// 				.httpBasic()
+	// 				.authenticationEntryPoint(shopAuthenticationEntryPoint())
+	// 				.and()
+	// 				.logout()
+	// 				.logoutUrl("/shop/customer/logout")
+	// 				.logoutSuccessUrl("/shop/")
+	// 				.invalidateHttpSession(true)
+	// 				.deleteCookies("JSESSIONID")
 
-					.invalidateHttpSession(false)
-					.and()
-					.exceptionHandling().accessDeniedPage("/shop/");
+	// 				.invalidateHttpSession(false)
+	// 				.and()
+	// 				.exceptionHandling().accessDeniedPage("/shop/");
 
-		}
+	// 	}
 
-		@Bean
-		public AuthenticationEntryPoint shopAuthenticationEntryPoint() {
-			BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-			entryPoint.setRealmName("shop-realm");
-			return entryPoint;
-		}
+	// 	@Bean
+	// 	public AuthenticationEntryPoint shopAuthenticationEntryPoint() {
+	// 		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
+	// 		entryPoint.setRealmName("shop-realm");
+	// 		return entryPoint;
+	// 	}
 
-	}
+	// }
 	
 	/**
 	 * services api v0
@@ -169,48 +154,48 @@ public class MultipleEntryPointsSecurityConfig {
 	 * @deprecated
 	 *
 	 */
-	@Configuration
-	@Order(2)
-	public static class ServicesApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	// @Configuration
+	// @Order(2)
+	// public static class ServicesApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
-		@Autowired
-		private WebUserServices userDetailsService;
+	// 	@Autowired
+	// 	private WebUserServices userDetailsService;
 
-		@Autowired
-		private ServicesAuthenticationSuccessHandler servicesAuthenticationSuccessHandler;
+	// 	@Autowired
+	// 	private ServicesAuthenticationSuccessHandler servicesAuthenticationSuccessHandler;
 
-		public ServicesApiConfigurationAdapter() {
-			super();
-		}
+	// 	public ServicesApiConfigurationAdapter() {
+	// 		super();
+	// 	}
 
-		@Override
-		public void configure(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(userDetailsService);
-		}
+	// 	@Override
+	// 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	// 		auth.userDetailsService(userDetailsService);
+	// 	}
 
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-			.antMatcher("/services/**")
-			.csrf().disable()
-					.authorizeRequests()
-					.antMatchers("/services/public/**").permitAll()
-					.antMatchers("/services/private/**").hasRole("AUTH")
-					.anyRequest().authenticated()
-					.and().httpBasic().authenticationEntryPoint(servicesAuthenticationEntryPoint())
-					.and().formLogin()
-					.successHandler(servicesAuthenticationSuccessHandler);
+	// 	@Override
+	// 	protected void configure(HttpSecurity http) throws Exception {
+	// 		http
+	// 		.antMatcher("/services/**")
+	// 		.csrf().disable()
+	// 				.authorizeRequests()
+	// 				.antMatchers("/services/public/**").permitAll()
+	// 				.antMatchers("/services/private/**").hasRole("AUTH")
+	// 				.anyRequest().authenticated()
+	// 				.and().httpBasic().authenticationEntryPoint(servicesAuthenticationEntryPoint())
+	// 				.and().formLogin()
+	// 				.successHandler(servicesAuthenticationSuccessHandler);
 
-		}
+	// 	}
 
-		@Bean
-		public AuthenticationEntryPoint servicesAuthenticationEntryPoint() {
-			BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-			entryPoint.setRealmName("rest-customer-realm");
-			return entryPoint;
-		}
+	// 	@Bean
+	// 	public AuthenticationEntryPoint servicesAuthenticationEntryPoint() {
+	// 		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
+	// 		entryPoint.setRealmName("rest-customer-realm");
+	// 		return entryPoint;
+	// 	}
 
-	}
+	// }
 
 	/**
 	 * admin
@@ -290,100 +275,79 @@ public class MultipleEntryPointsSecurityConfig {
 	 * @author dur9213
 	 *
 	 */
-	@Configuration
-	@Order(5)
-	public static class UserApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
+	// @Configuration
+	// @Order(5)
+	// public static class UserApiConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
-		@Autowired
-		private AuthenticationTokenFilter authenticationTokenFilter;
+	// 	@Autowired
+	// 	private AuthenticationTokenFilter authenticationTokenFilter;
 
-		@Autowired
-		JWTAdminServicesImpl jwtUserDetailsService;
+	// 	@Autowired
+	// 	JWTAdminServicesImpl jwtUserDetailsService;
 
-		@Bean("jwtAdminAuthenticationManager")
-		@Override
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			AuthenticationManager mgr = super.authenticationManagerBean();
-			return mgr;
-		}
+	// 	@Bean("jwtAdminAuthenticationManager")
+	// 	@Override
+	// 	public AuthenticationManager authenticationManagerBean() throws Exception {
+	// 		return super.authenticationManagerBean();
+	// 	}
 		
 		
 
-		public UserApiConfigurationAdapter() {
-			super();
-		}
+	// 	public UserApiConfigurationAdapter() {
+	// 		super();
+	// 	}
 
-		@Override
-		public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		       auth.userDetailsService(jwtUserDetailsService)
-	            .and()
-	            .authenticationProvider(authenticationProvider());
-		}
+	// 	@Override
+	// 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+	// 	       auth.userDetailsService(jwtUserDetailsService)
+	//             .and()
+	//             .authenticationProvider(authenticationProvider());
+	// 	}
 		
-		@Override
-		public void configure(WebSecurity web) {
-			web.ignoring().antMatchers("/swagger-ui.html");
-		}
+	// 	@Override
+	// 	public void configure(WebSecurity web) {
+	// 		web.ignoring().antMatchers("/swagger-ui.html");
+	// 	}
 
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http
-					.antMatcher(API_V1 + "/private/**")
-					.authorizeRequests()
-					.antMatchers(API_V1 + "/private/login*").permitAll()
-					.antMatchers(API_V1 + "/private/refresh").permitAll()
-					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/private/**").permitAll()
-					.antMatchers(API_V1 + "/private/**").hasRole("AUTH_CUSTOMER")
-					.anyRequest().authenticated()
-					.and()
-					.httpBasic().authenticationEntryPoint(apiAdminAuthenticationEntryPoint())
-					.and()
-					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class)
-					.csrf().disable();
+	// 	@Override
+	// 	protected void configure(HttpSecurity http) throws Exception {
+	// 		http
+	// 				.antMatcher(API_V1 + "/private/**")
+	// 				.authorizeRequests()
+	// 				.antMatchers(API_V1 + "/private/login*").permitAll()
+	// 				.antMatchers(API_V1 + "/private/refresh").permitAll()
+	// 				.antMatchers(HttpMethod.OPTIONS, API_V1 + "/private/**").permitAll()
+	// 				.antMatchers(API_V1 + "/private/**").hasRole("AUTH_CUSTOMER")
+	// 				.anyRequest().authenticated()
+	// 				.and()
+	// 				.httpBasic().authenticationEntryPoint(apiAdminAuthenticationEntryPoint())
+	// 				.and()
+	// 				.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class)
+	// 				.csrf().disable();
 			
-			
-//			
-//			http
-//			
-//			.antMatcher(API_V1 + "/auth/**")
-//			.authorizeRequests()
-//				.antMatchers(API_V1 + "/auth/refresh").permitAll()
-//				.antMatchers(API_V1 + "/auth/login").permitAll()
-//				.antMatchers(API_V1 + "/auth/register").permitAll()
-//				.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
-//				.antMatchers(API_V1 + "/auth/**")
-//				.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
-//				.and()
-//				.httpBasic()
-//				.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
-//				.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
-			
-
-		}
+	// 	}
 		
-	    @Bean
-	    public AuthenticationProvider authenticationProvider() {
-	    	JWTAdminAuthenticationProvider provider = new JWTAdminAuthenticationProvider();
-	        provider.setUserDetailsService(jwtUserDetailsService);
-	        return provider;
-	    }
+	//     @Bean
+	//     public AuthenticationProvider authenticationProvider() {
+	//     	JWTAdminAuthenticationProvider provider = new JWTAdminAuthenticationProvider();
+	//         provider.setUserDetailsService(jwtUserDetailsService);
+	//         return provider;
+	//     }
 
-		@Bean
-		public AuthenticationEntryPoint apiAdminAuthenticationEntryPoint() {
-			BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-			entryPoint.setRealmName("api-admin-realm");
-			return entryPoint;
-		}
+	// 	@Bean
+	// 	public AuthenticationEntryPoint apiAdminAuthenticationEntryPoint() {
+	// 		BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
+	// 		entryPoint.setRealmName("api-admin-realm");
+	// 		return entryPoint;
+	// 	}
 
-	}
+	// }
 
 
 
 	/**
 	 * customer api
 	 * 
-	 * @author dur9213
-	 *
 	 */
 	@Configuration
 	@Order(6)
@@ -413,20 +377,38 @@ public class MultipleEntryPointsSecurityConfig {
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http
-			
-				.antMatcher(API_V1 + "/auth/**")
-				.authorizeRequests()
-					.antMatchers(API_V1 + "/auth/refresh").permitAll()
-					.antMatchers(API_V1 + "/auth/login").permitAll()
-					.antMatchers(API_V1 + "/auth/register").permitAll()
-					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
-					.antMatchers(API_V1 + "/auth/**")
-					.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
+					.antMatcher(API_V1 + "/private/**")
+					.authorizeRequests()
+					.antMatchers(API_V1 + "/private/login*").permitAll()
+					.antMatchers(API_V1 + "/private/refresh").permitAll()
+					.antMatchers(HttpMethod.OPTIONS, API_V1 + "/private/**").permitAll()
+					.antMatchers(API_V1 + "/private/**").hasRole("AUTH_CUSTOMER")
+					.anyRequest().authenticated()
 					.and()
-					.httpBasic()
-					.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
+					.httpBasic().authenticationEntryPoint(apiCustomerAuthenticationEntryPoint())
+					.and().csrf().disable()
 					.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
+					
+			
 		}
+
+		// @Override
+		// protected void configure(HttpSecurity http) throws Exception {
+		// 	http
+			
+		// 		.antMatcher(API_V1 + "/auth/**")
+		// 		.authorizeRequests()
+		// 			.antMatchers(API_V1 + "/auth/refresh").permitAll()
+		// 			.antMatchers(API_V1 + "/auth/login").permitAll()
+		// 			.antMatchers(API_V1 + "/auth/register").permitAll()
+		// 			.antMatchers(HttpMethod.OPTIONS, API_V1 + "/auth/**").permitAll()
+		// 			.antMatchers(API_V1 + "/auth/**")
+		// 			.hasRole("AUTH_CUSTOMER").anyRequest().authenticated()
+		// 			.and()
+		// 			.httpBasic()
+		// 			.authenticationEntryPoint(apiCustomerAuthenticationEntryPoint()).and().csrf().disable()
+		// 			.addFilterAfter(authenticationTokenFilter, BasicAuthenticationFilter.class);
+		// }
 		
 	    @Bean
 	    public AuthenticationProvider authenticationProvider() {

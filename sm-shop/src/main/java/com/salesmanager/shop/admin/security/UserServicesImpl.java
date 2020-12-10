@@ -81,7 +81,7 @@ public class UserServicesImpl implements WebUserServices{
 			GrantedAuthority role = new SimpleGrantedAuthority(ROLE_PREFIX + Constants.PERMISSION_AUTHENTICATED);//required to login
 			authorities.add(role);
 	
-			List<Integer> groupsId = new ArrayList<Integer>();
+			List<Integer> groupsId = new ArrayList<>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
 				

@@ -14,7 +14,7 @@ import com.salesmanager.core.model.user.Permission;
  */
 public class SecurityGroupsBuilder {
 	
-	private List<Group> groups = new ArrayList<Group>();
+	private List<Group> groups = new ArrayList<>();
 	private Group lastGroup = null;
 	
 	

@@ -105,7 +105,7 @@ public class PersistableInventoryMapper implements Mapper<PersistableInventory, 
       
       java.util.List<com.salesmanager.shop.model.catalog.product.ProductPriceDescription> descriptions = priceEntity.getDescriptions();
       if(descriptions != null) {
-        Set<ProductPriceDescription> descs = new HashSet<ProductPriceDescription>();
+        Set<ProductPriceDescription> descs = new HashSet<>();
         for(com.salesmanager.shop.model.catalog.product.ProductPriceDescription desc : descriptions) {
           ProductPriceDescription description = null;
           if(!CollectionUtils.isEmpty(price.getDescriptions())) {
