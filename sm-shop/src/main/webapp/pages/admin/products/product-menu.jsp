@@ -19,7 +19,7 @@
 				    	<li><a href="<c:url value="/admin/products/product/keywords.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.searchkeywords" text="Search keywords" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/digitalProduct.html" />?id=<c:out value="${productId}"/>"><s:message code="label.product.digitalproduct" text="Digital product" /></a></li>
 				    	<li><a href="<c:url value="/admin/products/displayProductToCategories.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.category" text="Associate to categories" /></a></li>
-				    	<li><a href="<c:url value="/admin/products/printBill.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.printBill" text="Print bill" /></a></li>
+				    	<!--<li><a href="<c:url value="/admin/products/printBill.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.printBill" text="Print bill" /></a></li> -->
 				    	<li><a href="<c:url value="/admin/products/stamps.html" />?id=<c:out value="${productId}"/>"><s:message code="menu.product.printStamp" text="Print stamp" /></a></li>
                      </ul>
               </div><!-- /btn-group -->

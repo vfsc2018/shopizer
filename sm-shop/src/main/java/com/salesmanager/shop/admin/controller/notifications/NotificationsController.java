@@ -29,7 +29,7 @@ import com.salesmanager.core.business.services.notifications.NotificationsServic
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.Notifications;
+import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;
@@ -130,10 +130,8 @@ public class NotificationsController {
 
 				resp.setTotalRow(billList.getTotalCount());
 
-				BigDecimal totalBill = null;
-				
 				for (Notifications bill : billList.getNotificationss()) {
-					totalBill = BigDecimal.valueOf(0);
+					
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", bill.getId());
@@ -169,26 +167,6 @@ public class NotificationsController {
 	}
 	
 
-	
-
-	@PreAuthorize("hasRole('ORDER')")
-	@RequestMapping(value = "/admin/notifications/viewBill.html", method = RequestMethod.GET)
-	public String viewBill(@RequestParam("id") Long billId, Model model,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		// display menu
-		setMenu(model, request);
-
-		return "admin-bill-view";
-
-	}
-
-
-	
-
-	
-
 	private void setMenu(Model model, HttpServletRequest request)
 			throws Exception {
 
@@ -201,7 +179,7 @@ public class NotificationsController {
 		Map<String, Menu> menus = (Map<String, Menu>) request
 				.getAttribute("MENUMAP");
 
-		Menu currentMenu = (Menu) menus.get("notifications");
+		Menu currentMenu = menus.get("notifications");
 		model.addAttribute("currentMenu", currentMenu);
 		model.addAttribute("activeMenus", activeMenus);
 		//

@@ -9,7 +9,7 @@ import org.springframework.validation.BindException;
 
 import com.salesmanager.core.business.repositories.notifications.NotificationsRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.model.catalog.product.Notifications;
+import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;

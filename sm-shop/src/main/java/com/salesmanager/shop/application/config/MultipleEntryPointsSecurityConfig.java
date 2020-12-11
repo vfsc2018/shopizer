@@ -3,7 +3,6 @@ package com.salesmanager.shop.application.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,16 +12,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.web.filter.CharacterEncodingFilter;
-
 import com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler;
 import com.salesmanager.shop.admin.security.WebUserServices;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
@@ -237,10 +232,9 @@ public class MultipleEntryPointsSecurityConfig {
 					.antMatchers("/admin/denied*").permitAll()
 					.antMatchers("/admin/unauthorized*").permitAll()
 					.antMatchers("/admin/users/resetPassword*").permitAll()
+					.antMatchers("/admin/users/resetPasswordSecurityQtn*").permitAll()
 					.antMatchers("/admin/").hasRole("AUTH")
 					.antMatchers("/admin/**").hasRole("AUTH")
-					.antMatchers("/admin/**").hasRole("AUTH")
-					.antMatchers("/admin/users/resetPasswordSecurityQtn*").permitAll()
 					.anyRequest()
 					.authenticated()
 					.and()

@@ -846,7 +846,7 @@ public class CustomerController {
 			String encodedPassword = passwordEncoder.encode(password);
 			
 			customer.setPassword(encodedPassword);
-			if(userName.indexOf('@')>0){
+			if(userName.contains("@")){
 				customer.setNick(userName);
 			}else{
 				customer.setNick(userName + "@vfsc.vn");

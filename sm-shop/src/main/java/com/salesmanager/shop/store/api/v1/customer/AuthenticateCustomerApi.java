@@ -270,14 +270,14 @@ public class AuthenticateCustomerApi {
         String keyName = CacheUtils.KEY_RESET + authenticationRequest.getUsername();
         AuthenticationRequest auth = (AuthenticationRequest)cache.get(keyName);
         if(auth==null || auth.getOtp()==null || authenticationRequest.getOtp()==null){
-            return ResponseEntity.badRequest().body("NULL OTP when reset password");
+            return ResponseEntity.noContent().build();
         }
 
         long diff = System.currentTimeMillis()-auth.getTime();
         long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diff);
 
         if(diffMinutes>5){
-            return ResponseEntity.badRequest().body("Invalid OTP when reset password");
+            return ResponseEntity.status(HttpStatus.GONE).body("OTP Expired when reset password");
         }
         
         try {
