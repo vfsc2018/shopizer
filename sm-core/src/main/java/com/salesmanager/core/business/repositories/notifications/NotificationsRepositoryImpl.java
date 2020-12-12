@@ -25,9 +25,14 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 		NotificationsList customerList = new NotificationsList();
 		StringBuilder baseCountQuery =new StringBuilder("select count(c) from Notifications as c where c.id = c.id ");
 		StringBuilder baseQuery = new StringBuilder("select c from Notifications as c where c.id = c.id ");
-		
-		if(!StringUtils.isBlank(criteria.getMessager())) {
-			String nameQuery =" and c.messager like:pMessager  ";
+		if(criteria.getId()!=null) {
+			String nameQuery =" and c.id <= :id  ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getMessage())) {
+			String nameQuery =" and c.message like:pMessager  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
@@ -43,20 +48,23 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 			baseQuery.append(nameQuery);
 		}
 		
-		if(!StringUtils.isBlank(criteria.getRead())) {
-			String nameQuery = " and c.read =:pRead ";
+		if(criteria.getRead()!=null && criteria.getRead().booleanValue()) {
+			String nameQuery = " and c.read > 0 ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 			
 		}
 		
 		
+		baseQuery.append(" order by c.id desc ");
+	
+
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query
 		Query objectQ = em.createQuery(baseQuery.toString());
 
-		if(!StringUtils.isBlank(criteria.getMessager())) {
-			String nameParam = new StringBuilder().append("%").append(criteria.getMessager()).append("%").toString();
+		if(!StringUtils.isBlank(criteria.getMessage())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getMessage()).append("%").toString();
 			countQ.setParameter("pMessager",nameParam);
 			objectQ.setParameter("pMessager",nameParam);
 		}
@@ -79,13 +87,11 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 			countQ.setParameter("pTopic",nameParam);
 			objectQ.setParameter("pTopic",nameParam);
 		}
-		
-		if(criteria.getRead()!=null && !criteria.getRead().equals("")) {
-			countQ.setParameter("pRead",criteria.getRead());
-			objectQ.setParameter("pRead",criteria.getRead());
-		}
 
-		
+		if(criteria.getId()!=null) {
+			countQ.setParameter("id",criteria.getId());
+			objectQ.setParameter("id",criteria.getId());
+		}
 		
 		
 		Number count = (Number) countQ.getSingleResult();

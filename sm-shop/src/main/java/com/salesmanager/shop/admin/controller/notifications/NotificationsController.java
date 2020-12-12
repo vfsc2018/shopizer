@@ -37,6 +37,7 @@ import com.salesmanager.core.model.order.NotificationsList;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
 
 /**
@@ -60,8 +61,7 @@ public class NotificationsController {
 	@Inject
 	protected ModuleConfigurationService moduleConfigurationService;
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(NotificationsController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsController.class);
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/notifications/list.html", method = RequestMethod.GET)
@@ -91,11 +91,12 @@ public class NotificationsController {
 			int startRow = Integer.parseInt(request.getParameter("_startRow"));
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
 			
-			String messager = request.getParameter("messager");
+			String message = request.getParameter("message");
 			String topic = request.getParameter("topic");
 			
 			String customerName = request.getParameter("customer");
 			String read = request.getParameter("read");
+			String id = request.getParameter("id");
 			
 			
 			NotificationsCriteria criteria = new NotificationsCriteria();
@@ -107,8 +108,8 @@ public class NotificationsController {
 			if(!StringUtils.isBlank(customerName)) {
 				criteria.setCustomerName(customerName);
 			}
-			if(!StringUtils.isBlank(messager)){
-				criteria.setMessager(messager);
+			if(!StringUtils.isBlank(message)){
+				criteria.setMessage(message);
 			}
 			if(!StringUtils.isBlank(topic)) {
 				criteria.setTopic(topic);
@@ -118,36 +119,37 @@ public class NotificationsController {
 				criteria.setTopic(topic);
 			}
 			if (!StringUtils.isBlank(read)) {
-				criteria.setRead(read);
+				criteria.setRead(read.equals("true"));
+			}
+
+			if (!StringUtils.isBlank(id)) {
+				criteria.setId(Long.valueOf(id));
 			}
 
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 
-			NotificationsList billList = billService.getListByStore2(store, criteria);
+			NotificationsList list = billService.getListByStore2(store, criteria);
 
 			
-			if (billList.getNotificationss() != null) {
+			if (list.getNotificationss() != null) {
 
-				resp.setTotalRow(billList.getTotalCount());
+				resp.setTotalRow(list.getTotalCount());
 
-				for (Notifications bill : billList.getNotificationss()) {
+				for (Notifications e : list.getNotificationss()) {
 					
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
-					entry.put("id", bill.getId());
+					entry.put("id", e.getId());
 					
-					entry.put("customer", bill.getCustomer().getBilling().getFirstName()); 
+					entry.put("customer", e.getCustomer().getBilling().getFirstName()); 
 							
-					if (StringUtils.isBlank(bill.getMessage())) {
-						entry.put("messager", bill.getMessage());
-					} else {
-						entry.put("topic", bill.getTopic());
-					}
+					entry.put("message", e.getMessage());
+				
+					entry.put("topic", e.getTopic());
 
-					if (bill.getRead()>0) {
-						entry.put("read", bill.getRead());
-					}
-					
+					entry.put("read", e.getRead()!=null && e.getRead()>0);
+
+					entry.put("date", DateUtil.formatTimeDate(e.getAuditSection().getDateCreated()));
 					resp.addDataEntry(entry);
 
 				}

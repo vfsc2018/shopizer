@@ -3,6 +3,7 @@ package com.salesmanager.core.business.repositories.customer;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.salesmanager.core.model.customer.Customer;
@@ -39,6 +40,11 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, Custo
 	
 	@Query("select distinct c from Customer c join fetch c.merchantStore cm left join fetch c.defaultLanguage cl left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions left join fetch c.groups  where cm.id = ?1")
 	List<Customer> findByStore(int storeId);
+
+
+	@Modifying
+	@Query("update Customer c set c.os = ?1, c.fcmtoken = ?2 where c.nick = ?3")
+	void updateToken(String os, String token, String nick);
 	
 
 }

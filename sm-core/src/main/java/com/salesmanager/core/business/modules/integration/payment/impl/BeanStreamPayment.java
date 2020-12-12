@@ -314,7 +314,7 @@ public class BeanStreamPayment implements PaymentModule {
 			
 			ModuleConfig configs = module.getModuleConfigs().get("PROD");
 
-			if (bSandbox == true) {
+			if (bSandbox) {
 				configs = module.getModuleConfigs().get("TEST");
 			} 
 			

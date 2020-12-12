@@ -184,11 +184,11 @@ public class BillsController {
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
 
-					BigDecimal total = BigDecimal.valueOf(0);
+					// BigDecimal total = BigDecimal.valueOf(0);
 					if (bill.getItems() != null) {
 						for (BillItem item : bill.getItems()) {
 							if (item.getParentId()!=null && item.getParentId() > 0) {
-								total = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+								BigDecimal total = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
 								totalBill = totalBill.add(total);
 							}
 						}
@@ -325,51 +325,51 @@ public class BillsController {
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		Date date = null;
+		if (StringUtils.isNotBlank(dateExported)) {
+			try {
+				date = DateUtil.getDate(dateExported);
+			} catch (Exception e) {
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorMessage(e);
+			}
+		}
+		if(date!=null){
+			try {
+				Order order = orderService.getById(orderId);
+				// Call API
+				BillMaster bill = billService.getById(id);
+				bill.setOrder(order);
+				bill.setStatus(status);
+				bill.setDescription(description);
+				bill.setPhone(phone);
+				bill.setAddress(address);
+				bill.setDateExported(date);
 
-		try {
-			Order order = orderService.getById(orderId);
-			// Call API
-			BillMaster bill = billService.getById(id);
-			bill.setOrder(order);
-			bill.setStatus(status);
-			bill.setDescription(description);
-			bill.setPhone(phone);
-			bill.setAddress(address);
-			
-			if (dateExported != null && !dateExported.equals("")) {
-				try {
-					bill.setDateExported(DateUtil.getDate(dateExported));
-				} catch (Exception e) {
-					bill.setDateExported(new Date());
-					e.printStackTrace();
+				bill = billService.saveAnnouncement(bill);
+				
+				int j = 0;
+				for (Long itemId : itemIds) {
+					BillItem sub = new BillItem();
+					sub = billItemService.getById(itemId);
+					sub.setCode(code[j]);
+					sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
+					sub.setQuantity(quantity[j]);
+					sub.setPrice(oneTimeCharge[j]);
+					sub.setBillMaster(bill);
+					billItemService.saveBillItem(sub);
+					j++;
 				}
-			}
 
-			bill = billService.saveAnnouncement(bill);
-			BillItem sub = null;
-			int j = 0;
-			for (Long itemId : itemIds) {
-				sub = new BillItem();
-				sub = billItemService.getById(itemId);
-				sub.setCode(code[j]);
-				sub.setName(productService.getByCode(sub.getCode(), language)
-						.getProductDescription().getName());
-				sub.setQuantity(quantity[j]);
-				sub.setPrice(oneTimeCharge[j]);
-				sub.setBillMaster(bill);
-				billItemService.saveBillItem(sub);
-				j++;
+			} catch (Exception e) {
+				LOGGER.error("Error while paging products", e);
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorMessage(e);
 			}
-
-		} catch (Exception e) {
-			LOGGER.error("Error while paging products", e);
-			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-			resp.setErrorMessage(e);
 		}
 
 		String returnString = resp.toJSONString();
-		return new ResponseEntity<>(returnString, httpHeaders,
-				HttpStatus.OK);
+		return new ResponseEntity<>(returnString, httpHeaders,HttpStatus.OK);
 
 	}
 

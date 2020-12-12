@@ -1053,7 +1053,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
     
   }
 
-
   @Override
   public PersistableCustomer update(String userName, PersistableCustomer customer,
       MerchantStore store) {

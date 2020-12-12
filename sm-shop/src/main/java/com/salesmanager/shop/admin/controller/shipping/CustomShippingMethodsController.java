@@ -431,7 +431,7 @@ public class CustomShippingMethodsController {
 						List<String> countries = quote.getCountries();
 						if(countries!=null) {
 							for(String country : countries) {
-								Map<String,String> entry = new HashMap<>();
+								Map entry = new HashMap();
 								entry.put("regionCode", country);
 								entry.put("region", quote.getCustomRegionName());
 								entry.put("country", countriesMap.get(country).getName());
@@ -527,7 +527,7 @@ public class CustomShippingMethodsController {
 						List<CustomShippingQuoteWeightItem> quoteItems = quote.getQuoteItems();
 						if(quoteItems!=null) {
 							for(CustomShippingQuoteWeightItem quoteItem : quoteItems) {
-								Map<String,String> entry = new HashMap<>();
+								Map entry = new HashMap();
 								entry.put("price", priceUtil.getAdminFormatedAmountWithCurrency(store,quoteItem.getPrice()));
 								entry.put("weight", String.valueOf(quoteItem.getMaximumWeight()));
 								resp.addDataEntry(entry);

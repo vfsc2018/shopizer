@@ -20,7 +20,6 @@ public abstract class CacheManagerImpl implements CacheManager {
   @SuppressWarnings("rawtypes")
   private TreeCache treeCache = null;
 
-  @SuppressWarnings("unchecked")
   protected void init(String namedCache, String locationFolder) {
 
 

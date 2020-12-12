@@ -1,6 +1,8 @@
 package com.salesmanager.shop.constants;
 
 public class Constants {
+
+	private Constants(){}
 	
 	public final static String DEFAULT_TEMPLATE = "december";
 	

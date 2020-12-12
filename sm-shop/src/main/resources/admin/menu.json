@@ -10,7 +10,7 @@
 {
 "menu":{
 "code":"store", 
-"icon":"icon-file",
+"icon":"icon-gift",
 "url":"/admin/store/store.html", 
 "role":"STORE",
 "order":1,
@@ -250,7 +250,7 @@
 {
 "menu":{
 "code":"notifications",
-"icon":"icon-shopping-cart", 
+"icon":"icon-comment", 
 "url":"/admin/notifications/list.html", 
 "role":"ORDER",
 "order":8,
@@ -276,7 +276,7 @@
 {
 "menu":{
 "code":"bills",
-"icon":"icon-shopping-cart", 
+"icon":"icon-file", 
 "url":"/admin/bills/list.html", 
 "role":"ORDER",
 "order":10,

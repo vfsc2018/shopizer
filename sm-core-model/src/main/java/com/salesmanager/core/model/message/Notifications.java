@@ -66,10 +66,10 @@ public class Notifications extends SalesManagerEntity<Long, Notifications>  impl
 	private String message;	
 	
 	
-	@Column (length=300)
+	@Column (length=100)
 	private String topic;		
 	
-	private int read;	
+	private Integer read;	
 	
 	/***********************************************************************/
 
@@ -105,11 +105,11 @@ public class Notifications extends SalesManagerEntity<Long, Notifications>  impl
 		this.topic = topic;
 	}
 
-	public int getRead() {
+	public Integer getRead() {
 		return read;
 	}
 
-	public void setRead(int read) {
+	public void setRead(Integer read) {
 		this.read = read;
 	}
 

@@ -79,7 +79,7 @@ public class TaxClassController {
 				List<TaxClass> taxClasses = taxClassService.listByStore(store);
 				for(TaxClass tax : taxClasses) {
 					if(!tax.getCode().equals(TaxClass.DEFAULT_TAX_CLASS)) {
-						Map<String,String> entry = new HashMap<>();
+						Map entry = new HashMap();
 						entry.put("taxClassId", String.valueOf(tax.getId()));
 						entry.put("code", tax.getCode());
 						entry.put("name", tax.getTitle());

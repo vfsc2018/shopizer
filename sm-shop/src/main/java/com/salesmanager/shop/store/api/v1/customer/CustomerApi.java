@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salesmanager.core.business.repositories.customer.CustomerRepository;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
+import com.salesmanager.shop.store.security.NotificationRequest;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.Api;
@@ -45,6 +47,10 @@ public class CustomerApi {
 
   @Inject
   private CustomerFacade customerFacade;
+
+  @Inject
+  private CustomerRepository customerRepository;
+
 
   /** Create new customer for a given MerchantStore */
   @PostMapping("/private/customer")
@@ -227,6 +233,16 @@ public class CustomerApi {
       String userName = principal.getName();
       
       customerFacade.updateAddress(userName, customer, merchantStore);
+      return new ResponseEntity<>(HttpStatus.ACCEPTED);
+  }
+
+  @RequestMapping( value={"/private/customer/token"}, method=RequestMethod.PATCH, produces ={ "application/json" })
+  @ResponseStatus(HttpStatus.ACCEPTED)
+  public ResponseEntity<?> updateNotificationToken(@RequestBody @Valid NotificationRequest token, HttpServletRequest request) {
+      Principal principal = request.getUserPrincipal();
+      String username = principal.getName();
+      
+      customerRepository.updateToken(token.getOs(), token.getToken(), username);
       return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
   

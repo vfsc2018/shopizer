@@ -761,7 +761,7 @@ public class UserController {
 							return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 						}
 					
-						Map<String,String> entry = new HashMap<>();
+						Map entry = new HashMap();
 						entry.put(QUESTION_1, dbUser.getQuestion1());
 						entry.put(QUESTION_2, dbUser.getQuestion2());
 						entry.put(QUESTION_3, dbUser.getQuestion3());

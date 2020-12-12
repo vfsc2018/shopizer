@@ -92,6 +92,14 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@Column(name="CUSTOMER_NICK", length=96)
 	private String nick;
 
+	@JsonIgnore
+	@Column(name="FCMTOKEN", length=500)
+	private String fcmtoken;
+
+	@JsonIgnore
+	@Column(name="OS", length=100)
+	private String os;
+
 	@Column(name="CUSTOMER_COMPANY", length=100)
 	private String company;
 	
@@ -193,6 +201,22 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
+	}
+
+	public String getOs() {
+		return os;
+	}
+
+	public void setOs(String os) {
+		this.os = os;
+	}
+
+	public String getFcmtoken() {
+		return fcmtoken;
+	}
+
+	public void setFcmtoken(String fcmtoken) {
+		this.fcmtoken = fcmtoken;
 	}
 
 	public String getNick() {

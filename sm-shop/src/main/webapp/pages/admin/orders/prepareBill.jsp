@@ -678,10 +678,7 @@ function captureOrder(orderId){
             <div class="span8">
 	              <div class="form-actions">
 	              		
-	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
-	              		
-	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Save and send Bill"/></button>
-	              		
+	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>
 	              		
 	      		  </div>
       		</div> 
