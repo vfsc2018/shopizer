@@ -62,6 +62,14 @@ public class Notifications extends SalesManagerEntity<Long, Notifications>  impl
 	@JoinColumn(name = "ORDER_ID", updatable=false, nullable=true)
 	private Order order;
 	
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
 	@Column (length=300)
 	private String message;	
 	

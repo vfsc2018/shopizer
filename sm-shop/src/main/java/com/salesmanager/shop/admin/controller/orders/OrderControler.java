@@ -269,12 +269,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	public @ResponseBody ResponseEntity<String> buildBill(
 			@RequestParam("order.id") Long orderId,
 			@RequestParam("order.customerId") Long customerId, 
-			@RequestParam("sku") String[] skus,
-			@RequestParam("productName") String[] productNames,
-			@RequestParam("code") String[] code,
-			@RequestParam("unit") String[] unit,
-			@RequestParam("quantity") Double[] quantity,
-			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
+			@RequestParam(value="sku",required = false) String[] skus,
+			@RequestParam(value="productName", required = false) String[] productNames,
+			@RequestParam(value="code", required = false) String[] code,
+			@RequestParam(value="unit", required = false) String[] unit,
+			@RequestParam(value="quantity", required = false) Double[] quantity,
+			@RequestParam(value="oneTimeCharge", required = false) BigDecimal[] oneTimeCharge,
 			@RequestParam("orderHistoryComment") String orderHistoryComment,
 			@RequestParam("dateExported") String dateExported,
 			@RequestParam("order.status") String status,
@@ -321,8 +321,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	        
 			List<BillDetailToSend> details = new ArrayList<>();
+<<<<<<< HEAD
 			
 			int i = 0;
+=======
+			BillDetailToSend sub1 = null;
+			i = 0;
+			if(skus!=null){
+>>>>>>> 172fce342735cdbde71c8e6dece82ae907abb6b1
 			for(String sku1:skus){
 					
 				
@@ -342,6 +348,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 					}
 					details.add(sub1);
 				i++;
+			}
 			}
 			billToSend.setDetail(details);
 
@@ -397,6 +404,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	parentId = billItem.getId();
 	    	        	//INSERT ITEM SUB
 						int j = 0;
+<<<<<<< HEAD
 						for(String sku1:skus){
 								if(sku1.equals(combo.getSku())){
 									billItem = new BillItem();
@@ -414,8 +422,28 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 									billItemService.saveBillItem(billItem);
 								}
 							j++;
+=======
+						if(skus!=null){
+							for(String sku1:skus){
+									if(sku1.equals(combo.getSku())){
+										billItem = new BillItem();
+										billItem.setCode(code[j]);
+										Product pro = productService.getByCode(code[j], language);
+										billItem.setUnit(unit[j]);
+										billItem.setParentId(parentId);
+										billItem.setName(pro.getProductDescription().getName());
+										billItem.setQuantity(quantity[j]);
+										billItem.setPrice(oneTimeCharge[j]);
+										billItem.setBillMaster(billMaster);
+										
+										billItem.setQuantityOfParent(new Double(combo.getProductQuantity()));
+										
+										billItemService.saveBillItem(billItem);
+									}
+								j++;
+							}
+>>>>>>> 172fce342735cdbde71c8e6dece82ae907abb6b1
 						}
-	    	        	
 	    	        }
 	    	        
 	        		

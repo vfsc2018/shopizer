@@ -562,7 +562,7 @@ function captureOrder(orderId){
 																				<td style="width: 100px" >
 																					<Strong><c:out value="${entity.sku}" /></Strong>
 																				</td>
-																				<td style="width: 150px">
+																				<td style="">
 																					<Strong><c:out value="${entity.productName}" /></Strong>
 																				</td>
 																				
@@ -588,7 +588,7 @@ function captureOrder(orderId){
 																				<td style="width: 100px" >
 																					<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
 																				</td>
-																				<td style="width: 150px">
+																				<td style="">
 																					<c:out value="${subEntity.productName}" />
 																				</td>
 																				
