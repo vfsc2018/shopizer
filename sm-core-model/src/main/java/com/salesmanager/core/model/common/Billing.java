@@ -1,5 +1,7 @@
 package com.salesmanager.core.model.common;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -12,8 +14,9 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.zone.Zone;
 
 @Embeddable
-public class Billing {
-	
+public class Billing implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@NotEmpty
 	@Column (name ="BILLING_LAST_NAME", length=64, nullable=false)
 	private String lastName;

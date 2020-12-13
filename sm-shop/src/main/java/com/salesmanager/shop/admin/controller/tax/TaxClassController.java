@@ -273,7 +273,7 @@ public class TaxClassController {
 			return "redirect:/admin/tax/taxclass/list.html";
 		}
 		
-		if(taxClass==null || taxClass.getMerchantStore().getId()!=store.getId()) {
+		if(taxClass==null || taxClass.getMerchantStore().getId().equals(store.getId())) {
 			return "redirect:/admin/tax/taxclass/list.html";
 		}
 		
@@ -290,8 +290,7 @@ public class TaxClassController {
 
 
 	
-	private void setMenu(Model model, HttpServletRequest request)
-	throws Exception {
+	private void setMenu(Model model, HttpServletRequest request){
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();

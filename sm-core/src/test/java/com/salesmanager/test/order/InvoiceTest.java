@@ -630,7 +630,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 			 outputFile.delete();//remove temp file
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

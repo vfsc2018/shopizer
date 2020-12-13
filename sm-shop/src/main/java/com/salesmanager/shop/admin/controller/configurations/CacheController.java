@@ -104,7 +104,7 @@ public class CacheController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("cache");
+		Menu currentMenu = menus.get("cache");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

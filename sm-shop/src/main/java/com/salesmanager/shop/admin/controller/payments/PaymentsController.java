@@ -159,7 +159,7 @@ public class PaymentsController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("payment");
+		Menu currentMenu = menus.get("payment");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

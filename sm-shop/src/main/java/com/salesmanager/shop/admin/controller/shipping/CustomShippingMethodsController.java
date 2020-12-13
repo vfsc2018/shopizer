@@ -760,7 +760,7 @@ public class CustomShippingMethodsController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("shipping");
+		Menu currentMenu = menus.get("shipping");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

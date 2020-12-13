@@ -12,6 +12,7 @@ public class OrderList extends EntityList {
 	private static final long serialVersionUID = -6645927228659963628L;
 	private List<Order> orders;
 
+	@SuppressWarnings("unchecked")
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}

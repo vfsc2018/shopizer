@@ -1,5 +1,7 @@
 package com.salesmanager.core.model.common;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -11,13 +13,11 @@ import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.zone.Zone;
 
 @Embeddable
-public class Delivery {
-	
+public class Delivery implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Column (name ="DELIVERY_LAST_NAME", length=64)
 	private String lastName;
-
-
-
 
 	@Column (name ="DELIVERY_FIRST_NAME", length=64)
 	private String firstName;

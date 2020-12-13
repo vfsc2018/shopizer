@@ -267,7 +267,7 @@ public class CustomerOptionsSetController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("customer");
+		Menu currentMenu = menus.get("customer");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

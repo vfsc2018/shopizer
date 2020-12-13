@@ -17,6 +17,10 @@ public class SessionUtil
 
     }
 
+    public static HttpHeaders getGatewayHeader() {
+        return getBasicHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b");
+    }
+    
 	public static HttpHeaders getBasicHeader(final String token) {
         final HttpHeaders headers = new HttpHeaders(); 
         headers.setContentType(new MediaType("application", "json"));

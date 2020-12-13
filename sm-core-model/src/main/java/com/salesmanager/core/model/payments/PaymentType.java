@@ -5,12 +5,9 @@ public enum PaymentType {
 	
 	
 	CREDITCARD("creditcard"), FREE("free"), COD("cod"), MONEYORDER("moneyorder"), PAYPAL("paypal");
-	
-	
-	private String paymentType;
-	
+	private String type;
 	PaymentType(String type) {
-		paymentType = type;
+		this.type = type;
 	}
 	
     public static PaymentType fromString(String text) {

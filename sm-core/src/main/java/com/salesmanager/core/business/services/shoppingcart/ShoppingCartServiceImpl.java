@@ -183,7 +183,7 @@ public class ShoppingCartServiceImpl extends SalesManagerEntityServiceImpl<Long,
 				return shoppingCart;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return null;

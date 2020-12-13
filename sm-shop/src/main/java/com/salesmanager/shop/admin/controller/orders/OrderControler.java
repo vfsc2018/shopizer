@@ -199,7 +199,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    
 	    int i = 0 ;
 		try {
-			Order order = orderService.getById(orderId);
+			// Order order = orderService.getById(orderId);
 			//Call API
 			
 			
@@ -288,7 +288,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    Language language = (Language)request.getAttribute("LANGUAGE");
-	    int i = 0 ;
+	    
 		try {
 			Order dbOrder = orderService.getById(orderId);
 
@@ -321,13 +321,13 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	        
 			List<BillDetailToSend> details = new ArrayList<>();
-			BillDetailToSend sub1 = null;
-			i = 0;
+			
+			int i = 0;
 			for(String sku1:skus){
 					
 				
 				
-					sub1 = new BillDetailToSend();
+				BillDetailToSend sub1 = new BillDetailToSend();
 					
 					Product bean1111 = productService.getByCode(sku1, language);
 					sub1.setProductName(productNames[i]);
@@ -409,7 +409,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 									billItem.setPrice(oneTimeCharge[j]);
 									billItem.setBillMaster(billMaster);
 									
-									billItem.setQuantityOfParent(new Double(combo.getProductQuantity()));
+									billItem.setQuantityOfParent(Double.valueOf(combo.getProductQuantity()));
 									
 									billItemService.saveBillItem(billItem);
 								}
@@ -1102,7 +1102,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 		model.addAttribute("activeMenus",activeMenus);
 		
-		Menu currentMenu = (Menu)menus.get("order");
+		Menu currentMenu = menus.get("order");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

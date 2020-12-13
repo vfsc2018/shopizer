@@ -169,8 +169,7 @@ public class NotificationsController {
 	}
 	
 
-	private void setMenu(Model model, HttpServletRequest request)
-			throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();
@@ -178,8 +177,7 @@ public class NotificationsController {
 		activeMenus.put("order-list-notifications", "order-list-notifications");
 
 		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>) request
-				.getAttribute("MENUMAP");
+		Map<String, Menu> menus = (Map<String, Menu>) request.getAttribute("MENUMAP");
 
 		Menu currentMenu = menus.get("notifications");
 		model.addAttribute("currentMenu", currentMenu);

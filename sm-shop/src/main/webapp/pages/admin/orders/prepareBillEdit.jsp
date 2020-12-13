@@ -34,7 +34,6 @@ $(document).ready(function(){
 		    var price = $(this).parent().parent().find("#oneTimeCharge").val();
 		    caculatorPrice($(this).val(),price,this);
 		  });
-
 			  
 });
 

@@ -350,8 +350,7 @@ public class BillsController {
 				
 				int j = 0;
 				for (Long itemId : itemIds) {
-					BillItem sub = new BillItem();
-					sub = billItemService.getById(itemId);
+					BillItem sub = billItemService.getById(itemId);
 					sub.setCode(code[j]);
 					sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
 					sub.setQuantity(quantity[j]);
@@ -465,8 +464,7 @@ public class BillsController {
 
 	}
 
-	private void setMenu(Model model, HttpServletRequest request)
-			throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();

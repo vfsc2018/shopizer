@@ -81,7 +81,7 @@ public class SystemConfigurationController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("configuration");
+		Menu currentMenu = menus.get("configuration");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 	}
