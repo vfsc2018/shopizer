@@ -1,7 +1,10 @@
 package com.salesmanager.shop.admin.controller.notifications;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -30,10 +33,15 @@ import com.salesmanager.core.business.services.system.ModuleConfigurationService
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.message.Notifications;
+import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.catalog.product.relationship.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
@@ -166,6 +174,23 @@ public class NotificationsController {
 		String returnString = resp.toJSONString();
 
 		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
+	}
+
+
+
+	@RequestMapping(value = "/admin/notifications/viewNotifications.html", method = RequestMethod.GET)
+	public String viewNotificaiton(@RequestParam("id") Long id, Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		// display menu
+		setMenu(model, request);
+
+		Notifications bill = billService.getById(id);
+	
+		model.addAttribute("notification", bill);
+
+		return "admin-notifications-view";
 	}
 	
 

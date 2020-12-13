@@ -326,7 +326,7 @@
   		<put-attribute name="body" value="/pages/admin/bills/bill.jsp" /> 
   	</definition>
   	
-  	<definition name="admin-notifications-edit" template="/layout/admin/layout.jsp">
+  	<definition name="admin-notifications-view" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/notifications/notification.jsp" /> 
   	</definition>
   	
