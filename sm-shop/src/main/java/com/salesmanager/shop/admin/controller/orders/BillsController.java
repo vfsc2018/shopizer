@@ -308,10 +308,10 @@ public class BillsController {
 	@RequestMapping(value = "/admin/bills/buildBill.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> buildBill(
 			@RequestParam("id") Long id, @RequestParam("orderId") Long orderId,
-			@RequestParam("itemId") Long[] itemIds,
-			@RequestParam("code") String[] code,
-			@RequestParam("quantity") Double[] quantity,
-			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
+			@RequestParam(value="itemId",required = false) Long[] itemIds,
+			@RequestParam(value="code",required = false) String[] code,
+			@RequestParam(value="quantity",required = false) Double[] quantity,
+			@RequestParam(value="oneTimeCharge",required = false) BigDecimal[] oneTimeCharge,
 			@RequestParam("description") String description,
 			@RequestParam("dateExported") String dateExported,
 			@RequestParam("phone") String phone,
@@ -349,16 +349,18 @@ public class BillsController {
 				bill = billService.saveAnnouncement(bill);
 				
 				int j = 0;
-				for (Long itemId : itemIds) {
-					BillItem sub = new BillItem();
-					sub = billItemService.getById(itemId);
-					sub.setCode(code[j]);
-					sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
-					sub.setQuantity(quantity[j]);
-					sub.setPrice(oneTimeCharge[j]);
-					sub.setBillMaster(bill);
-					billItemService.saveBillItem(sub);
-					j++;
+				if(itemIds!=null){
+					for (Long itemId : itemIds) {
+						BillItem sub = new BillItem();
+						sub = billItemService.getById(itemId);
+						sub.setCode(code[j]);
+						sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
+						sub.setQuantity(quantity[j]);
+						sub.setPrice(oneTimeCharge[j]);
+						sub.setBillMaster(bill);
+						billItemService.saveBillItem(sub);
+						j++;
+					}
 				}
 
 			} catch (Exception e) {
