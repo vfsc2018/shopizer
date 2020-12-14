@@ -7,6 +7,7 @@
 
 
 	{title:"<s:message code="label.entity.id" text="Id"/>", name:"categoryId", canFilter:false},
+	{title:"<s:message code="label.entity.viewId" text="viewId"/>", name:"sortOrder", canFilter:false},
 	{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
 	{title:"<s:message code="label.entity.code" text="Code"/>", name:"code"},
 	{title:"<s:message code="label.entity.visible" text="Visible"/>", name:"visible"},

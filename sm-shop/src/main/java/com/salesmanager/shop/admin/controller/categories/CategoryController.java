@@ -209,6 +209,8 @@ public class CategoryController {
                 @SuppressWarnings("rawtypes")
                 Map entry = new HashMap();
                 entry.put("categoryId", category.getId());
+                entry.put("sortOrder", category.getSortOrder());
+                
                 CategoryDescription description = category.getDescriptions().iterator().next();
 
                 entry.put("name", description.getName());

@@ -427,7 +427,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                   </div>          
     
                   <div class="control-group">
-                        <label><s:message code="label.entity.order" text="Sort order"/></label>
+                        <label><s:message code="label.entity.viewId" text="viewId"/></label>
                         <div class="controls">
                                     <form:input id="order" cssClass="" path="product.sortOrder"/>
                                     <span class="help-inline"><form:errors path="product.sortOrder" cssClass="error" /></span>

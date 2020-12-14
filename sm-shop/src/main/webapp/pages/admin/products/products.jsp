@@ -113,6 +113,7 @@
     						              
     						              
 										{title:"<s:message code="label.entity.id" text="Id"/>", name:"productId", canFilter:false},
+										{title:"<s:message code="label.entity.viewId" text="viewId"/>", name:"sortOrder", canFilter:false},
 										{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
 										{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
 										{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"},

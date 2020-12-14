@@ -169,6 +169,7 @@ public class ProductsController {
 					
 					Map entry = new HashMap();
 					entry.put("productId", product.getId());
+					entry.put("sortOrder", product.getSortOrder());
 					
 					ProductDescription description = product.getDescriptions().iterator().next();
 					
