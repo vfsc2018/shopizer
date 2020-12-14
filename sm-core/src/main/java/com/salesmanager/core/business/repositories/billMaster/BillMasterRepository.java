@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.order.BillMaster;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 
 public interface BillMasterRepository extends JpaRepository<BillMaster, Long>,BillMasterRepositoryCustom {
@@ -17,6 +18,9 @@ public interface BillMasterRepository extends JpaRepository<BillMaster, Long>,Bi
 	
 	@Query("SELECT u FROM BillMaster u WHERE u.order.id=:pid Order by u.id DESC")
 	List<BillMaster> findByOrderId(@Param("pid") Long pid);
+
+	@Query("SELECT u FROM BillMaster u WHERE u.order.customerId = ?1 AND u.status IN ?2 Order by u.id LIMIT 1")
+	List<BillMaster> findLast(Long customerId, List<OrderStatus> status);
 	
 //	
 //

@@ -49,8 +49,8 @@ import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.payments.TransactionService;
-import com.salesmanager.core.business.services.reference.country.BillItemService;
-import com.salesmanager.core.business.services.reference.country.BillMasterService;
+import com.salesmanager.core.business.services.order.bill.BillItemService;
+import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
@@ -58,11 +58,11 @@ import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -375,7 +375,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						billMaster.setDateExported(new Date());
 					}
 	        		billMaster.setOrder(dbOrder);
-	        		billMaster.setStatus(status);
+	        		billMaster.setStatus(OrderStatus.valueOf(status));
 					billMaster.setDescription(orderHistoryComment);
 	        		
         			billMaster.setPhone(phone); // dbOrder.getBilling().getTelephone());

@@ -1,11 +1,9 @@
 package com.salesmanager.shop.store.api.v1.order;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,13 +25,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.reference.country.BillMasterService;
+import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -326,6 +325,40 @@ public class OrderApi {
 		return order;
 	}
 
+	@RequestMapping(value = { "/private/customer/order/confirm/{id}" }, method = RequestMethod.PATCH)
+	@ResponseStatus(HttpStatus.OK)
+	@ResponseBody
+		@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	public ReadableOrder getOrderMustConfirm(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+
+		Customer customer = customerService.getByNick(userName);
+
+		if (customer == null) {
+			response.sendError(401, "Error while performing checkout customer not authorized");
+			return null;
+		}
+
+		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+
+		if (order == null || !order.getCustomerId().equals(customer.getId())) {
+			response.sendError(404, "Order is null for id " + id);
+			return null;
+		}
+		List<OrderStatus> status = new ArrayList<>();
+		status.add(OrderStatus.PROCESSING);
+		status.add(OrderStatus.PROCESSED);
+		status.add(OrderStatus.DELIVERING);
+		status.add(OrderStatus.DELIVERED);
+
+		List<BillMaster> bills = billMasterService.findLast(customer.getId(), status);
+
+		return order;
+	}
 	/**
 	 * Action for performing a checkout on a given shopping cart
 	 *

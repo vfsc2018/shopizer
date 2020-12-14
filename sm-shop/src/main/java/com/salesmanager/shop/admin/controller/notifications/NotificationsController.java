@@ -33,8 +33,8 @@ import com.salesmanager.core.business.services.system.ModuleConfigurationService
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.message.Notifications;
-import com.salesmanager.core.model.catalog.product.BillMaster;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillMaster;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;

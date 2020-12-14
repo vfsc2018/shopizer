@@ -31,14 +31,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.order.OrderService;
-import com.salesmanager.core.business.services.reference.country.BillItemService;
-import com.salesmanager.core.business.services.reference.country.BillMasterService;
+import com.salesmanager.core.business.services.order.bill.BillItemService;
+import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.BillMaster;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillMaster;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
@@ -255,8 +255,7 @@ public class BillsController {
 
 			order.setId(dbOrder.getId());
 			if (dbOrder.getDatePurchased() != null) {
-				order.setDatePurchased(DateUtil.formatDate(dbOrder
-						.getDatePurchased()));
+				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
 			order.setOrder(dbOrder);
 			order.setBilling(dbOrder.getBilling());
@@ -308,10 +307,10 @@ public class BillsController {
 	@RequestMapping(value = "/admin/bills/buildBill.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> buildBill(
 			@RequestParam("id") Long id, @RequestParam("orderId") Long orderId,
-			@RequestParam("itemId") Long[] itemIds,
-			@RequestParam("code") String[] code,
-			@RequestParam("quantity") Double[] quantity,
-			@RequestParam("oneTimeCharge") BigDecimal[] oneTimeCharge,
+			@RequestParam(value="itemId",required = false) Long[] itemIds,
+			@RequestParam(value="code",required = false) String[] code,
+			@RequestParam(value="quantity",required = false) Double[] quantity,
+			@RequestParam(value="oneTimeCharge",required = false) BigDecimal[] oneTimeCharge,
 			@RequestParam("description") String description,
 			@RequestParam("dateExported") String dateExported,
 			@RequestParam("phone") String phone,
@@ -340,13 +339,14 @@ public class BillsController {
 				// Call API
 				BillMaster bill = billService.getById(id);
 				bill.setOrder(order);
-				bill.setStatus(status);
+				bill.setStatus(OrderStatus.valueOf(status));
 				bill.setDescription(description);
 				bill.setPhone(phone);
 				bill.setAddress(address);
 				bill.setDateExported(date);
 
 				bill = billService.saveAnnouncement(bill);
+				
 				
 				if(itemIds!=null){
 					int j = 0;

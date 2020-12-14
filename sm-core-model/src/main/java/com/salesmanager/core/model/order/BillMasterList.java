@@ -3,7 +3,7 @@ package com.salesmanager.core.model.order;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.common.EntityList;
 
 

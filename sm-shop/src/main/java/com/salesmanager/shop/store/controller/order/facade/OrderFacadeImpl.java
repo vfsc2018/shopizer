@@ -1133,6 +1133,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			throw new ServiceRuntimeException("Error while getting order [" + orderId + "]");
 		}
 		readableOrder.setComments(modelOrder.getComments());
+		readableOrder.setCustomerId(customerId);
 		return readableOrder;
 	}
 
