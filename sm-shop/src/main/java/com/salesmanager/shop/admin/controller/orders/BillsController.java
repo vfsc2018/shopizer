@@ -348,16 +348,18 @@ public class BillsController {
 
 				bill = billService.saveAnnouncement(bill);
 				
-				int j = 0;
-				for (Long itemId : itemIds) {
-					BillItem sub = billItemService.getById(itemId);
-					sub.setCode(code[j]);
-					sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
-					sub.setQuantity(quantity[j]);
-					sub.setPrice(oneTimeCharge[j]);
-					sub.setBillMaster(bill);
-					billItemService.saveBillItem(sub);
-					j++;
+				if(itemIds!=null){
+					int j = 0;
+					for (Long itemId : itemIds) {
+						BillItem sub = billItemService.getById(itemId);
+						sub.setCode(code[j]);
+						sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
+						sub.setQuantity(quantity[j]);
+						sub.setPrice(oneTimeCharge[j]);
+						sub.setBillMaster(bill);
+						billItemService.saveBillItem(sub);
+						j++;
+					}
 				}
 
 			} catch (Exception e) {

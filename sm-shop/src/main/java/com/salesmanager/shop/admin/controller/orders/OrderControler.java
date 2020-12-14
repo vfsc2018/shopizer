@@ -321,14 +321,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	        
 			List<BillDetailToSend> details = new ArrayList<>();
-<<<<<<< HEAD
 			
 			int i = 0;
-=======
-			BillDetailToSend sub1 = null;
-			i = 0;
 			if(skus!=null){
->>>>>>> 172fce342735cdbde71c8e6dece82ae907abb6b1
 			for(String sku1:skus){
 					
 				
@@ -404,25 +399,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	parentId = billItem.getId();
 	    	        	//INSERT ITEM SUB
 						int j = 0;
-<<<<<<< HEAD
-						for(String sku1:skus){
-								if(sku1.equals(combo.getSku())){
-									billItem = new BillItem();
-									billItem.setCode(code[j]);
-									Product pro = productService.getByCode(code[j], language);
-									billItem.setUnit(unit[j]);
-									billItem.setParentId(parentId);
-									billItem.setName(pro.getProductDescription().getName());
-									billItem.setQuantity(quantity[j]);
-									billItem.setPrice(oneTimeCharge[j]);
-									billItem.setBillMaster(billMaster);
-									
-									billItem.setQuantityOfParent(Double.valueOf(combo.getProductQuantity()));
-									
-									billItemService.saveBillItem(billItem);
-								}
-							j++;
-=======
 						if(skus!=null){
 							for(String sku1:skus){
 									if(sku1.equals(combo.getSku())){
@@ -442,7 +418,6 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 									}
 								j++;
 							}
->>>>>>> 172fce342735cdbde71c8e6dece82ae907abb6b1
 						}
 	    	        }
 	    	        

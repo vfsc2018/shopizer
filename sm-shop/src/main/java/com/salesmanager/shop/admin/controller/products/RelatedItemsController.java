@@ -36,6 +36,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,10 +123,14 @@ public class RelatedItemsController {
 		
 		List<Category> categories = categoryService.listByStore(store,language);
 		List<com.salesmanager.shop.admin.model.catalog.Category> readableCategories = CategoryUtils.readableCategoryListConverter(categories, language);
-        
+		
+		ProductDescription[] desc = product.getDescriptions().toArray( new ProductDescription[product.getDescriptions().size()] );
+		
+		product.setName(desc[0].getName());
 		
 		model.addAttribute("categories", readableCategories);
 		model.addAttribute("product", product);
+		
 		return ControllerConstants.Tiles.Product.relatedItems;
 		
 	}

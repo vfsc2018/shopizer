@@ -385,6 +385,8 @@ public class ProductPriceUtils {
 		 * 
 		 * Should be able to parse to Integer
 		 */
+
+		if(!amount.contains(".00")) amount = amount + ".00";
 		StringBuffer newAmount = new StringBuffer();
 		for (int i = 0; i < amount.length(); i++) {
 			if (amount.charAt(i) != DECIMALPOINT

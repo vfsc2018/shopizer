@@ -284,7 +284,6 @@ public class ShoppingCartFacadeImpl
 
         Set<ProductAvailability> availabilities = product.getAvailabilities();
         if(availabilities == null) {
-
         	throw new Exception( "Item with id " + product.getId() + " is not properly configured" );
 
         }
@@ -304,8 +303,7 @@ public class ShoppingCartFacadeImpl
         }
 
 
-		com.salesmanager.core.model.shoppingcart.ShoppingCartItem item = shoppingCartService
-				.populateShoppingCartItem(product);
+		com.salesmanager.core.model.shoppingcart.ShoppingCartItem item = shoppingCartService.populateShoppingCartItem(product);
 
 		item.setQuantity(shoppingCartItem.getQuantity());
 		item.setShoppingCart(cartModel);
@@ -936,19 +934,23 @@ public class ShoppingCartFacadeImpl
 
 	private ReadableShoppingCart modifyCart(ShoppingCart cartModel, PersistableShoppingCartItem item, MerchantStore store,
 			Language language) throws Exception {
-
-		com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemModel = createCartItem(cartModel, item, store);
+        boolean delete = item.getQuantity()==0;
+        long id = item.getProduct().longValue();
+        com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemModel = null;
+        if(!delete){
+            itemModel = createCartItem(cartModel, item, store);
+        }
 
         boolean itemModified = false;
         //check if existing product
         Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = cartModel.getLineItems();
 
        	if(!CollectionUtils.isEmpty(items)) {
-       		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
-       		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> removeItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+       		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems = new HashSet<>();
+       		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> removeItems = new HashSet<>();
 	    	for(com.salesmanager.core.model.shoppingcart.ShoppingCartItem anItem : items) {//take care of existing product
-	    		if(itemModel.getProduct().getId().longValue() == anItem.getProduct().getId().longValue()) {
-	    			if(item.getQuantity()==0) {
+	    		if(id == anItem.getProduct().getId().longValue()) {
+	    			if(delete) {
 	    			    //left aside item to be removed
 	    				//don't add it to new list of item
 	    				removeItems.add(anItem);
@@ -968,7 +970,7 @@ public class ShoppingCartFacadeImpl
 	    		}
 
 	    	}
-	    	if(!itemModified) {
+	    	if(!itemModified && !delete) {
 	    	  newItems.add(itemModel);
 	    	}
 	    	if(newItems.isEmpty()) {
