@@ -27,7 +27,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 	public List<CollectBill> collectBill(String billIds) {
 		StringBuffer sql = new StringBuffer("")
 			.append(" select code,name,unit,sum(quantity*quantityOfParent) as quantity,sum(quantity*quantityOfParent*price) as totalMoney from BillItem  ")
-			.append(" where billMaster.id in("+ billIds +") ")
+			.append(" where billMaster.id in("+ billIds +") and parentId>0 ")
 			.append(" group by code,unit,name ");
 
 		List<CollectBill> dataList = new ArrayList<>();

@@ -393,7 +393,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    	        	billItem.setName(combo.getProductName());
 	    	        	billItem.setPrice(combo.getOneTimeCharge());
 	    	        	billItem.setQuantity(Double.valueOf(combo.getProductQuantity()));
-	    	        	
+	    	        	billItem.setQuantityOfParent(Double.parseDouble("1"));
 	    	        	billItem.setParentId(0L);
 	    	        	billItem = billItemService.saveBillItem(billItem);
 	    	        	parentId = billItem.getId();

@@ -187,10 +187,10 @@ public class BillsController {
 					// BigDecimal total = BigDecimal.valueOf(0);
 					if (bill.getItems() != null) {
 						for (BillItem item : bill.getItems()) {
-							if (item.getParentId()!=null && item.getParentId() > 0) {
+							//if (item.getParentId()!=null && item.getParentId() > 0) {
 								BigDecimal total = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
 								totalBill = totalBill.add(total);
-							}
+							//}
 						}
 						ProductPriceUtils price = new ProductPriceUtils();
 						entry.put("total", price.getAdminFormatedAmount(store, totalBill));
