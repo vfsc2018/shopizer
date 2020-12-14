@@ -2,6 +2,7 @@ package com.salesmanager.core.business.services.order.bill;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindException;
 
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -18,7 +19,7 @@ public interface BillMasterService extends SalesManagerEntityService<Long, BillM
 	public Long countByOrderId(Long orderId);
 	public List<BillMaster> findByOrderId(Long pid);
 
-	public List<BillMaster> findLast(Long customerId, List<OrderStatus> status);
+	public List<BillMaster> findLast(Long customerId, List<OrderStatus> status, Pageable pageable);
 
 	BillMasterList getListByStore2(MerchantStore store, BillMasterCriteria criteria);
 	List<CollectBill> collectBill(String billIds);

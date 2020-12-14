@@ -871,7 +871,7 @@ public class ShoppingCartFacadeImpl
 	    }
 
         shoppingCartService.saveOrUpdate(cart);//update cart with remaining items
-	    if(items.size()>0 & returnCart) {
+	    if(items.size()>0 && returnCart) {
           return this.getByCode(cartCode, merchant, language);
         }
         return null;
@@ -1150,7 +1150,7 @@ public class ShoppingCartFacadeImpl
 	}
 
 	private String uniqueShoppingCartCode() {
-		return UUID.randomUUID().toString().replaceAll( "-", "" );
+		return UUID.randomUUID().toString().replace( "-", "" );
 	}
 
 	@Override

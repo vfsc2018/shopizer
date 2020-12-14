@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;
 
@@ -56,8 +58,8 @@ public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Long, B
 		return billMasterRepository.findByOrderId(pid);
 	}
 
-	public List<BillMaster> findLast(Long customerId, List<OrderStatus> status){
-		return billMasterRepository.findLast(customerId, status);
+	public List<BillMaster> findLast(Long customerId, List<OrderStatus> status, Pageable pageable){
+		return billMasterRepository.findLast(customerId, status, pageable);
 	}
 	
 }

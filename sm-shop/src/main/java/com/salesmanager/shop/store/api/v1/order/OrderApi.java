@@ -2,6 +2,8 @@ package com.salesmanager.shop.store.api.v1.order;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
@@ -14,7 +16,9 @@ import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -325,39 +329,56 @@ public class OrderApi {
 		return order;
 	}
 
-	@RequestMapping(value = { "/private/customer/order/confirm/{id}" }, method = RequestMethod.PATCH)
+	@RequestMapping(value = { "/private/customer/order/confirm" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 		@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public ReadableOrder getOrderMustConfirm(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public List<BillMaster> getOrderMustConfirm(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request) throws Exception {
 		Principal principal = request.getUserPrincipal();
 		String userName = principal.getName();
 
 		Customer customer = customerService.getByNick(userName);
 
 		if (customer == null) {
-			response.sendError(401, "Error while performing checkout customer not authorized");
-			return null;
+			return Collections.emptyList();
 		}
 
 		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
 
 		if (order == null || !order.getCustomerId().equals(customer.getId())) {
-			response.sendError(404, "Order is null for id " + id);
-			return null;
+			return Collections.emptyList();
 		}
-		List<OrderStatus> status = new ArrayList<>();
-		status.add(OrderStatus.PROCESSING);
-		status.add(OrderStatus.PROCESSED);
-		status.add(OrderStatus.DELIVERING);
-		status.add(OrderStatus.DELIVERED);
+		List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
 
-		List<BillMaster> bills = billMasterService.findLast(customer.getId(), status);
+		return billMasterService.findLast(customer.getId(), status, PageRequest.of(0, 1));
+	}
 
-		return order;
+	@RequestMapping(value = { "/private/customer/order/{id}/DONE/{billId}" }, method = RequestMethod.PATCH)
+	@ResponseBody
+		@ApiImplicitParams({ 
+			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+		public ResponseEntity<?> getOrderMustConfirm(@PathVariable final Long id, @PathVariable final Long billId, @ApiIgnore MerchantStore merchantStore,
+			@ApiIgnore Language language, HttpServletRequest request) throws Exception {
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+
+		Customer customer = customerService.getByNick(userName);
+
+		if (customer == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+
+		if (order == null || !order.getCustomerId().equals(customer.getId())) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	/**
 	 * Action for performing a checkout on a given shopping cart
