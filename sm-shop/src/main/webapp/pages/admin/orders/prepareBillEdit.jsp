@@ -34,7 +34,6 @@ $(document).ready(function(){
 		    var price = $(this).parent().parent().find("#oneTimeCharge").val();
 		    caculatorPrice($(this).val(),price,this);
 		  });
-
 			  
 });
 
@@ -640,7 +639,7 @@ function captureOrder(orderId){
 	              		
 	              			              		
 	              		<button  type="button" id="btBuildBill" class="btn btn-medium btn-primary" ><s:message code="button.label.build.bill" text="Send Bill"/></button>
-	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>
+	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="label.generic.print" text="Print"/></button>
 	      		  </div>
       		</div> 
             <br/>   

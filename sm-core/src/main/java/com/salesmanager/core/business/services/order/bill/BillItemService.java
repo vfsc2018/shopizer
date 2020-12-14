@@ -1,11 +1,11 @@
-package com.salesmanager.core.business.services.reference.country;
+package com.salesmanager.core.business.services.order.bill;
 
 import java.util.List;
 
 import org.springframework.validation.BindException;
 
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillItem;
 
 
 public interface BillItemService extends SalesManagerEntityService<Long, BillItem> {

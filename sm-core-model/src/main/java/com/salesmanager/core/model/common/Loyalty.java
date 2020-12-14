@@ -1,5 +1,6 @@
 package com.salesmanager.core.model.common;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,8 +10,9 @@ import javax.persistence.TemporalType;
 import com.salesmanager.core.utils.CloneUtils;
 
 @Embeddable
-public class Loyalty {
-	
+public class Loyalty implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "tierId")
 	private Long tierId;
 	@Column(name = "expiredtierId")

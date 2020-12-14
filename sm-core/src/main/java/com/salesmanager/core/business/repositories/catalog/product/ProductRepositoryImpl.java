@@ -37,13 +37,14 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	private EntityManager em;
 
 	@Override
+
 	public Product getById(Long productId, MerchantStore store) {
-		return get(productId, store);
+		return (Product)get(productId, store);
 	}
 
 	@Override
 	public Product getById(Long productId) {
-		return get(productId, null);
+		return (Product)get(productId, null);
 	}
 
 
@@ -65,9 +66,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 
 
+  	@SuppressWarnings("unchecked")
 	private Product get(Long productId, MerchantStore merchant) {
 
-		try {
 
 			Integer merchantId = null;
 			Integer parentId = null;
@@ -133,20 +134,13 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 				q.setParameter("mid", ids);
 			}
 
-			Product p = (Product) q.getSingleResult();
-
-			return p;
-
-		} catch (javax.persistence.NoResultException ers) {
-			return null;
-		}
+			return (Product)q.getSingleResult();
 
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public Product getByCode(String productCode, Language language) {
-
-		try {
 
 			StringBuilder qs = new StringBuilder();
 			qs.append("select distinct p from Product as p ");
@@ -188,13 +182,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			q.setParameter("code", productCode);
 			q.setParameter("lang", language.getId());
 
-			Product p = (Product) q.getSingleResult();
-
-			return p;
-
-		} catch (javax.persistence.NoResultException ers) {
-			return null;
-		}
+			return (Product)q.getSingleResult();
 
 	}
 
@@ -224,7 +212,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	
 	public Product getByFriendlyUrl(MerchantStore store, String seUrl, Locale locale) {
 
-		List<String> regionList = new ArrayList();
+		List<String> regionList = new ArrayList<>();
 		regionList.add("*");
 		regionList.add(locale.getCountry());
 
@@ -272,12 +260,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		Product p = null;
 
 		try {
-			List<Product> products = q.getResultList();
+			List<?> products = q.getResultList();
 			if (products.size() > 1) {
 				LOGGER.error("Found multiple products for list of criterias with main criteria [" + seUrl + "]");
 			}
 			// p = (Product)q.getSingleResult();
-			p = products.get(0);
+			p = (Product)products.get(0);
 		} catch (javax.persistence.NoResultException ignore) {
 
 		}
@@ -298,7 +286,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	@Override
 	public Product getProductForLocale(long productId, Language language, Locale locale) {
 
-		List regionList = new ArrayList();
+		List<String> regionList = new ArrayList<>();
 		regionList.add("*");
 		regionList.add(locale.getCountry());
 
@@ -347,7 +335,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		if (results.isEmpty())
 			return null;
 		else if (results.size() == 1)
-			return (Product) results.get(0);
+			return results.get(0);
 		throw new NonUniqueResultException();
 
 	}
@@ -474,7 +462,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	}
 
 	@Override
-	public List<Product> getProductsListByIds(Set<Long> productds) {
+	public List getProductsListByIds(Set<Long> productds) {
 		StringBuilder qs = new StringBuilder();
 		qs.append(productQuery());
 		qs.append("where p.id in (:pid) ");
@@ -494,7 +482,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	 * loaded, only the required objects so the listing page can display
 	 * everything related to all products
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+	@SuppressWarnings({ "rawtypes", "unchecked"})
 	private ProductList getProductsListForLocale(MerchantStore store, Set categoryIds, Language language, Locale locale,
 			int first, int max) {
 

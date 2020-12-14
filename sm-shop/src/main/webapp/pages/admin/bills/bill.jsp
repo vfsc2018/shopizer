@@ -635,9 +635,9 @@ function captureOrder(orderId){
             <br/>   
             <div class="span8">
 	              <div class="form-actions">
-	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.save" text="Save"/></button>
+	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>
 	              		
-	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="button.label.print.bill" text="Print Bill"/></button>	              		
+	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="label.generic.print" text="Print"/></button>	              		
 	      		  </div>
       		</div> 
             <br/>   

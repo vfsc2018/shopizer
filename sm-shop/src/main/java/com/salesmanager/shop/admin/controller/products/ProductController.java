@@ -613,10 +613,8 @@ public class ProductController {
 		//validate price
 		BigDecimal submitedPrice = null;
 		try {
-			//submitedPrice = priceUtil.getAmount(product.getProductPrice());
 			if(product.getProductPrice()!=null){
 				submitedPrice = priceUtil.getAmount(product.getProductPrice());
-				// submitedPrice = BigDecimal.valueOf(product.getProductPrice());
 			}
 		} catch (Exception e) {
 			ObjectError error = new ObjectError("productPrice",messages.getMessage("NotEmpty.product.productPrice", locale));
@@ -1364,7 +1362,7 @@ public class ProductController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("catalogue");
+		Menu currentMenu = menus.get("catalogue");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//	

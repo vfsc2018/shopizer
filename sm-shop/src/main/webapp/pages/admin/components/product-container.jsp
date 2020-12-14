@@ -121,67 +121,33 @@
     									autoFetchData: true,
     									preventDuplicates: true,
     									leaveScrollbarGap: false,
-    									canEdit:true,
+    									canEdit: ${showUnit},
     									editByCell: true,
-    									editEvent: "click",    									
-    									fields: [
+										editEvent: "click", 
+										<c:if test = "${showUnit}">  									
+    										fields: [
     												{title:"<s:message code="label.entity.id" text="Id"/>", name:"productId", canFilter:false},
     												{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
     												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
     												{title:"<s:message code="label.quantity" text="Quantity"/>", name:"quantity"},
     												{title:"<s:message code="label.unit" text="Unit"/>", name:"unit"},
-    												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"},
-    												// {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}  
-
-										],	
-										// createRecordComponent : function (record, colNum) {  
-        								// var fieldName = this.getFieldName(colNum);
-        								// if (fieldName == "buttonField") {  
-	           							// 	var button = isc.IButton.create({
-	                					// 		height: 18,
-	                					// 		width: 80,
-	               					 	// 		title: "<s:message code="label.entity.details" text="Details"/>",
-	                					// 		click : function () {
-	                    				// 			var url = '<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
-	                    				// 			<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
-	                    				// 					url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
-	                    				// 			</c:if>
-	                    				// 			window.location=url;
-	                					// 		}
-	            						// 	});
-	            						// }
-	            						// return button;  
-										// },				   
+    												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"}
+											],	
+										</c:if>	
+										<c:if test = "${!showUnit}">  
+											fields: [
+    												{title:"<s:message code="label.entity.id" text="Id"/>", name:"productId", canFilter:false},
+    												{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
+    												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
+    												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"}
+											],
+										</c:if>	
     									removeData: function () {
 											if (confirm('<s:message code="label.entity.remove.confirm" text="Do you really want to remove this record ?" />')) {
 												return this.Super("removeData", arguments);
 											}
 										}
-										// recordClick: function (viewer, record, recordNum, field, fieldNum, value, rawValue) {
-										// 	alert('hi there' + record.name + ':' + field  + ':' +  value  + ':' +  rawValue);
-										// },
 										
-								   		//recordDrop: function (dropRecords, targetRecord, index, sourceWidget) {
-											//alert(dropRecords.length);
-											//alert(dropRecords.length);
-											//var rolesNotAddedMessage = '';
-											//for (i=0; i < dropRecords.length; i++) {
-											//if (selectedRoleList.data.find("roleId", dropRecords.get(i).roleId)) {
-											//	rolesNotAddedMessage = rolesNotAddedMessage + "\'" + dropRecords.get(i).roleName + "\' is already in the list." + "<br>";
-											//}
-											//else {
-											//	this.Super("recordDrop", newDropRecords, targetRecord, index, sourceWidget);
-											//}
-											//if (rolesNotAddedMessage != ''){ 
-												//alert(dropRecords[i].productId);
-												
-												//isc.say(dropRecords.get(i).productId);
-											//}
-											//} 
-											
-											//this.Super("recordDrop", dropRecords, targetRecord, index, sourceWidget);
-
-									//}
 								});
 
 

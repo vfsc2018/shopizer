@@ -31,14 +31,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.order.OrderService;
-import com.salesmanager.core.business.services.reference.country.BillItemService;
-import com.salesmanager.core.business.services.reference.country.BillMasterService;
+import com.salesmanager.core.business.services.order.bill.BillItemService;
+import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.BillMaster;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillMaster;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
@@ -255,8 +255,7 @@ public class BillsController {
 
 			order.setId(dbOrder.getId());
 			if (dbOrder.getDatePurchased() != null) {
-				order.setDatePurchased(DateUtil.formatDate(dbOrder
-						.getDatePurchased()));
+				order.setDatePurchased(DateUtil.formatDate(dbOrder.getDatePurchased()));
 			}
 			order.setOrder(dbOrder);
 			order.setBilling(dbOrder.getBilling());
@@ -340,7 +339,7 @@ public class BillsController {
 				// Call API
 				BillMaster bill = billService.getById(id);
 				bill.setOrder(order);
-				bill.setStatus(status);
+				bill.setStatus(OrderStatus.valueOf(status));
 				bill.setDescription(description);
 				bill.setPhone(phone);
 				bill.setAddress(address);
@@ -348,11 +347,11 @@ public class BillsController {
 
 				bill = billService.saveAnnouncement(bill);
 				
-				int j = 0;
+				
 				if(itemIds!=null){
+					int j = 0;
 					for (Long itemId : itemIds) {
-						BillItem sub = new BillItem();
-						sub = billItemService.getById(itemId);
+						BillItem sub = billItemService.getById(itemId);
 						sub.setCode(code[j]);
 						sub.setName(productService.getByCode(sub.getCode(), language).getProductDescription().getName());
 						sub.setQuantity(quantity[j]);
@@ -467,8 +466,7 @@ public class BillsController {
 
 	}
 
-	private void setMenu(Model model, HttpServletRequest request)
-			throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();

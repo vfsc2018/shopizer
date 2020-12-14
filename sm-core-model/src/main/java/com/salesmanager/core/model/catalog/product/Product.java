@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -169,6 +170,9 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU")
 	private String sku;
+
+	@Transient
+	private String name;
 	
 	/**
 	 * External system reference SKU/ID
@@ -309,9 +313,15 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	public String getSku() {
 		return sku;
 	}
-
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set<ProductDescription> getDescriptions() {

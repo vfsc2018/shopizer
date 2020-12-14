@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -236,8 +237,9 @@ public class CustomerApi {
       return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
 
-  @RequestMapping( value={"/private/customer/token"}, method=RequestMethod.PATCH, produces ={ "application/json" })
+  @RequestMapping( value={"/private/customer/token"}, method=RequestMethod.PUT, produces ={ "application/json" })
   @ResponseStatus(HttpStatus.ACCEPTED)
+  @Transactional
   public ResponseEntity<?> updateNotificationToken(@RequestBody @Valid NotificationRequest token, HttpServletRequest request) {
       Principal principal = request.getUserPrincipal();
       String username = principal.getName();

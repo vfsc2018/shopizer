@@ -44,7 +44,7 @@ public class ContentFolderTest extends com.salesmanager.test.common.AbstractSale
 			//add new folder to newFolder
 		
 		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

@@ -49,8 +49,8 @@ import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.orderproduct.OrderProductDownloadService;
 import com.salesmanager.core.business.services.payments.PaymentService;
 import com.salesmanager.core.business.services.payments.TransactionService;
-import com.salesmanager.core.business.services.reference.country.BillItemService;
-import com.salesmanager.core.business.services.reference.country.BillMasterService;
+import com.salesmanager.core.business.services.order.bill.BillItemService;
+import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.reference.country.CountryService;
 import com.salesmanager.core.business.services.reference.zone.ZoneService;
 import com.salesmanager.core.business.services.system.EmailService;
@@ -58,11 +58,11 @@ import com.salesmanager.core.business.services.user.UserService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.price.ProductPrice;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.catalog.product.relationship.ProductRelationship;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -199,7 +199,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	    
 	    int i = 0 ;
 		try {
-			Order order = orderService.getById(orderId);
+			// Order order = orderService.getById(orderId);
 			//Call API
 			
 			
@@ -288,7 +288,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    Language language = (Language)request.getAttribute("LANGUAGE");
-	    int i = 0 ;
+	    
 		try {
 			Order dbOrder = orderService.getById(orderId);
 
@@ -321,14 +321,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	        
 			List<BillDetailToSend> details = new ArrayList<>();
-			BillDetailToSend sub1 = null;
-			i = 0;
+			
+			int i = 0;
 			if(skus!=null){
 			for(String sku1:skus){
 					
 				
 				
-					sub1 = new BillDetailToSend();
+				BillDetailToSend sub1 = new BillDetailToSend();
 					
 					Product bean1111 = productService.getByCode(sku1, language);
 					sub1.setProductName(productNames[i]);
@@ -375,7 +375,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						billMaster.setDateExported(new Date());
 					}
 	        		billMaster.setOrder(dbOrder);
-	        		billMaster.setStatus(status);
+	        		billMaster.setStatus(OrderStatus.valueOf(status));
 					billMaster.setDescription(orderHistoryComment);
 	        		
         			billMaster.setPhone(phone); // dbOrder.getBilling().getTelephone());
@@ -1105,7 +1105,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 		model.addAttribute("activeMenus",activeMenus);
 		
-		Menu currentMenu = (Menu)menus.get("order");
+		Menu currentMenu = menus.get("order");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

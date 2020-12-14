@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.services.reference.country;
+package com.salesmanager.core.business.services.order.bill;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.springframework.validation.BindException;
 
 import com.salesmanager.core.business.repositories.reference.country.BillItemRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillItem;
 
 @Service("billItemService")
 public class BillItemServiceImpl extends SalesManagerEntityServiceImpl<Long, BillItem> implements BillItemService {
@@ -31,10 +31,7 @@ public class BillItemServiceImpl extends SalesManagerEntityServiceImpl<Long, Bil
 	
 	
 	public BillItem saveBillItem(BillItem form) throws BindException {
-		BillItem entity =new BillItem();
-			
-		entity = billItemRepository.saveAndFlush(form);
-		return entity;
+		return billItemRepository.saveAndFlush(form);
 	}
 	
 }

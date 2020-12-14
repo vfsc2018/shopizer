@@ -133,7 +133,7 @@ public class ShoppingCartModelPopulator
                             Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> attributes =
                                 dbItem.getAttributes();
                             Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> newAttributes =
-                                new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem>();
+                                new HashSet<>();
                             List<ShoppingCartAttribute> cartAttributes = item.getShoppingCartAttributes();
                             if ( !CollectionUtils.isEmpty( cartAttributes ) )
                             {
@@ -166,7 +166,7 @@ public class ShoppingCartModelPopulator
                         cartMdel.getLineItems();
                     if ( lineItems == null )
                     {
-                        lineItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+                        lineItems = new HashSet<>();
                         cartMdel.setLineItems( lineItems );
                     }
                     lineItems.add( cartItem );
@@ -216,8 +216,6 @@ public class ShoppingCartModelPopulator
         List<ShoppingCartAttribute> cartAttributes = shoppingCartItem.getShoppingCartAttributes();
         if ( !CollectionUtils.isEmpty( cartAttributes ) )
         {
-            Set<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem> newAttributes =
-                new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem>();
             for ( ShoppingCartAttribute attribute : cartAttributes )
             {
                 ProductAttribute productAttribute = productAttributeService.getById( attribute.getAttributeId() );
@@ -225,8 +223,7 @@ public class ShoppingCartModelPopulator
                     && productAttribute.getProduct().getId().longValue() == product.getId().longValue() )
                 {
                     com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem attributeItem =
-                        new com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem( item,
-                                                                                                         productAttribute );
+                        new com.salesmanager.core.model.shoppingcart.ShoppingCartAttributeItem( item, productAttribute );
                     if ( attribute.getAttributeId() > 0 )
                     {
                         attributeItem.setId( attribute.getId() );

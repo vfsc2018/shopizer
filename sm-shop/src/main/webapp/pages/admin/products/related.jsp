@@ -4,13 +4,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <%@ page session="false" %>				
-				
-<script>
-	
-
-	
-</script>
-
 
 <div class="tabbable">
 
@@ -37,7 +30,9 @@
 				
 				<h3><s:message code="label.product.related.title" text="Related items" /></h3> 
 				<br/>
-				<strong><c:out value="${product.sku}"/></strong>			
+				<strong><s:message code="label.productedit.productname" text="Product name" />: <c:out value="${product.name}" /></strong>	
+				<br/>
+				<strong><s:message code="label.product.sku" text="SKU" />: <c:out value="${product.sku}"/></strong>			
 				
 					
 				<br/>
@@ -59,6 +54,7 @@
 				 <c:set var="gridHeader" value="/pages/admin/products/featured-gridHeader.jsp" scope="request"/>
 				 <c:set var="gridHeaderContainer" value="/pages/admin/products/featured-gridHeader.jsp" scope="request"/>
 				 <c:set var="canRemoveEntry" value="true" scope="request"/>
+				 <c:set var="showUnit" value="true" scope="request"/>
 
             	 <jsp:include page="/pages/admin/components/product-container.jsp"></jsp:include> 
 				 <!-- End listing grid include -->

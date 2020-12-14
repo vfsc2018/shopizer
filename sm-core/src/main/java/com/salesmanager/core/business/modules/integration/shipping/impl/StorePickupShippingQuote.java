@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import org.apache.commons.lang3.StringUtils;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.Validate;
-
-import com.salesmanager.core.business.services.system.MerchantConfigurationService;
 import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -63,23 +61,22 @@ public class StorePickupShippingQuote implements ShippingQuoteModule, ShippingQu
 			errorFields = new ArrayList<>();
 			errorFields.add("price");
 		} else {
-			//validate it can be parsed to BigDecimal
-			try {
-				BigDecimal price = new BigDecimal(keys.get("price"));
-			} catch(Exception e) {
-				errorFields = new ArrayList<>();
-				errorFields.add("price");
+			String price = keys.get("price");
+			if(price!=null){
+				try {
+					new BigDecimal(price);
+				} catch(Exception e) {
+					errorFields = new ArrayList<>();
+					errorFields.add("price");
+				}
 			}
 		}
 		
-		//if(keys==null || StringUtils.isBlank(keys.get("note"))) {
-		if(keys==null) {
+		if(keys==null || StringUtils.isBlank(keys.get("note"))) {
 			errorFields = new ArrayList<>();
 			errorFields.add("note");
 		}
 
-
-		
 		if(errorFields!=null) {
 			IntegrationException ex = new IntegrationException(IntegrationException.ERROR_VALIDATION_SAVE);
 			ex.setErrorFields(errorFields);

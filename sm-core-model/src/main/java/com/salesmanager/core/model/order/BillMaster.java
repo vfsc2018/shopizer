@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.catalog.product;
+package com.salesmanager.core.model.order;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,12 +26,13 @@ import org.hibernate.annotations.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 
 @Entity
@@ -73,9 +76,12 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 	public void setDateExported(Date dateExported) {
 		this.dateExported = dateExported;
 	}
+	@Column (name ="STATUS")
+	@Enumerated(value = EnumType.STRING)
+	private OrderStatus status;
 
-	@Column (name="STATUS" , length=100)
-	private String status;	
+	// @Column (name="STATUS" , length=100)
+	// private String status;	
 	
 	
 	@Column (length=20)
@@ -92,13 +98,9 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 		return phone;
 	}
 
-
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-
 
 	public String getAddress() {
 		return address;
@@ -112,13 +114,13 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 
 
 
-	public String getStatus() {
+	public OrderStatus getStatus() {
 		return status;
 	}
 
 
 
-	public void setStatus(String status) {
+	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 
@@ -129,15 +131,16 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 	}
 
 
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "billMaster")
 	@OrderBy(clause = "ID asc")
 	private Set<BillItem> items = new HashSet<>();
 
+	@JsonIgnore
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt = new Date();
 

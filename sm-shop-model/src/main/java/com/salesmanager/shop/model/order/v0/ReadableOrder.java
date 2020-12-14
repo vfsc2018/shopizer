@@ -1,6 +1,7 @@
 package com.salesmanager.shop.model.order.v0;
 
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.reference.currency.Currency;
 import com.salesmanager.shop.model.customer.ReadableBilling;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
@@ -13,7 +14,7 @@ import com.salesmanager.shop.model.store.ReadableMerchantStore;
 
 import java.util.List;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReadableOrder extends OrderEntity {
 
 	/**

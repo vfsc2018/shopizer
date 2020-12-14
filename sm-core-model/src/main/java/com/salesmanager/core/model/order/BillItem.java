@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.catalog.product.relationship;
+package com.salesmanager.core.model.order;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,6 @@ import javax.persistence.TableGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.catalog.product.BillMaster;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;

@@ -98,7 +98,7 @@ public class TaxServiceImpl
 
 		List<ShoppingCartItem> items = orderSummary.getProducts();
 		
-		List<TaxItem> taxLines = new ArrayList<TaxItem>();
+		List<TaxItem> taxLines = new ArrayList<>();
 		
 		if(items==null) {
 			return taxLines;
@@ -116,21 +116,21 @@ public class TaxServiceImpl
 		String stateProvince = customer.getBilling().getState();
 		
 		TaxBasisCalculation taxBasisCalculation = taxConfiguration.getTaxBasisCalculation();
-		if(taxBasisCalculation.name().equals(TaxBasisCalculation.SHIPPINGADDRESS)){
+		if(taxBasisCalculation==TaxBasisCalculation.SHIPPINGADDRESS){
 			Delivery shipping = customer.getDelivery();
 			if(shipping!=null) {
 				country = shipping.getCountry();
 				zone = shipping.getZone();
 				stateProvince = shipping.getState();
 			}
-		} else if(taxBasisCalculation.name().equals(TaxBasisCalculation.BILLINGADDRESS)){
+		} else if(taxBasisCalculation==(TaxBasisCalculation.BILLINGADDRESS)){
 			Billing billing = customer.getBilling();
 			if(billing!=null) {
 				country = billing.getCountry();
 				zone = billing.getZone();
 				stateProvince = billing.getState();
 			}
-		} else if(taxBasisCalculation.name().equals(TaxBasisCalculation.STOREADDRESS)){
+		} else if(taxBasisCalculation==(TaxBasisCalculation.STOREADDRESS)){
 			country = store.getCountry();
 			zone = store.getZone();
 			stateProvince = store.getStorestateprovince();
@@ -169,10 +169,10 @@ public class TaxServiceImpl
 			return null;
 		}
 		
-		Map<Long,TaxClass> taxClasses =  new HashMap<Long,TaxClass>();
+		Map<Long,TaxClass> taxClasses =  new HashMap<>();
 			
 		//put items in a map by tax class id
-		Map<Long,BigDecimal> taxClassAmountMap = new HashMap<Long,BigDecimal>();
+		Map<Long,BigDecimal> taxClassAmountMap = new HashMap<>();
 		for(ShoppingCartItem item : items) {
 				
 				BigDecimal itemPrice = item.getItemPrice();
@@ -220,7 +220,7 @@ public class TaxServiceImpl
 		//}
 		
 		
-		List<TaxItem> taxItems = new ArrayList<TaxItem>();
+		List<TaxItem> taxItems = new ArrayList<>();
 		
 		//iterate through the tax class and get appropriate rates
 		for(Long taxClassId : taxClassAmountMap.keySet()) {
@@ -233,7 +233,7 @@ public class TaxServiceImpl
 				taxRates = taxRateService.listByCountryZoneAndTaxClass(country, zone, taxClasses.get(taxClassId), store, language);
 			}
 			
-			if(taxRates==null || taxRates.size()==0){
+			if(taxRates==null || taxRates.isEmpty()){
 				continue;
 			}
 			BigDecimal taxedItemValue = null;
@@ -268,7 +268,7 @@ public class TaxServiceImpl
 		
 		
 		
-		Map<String,TaxItem> taxItemsMap = new TreeMap<String,TaxItem>();
+		Map<String,TaxItem> taxItemsMap = new TreeMap<>();
 		//consolidate tax rates of same code
 		for(TaxItem taxItem : taxItems) {
 			
@@ -277,9 +277,9 @@ public class TaxServiceImpl
 				taxItemsMap.put(taxRate.getCode(), taxItem);
 			} 
 			
-			TaxItem item = taxItemsMap.get(taxRate.getCode());
-			BigDecimal amount = item.getItemPrice();
-			amount = amount.add(taxItem.getItemPrice());			
+			// TaxItem item = taxItemsMap.get(taxRate.getCode());
+			// BigDecimal amount = item.getItemPrice();
+			// amount = amount.add(taxItem.getItemPrice());			
 			
 		}
 		
@@ -293,7 +293,7 @@ public class TaxServiceImpl
 		
 		
 		@SuppressWarnings("unchecked")
-		List<TaxItem> list = new ArrayList<TaxItem>(values);
+		List<TaxItem> list = new ArrayList<>(values);
 		return list;
 
 	}

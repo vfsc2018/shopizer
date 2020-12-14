@@ -142,7 +142,7 @@ public class UserController {
 				
 				if(!UserUtils.userInGroup(user, Constants.GROUP_SUPERADMIN)) {
 					
-					if(!currentUser.equals(user.getAdminName())){
+					if(!currentUser.getAdminName().equals(user.getAdminName())){
 
 						@SuppressWarnings("rawtypes")
 						Map entry = new HashMap();
@@ -302,7 +302,7 @@ public class UserController {
 
 	}
 	
-	private void populateUserObjects(User user, MerchantStore store, Model model, Locale locale) throws Exception {
+	private void populateUserObjects(MerchantStore store, Model model, Locale locale) throws ServiceException {
 		
 		//get groups
 		List<Group> groups = new ArrayList<>();
@@ -314,9 +314,7 @@ public class UserController {
 		}
 		
 		
-		List<MerchantStore> stores = new ArrayList<>();
-		//stores.add(store);
-		stores = merchantStoreService.list();
+		List<MerchantStore> stores = merchantStoreService.list();
 		
 		
 		//questions
@@ -394,7 +392,7 @@ public class UserController {
 			user.setAdminPassword("TRANSIENT");
 		}
 		
-		this.populateUserObjects(user, store, model, locale);
+		this.populateUserObjects(store, model, locale);
 		
 
 		model.addAttribute("user", user);
@@ -430,7 +428,7 @@ public class UserController {
 				try {
 					Long lid = Long.parseLong(id);
 					
-					if(user.getAdminName().equals(code) && user.getId()==lid) {
+					if(user.getAdminName().equals(code) && user.getId().equals(lid)) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 						String returnString =  resp.toJSONString();
 						return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
@@ -480,16 +478,13 @@ public class UserController {
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
 		
-		this.populateUserObjects(user, store, model, locale);
+		this.populateUserObjects(store, model, locale);
 		
 		Language language = user.getDefaultLanguage();
 		
 		Language l = languageService.getById(language.getId());
 		
 		user.setDefaultLanguage(l);
-		
-		Locale userLocale = LocaleUtils.getLocale(l);
-		
 		
 		
 		User dbUser = null;
@@ -526,9 +521,10 @@ public class UserController {
 			result.addError(error);
 		}
 		
-		if(user.getQuestion1().equals(user.getQuestion2()) || user.getQuestion1().equals(user.getQuestion3())
-				|| user.getQuestion2().equals(user.getQuestion1()) || user.getQuestion1().equals(user.getQuestion3())
-				|| user.getQuestion3().equals(user.getQuestion1()) || user.getQuestion1().equals(user.getQuestion2()))
+		if(user.getQuestion1().equals(user.getQuestion2()) 
+			|| user.getQuestion1().equals(user.getQuestion3())
+			|| user.getQuestion2().equals(user.getQuestion1()) 
+			|| user.getQuestion3().equals(user.getQuestion1()))
 		
 		
 		{
@@ -580,7 +576,7 @@ public class UserController {
 		if(user.getId()!=null && user.getId()>0) {
 			user.setAdminPassword(dbUser.getAdminPassword());
 		} else {
-			String encoded = passwordEncoder.encode(user.getAdminPassword());
+			String encoded = passwordEncoder.encode(decodedPassword);
 			user.setAdminPassword(encoded);
 		}
 		
@@ -590,14 +586,14 @@ public class UserController {
 			//save or update user
 			userService.saveOrUpdate(user);
 			
-			try {
+			// try {
 
 				//creation of a user, send an email
-				String userName = user.getFirstName();
-				if(StringUtils.isBlank(userName)) {
-					userName = user.getAdminName();
-				}
-				String[] userNameArg = {userName};
+				// String userName = user.getFirstName();
+				// if(StringUtils.isBlank(userName)) {
+				// 	userName = user.getAdminName();
+				// }
+				// String[] userNameArg = new String[]{userName};
 				
 				
 				// Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
@@ -625,13 +621,14 @@ public class UserController {
 				
 				// emailService.sendHtmlEmail(store, email);
 			
-			} catch (Exception e) {
-				LOGGER.error("Cannot send email to user",e);
-			}
+			// } catch (Exception e) {
+			// 	LOGGER.error("Cannot send email to user",e);
+			// }
 			
-		} else {
-			//save or update user
-			userService.saveOrUpdate(user);
+		// } else {
+		// 	//save or update user
+		// 	userService.saveOrUpdate(user);
+		// }
 		}
 
 		model.addAttribute("success","success");
@@ -722,7 +719,7 @@ public class UserController {
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
 		
-		Menu currentMenu = (Menu)menus.get("profile");
+		Menu currentMenu = menus.get("profile");
 		model.addAttribute("currentMenu",currentMenu);
 		model.addAttribute("activeMenus",activeMenus);
 		//

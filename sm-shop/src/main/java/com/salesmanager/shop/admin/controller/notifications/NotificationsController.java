@@ -33,8 +33,8 @@ import com.salesmanager.core.business.services.system.ModuleConfigurationService
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.message.Notifications;
-import com.salesmanager.core.model.catalog.product.BillMaster;
-import com.salesmanager.core.model.catalog.product.relationship.BillItem;
+import com.salesmanager.core.model.order.BillMaster;
+import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;
@@ -194,8 +194,7 @@ public class NotificationsController {
 	}
 	
 
-	private void setMenu(Model model, HttpServletRequest request)
-			throws Exception {
+	private void setMenu(Model model, HttpServletRequest request) {
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();
@@ -203,8 +202,7 @@ public class NotificationsController {
 		activeMenus.put("order-list-notifications", "order-list-notifications");
 
 		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>) request
-				.getAttribute("MENUMAP");
+		Map<String, Menu> menus = (Map<String, Menu>) request.getAttribute("MENUMAP");
 
 		Menu currentMenu = menus.get("notifications");
 		model.addAttribute("currentMenu", currentMenu);

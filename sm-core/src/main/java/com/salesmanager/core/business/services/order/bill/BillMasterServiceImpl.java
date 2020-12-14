@@ -1,19 +1,22 @@
-package com.salesmanager.core.business.services.reference.country;
+package com.salesmanager.core.business.services.order.bill;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;
 
 import com.salesmanager.core.business.repositories.billMaster.BillMasterRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.model.catalog.product.BillMaster;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
 import com.salesmanager.core.model.order.CollectBill;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 @Service("billMasterService")
 public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Long, BillMaster> implements BillMasterService {
@@ -53,6 +56,10 @@ public class BillMasterServiceImpl extends SalesManagerEntityServiceImpl<Long, B
 	
 	public List<BillMaster> findByOrderId(Long pid){
 		return billMasterRepository.findByOrderId(pid);
+	}
+
+	public List<BillMaster> findLast(Long customerId, List<OrderStatus> status, Pageable pageable){
+		return billMasterRepository.findLast(customerId, status, pageable);
 	}
 	
 }

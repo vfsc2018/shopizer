@@ -49,6 +49,7 @@
 				 <c:set var="gridHeader" value="/pages/admin/products/featured-gridHeader.jsp" scope="request"/>
 				 <c:set var="gridHeaderContainer" value="/pages/admin/products/product-gridHeader.jsp" scope="request"/>
 				 <c:set var="canRemoveEntry" value="true" scope="request"/>
+				 <c:set var="showUnit" value="false" scope="request"/>
 
             	 <jsp:include page="/pages/admin/components/product-container.jsp"></jsp:include> 
 				 <!-- End listing grid include -->

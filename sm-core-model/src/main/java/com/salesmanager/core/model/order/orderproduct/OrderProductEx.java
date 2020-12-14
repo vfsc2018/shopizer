@@ -48,7 +48,7 @@ public class OrderProductEx implements Serializable {
 	private Integer oneTimeCharge;
 	private Currency currency;
 	private Double total;
-	private String status;
+	private OrderStatus status;
 	private String unit;
 	public String getUnit() {
 		return unit;
@@ -92,10 +92,10 @@ public class OrderProductEx implements Serializable {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getStatus() {
+	public OrderStatus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
 	private List<OrderProductEx> relationships = new ArrayList<>();

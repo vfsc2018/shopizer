@@ -27,7 +27,7 @@ public class VaultConfiguration  { //extends AbstractVaultConfiguration {
 			String uri = (String) props.get("vault.uri");
 			System.out.println(uri);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return new VaultEndpoint();

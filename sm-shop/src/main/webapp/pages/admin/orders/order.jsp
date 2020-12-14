@@ -266,7 +266,7 @@ function captureOrder(orderId){
 			}else if(this.value=='CANCELED'){
 				comment = 'sms: Xin loi Quy khach, VfSC chua sap xep duoc ke hoach giao don hang #<c:out value="${order.order.id}"/>. Chung toi se lien he quy khach trong thoi gian som nhat';
 			}
-			$("#orderComment").html(comment);
+			$("#orderComment").text(comment);
 		}); 
 
 		$("#refundAction").click(function() {

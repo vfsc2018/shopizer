@@ -76,7 +76,7 @@ public class GroupsController {
 		List<String> groups = new ArrayList<>();
 
 		for(GroupType t : groupTypes) {
-			if(GroupType.ADMIN.name() != t.name()) {
+			if(GroupType.ADMIN==t) {
 				groups.add(t.name());
 			}
 		}
@@ -169,7 +169,7 @@ public class GroupsController {
 		List<String> groups = new ArrayList<>();
 
 		for(GroupType t : groupTypes) {
-			if(GroupType.ADMIN.name() != t.name()) {
+			if(GroupType.ADMIN.name().equals(t.name())) {
 				groups.add(t.name());
 			}
 		}
@@ -216,7 +216,7 @@ public class GroupsController {
 		List<String> groups = new ArrayList<>();
 
 		for(GroupType t : groupTypes) {
-			if(GroupType.ADMIN.name() != t.name()) {
+			if(GroupType.ADMIN.name().equals(t.name())) {
 				groups.add(t.name());
 			}
 		}
@@ -293,8 +293,7 @@ public class GroupsController {
 	}
 	
 
-	private void setMenu(Model model, HttpServletRequest request)
-			throws Exception {
+	private void setMenu(Model model, HttpServletRequest request){
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();

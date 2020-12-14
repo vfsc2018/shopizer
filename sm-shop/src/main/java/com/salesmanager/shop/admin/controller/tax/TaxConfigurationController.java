@@ -65,8 +65,7 @@ public class TaxConfigurationController {
 	}
 	
 	
-	private void setMenu(Model model, HttpServletRequest request)
-	throws Exception {
+	private void setMenu(Model model, HttpServletRequest request){
 
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();

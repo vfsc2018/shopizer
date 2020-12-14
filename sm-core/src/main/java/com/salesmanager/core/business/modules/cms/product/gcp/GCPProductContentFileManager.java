@@ -186,17 +186,16 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
     }
     
     //build filename
-    StringBuilder fileName = new StringBuilder()
+      StringBuilder fileName = new StringBuilder()
         .append(filePath(productImage.getProduct().getMerchantStore().getCode(), productImage.getProduct().getSku(), contentImage.getFileContentType()))
         .append(productImage.getProductImage());
-    
     
       try {
         byte[] targetArray = IOUtils.toByteArray(contentImage.getFile());
         BlobId blobId = BlobId.of(bucketName, fileName.toString());
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpeg").build();
         storage.create(blobInfo, targetArray);
-        Acl acl = storage.createAcl(blobId, Acl.of(User.ofAllUsers(), Role.READER));
+        // Acl acl = storage.createAcl(blobId, Acl.of(User.ofAllUsers(), Role.READER));
       } catch (IOException ioe) {
         throw new ServiceException(ioe);
       }

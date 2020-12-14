@@ -1,6 +1,8 @@
 package com.salesmanager.core.business.utils.query;
 
 public class ProductQueryBuilder {
+
+	private ProductQueryBuilder(){}
 	
 	public static String buildProductQuery() {
 		

@@ -8,13 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class SmsUtils {
-	
+
+	final static String GATEWAY="http://payment.vifotec.com:8080/api/sms/send-sms";
+
 	private SmsUtils(){
 
 	}
 	
 	public static boolean sendTextMessage(String telephone, String text) {
-		final String SMS_GATEWAY="http://payment.vifotec.com:8080/api/sms/send-sms";
 		
 		if(telephone==null || telephone.trim().length()<10){
 			System.out.println("SMS wrong phone:" + text);
@@ -30,10 +31,10 @@ public class SmsUtils {
 		sms.setPhone(phone);
 		sms.setText(text);
 	    RestTemplate restTemplate = new RestTemplate();
-        final HttpEntity<Sms> entity = new HttpEntity<>(sms, SessionUtil.getBasicHeader("a42d4482-d5e6-40fc-bc5b-3ea7ec89b66b"));
+        final HttpEntity<Sms> entity = new HttpEntity<>(sms, SessionUtil.getGatewayHeader());
 
 		try{
-			ResponseEntity<?> response = restTemplate.postForEntity(SMS_GATEWAY, entity, String.class);
+			ResponseEntity<?> response = restTemplate.postForEntity(GATEWAY, entity, String.class);
 			return (response.getStatusCode()==HttpStatus.OK);
 		}catch(Exception e){
 			System.out.println("SMS:" + e.getMessage());

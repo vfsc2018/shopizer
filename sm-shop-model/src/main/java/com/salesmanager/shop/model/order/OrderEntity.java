@@ -35,7 +35,16 @@ public class OrderEntity extends Order {
 	private boolean customerAgreed;
 	private boolean confirmedAddress;
 	private String comments;
+	private Long customerId;
 	
+
+	public Long getCustomerId() {
+		return customerId;
+	}
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	}
+
 	public void setTotals(List<OrderTotal> totals) {
 		this.totals = totals;
 	}

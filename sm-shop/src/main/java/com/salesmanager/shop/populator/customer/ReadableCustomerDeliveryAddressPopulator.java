@@ -93,7 +93,7 @@ public class ReadableCustomerDeliveryAddressPopulator extends AbstractDataPopula
 					target.setCountryName(c.getName());
 				}
 			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
+				
 				throw new ConversionException(e);
 			}
         }
@@ -108,7 +108,7 @@ public class ReadableCustomerDeliveryAddressPopulator extends AbstractDataPopula
 					target.setProvinceName(z.getName());
 				}
 			} catch (ServiceException e) {
-				// TODO Auto-generated catch block
+				
 				throw new ConversionException(e);
 			}
         }

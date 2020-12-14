@@ -52,7 +52,7 @@ public class ModulesApi {
       try {
         moduleConfigurationService.createOrUpdateModule(json);
       } catch (ServiceException e) {
-        // TODO Auto-generated catch block
+        
         throw new RestApiException(e);
       }
 
