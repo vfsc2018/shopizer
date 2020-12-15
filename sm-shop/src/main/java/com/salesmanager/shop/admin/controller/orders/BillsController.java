@@ -211,7 +211,7 @@ public class BillsController {
 						entry.put("address", bill.getAddress());
 					}
 					entry.put("date", DateUtil.formatDate(bill.getDateExported()));
-					entry.put("status", bill.getStatus());
+					entry.put("status", bill.getStatus().getValue());
 
 					entry.put("paymentModule", paymentModule);
 					resp.addDataEntry(entry);
