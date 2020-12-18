@@ -114,7 +114,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 		}
 		
 		productList.setNumber(products.getTotalCount());
-		productList.setRecordsTotal(new Long(products.getTotalCount()));
+		productList.setRecordsTotal(products.getTotalCount());
 
 		return productList;
 	}

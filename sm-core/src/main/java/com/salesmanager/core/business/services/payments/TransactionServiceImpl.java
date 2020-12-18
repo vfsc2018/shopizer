@@ -54,18 +54,18 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 	public List<Transaction> listTransactions(Order order) throws ServiceException {
 		
 		List<Transaction> transactions = transactionRepository.findByOrder(order.getId());
-		ObjectMapper mapper = new ObjectMapper();
-		for(Transaction transaction : transactions) {
-				if(!StringUtils.isBlank(transaction.getDetails())) {
-					try {
-						@SuppressWarnings("unchecked")
-						Map<String,String> objects = mapper.readValue(transaction.getDetails(), Map.class);
-						transaction.setTransactionDetails(objects);
-					} catch (Exception e) {
-						throw new ServiceException(e);
-					}
-				}
-		}
+		// ObjectMapper mapper = new ObjectMapper();
+		// for(Transaction transaction : transactions) {
+		// 		if(!StringUtils.isBlank(transaction.getDetails())) {
+		// 			try {
+		// 				@SuppressWarnings("unchecked")
+		// 				Map<String,String> objects = mapper.readValue(transaction.getDetails(), Map.class);
+		// 				transaction.setTransactionDetails(objects);
+		// 			} catch (Exception e) {
+		// 				throw new ServiceException(e);
+		// 			}
+		// 		}
+		// }
 		
 		return transactions;
 	}

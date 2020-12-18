@@ -1,9 +1,8 @@
 package com.salesmanager.shop.store.api.v1.order;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.inject.Inject;
@@ -19,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,19 +30,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.OrderCriteria;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
+import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.shop.constants.Constants;
-import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
@@ -52,7 +52,7 @@ import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
-import com.salesmanager.shop.utils.AuthorizationUtils;
+import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LocaleUtils;
 
 import io.swagger.annotations.Api;
@@ -75,6 +75,9 @@ public class OrderApi {
 
 	@Inject
 	private OrderFacade orderFacade;
+
+	@Inject
+	private OrderService orderService;
 
 	@Inject
 	private BillMasterService billMasterService;
@@ -177,7 +180,7 @@ public class OrderApi {
 			page = 0;
 		}
 		if (count == null) {
-			count = 100;
+			count = 10;
 		}
 
 		ReadableCustomer readableCustomer = new ReadableCustomer();
@@ -329,56 +332,77 @@ public class OrderApi {
 		return order;
 	}
 
-	@RequestMapping(value = { "/private/customer/order/confirm" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/private/customer/order/confirm/bill" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 		@ApiImplicitParams({ 
 			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public List<BillMaster> getOrderMustConfirm(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
+	public List<BillMaster> getOrderMustConfirm(@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request) throws Exception {
-		Principal principal = request.getUserPrincipal();
-		String userName = principal.getName();
+		
+			UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		
+			JWTUser customer =  (JWTUser)principal.getPrincipal();
+			Long id = customer.getId();
 
-		Customer customer = customerService.getByNick(userName);
-
-		if (customer == null) {
+		if (id == null) {
 			return Collections.emptyList();
 		}
 
-		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
-
-		if (order == null || !order.getCustomerId().equals(customer.getId())) {
-			return Collections.emptyList();
-		}
 		List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
 
-		return billMasterService.findLast(customer.getId(), status, PageRequest.of(0, 1));
+		return billMasterService.findLast(id, status, PageRequest.of(0, 1));
 	}
 
-	@RequestMapping(value = { "/private/customer/order/{id}/DONE/{billId}" }, method = RequestMethod.PATCH)
-	@ResponseBody
-		@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-		public ResponseEntity<?> getOrderMustConfirm(@PathVariable final Long id, @PathVariable final Long billId, @ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language, HttpServletRequest request) throws Exception {
-		Principal principal = request.getUserPrincipal();
-		String userName = principal.getName();
+	@PatchMapping("/private/customer/order/{id}/DONE/{billId}")
+	public ResponseEntity<?> setDone(@PathVariable final Long id, @PathVariable final Long billId, HttpServletRequest request) throws Exception {
+		
+		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
 
-		Customer customer = customerService.getByNick(userName);
+		JWTUser customer =  (JWTUser)principal.getPrincipal();
 
-		if (customer == null) {
+		BillMaster bill = billMasterService.getById(billId);
+
+		if (bill == null || !bill.getOrder().getId().equals(id) || !bill.getOrder().getCustomerId().equals(customer.getId())){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		ReadableOrder order = orderFacade.getReadableOrder(id, merchantStore, language);
+		List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
+		if(status.contains(bill.getStatus())){
+			bill.setStatus(OrderStatus.DONE);
+			billMasterService.save(bill);
+			return new ResponseEntity<>("{\"orderId\":" + id + ",\"billId\":" + billId + ",\"status\":\"" + OrderStatus.DONE.name() + "\"}", HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
 
-		if (order == null || !order.getCustomerId().equals(customer.getId())) {
+	@PatchMapping("/private/customer/order/{id}/CANCELED")
+	public ResponseEntity<?> setOrderCanceled(@PathVariable final Long id, HttpServletRequest request) throws Exception {
+		
+		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+
+		JWTUser customer =  (JWTUser)principal.getPrincipal();
+
+		com.salesmanager.core.model.order.Order order = orderService.getById(id);
+
+		if (order == null || !order.getCustomerId().equals(customer.getId())){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<>(HttpStatus.OK);
+		if(OrderStatus.ORDERED == order.getStatus()){
+			OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
+			orderStatusHistory.setComments("Customer decided to cancel this order");
+			orderStatusHistory.setCustomerNotified(customer.getId());
+			orderStatusHistory.setStatus(OrderStatus.ORDERED);
+			orderStatusHistory.setDateAdded(new Date());
+			orderStatusHistory.setOrder(order);
+			order.setStatus(OrderStatus.CANCELED);
+			order.getOrderHistory().add(orderStatusHistory);
+			orderService.saveOrUpdate(order);
+			return new ResponseEntity<>("{\"orderId\":" + id + ",\"status\":\"" + OrderStatus.CANCELED.name() + "\"}", HttpStatus.OK);
+		}
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 	/**
 	 * Action for performing a checkout on a given shopping cart

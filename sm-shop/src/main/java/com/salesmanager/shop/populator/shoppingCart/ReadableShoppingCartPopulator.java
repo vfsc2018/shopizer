@@ -169,7 +169,7 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             //OrderSummary contains ShoppingCart items
 
             OrderSummary summary = new OrderSummary();
-            List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> productsList = new ArrayList<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+            List<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> productsList = new ArrayList<>();
             productsList.addAll(source.getLineItems());
             summary.setProducts(productsList);
             
@@ -178,7 +178,7 @@ public class ReadableShoppingCartPopulator extends AbstractDataPopulator<Shoppin
             OrderTotalSummary orderSummary = shoppingCartCalculationService.calculate(source, store, language );
 
             if(CollectionUtils.isNotEmpty(orderSummary.getTotals())) {
-            	List<ReadableOrderTotal> totals = new ArrayList<ReadableOrderTotal>();
+            	List<ReadableOrderTotal> totals = new ArrayList<>();
             	for(com.salesmanager.core.model.order.OrderTotal t : orderSummary.getTotals()) {
             		ReadableOrderTotal total = new ReadableOrderTotal();
             		total.setCode(t.getOrderTotalCode());

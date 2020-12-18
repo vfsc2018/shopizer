@@ -28,8 +28,8 @@ public class ReadableShoppingCart extends ShoppingCartEntity {
 	private int quantity;
 	private Long order;
 	
-	List<ReadableShoppingCartItem> products = new ArrayList<ReadableShoppingCartItem>();
-	List<ReadableOrderTotal> totals;
+	private List<ReadableShoppingCartItem> products = new ArrayList<>();
+	private List<ReadableOrderTotal> totals;
 	
 	private Long customer;
 

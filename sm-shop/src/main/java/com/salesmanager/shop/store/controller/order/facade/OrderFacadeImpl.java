@@ -412,7 +412,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			List<com.salesmanager.core.model.order.OrderTotal> totals = summary.getTotals();
 
 			// re-order totals
-			Collections.sort(totals, new Comparator<com.salesmanager.core.model.order.OrderTotal>() {
+			Collections.sort(totals, new Comparator<>() {
 				public int compare(com.salesmanager.core.model.order.OrderTotal x,
 						com.salesmanager.core.model.order.OrderTotal y) {
 					if (x.getSortOrder() == y.getSortOrder())
@@ -1426,7 +1426,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	public void updateOrderCustomre(Long orderId, PersistableCustomer customer, MerchantStore store) {
+	public void updateOrderCustomer(Long orderId, PersistableCustomer customer, MerchantStore store) {
 		// TODO Auto-generated method stub
 		
 		try {

@@ -1,6 +1,11 @@
 package com.salesmanager.shop.model.user;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Payment {
+
+  public static String STATUS_SUCCESS = "00";
 
   private String transactionId;
   private String entity;

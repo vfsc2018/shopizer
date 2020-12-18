@@ -104,18 +104,17 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Product> getProducts(List<Long> categoryIds) throws ServiceException {
-
-		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Set ids = new HashSet(categoryIds);
 		return productRepository.getProductsListByCategories(ids);
 
 	}
 
 	@Override
+	@SuppressWarnings({ "unchecked"})
 	public List<Product> getProductsByIds(List<Long> productIds) throws ServiceException {
 		Set<Long> idSet = productIds.stream().collect(Collectors.toSet());
-		
 		return productRepository.getProductsListByIds(idSet);
 	}
 
@@ -129,9 +128,8 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<Product> getProducts(List<Long> categoryIds, Language language) throws ServiceException {
-
-		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Set<Long> ids = new HashSet(categoryIds);
 		return productRepository.getProductsListByCategories(ids, language);
 

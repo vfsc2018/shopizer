@@ -134,7 +134,15 @@ public class PaymentApi {
 
 	@RequestMapping(value = { "/order/vnpay" }, method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<?>  vnpay(@Valid @RequestParam Long id, @Valid @RequestParam String token, HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<?>  vnpay(
+        @Valid @RequestParam Long id, 
+        @Valid @RequestParam String token, 
+        @RequestParam String status,
+        @RequestParam String transactionId,
+        @RequestParam String totalMoney,
+        @RequestParam String bankCode, 
+
+        HttpServletRequest request, HttpServletResponse response) {
         
         final HttpHeaders httpHeaders= new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -146,8 +154,11 @@ public class PaymentApi {
         try{
             Long time = Long.valueOf(token);
             Date date = new Date(time);
-            System.out.println("PAYMENT Date: " + date.toString());
-            if (orderService.paymentConfirm(id, true)) {
+            System.out.println("PAYMENT token time: " + date.toString());
+            
+            String details = String.format("{status:%s, transactionId:%s, totalMoney:%s, bankCode:%s}", status, transactionId, totalMoney, bankCode);
+            boolean success = status!=null && status.equals(Payment.STATUS_SUCCESS);
+            if(orderService.paymentConfirm(id, true, success, new BigDecimal(totalMoney), details)){
                 return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.OK);
             }else{
                 return new ResponseEntity<>("{\"id\":" + id + ",\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);

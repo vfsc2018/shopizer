@@ -1,10 +1,6 @@
 package com.salesmanager.shop.admin.controller.notifications;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -33,27 +29,16 @@ import com.salesmanager.core.business.services.system.ModuleConfigurationService
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.message.Notifications;
-import com.salesmanager.core.model.order.BillMaster;
-import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;
-import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.order.orderproduct.OrderProductEx;
-import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
 
-/**
- * Manage order list Manage search order
- * 
- * @author csamson
- *
- */
 @Controller
 @Scope("session")
 public class NotificationsController {

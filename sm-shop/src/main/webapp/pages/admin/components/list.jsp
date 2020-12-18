@@ -17,6 +17,9 @@
 									],
 									
 									transformResponse : function (dsResponse, dsRequest, jsonData) {
+										if(!jsonData) {
+											return;
+										}
 										//dsResponse.totalRows = this.getLength();
 										var status = isc.XMLTools.selectObjects(jsonData, "/response/status");
 										//alert('check status ' + status);
@@ -72,6 +75,7 @@
 									}
 								},
 								fetchData: function () {
+									console.log(arguments);
 									return this.Super("fetchData", arguments);
 								},
 								

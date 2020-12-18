@@ -107,14 +107,25 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         this.orderRepository = orderRepository;
     }
 
-    public boolean paymentConfirm(Long id, boolean online){
+    public boolean paymentOfflineConfirm(Long id, String admin){
+        return paymentConfirm(id,false,true,null,String.format("{confirmed by: %s}",admin));
+    }
+
+    public boolean paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail){
         Order order = this.getById(id);
         if(order!=null){
-            Date now = new Date();
-            order.setPaymentTime(now);
             try{
-                this.saveOrUpdate(order);
-                return paymentConfirm(order, online);
+                if(success){
+                    Date now = new Date();
+                    order.setPaymentTime(now);
+                    this.saveOrUpdate(order);
+                }
+                
+                if(total==null) {
+                    total = online? BigDecimal.valueOf(0):order.getTotal();
+                }
+                
+                return paymentConfirm(order, online, total, detail);
             }catch(Exception e){
                 LOGGER.error(String.format("VNPAY paymentConfirm: %s", e.getMessage()));
             }
@@ -123,15 +134,18 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     }
 
-    public boolean paymentConfirm(Order order, boolean online){
+    public boolean paymentConfirm(Order order, boolean online,BigDecimal total, String details){
         try{
             Transaction transaction = new Transaction();
             transaction.setOrder(order);
-            transaction.setAmount(order.getTotal());
+            transaction.setAmount(total);
             if(online){
                 transaction.setTransactionType(TransactionType.AUTHORIZECAPTURE);
             }else{
                 transaction.setTransactionType(TransactionType.CAPTURE);
+            }
+            if(details!=null){
+                transaction.setDetails(details);
             }
             transaction.setTransactionDate(new Date());
             transaction.setPaymentType(PaymentType.MONEYORDER);

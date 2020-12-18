@@ -4,11 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -18,7 +16,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-// import org.h2.engine.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -820,24 +817,12 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		entityOrder.setId(entityOrder.getOrder().getId());
 		String comment = entityOrder.getOrderHistoryComment();
 
-		model.addAttribute("order", entityOrder);
 		
-		Set<OrderProduct> orderProducts = new HashSet<>();
-		Set<OrderTotal> orderTotal = new HashSet<>();
-		Set<OrderStatusHistory> orderHistory = new HashSet<>();
 		
-		// Date date = new Date();
-		// if(!StringUtils.isBlank(entityOrder.getDatePurchased() ) ){
-		// 	try {
-		// 		date = DateUtil.getDate(entityOrder.getDatePurchased());
-		// 	} catch (Exception e) {
-		// 		ObjectError error = new ObjectError("datePurchased",messages.getMessage("message.invalid.date", locale));
-		// 		result.addError(error);
-		// 	}
-			
-		// } else{
-		// 	date = null;
-		// }
+		// Set<OrderProduct> orderProducts = new HashSet<>();
+		// Set<OrderTotal> orderTotal = new HashSet<>();
+		// Set<OrderStatusHistory> orderHistory = new HashSet<>();
+		
 		if( StringUtils.isBlank(comment)){
 			ObjectError error = new ObjectError("orderHistoryComment", messages.getMessage("NotEmpty.order.status", locale));
 			result.addError(error);
@@ -901,21 +886,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 			 ObjectError error = new ObjectError("billingCity",messages.getMessage("NotEmpty.order.billingCity", locale));
 			 result.addError(error);
 		}
-		 
-		// if( entityOrder.getOrder().getBilling().getZone()==null){
-		// 	if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getState())){
-		// 		 ObjectError error = new ObjectError("billingState",messages.getMessage("NotEmpty.order.billingState", locale));
-		// 		 result.addError(error);
-		// 	}
-		// }
-		 
-		// if( StringUtils.isBlank(entityOrder.getOrder().getBilling().getPostalCode() ) ){
-		// 	 ObjectError error = new ObjectError("billingPostalCode", messages.getMessage("NotEmpty.order.billingPostCode", locale));
-		// 	 result.addError(error);
-		// }
 		
 		com.salesmanager.core.model.order.Order newOrder = orderService.getById(entityOrder.getOrder().getId() );
-		
+		entityOrder.setPaymentTime(DateUtil.formatDate(newOrder.getPaymentTime()));
 		
 		//get capturable
 		if(!newOrder.getPaymentType().name().equals(PaymentType.MONEYORDER.name())) {
@@ -938,19 +911,17 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 	
 		if (result.hasErrors()) {
 			//  somehow we lose data, so reset Order detail info.
-			entityOrder.getOrder().setOrderProducts( orderProducts);
-			entityOrder.getOrder().setOrderTotal(orderTotal);
-			entityOrder.getOrder().setOrderHistory(orderHistory);
-			
+			// entityOrder.getOrder().setOrderProducts( orderProducts);
+			// entityOrder.getOrder().setOrderTotal(orderTotal);
+			// entityOrder.getOrder().setOrderHistory(orderHistory);
+			entityOrder.setOrder(newOrder);
+			model.addAttribute("order", entityOrder);
 			return ControllerConstants.Tiles.Order.ordersEdit;
 		/*	"admin-orders-edit";  */
 		}
 		
 		OrderStatusHistory orderStatusHistory = new OrderStatusHistory();		
 
-
-
-		
 		Country deliveryCountry = countryService.getByCode( entityOrder.getOrder().getDelivery().getCountry().getIsoCode()); 
 		Country billingCountry  = countryService.getByCode( entityOrder.getOrder().getBilling().getCountry().getIsoCode()) ;
 		// Zone billingZone = null;
@@ -1013,19 +984,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		Long customerId = newOrder.getCustomerId();
 		
 		if(customerId!=null && customerId>0) {
-		
 			try {
-				
 				Customer customer = customerService.getById(customerId);
 				if(customer!=null) {
 					model.addAttribute("customer",customer);
 				}
-				
-				
 			} catch(Exception e) {
 				LOGGER.error("Error while getting customer for customerId " + customerId, e);
 			}
-		
 		}
 
 		List<OrderProductDownload> orderProductDownloads = orderProdctDownloadService.getByOrderId(newOrder.getId());

@@ -462,7 +462,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	}
 
 	@Override
-	public List getProductsListByIds(Set<Long> productds) {
+	public List<?> getProductsListByIds(Set<Long> productds) {
 		StringBuilder qs = new StringBuilder();
 		qs.append(productQuery());
 		qs.append("where p.id in (:pid) ");

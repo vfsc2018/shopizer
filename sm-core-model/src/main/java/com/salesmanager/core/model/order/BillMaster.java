@@ -26,12 +26,10 @@ import org.hibernate.annotations.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
-import com.salesmanager.core.model.order.BillItem;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
-import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 
@@ -149,6 +147,9 @@ public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements
 	@JoinColumn(name = "ORDER_ID", updatable=false, nullable=false)
 	private Order order;
 
+	public Long getOrderId() {
+		return order.getId();
+	}
 
 	public Order getOrder() {
 		return order;

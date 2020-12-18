@@ -70,12 +70,12 @@ public class OrdersController {
 	@Inject
 	protected ModuleConfigurationService moduleConfigurationService;
 	 
-	private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(OrdersController.class);
 
 	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/list.html", method=RequestMethod.GET)
-	public String displayOrders(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String displayOrders(Model model, HttpServletRequest request, HttpServletResponse response) {
 		
 		setMenu(model,request);
 
@@ -186,21 +186,6 @@ public class OrdersController {
 					entry.put("phone", order.getBilling().getTelephone());
 					entry.put("address", order.getBilling().getAddress());
 					entry.put("status", order.getStatus().name());
-					
-//					if ( paymentModules!= null && paymentModules.size() > 0 ) 
-//					{	
-//						for ( int index = 0; index < paymentModules.size(); index++ )
-//						{
-//							if ( paymentModules.get(index).getCode().equalsIgnoreCase( order.getPaymentModuleCode() ) )
-//							{
-//								 paymentModule = paymentModules.get(index).getCode();
-//								 break;
-//							}
-//						}
-//	
-//					}
-//	
-//					entry.put("paymentModule", paymentModule );
 					resp.addDataEntry(entry);				
 					
 				}
@@ -224,6 +209,7 @@ public class OrdersController {
 	
 
 	@RequestMapping(value = "/admin/orders/reportOrder.html", method = RequestMethod.GET)
+	@SuppressWarnings("unchecked")
 	public String reportBill(@RequestParam("id") Integer billId,Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -245,6 +231,7 @@ public class OrdersController {
 	
 	
 	@RequestMapping(value = "/admin/orders/collectOrder.html", method = RequestMethod.GET)
+	@SuppressWarnings("unchecked")
 	public String collectBill(@RequestParam("id") Integer billId,Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {

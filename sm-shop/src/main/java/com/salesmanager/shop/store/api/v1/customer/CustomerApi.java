@@ -24,9 +24,7 @@ import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
-import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.security.NotificationRequest;
-import com.salesmanager.shop.utils.LanguageUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

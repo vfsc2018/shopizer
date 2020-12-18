@@ -80,10 +80,12 @@ public class BillsController {
 	private ProductService productService;
 
 	@Inject
+	private ProductPriceUtils priceUtils;
+
+	@Inject
 	protected ModuleConfigurationService moduleConfigurationService;
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(OrderControler.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(BillsController.class);
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/bills/list.html", method = RequestMethod.GET)
@@ -99,6 +101,7 @@ public class BillsController {
 	}
 
 	@PreAuthorize("hasRole('ORDER')")
+	@SuppressWarnings({ "unchecked"})
 	@RequestMapping(value = "/admin/bills/paging.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageBills(
 			HttpServletRequest request, HttpServletResponse response,
@@ -112,7 +115,7 @@ public class BillsController {
 
 			int startRow = Integer.parseInt(request.getParameter("_startRow"));
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
-			String paymentModule = request.getParameter("paymentModule");
+			
 			String sku = request.getParameter("sku");
 			String productName = request.getParameter("productName");
 			String customerName = request.getParameter("customer");
@@ -174,46 +177,31 @@ public class BillsController {
 			if (billList.getBillMasters() != null) {
 
 				resp.setTotalRow(billList.getTotalCount());
-
-				BigDecimal totalBill = null;
 				
 				for (BillMaster bill : billList.getBillMasters()) {
-					totalBill = BigDecimal.valueOf(0);
+				
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", bill.getId());
 					entry.put("orderId", bill.getOrder().getId());
 
-					// BigDecimal total = BigDecimal.valueOf(0);
-					if (bill.getItems() != null) {
-						for (BillItem item : bill.getItems()) {
-							//if (item.getParentId()!=null && item.getParentId() > 0) {
-								BigDecimal total = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
-								totalBill = totalBill.add(total);
-							//}
-						}
-						ProductPriceUtils price = new ProductPriceUtils();
-						entry.put("total", price.getAdminFormatedAmount(store, totalBill));
-					} else {
-						entry.put("total", 0);
-					}
+					String total = priceUtils.getAdminFormatedAmount(store, bill.getOrder().getTotal());
+					entry.put("total", total);
 					entry.put("customer", bill.getOrder().getBilling().getFirstName()); // + " " +
 												// bill.getOrder().getBilling().getLastName());
-					if (StringUtils.isBlank(bill.getPhone())) {
-						entry.put("phone", bill.getOrder().getBilling().getTelephone());
-					} else {
+					// if (StringUtils.isBlank(bill.getPhone())) {
+						// entry.put("phone", bill.getOrder().getBilling().getTelephone());
+					// } else {
 						entry.put("phone", bill.getPhone());
-					}
+					// }
 
-					if (StringUtils.isBlank(bill.getAddress())) {
-						entry.put("address", bill.getOrder().getBilling().getAddress());
-					} else {
+					// if (StringUtils.isBlank(bill.getAddress())) {
+						// entry.put("address", bill.getOrder().getBilling().getAddress());
+					// } else {
 						entry.put("address", bill.getAddress());
-					}
+					// }
 					entry.put("date", DateUtil.formatDate(bill.getDateExported()));
-					entry.put("status", bill.getStatus());
-
-					entry.put("paymentModule", paymentModule);
+					entry.put("status", bill.getStatus().name());
 					resp.addDataEntry(entry);
 
 				}
@@ -275,10 +263,9 @@ public class BillsController {
 			
 			
 			List<OrderProductEx> proRelaList = new ArrayList<>();
-			OrderProductEx proRela = null;
 
 			for (BillItem sBean : bill.getItems()) {
-				proRela = new OrderProductEx();
+				OrderProductEx proRela = new OrderProductEx();
 				proRela.setId(sBean.getId());
 				proRela.setParentId(sBean.getParentId());
 				proRela.setSku(sBean.getCode());
@@ -286,8 +273,7 @@ public class BillsController {
 				proRela.setCurrency(dbOrder.getCurrency());
 				proRela.setProductQuantity(sBean.getQuantity());
 				proRela.setOneTimeCharge(sBean.getPrice().intValue());
-				proRela.setTotal(proRela.getOneTimeCharge().intValue()
-						* proRela.getProductQuantity());
+				proRela.setTotal(proRela.getOneTimeCharge().intValue()* proRela.getProductQuantity());
 				totalMoney = totalMoney + proRela.getTotal();
 				proRelaList.add(proRela);
 			}

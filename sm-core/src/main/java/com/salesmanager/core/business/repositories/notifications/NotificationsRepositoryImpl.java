@@ -1,23 +1,62 @@
 package com.salesmanager.core.business.repositories.notifications;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Pageable;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;
 
+import com.salesmanager.core.model.message.Notifications;
+
+import java.util.Collections;
+import java.util.List;
 
 
 public class NotificationsRepositoryImpl implements NotificationsRepositoryCustom {
 
     @PersistenceContext
-    private EntityManager em;
-    
-    
+	private EntityManager em;
+
+	@Inject
+	NotificationsRepository notificationsRepository;
+	
+	public Integer countByOrderId(Long orderId) {
+		return notificationsRepository.countByOrderId(orderId);
+	}
+
+	public Integer countByCustomerId(Long customerId, String read) {
+		if(read==null){
+			return notificationsRepository.countByCustomerId(customerId);
+		}else if(read.equals("1")){
+			return notificationsRepository.countByCustomerId(customerId, 1);
+		}else if(read.equals("0")){
+			return notificationsRepository.countByCustomerId(customerId, 0);
+		}
+		return 0;
+	}
+
+	public List<Notifications> findByOrderId(Long id, Pageable page){
+		return notificationsRepository.findByOrderId(id, page);
+	}
+
+	
+	public List<Notifications> findByCustomerId(Long id, String read, Pageable page){
+		if(read==null){
+			return notificationsRepository.findByCustomerId(id,page);
+		}else if(read.equals("1")){
+			return notificationsRepository.findByCustomerId(id,1,page);
+		}else if(read.equals("0")){
+			return notificationsRepository.findByCustomerId(id,0,page);
+		}
+		return Collections.emptyList();
+
+	}
     
 	@SuppressWarnings("unchecked")
 	@Override

@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.*;
 
 /**
@@ -339,7 +340,10 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 					entry.put("transactionType", transaction.getTransactionType().name());
 					entry.put("paymentType", transaction.getPaymentType().name());
 					entry.put("transactionAmount", pricingService.getStringAmount(transaction.getAmount(), store));
-					entry.put("transactionDetails", transaction.getTransactionDetails());
+					String details = transaction.getDetails();
+					if(details==null) details = "{}";
+					entry.put("transactionDetails", details);
+					// entry.put("transactionDetails", transaction.getTransactionDetails());
 					resp.addDataEntry(entry);
 				}
 				
@@ -435,6 +439,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 	@RequestMapping(value="/admin/orders/updatePayment.html", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> updatePayment(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		Principal principal = request.getUserPrincipal();
+		String admin = principal.getName();
+
 		String sId = request.getParameter("id");
 		
 		AjaxResponse resp = new AjaxResponse();
@@ -450,7 +457,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		try {
 			
 			Long id = Long.parseLong(sId);
-			if(!orderService.paymentConfirm(id,false)) {
+			if(!orderService.paymentOfflineConfirm(id, admin)) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
 				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);

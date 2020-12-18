@@ -61,9 +61,6 @@ public class CustomProductGroupsController {
 		
 		setMenu(model,request);
 		
-		Language language = (Language)request.getAttribute("LANGUAGE");
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		
 		ProductRelationship group = new ProductRelationship();
 		
 		

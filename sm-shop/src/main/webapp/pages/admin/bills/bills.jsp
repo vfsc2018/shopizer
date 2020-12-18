@@ -19,7 +19,7 @@
 			<table width="100%" border="0px">
 				<tr>
 					<td align="left" width="50%">
-						<h3><s:message code="label.listBills.title" text="Orders" /></h3>	
+						<h3><s:message code="label.listBills.title" text="Bills" /></h3>	
 						 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
 						 <c:set value="/admin/bills/viewBill.html" var="editUrl" scope="request"/>

@@ -1183,7 +1183,7 @@ public class ShoppingOrderController extends AbstractController {
 			totalPopulator.setMessages(messages);
 			totalPopulator.setPricingService(pricingService);
 
-			List<ReadableOrderTotal> subtotals = new ArrayList<ReadableOrderTotal>();
+			List<ReadableOrderTotal> subtotals = new ArrayList<>();
 			for(OrderTotal total : orderTotalSummary.getTotals()) {
 				if(!total.getOrderTotalCode().equals("order.total.total")) {
 					ReadableOrderTotal t = new ReadableOrderTotal();
@@ -1333,7 +1333,7 @@ public class ShoppingOrderController extends AbstractController {
 			totalPopulator.setMessages(messages);
 			totalPopulator.setPricingService(pricingService);
 
-			List<ReadableOrderTotal> subtotals = new ArrayList<ReadableOrderTotal>();
+			List<ReadableOrderTotal> subtotals = new ArrayList<>();
 			for(OrderTotal total : orderTotalSummary.getTotals()) {
 				if(total.getOrderTotalCode() == null || !total.getOrderTotalCode().equals("order.total.total")) {
 					ReadableOrderTotal t = new ReadableOrderTotal();

@@ -193,7 +193,7 @@ public interface OrderFacade {
 	 * @param customer
 	 * @param store
 	 */
-	void updateOrderCustomre(Long orderId, PersistableCustomer customer, MerchantStore store);
+	void updateOrderCustomer(Long orderId, PersistableCustomer customer, MerchantStore store);
 	
 	List<ReadableTransaction> listTransactions (Long orderId, MerchantStore store);
 }
