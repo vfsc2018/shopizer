@@ -2,6 +2,7 @@
 		"properties": {
 			"name": {
 				"type": "keyword",
+				
 				"fields": {
 					"analyzed": {
 						"type": "text",
@@ -11,7 +12,8 @@
 				}
 			},
 			"sku": {
-				"type": "keyword"
+				"type": "keyword",
+				"fielddata":true
 			},
 			"store": {
 				"type": "keyword"
@@ -21,6 +23,7 @@
 			},
 			"categories": {
 				"type": "keyword",
+				
 				"fields": {
 					"analyzed": {
 						"type": "text",
@@ -31,6 +34,7 @@
 			},
 			"manufacturer": {
 				"type": "keyword",
+				
 				"fields": {
 					"analyzed": {
 						"type": "text",
@@ -41,6 +45,7 @@
 			},
 			"description": {
 				"type": "keyword",
+				
 				"fields": {
 					"analyzed": {
 						"type": "text",

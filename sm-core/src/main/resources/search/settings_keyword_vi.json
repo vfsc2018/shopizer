@@ -1,16 +1,16 @@
  {
  	"analysis": {
  		"filter": {
- 			"spanish_stop": {
+ 			"english_stop": {
  				"type": "stop",
- 				"stopwords": "_spanish_"
+ 				"stopwords": "_english_"
  			}
  		},
  		"analyzer": {
  			"rebuilt_stop": {
  				"tokenizer": "lowercase",
  				"filter": [
- 					"spanish_stop"
+ 					"english_stop"
  				]
  			}
  		}

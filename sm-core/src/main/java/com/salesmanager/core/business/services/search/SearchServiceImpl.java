@@ -220,7 +220,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 			if(response != null) {
 				resp.setTotalCount(response.getCount());
 				
-				List<SearchEntry> entries = new ArrayList<SearchEntry>();
+				List<SearchEntry> entries = new ArrayList<>();
 				
 				Collection<SearchHit> hits = response.getSearchHits();
 				
@@ -234,24 +234,24 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 						IndexProduct indexProduct = new IndexProduct();
 
 						Object desc = metaEntries.get("description");
-						if(desc instanceof JsonNull == false) {
+						if(!(desc instanceof JsonNull)) {
 							indexProduct.setDescription((String)metaEntries.get("description"));
 						}
 						
 						Object hl = metaEntries.get("highlight");
-						if(hl instanceof JsonNull == false) {
+						if(!(hl instanceof JsonNull)) {
 							indexProduct.setHighlight((String)metaEntries.get("highlight"));
 						}
 						indexProduct.setId((String)metaEntries.get("id"));
 						indexProduct.setLang((String)metaEntries.get("lang"));
 						
 						Object nm = metaEntries.get("name");
-						if(nm instanceof JsonNull == false) {
+						if(!(nm instanceof JsonNull)) {
 							indexProduct.setName(((String)metaEntries.get("name")));
 						}
 						
 						Object mf = metaEntries.get("manufacturer");
-						if(mf instanceof JsonNull == false) {
+						if(!(mf instanceof JsonNull)) {
 							indexProduct.setManufacturer(((String)metaEntries.get("manufacturer")));
 						}
 						indexProduct.setPrice(Double.valueOf(((String)metaEntries.get("price"))));
@@ -270,7 +270,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 					//Map<String,List<FacetEntry>> facets = response.getFacets();
 					Map<String,Facet> facets = response.getFacets();
 					if(facets!=null && facets.size() > 0) {
-						Map<String,List<SearchFacet>> searchFacets = new HashMap<String,List<SearchFacet>>();
+						Map<String,List<SearchFacet>> searchFacets = new HashMap<>();
 						for(String key : facets.keySet()) {
 							
 							Facet f = facets.get(key);
@@ -280,7 +280,7 @@ public class SearchServiceImpl implements com.salesmanager.core.business.service
 							
 							List<SearchFacet> fs = searchFacets.get(key);
 							if(fs==null) {
-								fs = new ArrayList<SearchFacet>();
+								fs = new ArrayList<>();
 								searchFacets.put(key, fs);
 							}
 		

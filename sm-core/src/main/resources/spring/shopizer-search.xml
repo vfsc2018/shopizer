@@ -110,8 +110,7 @@
 			<list>
 				<!-- rename -->
 				<ref bean="keywordindex_en" />
-				<ref bean="keywordindex_es" />
-				<ref bean="keywordindex_fr" />
+				<ref bean="keywordindex_vi" />
 			</list>
 		</property>
 	</bean>
@@ -121,8 +120,7 @@
 			<list>
 				<!-- rename -->
 				<ref bean="productindex_en" />
-				<ref bean="productindex_es" />
-				<ref bean="productindex_fr" />
+				<ref bean="productindex_vi" />
 			</list>
 		</property>
 	</bean>
@@ -140,35 +138,41 @@
 		<!-- not necessary, only to define index and search rules -->
 		<property name="settingsFileName" value="search/settings_product.json" />
 	</bean>
+	<bean id="productindex_vi" class="com.shopizer.search.utils.IndexConfiguration">
+		<!-- remove -->
+		<property name="collectionName" value="product_vi" />
+		<property name="indexName" value="product_vi" />
+		<property name="mappingFileName" value="search/product.json" />
+		<!-- not necessary, only to define index and search rules -->
+		<property name="settingsFileName" value="search/settings_product.json" />
+	</bean>
 
 	<!-- product_fr -->
-	<bean id="productindex_fr" class="com.shopizer.search.utils.IndexConfiguration">
-		<!-- remove -->
+	<!-- <bean id="productindex_fr" class="com.shopizer.search.utils.IndexConfiguration">
+		
 		<property name="collectionName" value="product_fr" />
 		<property name="indexName" value="product_fr" />
 		<property name="mappingFileName" value="search/product_fr.json" />
-		<!-- not necessary, only to define index and search rules -->
+		
 		<property name="settingsFileName" value="search/settings_product_fr.json" />
-	</bean>
+	</bean> -->
 
 	<!-- product_es -->
-	<bean id="productindex_es" class="com.shopizer.search.utils.IndexConfiguration">
-		<!-- remove -->
+	<!-- <bean id="productindex_es" class="com.shopizer.search.utils.IndexConfiguration">
+		
 		<property name="collectionName" value="product_es" />
 		<property name="indexName" value="product_es" />
 		<property name="mappingFileName" value="search/product_es.json" />
-		<!-- not necessary, only to define index and search rules -->
+		
 		<property name="settingsFileName" value="search/settings_product_es.json" />
-	</bean>
+	</bean> -->
 
 
 	<bean id="keyword" class="com.shopizer.search.services.worker.KeywordIndexerImpl">
 		<property name="indexConfigurations">
 			<list>
-				<!-- rename -->
 				<ref bean="keywordindex_en" />
-				<ref bean="keywordindex_es" />
-				<ref bean="keywordindex_fr" />
+				<ref bean="keywordindex_vi" />
 			</list>
 		</property>
 	</bean>
@@ -188,33 +192,13 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- keywordindex_fr_ -->
-	<bean id="keywordindex_fr" class="com.shopizer.search.utils.CustomIndexConfiguration">
+	<bean id="keywordindex_vi" class="com.shopizer.search.utils.CustomIndexConfiguration">
 		<!-- rename or remove -->
-		<property name="collectionName" value="keyword_fr" />
-		<property name="indexName" value="keyword_fr" /><!-- TBR -->
-		<property name="createOnIndexName" value="product_fr_*" /><!-- 
-			TBD -->
-		<property name="mappingFileName" value="search/keyword_fr.json" />
-		<property name="settingsFileName" value="search/settings_keyword_fr.json" />
-		<property name="fields">
-			<list>
-				<ref bean="field1" />
-				<ref bean="field2" />
-			</list>
-		</property>
-	</bean>
-
-	<!-- keywordindex_es_ -->
-	<bean id="keywordindex_es" class="com.shopizer.search.utils.CustomIndexConfiguration">
-		<!-- rename or remove -->
-		<property name="collectionName" value="keyword_es" />
-		<property name="indexName" value="keyword_es" /><!-- TBR -->
-		<property name="createOnIndexName" value="product_es_*" /><!--
-			TBD -->
-		<property name="mappingFileName" value="search/keyword_es.json" />
-		<property name="settingsFileName" value="search/settings_keyword_es.json" />
+		<property name="collectionName" value="keyword_en" />
+		<property name="indexName" value="keyword_vi" /><!-- TBR -->
+		<property name="createOnIndexName" value="product_vi_*" />
+		<property name="mappingFileName" value="search/keyword_vi.json" />
+		<property name="settingsFileName" value="search/settings_keyword_vi.json" />
 		<property name="fields">
 			<list>
 				<ref bean="field1" />
