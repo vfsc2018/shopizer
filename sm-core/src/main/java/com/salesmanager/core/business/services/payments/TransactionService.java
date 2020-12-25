@@ -8,6 +8,8 @@ import com.salesmanager.core.business.services.common.generic.SalesManagerEntity
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.payments.Transaction;
+import com.salesmanager.core.model.payments.TransactionsCriteria;
+import com.salesmanager.core.model.payments.TransactionsList;
 
 
 
@@ -29,7 +31,8 @@ public interface TransactionService extends SalesManagerEntityService<Long, Tran
 	List<Transaction> listTransactions(Date startDate, Date endDate) throws ServiceException;
 	
 	Transaction lastTransaction(Order order, MerchantStore store) throws ServiceException;
-
+	
+	TransactionsList getListByStore2(MerchantStore store, TransactionsCriteria criteria);
 
 
 }

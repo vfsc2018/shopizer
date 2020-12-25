@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.salesmanager.core.model.payments.Transaction;
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+public interface TransactionRepository extends JpaRepository<Transaction, Long>,TransactionRepositoryCustom {
 
 	@Query("select t from Transaction t join fetch t.order to where to.id = ?1")
 	List<Transaction> findByOrder(Long orderId);

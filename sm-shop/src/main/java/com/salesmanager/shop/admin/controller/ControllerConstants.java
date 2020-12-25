@@ -102,6 +102,11 @@ public interface ControllerConstants
             final String Transactions="admin-notifications-transactions";
         }
         
+        interface Transaction{
+            final String notifications="admin-transaction";
+            final String Edit="admin-transactions-edit";
+            final String Transactions="admin-transactions-transactions";
+        }
         
         interface Configuration{
             final String accounts="config-accounts";

@@ -21,6 +21,8 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.payments.TransactionType;
+import com.salesmanager.core.model.payments.TransactionsCriteria;
+import com.salesmanager.core.model.payments.TransactionsList;
 
 
 
@@ -49,6 +51,12 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 		
 		
 	}
+	
+	@Override
+	public TransactionsList getListByStore2(MerchantStore store, TransactionsCriteria criteria) {
+		return transactionRepository.listByStore2(store, criteria);
+	}
+	
 	
 	@Override
 	public List<Transaction> listTransactions(Order order) throws ServiceException {
@@ -191,7 +199,11 @@ public class TransactionServiceImpl  extends SalesManagerEntityServiceImpl<Long,
 			try {
 				ObjectMapper mapper = new ObjectMapper();
 				@SuppressWarnings("unchecked")
-				Map<String,String> objects = mapper.readValue(finalTransaction.getDetails(), Map.class);
+				String carJson =
+			    "{ \"brand\" : \"Mercedes\", \"doors\" : 5 }";
+				
+				//Map<String,String> objects = mapper.readValue(finalTransaction.getDetails(), Map.class);
+				Map<String,String> objects = mapper.readValue(carJson, Map.class);
 				finalTransaction.setTransactionDetails(objects);
 			} catch (Exception e) {
 				throw new ServiceException(e);

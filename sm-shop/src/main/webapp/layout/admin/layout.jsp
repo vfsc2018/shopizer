@@ -353,7 +353,16 @@ response.setDateHeader ("Expires", -1);
 			});
 			$("#taxrates-link").click(function() {
   				window.location='<c:url value="/admin/tax/taxrates/list.html" />';
-			});		
+			});	
+			
+			
+			
+			$("#payment-link").click(function() {
+  				window.location='<c:url value="/admin/payments/paymentMethods.html" />';
+			});	
+			$("#transactions-link").click(function() {
+  				window.location='<c:url value="/admin/transactions/list.html" />';
+			});	
 
 		}); 
 		

@@ -366,4 +366,18 @@
   	</definition>    	
   	
   	
+  	
+  	  	<definition name="admin-transactions-view" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/transactions/transaction.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-transactions-transactions" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/transactions/transactions.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-bills-transactions" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/bills/transactions.jsp" /> 
+  	</definition>
+  	
+  	
 </tiles-definitions>

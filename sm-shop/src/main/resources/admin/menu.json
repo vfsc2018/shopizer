@@ -203,7 +203,11 @@
 "icon":"icon-cog", 
 "url":"/admin/payments/paymentMethods.html", 
 "role":"PAYMENT",
-"order":6
+"order":6,
+"menus":[
+	{"menu":{"code":"payment","url":"","role":"PAYMENT","order":0}},
+	{"menu":{"code":"transactions","url":"","role":"PAYMENT","order":1}}
+]
 }},
 {
 "menu":{

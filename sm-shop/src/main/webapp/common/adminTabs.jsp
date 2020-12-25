@@ -5,10 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <%@ page session="false" %>
-
-      				
   					<c:if test="${fn:length(currentMenu.menus)>0}">
-						
   						<ul class="nav nav-tabs">
   						<c:forEach items="${currentMenu.menus}" var="menu">
   							<sec:authorize access="hasRole('${menu.role}') and fullyAuthenticated">
