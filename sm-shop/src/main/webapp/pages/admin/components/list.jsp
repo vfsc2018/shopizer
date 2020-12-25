@@ -75,7 +75,6 @@
 									}
 								},
 								fetchData: function () {
-									console.log(arguments);
 									return this.Super("fetchData", arguments);
 								},
 								

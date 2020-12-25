@@ -1,5 +1,7 @@
 package com.salesmanager.shop.store.security;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -13,7 +15,7 @@ public class NotificationPush{
 
 	private String title;
 	private String body;
-	private Integer sync;
+	private Integer sync = 0;
 	private String data;
 	private String image;
 	private String action;
@@ -23,6 +25,10 @@ public class NotificationPush{
 	}
 	public void setFcmTokens(List<String> fcmTokens) {
 		this.fcmTokens = fcmTokens;
+	}
+
+	public void setFcmTokens(String ... token) {
+		this.fcmTokens = new ArrayList<>(Arrays.asList(token));
 	}
 
 	public Integer getSync() {

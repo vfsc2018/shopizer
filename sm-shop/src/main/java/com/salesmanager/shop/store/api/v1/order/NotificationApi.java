@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.ws.rs.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,7 +56,7 @@ public class NotificationApi {
 	private NotificationsRepositoryImpl notificationsRepository;
 
 
-	@GetMapping("/private/notifications/count")
+	@GetMapping("/private/customer/notifications/count")
 	@ResponseBody
 	public ResponseEntity<?>  count(@RequestParam String read, HttpServletRequest request, HttpServletResponse response) {
         final HttpHeaders httpHeaders= new HttpHeaders();
@@ -65,7 +68,7 @@ public class NotificationApi {
 		return new ResponseEntity<>("{\"value\":" + count + "}", httpHeaders, HttpStatus.OK);
 	}
 
-	@GetMapping("/private/notifications")
+	@GetMapping("/private/customer/notifications")
 	@ResponseBody
 	public List<?>  get(@RequestParam String read, @RequestParam Integer page, @RequestParam Integer count,  HttpServletRequest request, HttpServletResponse response) {
         final HttpHeaders httpHeaders= new HttpHeaders();
@@ -82,6 +85,23 @@ public class NotificationApi {
 		JWTUser customer =  (JWTUser)principal.getPrincipal();
 
 		return notificationsRepository.findByCustomerId(customer.getId(), read, PageRequest.of(page,count));
+	}
+	
+	@PatchMapping("/private/customer/notification/read/{id}")
+	public ResponseEntity<?>  read(@PathVariable final Long id,  HttpServletRequest request, HttpServletResponse response) {
+		Notifications noti = notificationsRepository.findById(id);
+
+		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
+		JWTUser customer =  (JWTUser)principal.getPrincipal();
+
+		if(noti==null || noti.getCustomer()==null || !noti.getCustomer().getId().equals(customer.getId())){
+			return ResponseEntity.badRequest().body("Bad request: " + id);
+		}
+
+		noti.setRead(1);
+		notificationsRepository.save(noti);
+
+		return ResponseEntity.ok("Read successfull: " + id);
     }
   
 }

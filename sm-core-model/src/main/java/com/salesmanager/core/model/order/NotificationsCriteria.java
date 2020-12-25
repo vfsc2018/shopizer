@@ -9,6 +9,7 @@ public class NotificationsCriteria extends Criteria {
 	private String customerName = null;
 	private Boolean read = null;
 	private Long id;
+	private String date;
 
 	public Long getId(){
 		return id;
@@ -29,6 +30,14 @@ public class NotificationsCriteria extends Criteria {
 	public void setRead(Boolean read) {
 		this.read = read;
 	}
+
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public String getMessage() {
 		return message;
 	}

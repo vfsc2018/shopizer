@@ -90,13 +90,21 @@ public class NotificationsController {
 			String customerName = request.getParameter("customer");
 			String read = request.getParameter("read");
 			String id = request.getParameter("id");
-			
+			String	date = request.getParameter("date");
+
+			if(date!=null && date.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+			}
 			
 			NotificationsCriteria criteria = new NotificationsCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 
+
+			if(!StringUtils.isBlank(date)) {
+				criteria.setDate(date);
+			}
 		
 			if(!StringUtils.isBlank(customerName)) {
 				criteria.setCustomerName(customerName);
