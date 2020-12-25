@@ -15,6 +15,7 @@ import com.salesmanager.core.model.order.NotificationsList;
 @Service("notificationsService")
 public class NotificationsServiceImpl extends SalesManagerEntityServiceImpl<Long, Notifications> implements NotificationsService {
 
+	@Inject
 	private NotificationsRepository notificationsRepository;
 
 	@Override

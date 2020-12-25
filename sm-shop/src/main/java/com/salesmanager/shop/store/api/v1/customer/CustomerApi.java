@@ -25,6 +25,7 @@ import com.salesmanager.shop.model.customer.PersistableCustomer;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.security.NotificationRequest;
+import com.salesmanager.shop.utils.PushUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -238,11 +239,16 @@ public class CustomerApi {
   @RequestMapping( value={"/private/customer/token"}, method=RequestMethod.PUT, produces ={ "application/json" })
   @ResponseStatus(HttpStatus.ACCEPTED)
   @Transactional
-  public ResponseEntity<?> updateNotificationToken(@RequestBody @Valid NotificationRequest token, HttpServletRequest request) {
+  public ResponseEntity<?> updateNotificationToken(@RequestBody @Valid NotificationRequest device, HttpServletRequest request) {
       Principal principal = request.getUserPrincipal();
       String username = principal.getName();
       
-      customerRepository.updateToken(token.getOs(), token.getToken(), username);
+      try{
+        customerRepository.updateToken(device.getOs(), device.getToken(), username);
+        PushUtils.subscribe(device.getToken());
+      }catch(Exception e){
+        System.out.println("Notification update {token: " + device.getToken() + "} "  + e.getMessage());
+      }
       return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
   

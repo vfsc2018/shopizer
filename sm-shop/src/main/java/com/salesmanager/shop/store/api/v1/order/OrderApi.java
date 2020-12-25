@@ -54,6 +54,7 @@ import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LocaleUtils;
+import com.salesmanager.shop.utils.NotificationUtils;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -72,6 +73,9 @@ public class OrderApi {
 
 	@Inject
 	private CustomerService customerService;
+
+	@Inject
+	private NotificationUtils notificationUtils;
 
 	@Inject
 	private OrderFacade orderFacade;
@@ -453,7 +457,7 @@ public class OrderApi {
 
 			// hash payment token
 			order.getPayment().setPaymentToken("***");
-
+			notificationUtils.createAfterOrder(customer, modelOrder);
 			return order;
 
 		} catch (Exception e) {
@@ -542,6 +546,7 @@ public class OrderApi {
 
 			// hash payment token
 			order.getPayment().setPaymentToken("***");
+			notificationUtils.createAfterOrder(customer, modelOrder);
 			return order;
 
 		} catch (Exception e) {

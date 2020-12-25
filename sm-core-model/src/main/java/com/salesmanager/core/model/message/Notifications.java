@@ -1,5 +1,7 @@
 package com.salesmanager.core.model.message;
 
+import java.util.Date;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -73,13 +75,20 @@ public class Notifications extends SalesManagerEntity<Long, Notifications>  impl
 	@Column (length=300)
 	private String message;	
 	
-	
 	@Column (length=100)
 	private String topic;		
 	
-	private Integer read;	
+	private Integer read=0;	
 	
 	/***********************************************************************/
+
+	public Long getDateCreated() {
+		Date time = auditSection.getDateCreated();
+		if(time!=null){
+			return time.getTime();
+		}
+		return null;
+	}
 
 	public Long getId() {
 		return id;

@@ -14,7 +14,7 @@ public class CategoryUtils {
     com.salesmanager.shop.admin.model.catalog.Category readableCategory = new com.salesmanager.shop.admin.model.catalog.Category();
     readableCategory.setCategory(category);
     
-    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>(category.getDescriptions());
+    List<CategoryDescription> descriptions = new ArrayList<>(category.getDescriptions());
     
     //descriptions
     //.stream();

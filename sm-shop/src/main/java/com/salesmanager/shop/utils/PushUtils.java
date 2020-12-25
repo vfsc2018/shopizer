@@ -23,6 +23,11 @@ public class PushUtils {
 
 	}
 	
+	public static boolean subscribe(String token) {
+		return subscribe(token,"all");
+	}
+
+
 	public static boolean subscribe(String token, String topic) {
 		NotificationPush packet = new NotificationPush(topic);
 		List<String> fcm = new ArrayList<>();
@@ -56,6 +61,16 @@ public class PushUtils {
 		}
 		return false;
 	}
+
+	public static boolean confirmAfterOrder(String token, long orderId, String message, String data){
+		NotificationPush noti = new NotificationPush();
+		noti.setTitle("VfSC received order #" + orderId);
+		noti.setBody(message);
+		noti.setData(data);
+		noti.setFcmTokens(token);
+		return toToken(noti);
+	}
+	
 
 	private static boolean send(NotificationPush packet, String action) {
 		
