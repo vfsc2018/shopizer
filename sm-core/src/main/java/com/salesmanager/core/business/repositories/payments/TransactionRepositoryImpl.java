@@ -24,8 +24,20 @@ public class TransactionRepositoryImpl implements TransactionRepositoryCustom {
 		TransactionsList customerList = new TransactionsList();
 		StringBuilder baseCountQuery =new StringBuilder("select count(c) from Transaction as c where c.id = c.id ");
 		StringBuilder baseQuery = new StringBuilder("select c from Transaction as c where c.id = c.id ");
-		if(criteria.getTransactionId()>0) {
+		if(criteria.getTransactionId()!=null) {
 			String nameQuery =" and c.id <= :pid  ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+		
+		if(!StringUtils.isBlank(criteria.getDate())) {
+			String nameQuery =" and TO_CHAR(c.transactionDate,'DD/MM/YYYY') = :dc ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getDetail())) {
+			String nameQuery =" and c.details like:pDetail  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
@@ -39,11 +51,21 @@ public class TransactionRepositoryImpl implements TransactionRepositoryCustom {
 		//object query
 		Query objectQ = em.createQuery(baseQuery.toString());
 
-		if(criteria.getTransactionId()>0) {
+		if(criteria.getTransactionId()!=null) {
 			countQ.setParameter("pid",criteria.getTransactionId());
 			objectQ.setParameter("pid",criteria.getTransactionId());
 		}
 		
+		if(!StringUtils.isBlank(criteria.getDate())) {
+			countQ.setParameter("dc",criteria.getDate());
+			objectQ.setParameter("dc",criteria.getDate());
+		}
+
+		if(!StringUtils.isBlank(criteria.getDetail())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getDetail()).append("%").toString();
+			countQ.setParameter("pDetail",nameParam);
+			objectQ.setParameter("pDetail",nameParam);
+		}
 		
 		
 		Number count = (Number) countQ.getSingleResult();

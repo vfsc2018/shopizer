@@ -254,13 +254,18 @@ public class CategoryController {
         AjaxResponse resp = new AjaxResponse();
         try {
             Long id = Long.parseLong(sid);
-            Optional<Category> category = Optional.ofNullable(categoryService.getById(id, store.getId()));
-            if(category.isPresent() || category.get().getMerchantStore().getId().intValue() !=store.getId().intValue() ) {
+            Integer storeId = store.getId();
+            Optional<Category> category = Optional.ofNullable(categoryService.getById(id, storeId));
+            if(!category.isPresent() || category.get().isVisible() || storeId.intValue()!=category.get().getMerchantStore().getId().intValue()) {
                 resp.setStatusMessage(messages.getMessage("message.unauthorized", locale));
                 resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
             } else {
-                categoryService.delete(category.get());
-                resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+                if(categoryService.deleteCategory(category.get())){
+                    resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+                }else{
+                    resp.setStatusMessage(messages.getMessage("message.product.not.empty", locale));
+                    resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+                }
             }
         } catch (Exception e) {
             LOGGER.error("Error while deleting category", e);

@@ -181,7 +181,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 		List<CategoryDescription> descriptions = categoryDescriptionRepository.listByCategoryId(id);
 
-		Set<CategoryDescription> desc = new HashSet<CategoryDescription>(descriptions);
+		Set<CategoryDescription> desc = new HashSet<>(descriptions);
 
 		category.setDescriptions(desc);
 
@@ -233,7 +233,40 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 
 	}
 
-	// @Override
+	public boolean deleteCategory(Category category) throws ServiceException {
+
+		// get category with lineage (subcategories)
+		StringBuilder lineage = new StringBuilder();
+		lineage.append(category.getLineage()).append(category.getId()).append(Constants.SLASH);
+		List<Category> categories = this.getListByLineage(category.getMerchantStore(), lineage.toString());
+
+		Category dbCategory = getById(category.getId(), category.getMerchantStore().getId());
+
+		if (dbCategory != null && dbCategory.getId().longValue() == category.getId().longValue()) {
+
+			categories.add(dbCategory);
+
+			Collections.reverse(categories);
+
+			List<Long> categoryIds = new ArrayList<>();
+
+			for (Category c : categories) {
+				categoryIds.add(c.getId());
+			}
+
+			List<Product> products = productService.getProducts(categoryIds);
+			
+			if(products==null || products.isEmpty()){
+				Category categ = getById(category.getId(), category.getMerchantStore().getId());
+				categoryRepository.delete(categ);
+				return true;
+			}
+		}
+		return false;
+
+	}
+
+	@Override
 	public void delete(Category category) throws ServiceException {
 
 		// get category with lineage (subcategories)
