@@ -48,7 +48,7 @@ td, th {
 }
 </style>	
 <img id="image" src="/resources/img/vfsc.png" alt="logo" />		
-
+<script src="<c:url value="/resources/js/barcode/JsBarcode.all.min.js" />"></script>
 	
 		<div align="center">
 		<h3><s:message code="label.bill.billPrintTitle" text="Title bill"/></h3></td>
@@ -72,6 +72,11 @@ td, th {
 		<div>
 			<Strong><s:message code="label.bill.createAt" text="Date Time"/>:</Strong> 
 			<span><c:out value="${dataEx.createAt}" /></span>
+		</div>
+		
+		<div>
+			<Strong><s:message code="label.bill.orderCode" text="Order Code"/>:</Strong> 
+			<span><c:out value="${dataEx.order.id}" /></span>
 		</div>
 		
 		<div>
@@ -110,6 +115,8 @@ td, th {
 				<td> 
 					<Strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></Strong>
 				</td> 
+				
+				
 			</tr>
 			<c:set var="totalMoney" value="${totalMoney + totalParent }" />
 		</c:if>
@@ -145,8 +152,14 @@ td, th {
 		<span id="totalMoney">
 		<strong><sm:monetary value="${totalMoney}" currency="${order.order.currency}"/></strong>
 		</span>
-					
 </div>
+<div class="subt"> 
+<svg id="barcode"></svg>
+		<script>
+			JsBarcode("#barcode", "<c:out value="${dataEx.order.id}" />-<c:out value="${dataEx.id}" />");
+		</script> 		
+</div>
+
 </br>
 	<div><Strong><s:message code="label.customer.firstname" text="First Name"/>: </Strong>
 			<span><c:out value="${order.billing.firstName}" /></span>
