@@ -139,6 +139,7 @@ public class PaymentApi {
         @Valid @RequestParam String token, 
         @RequestParam String status,
         @RequestParam String transactionId,
+        @RequestParam String transactionNo,
         @RequestParam String totalMoney,
         @RequestParam String bankCode, 
 
@@ -156,7 +157,7 @@ public class PaymentApi {
             Date date = new Date(time);
             System.out.println("PAYMENT token time: " + date.toString());
             
-            String details = String.format("{status:%s, transactionId:%s, totalMoney:%s, bankCode:%s}", status, transactionId, totalMoney, bankCode);
+            String details = String.format("{orderId:%s, transaction:%s, bankCode:%s, status:%s, totalMoney:%s}", transactionId, transactionNo, bankCode, status, totalMoney);
             boolean success = status!=null && status.equals(Payment.STATUS_SUCCESS);
             if(orderService.paymentConfirm(id, true, success, new BigDecimal(totalMoney), details)){
                 return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.OK);

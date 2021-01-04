@@ -16,7 +16,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,12 +90,14 @@ public class TransactionsController {
 //			String topic = request.getParameter("topic");
 			
 			String transactionId = request.getParameter("transactionId");
-			int id = 0;
-			try {
-				id=Integer.parseInt(transactionId);
-			} catch (Exception e) {
-				e.printStackTrace();
+			String	date = request.getParameter("transactionDate");
+			String	detail = request.getParameter("transactionDetails");
+
+			if(date!=null && date.length()!=10){
+				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}
+
+
 			
 			
 			TransactionsCriteria criteria = new TransactionsCriteria();
@@ -105,8 +106,20 @@ public class TransactionsController {
 			criteria.setMaxCount(endRow);
 
 			
-			if(!StringUtils.isBlank(transactionId)) {
-				criteria.setTransactionId(id);
+			try {
+				if(!StringUtils.isBlank(transactionId)) {
+					criteria.setTransactionId(Long.parseLong(transactionId));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if(!StringUtils.isBlank(date)) {
+				criteria.setDate(date);
+			}
+
+			if(!StringUtils.isBlank(detail)) {
+				criteria.setDetail(detail);
 			}
 			
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);

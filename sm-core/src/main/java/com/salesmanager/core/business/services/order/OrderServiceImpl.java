@@ -108,7 +108,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     }
 
     public boolean paymentOfflineConfirm(Long id, String admin){
-        return paymentConfirm(id,false,true,null,String.format("{confirmed by: %s}",admin));
+        return paymentConfirm(id,false,true,null,String.format("{orderId: %d, confirmed by: %s}",id, admin));
     }
 
     public boolean paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail){

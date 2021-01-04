@@ -82,6 +82,12 @@ public class ProductReviewApi {
         review.setCustomerId(((JWTUser)user).getId());
       }
       review.setProductId(id);
+
+      if (review.getRating() > Constants.MAX_REVIEW_RATING_SCORE) {
+        response.sendError(503, "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
+        return null;
+      }
+
       ProductReview prodReview = productReviewService.getByProductAndCustomer(review.getProductId(), review.getCustomerId());
       if (prodReview != null) {
         response.sendError(500, "A review already exist for this customer and product");
@@ -89,12 +95,7 @@ public class ProductReviewApi {
       }
 
       // rating maximum 5
-      if (review.getRating() > Constants.MAX_REVIEW_RATING_SCORE) {
-        response.sendError(503, "Maximum rating score is " + Constants.MAX_REVIEW_RATING_SCORE);
-        return null;
-      }
       
-      review.setProductId(id);
 
       productFacade.saveOrUpdateReview(review, merchantStore, language);
 
