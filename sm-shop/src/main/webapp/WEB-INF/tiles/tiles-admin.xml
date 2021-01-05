@@ -367,7 +367,7 @@
   	
   	
   	
-  	  	<definition name="admin-transactions-view" template="/layout/admin/layout.jsp">
+  	<definition name="admin-transactions-view" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/transactions/transaction.jsp" /> 
   	</definition>
   	
@@ -380,4 +380,17 @@
   	</definition>
   	
   	
+  	<definition name="admin-vouchers-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/vouchers/voucher.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-vouchers-vouchers" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/vouchers/vouchers.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-bills-vouchers" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/bills/vouchers.jsp" /> 
+  	</definition>
+  	
+  	  	
 </tiles-definitions>

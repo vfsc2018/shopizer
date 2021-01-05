@@ -107,7 +107,11 @@ public interface ControllerConstants
             final String Edit="admin-transactions-edit";
             final String Transactions="admin-transactions-transactions";
         }
-        
+        interface Voucher{
+            final String notifications="admin-voucher";
+            final String Edit="admin-vouchers-edit";
+            final String vouchers="admin-vouchers-vouchers";
+        }
         interface Configuration{
             final String accounts="config-accounts";
             final String email="config-email";
