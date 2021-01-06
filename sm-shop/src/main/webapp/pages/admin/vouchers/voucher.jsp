@@ -113,7 +113,7 @@
 		<h3>
 					<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.title.voucher" text="Edit voucher"/>: <c:out value="${voucher.id}" />
+                     		 <s:message code="label.title.voucher.edit" text="Edit voucher"/>: <c:out value="${voucher.id}" />
                      		 <br>
                        </div>       
                   </div>
