@@ -54,9 +54,28 @@
         	$("#FormBuildBill").submit(function(event){
         	    event.preventDefault(); 
         	    var post_url = $(this).attr("action"); 
-        	    var request_method = $(this).attr("method");
-        		var form_data = new FormData(this); 
-        	    $.ajax({
+                var data = $(this).serializeObject();
+                $.ajax({
+                    'type': 'POST',
+                    'url': "<c:url value="/admin/vouchers/save.html"/>",
+                    'contentType': 'application/json',
+                    'data': JSON.stringify(data),
+                    'dataType': 'json',
+                    'success': function(result) {
+                       var response = result.response;
+                       var status = response.status;
+                       if(status==0 || status ==9999) {
+                            alert("Cap nhat thanh cong");
+                       } else { 
+                            alert(response.statusMessage);
+                       }
+    
+                    }
+                });
+                
+                
+        		
+/*         	    $.ajax({
         	        url : post_url,
         	        type: request_method,
         	        data : form_data,
@@ -73,7 +92,7 @@
 	    			error: function(xhr, textStatus, errorThrown) {
 	    				  	alert('error ' + errorThrown);
 	    			}
-        	    });
+        	    }); */
         	});
 
     });
@@ -94,161 +113,179 @@
 		<h3>
 					<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.order.preparebill" text="Draft Bill"/> 
-                     		 <c:out value="${dataEx.id}" /> - <span class="lead"><s:message code="label.order.${dataEx.status}" text="${dataEx.status}" /></span>
+                     		 <s:message code="label.title.voucher" text="Edit voucher"/>: <c:out value="${voucher.id}" />
                      		 <br>
                        </div>       
                   </div>
            </h3>
 		   <br/>
- 	       	 	
-	     <c:url var="buildBill" value="/admin/vouchers/save.html"/>
-	     
-         <form:form method="POST" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
+
+         <form:form method="POST" id="FormBuildBill" modelAttribute="voucher" >
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
 					
-					<input name="id" id="id" type="hidden" value="<c:out value="${dataEx.id}"/>">
-
- 			
-			 		<div class="span8"> 	
-			 			<div class="span4" style="margin-left:0px;"> 
-						<h6> <s:message code="label.customer.billinginformation" text="Billing information"/> </h6>
-						</div>
-				    </div>
-					
+					<input name="id" id="id" type="hidden" value="<c:out value="${voucher.id}"/>">
 					
 					<div class="span8">
-										<table class="table table-bordered"> 
-														<thead> 
-															<tr> 
-																<th colspan="2" style="width: 250px"><s:message code="label.order.item" text="Item"/></th> 
-																<th colspan="1" style="width: 50px"><s:message code="label.quantity" text="Quantity"/></th> 
-																<th style="width: 120px"><s:message code="label.order.price" text="Price"/></th>
-																<th ><s:message code="label.order.total" text="Total"/></th>  
-															</tr> 
-														</thead>
-														
-														<c:set var="totalParent" value="0" />
-														<tbody> 
-															<c:forEach items="${dataEx.relationships}" var="subEntity" varStatus="counter2">	
-															
-																<c:if test="${subEntity.parentId==0}">
-																<tr>
-																		<td style="width: 250px" colspan="2"> 
-																			<Strong><c:out value="${subEntity.productName}" />(<c:out value="${subEntity.sku}" />)</Strong>
-																		</td>															
-																		<td colspan="1">
-																			<Strong><c:out value="${subEntity.productQuantity}" /></Strong>
-																		</td>
-																		<td>
-																			<Strong><c:out value="${subEntity.oneTimeCharge}" /></Strong>
-																		</td>
-																		<td id="resultId" style="text-align:right">	
-																			
-																			<Strong><sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/></Strong>
-																										
-																		</td>	
-																</tr>
-																
-																<c:set var="totalParent" value="${totalParent + subEntity.total }" />															
-																</c:if>
-																
-																<c:if test="${subEntity.parentId>0}">
-																<input type="hidden" id="itemId" name="itemId" value="${subEntity.id}" /> 
-																	<tr>
-																	
-																		<td style="width: 100px"> 
-																			<input type="text" name="code" id="code" style="width: 90px" value="<c:out value="${subEntity.sku}" />" />
-																		</td>
-																		<td style="">
-																			<c:out value="${subEntity.productName}" />
-																		</td>																	
-																		<td colspan="1">
-																			<input type="text" name="quantity" style="width: 50px" id="quantity" value="<c:out value="${subEntity.productQuantity}" />" />
-																		</td>
-																		<td>
-																			<input type="text" name="oneTimeCharge" style="width: 120px" id="oneTimeCharge" value="<c:out value="${subEntity.oneTimeCharge}" />" />
-																		</td>
-																		<td id="resultId">	
-																			
-																			<sm:monetary value="${subEntity.total}" currency="${subEntity.currency}"/>
-																										
-																		</td>
-																	</tr>
-																</c:if>
-															</c:forEach>
-														</tbody>
-															<tr> 
-																<th colspan="2" style="width: 250px"></th> 
-																<th colspan="1" style="width: 50px"></th> 
-																<th style="width: 120px">
-																			<Strong><s:message code="label.order.totals" text="Totals"/>:</Strong>
-																</th>
-																<th style="text-align:right">
-																		<strong><sm:monetary value="${totalParent}" currency="${order.order.currency}"/></strong>
-																</th>  
-															</tr> 
-													</table>					
-					
-					
-					
-					
-					</div>
-      				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+					                  <label><s:message code="label.entity.code" text="Code"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input id="dateExported" cssClass="small" path="dateExported" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#dateExported').datepicker();
-											</script>    
+					                        <form:input  cssClass="small" path="code"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+					<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.description" text="description"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="description"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+					<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.point" text="point"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="point"/>      														
 					                   </div>
 					           </div>       				
       				</div>
       				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.generic.phone" text="Phone"/></label>	 
+					                  <label><s:message code="label.entity.discount" text="discount"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="phone"/>      														
+					                        <form:input  cssClass="small" path="discount"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+					<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.status" text="status"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="status"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+					<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="blocked"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.blockMessage" text="blockMessage"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="blockMessage"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+      				       				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="startDate" cssClass="small" path="startDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#startDate').datepicker();
+											</script>    
+					                   </div>
+					           </div>       				
+      				</div>      				      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="endDate" cssClass="small" path="endDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#endDate').datepicker();
+											</script>    
+					                   </div>
+					           </div>       				
+      				</div>
+
+      				      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.generic.weekDays" text="weekDays"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="weekDays"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
+      				
+      				<div class="span8">
+							<div class="control-group">
+				                  <label><s:message code="label.generic.dayOfMonth" text="dayOfMonth"/></label>	 
+				                  <div class="controls"> 
+				                        <form:input  cssClass="input-large highlight" path="dayOfMonth"/>      														
+				                   </div>
+				           </div>       				
+      				</div>
+      				<div class="span8">
+							<div class="control-group">
+				                  <label><s:message code="label.entity.startTime" text="startTime"/></label>	 
+				                  <div class="controls"> 
+				                        <form:input  cssClass="input-large highlight" path="startTime"/>      														
+				                   </div>
+				           </div>       				
+      				</div>
+      				<div class="span8">
+							<div class="control-group">
+				                  <label><s:message code="label.entity.endTime" text="endTime"/></label>	 
+				                  <div class="controls"> 
+				                        <form:input  cssClass="input-large highlight" path="endTime"/>      														
+				                   </div>
+				           </div>       				
+      				</div>
+      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.approved" text="approved"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="approved" cssClass="small" path="approved" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#approved').datepicker();
+											</script>    
 					                   </div>
 					           </div>       				
       				</div>
       				<div class="span8">
 							<div class="control-group">
-				                  <label><s:message code="label.generic.address" text="Address"/></label>	 
+				                  <label><s:message code="label.entity.customerId" text="customerId"/></label>	 
 				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="address"/>      														
+				                        <form:input  cssClass="input-large highlight" path="customerId"/>      														
 				                   </div>
 				           </div>       				
-      				</div>
+      				</div>      				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.status" text="Status"/></label>	 
-					                  <div class="controls">         
-											<form:select path="status">
-							  						<form:options items="${orderStatusList}" />
-						       				</form:select>      		                   			
+					                  <label><s:message code="label.entity.expire" text="expire"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="expire" cssClass="small" path="expire" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#expire').datepicker();
+											</script>    
 					                   </div>
-					           </div> 
-				     		   <div class="control-group">  
-				                    <label></label>
-				                     <div class="controls">
-				                     	 <form:textarea  cssClass="input-large" cols="10" rows="3" path="description"/>
-				                     	    
-				                    </div> 
-				               </div>      				
-      				
+					           </div>       				
       				</div>
-
+      				<div class="span8">
+							<div class="control-group">
+				                  <label><s:message code="label.entity.creatorId" text="creatorId"/></label>	 
+				                  <div class="controls"> 
+				                        <form:input  cssClass="input-large highlight" path="creatorId"/>      														
+				                   </div>
+				           </div>       				
+      				</div>      				
             <br/>   
             <div class="span8">
 	              <div class="form-actions">
-	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>
-	              		
-	              		<button  type="button" id="btPrintBill" class="btn btn-medium btn-primary" ><s:message code="label.generic.print" text="Print"/></button>	              		
+	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
 	      		  </div>
       		</div> 
             <br/>   

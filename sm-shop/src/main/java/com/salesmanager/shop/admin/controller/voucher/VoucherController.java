@@ -46,7 +46,7 @@ import com.salesmanager.shop.utils.LabelUtils;
 public class VoucherController {
 
 	@Inject
-	VoucherService voucherService;
+	private VoucherService voucherService;
 
 
 	@Inject
@@ -200,8 +200,26 @@ public class VoucherController {
 		setMenu(model, request);
 
 		Voucher bean = voucherService.getById(id);
-	
-		model.addAttribute("voucher", bean);
+		VoucherForm temp = new VoucherForm();
+		temp.setId(bean.getId());
+		temp.setCode(bean.getCode());
+		temp.setDescription(bean.getDescription());
+		temp.setPoint(bean.getPoint());
+		temp.setDiscount(bean.getDiscount());
+		temp.setStatus(bean.getStatus());
+		temp.setBlocked(bean.getBlocked());
+		temp.setBlockMessage(bean.getBlockMessage());
+		temp.setStartDate(DateUtil.formatDate(bean.getStartDate()));
+		temp.setEndDate(DateUtil.formatDate(bean.getEndDate()));
+		temp.setWeekDays(bean.getWeekDays());
+		temp.setDayOfMonth(bean.getDayOfMonth());
+		temp.setStartTime(bean.getStartTime());
+		temp.setEndTime(bean.getEndTime());
+		temp.setApproved(DateUtil.formatDate(bean.getApproved())); 
+		temp.setCustomerId(bean.getCustomerId());
+		temp.setExpire(DateUtil.formatDate(bean.getExpire()));
+		temp.setCreatorId(bean.getCreatorId());
+		model.addAttribute("voucher", temp);
 
 		return ControllerConstants.Tiles.Voucher.Edit;
 	}
@@ -209,26 +227,43 @@ public class VoucherController {
 	
 
 	@RequestMapping(value = "/admin/vouchers/save.html", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherForm data) {
+	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherForm bean) {
 
 		
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		Date date = null;
-		if (StringUtils.isNotBlank(data.getStartDate())) {
+		
 			try {
-				date = DateUtil.getDate(data.getStartDate());
+				Voucher temp = voucherService.getById(bean.getId());
+				temp.setId(bean.getId());
+				temp.setCode(bean.getCode());
+				temp.setDescription(bean.getDescription());
+				temp.setPoint(bean.getPoint());
+				temp.setDiscount(bean.getDiscount());
+				temp.setStatus(bean.getStatus());
+				temp.setBlocked(bean.getBlocked());
+				temp.setBlockMessage(bean.getBlockMessage());
+				temp.setStartDate(DateUtil.getDate(bean.getStartDate()));
+				temp.setEndDate(DateUtil.getDate(bean.getEndDate()));
+				temp.setWeekDays(bean.getWeekDays());
+				temp.setDayOfMonth(bean.getDayOfMonth());
+				temp.setStartTime(bean.getStartTime());
+				temp.setEndTime(bean.getEndTime());
+				temp.setApproved(DateUtil.getDate(bean.getApproved())); 
+				temp.setCustomerId(bean.getCustomerId());
+				temp.setExpire(DateUtil.getDate(bean.getExpire()));
+				temp.setCreatorId(bean.getCreatorId());
+				voucherService.saveVoucher(temp);
+				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+				
+				
 			} catch (Exception e) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorMessage(e);
 			}
-		}
-		if(date!=null){
-
-		}
-
+		
 		String returnString = resp.toJSONString();
 		return new ResponseEntity<>(returnString, httpHeaders,HttpStatus.OK);
 
