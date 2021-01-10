@@ -260,7 +260,7 @@
 "order":8,
 "menus":[
 	{"menu":{"code":"voucher","url":"","role":"CUSTOMER","order":0}},
-	{"menu":{"code":"transactions","url":"","role":"CUSTOMER","order":1}}
+	{"menu":{"code":"voucherCode","url":"","role":"CUSTOMER","order":1}}
 ]
 }},
 

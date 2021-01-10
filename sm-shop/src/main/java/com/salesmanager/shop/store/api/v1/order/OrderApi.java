@@ -1,10 +1,12 @@
 package com.salesmanager.shop.store.api.v1.order;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -354,8 +356,13 @@ public class OrderApi {
 			return Collections.emptyList();
 		}
 
-		List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
-
+		//List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
+		List<OrderStatus> status = new ArrayList<OrderStatus>();
+		status.add(OrderStatus.PROCESSING);
+		status.add(OrderStatus.PROCESSED);
+		status.add(OrderStatus.DELIVERING);
+		status.add(OrderStatus.DELIVERED);
+		
 		return billMasterService.findLast(id, status, PageRequest.of(0, 1));
 	}
 
@@ -372,7 +379,12 @@ public class OrderApi {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
+		//List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
+		List<OrderStatus> status = new ArrayList<OrderStatus>();
+		status.add(OrderStatus.PROCESSING);
+		status.add(OrderStatus.PROCESSED);
+		status.add(OrderStatus.DELIVERING);
+		status.add(OrderStatus.DELIVERED);
 		if(status.contains(bill.getStatus())){
 			bill.setStatus(OrderStatus.DONE);
 			billMasterService.save(bill);

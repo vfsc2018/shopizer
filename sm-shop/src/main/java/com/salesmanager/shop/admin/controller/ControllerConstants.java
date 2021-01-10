@@ -112,6 +112,14 @@ public interface ControllerConstants
             final String Edit="admin-vouchers-edit";
             final String vouchers="admin-vouchers-vouchers";
         }
+        
+        interface VoucherCode{
+            final String notifications="admin-voucherCode";
+            final String Edit="admin-voucherCodes-edit";
+            final String vouchers="admin-voucherCodes-voucherCodes";
+        }
+        
+        
         interface Configuration{
             final String accounts="config-accounts";
             final String email="config-email";

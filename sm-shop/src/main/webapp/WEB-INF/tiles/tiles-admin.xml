@@ -388,9 +388,23 @@
   		<put-attribute name="body" value="/pages/admin/vouchers/vouchers.jsp" /> 
   	</definition>
   	
-    <definition name="admin-bills-vouchers" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/bills/vouchers.jsp" /> 
+    <definition name="admin-vouchers" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/vouchers/vouchers.jsp" /> 
   	</definition>
   	
-  	  	
+
+
+
+
+  	<definition name="admin-voucherCodes-edit" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/voucherCodes/voucherCode.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-voucherCodes-voucherCodes" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/voucherCodes/voucherCodes.jsp" /> 
+  	</definition>
+  	
+    <definition name="admin-voucherCodes" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/voucherCodes/voucherCodes.jsp" /> 
+  	</definition>  	  	
 </tiles-definitions>

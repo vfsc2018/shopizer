@@ -412,7 +412,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			List<com.salesmanager.core.model.order.OrderTotal> totals = summary.getTotals();
 
 			// re-order totals
-			Collections.sort(totals, new Comparator<>() {
+/*			Collections.sort(totals, new Comparator<>() {
 				public int compare(com.salesmanager.core.model.order.OrderTotal x,
 						com.salesmanager.core.model.order.OrderTotal y) {
 					if (x.getSortOrder() == y.getSortOrder())
@@ -420,7 +420,7 @@ public class OrderFacadeImpl implements OrderFacade {
 					return x.getSortOrder() < y.getSortOrder() ? -1 : 1;
 				}
 
-			});
+			});*/
 
 			Set<com.salesmanager.core.model.order.OrderTotal> modelTotals = new LinkedHashSet<>();
 			for (com.salesmanager.core.model.order.OrderTotal total : totals) {

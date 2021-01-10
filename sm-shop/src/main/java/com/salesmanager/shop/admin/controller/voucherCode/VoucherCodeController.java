@@ -1,4 +1,4 @@
-package com.salesmanager.shop.admin.controller.voucher;
+package com.salesmanager.shop.admin.controller.voucherCode;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -25,15 +25,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.salesmanager.core.business.services.catalog.product.PricingService;
+import com.salesmanager.core.business.services.customer.CustomerService;
+import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.services.voucher.VoucherService;
+import com.salesmanager.core.business.services.voucherCode.VoucherCodeService;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.voucher.Voucher;
-import com.salesmanager.core.model.voucher.VoucherCriteria;
-import com.salesmanager.core.model.voucher.VoucherList;
+import com.salesmanager.core.model.voucherCode.VoucherCode;
+import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
+import com.salesmanager.core.model.voucherCode.VoucherCodeList;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
@@ -42,12 +45,20 @@ import com.salesmanager.shop.utils.LabelUtils;
 
 @Controller
 @Scope("session")
-public class VoucherController {
+public class VoucherCodeController {
 
+	@Inject
+	private VoucherCodeService voucherCodeService;
 	@Inject
 	private VoucherService voucherService;
 
-
+	
+	@Inject
+	private CustomerService customerService;
+	
+	@Inject
+	private OrderService orderService;
+	
 	@Inject
 	LabelUtils messages;
 	
@@ -57,10 +68,10 @@ public class VoucherController {
 	@Inject
 	protected ModuleConfigurationService moduleConfigurationService;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(VoucherCodeController.class);
 
 
-	@RequestMapping(value = "/admin/vouchers/list.html", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/voucherCodes/list.html", method = RequestMethod.GET)
 	public String displayOrders(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
@@ -68,12 +79,12 @@ public class VoucherController {
 
 		// the list of orders is from page method
 
-		return ControllerConstants.Tiles.Voucher.vouchers;
+		return ControllerConstants.Tiles.VoucherCode.vouchers;
 
 	}
 
 
-	@RequestMapping(value = "/admin/vouchers/paging.html", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/voucherCodes/paging.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageBills(
 			HttpServletRequest request, HttpServletResponse response,
 			Locale locale) {
@@ -88,26 +99,27 @@ public class VoucherController {
 			int endRow = Integer.parseInt(request.getParameter("_endRow"));
 
 			String id = request.getParameter("id");
-			String blocked = request.getParameter("blocked");
+			String voucherId = request.getParameter("voucherId");
 			
 			
-			String	approved = request.getParameter("approved");
-			String	startDate = request.getParameter("startDate");
-			String	endDate = request.getParameter("endDate");
-			String customerId = request.getParameter("customerId");
-			String expire = request.getParameter("expire");
+			String	securecode = request.getParameter("securecode");
+			String	customerId  = request.getParameter("customerId ");
 			
-			if(approved!=null && approved.length()!=10){
+			
+			String	used = request.getParameter("used");
+			String	redeem = request.getParameter("redeem");
+			
+			String orderId = request.getParameter("orderId");
+			
+			
+			if(used!=null && used.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}
-			if(startDate!=null && startDate.length()!=10){
+			if(redeem!=null && redeem.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
-			}			
-			if(endDate!=null && endDate.length()!=10){
-				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
-			}
-
-			VoucherCriteria criteria = new VoucherCriteria();
+			}	
+			
+			VoucherCodeCriteria criteria = new VoucherCodeCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
@@ -117,59 +129,61 @@ public class VoucherController {
 				if(!StringUtils.isBlank(id)) {
 					criteria.setId(Long.parseLong(id));
 				}
-				if(!StringUtils.isBlank(blocked)) {
-					criteria.setBlocked(Integer.parseInt(blocked));
+				if(!StringUtils.isBlank(voucherId)) {
+					criteria.setVoucherId(Long.parseLong(voucherId));
 				}
+				
+				
+				if(!StringUtils.isBlank(securecode)) {
+					criteria.setSecurecode(securecode);
+				}
+				
+				if(!StringUtils.isBlank(orderId)) {
+					criteria.setOrderId(Long.parseLong(orderId));
+				}
+				
+				if(!StringUtils.isBlank(customerId )) {
+					criteria.setCustomerId(Long.parseLong(customerId) );
+				}
+				if(!StringUtils.isBlank(used)) {
+					criteria.setUsed(used);
+				}
+				if(!StringUtils.isBlank(redeem)) {
+					criteria.setRedeem(redeem);
+				}
+			
+				
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-			if(!StringUtils.isBlank(approved)) {
-				criteria.setApproved(approved);
-			}
-			if(!StringUtils.isBlank(startDate)) {
-				criteria.setStartDate(startDate);
-			}
-			if(!StringUtils.isBlank(endDate)) {
-				criteria.setEndDate(endDate);
-			}
-			try {
-				if(!StringUtils.isBlank(customerId)) {
-					criteria.setCustomerId(Long.parseLong(customerId));
-				}
-				
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			if(!StringUtils.isBlank(expire)) {
-				criteria.setEndDate(expire);
-			}
+
 			
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 
-			VoucherList list = voucherService.getListByStore(store, criteria);
+			VoucherCodeList list = voucherCodeService.getListByStore(store, criteria);
 
 			
-			if (list.getVouchers() != null) {
+			if (list.getVoucherCodes() != null) {
 
 				resp.setTotalRow(list.getTotalCount());
 
-				for (Voucher transaction : list.getVouchers()) {
+				for (VoucherCode transaction : list.getVoucherCodes()) {
 					
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
+					
 					entry.put("id", transaction.getId());
-					entry.put("blocked", transaction.getBlocked());
+					entry.put("voucherId", transaction.getBlocked());
+					entry.put("securecode", transaction.getSecurecode());
+					entry.put("customerId ", transaction.getCustomer().getId());
 					
-					entry.put("approved", DateUtil.formatTimeDate(transaction.getApproved()));
-					entry.put("startDate", DateUtil.formatTimeDate(transaction.getStartDate()));
-					entry.put("endDate", DateUtil.formatTimeDate(transaction.getEndDate()));
+					entry.put("used", DateUtil.formatTimeDate(transaction.getUsed()));
+					entry.put("redeem", DateUtil.formatTimeDate(transaction.getRedeem()));
 					
-					entry.put("customerId", transaction.getCustomerId());
-					entry.put("expire", DateUtil.formatTimeDate(transaction.getExpire()));
+					entry.put("orderId ", transaction.getOrder().getId());
+					
 					resp.addDataEntry(entry);
 
 				}
@@ -190,43 +204,36 @@ public class VoucherController {
 
 
 
-	@RequestMapping(value = "/admin/vouchers/view.html", method = RequestMethod.GET)
-	public String viewNotificaiton(@RequestParam("id") Long id, Model model,
+	@RequestMapping(value = "/admin/voucherCodes/view.html", method = RequestMethod.GET)
+	public String viewVoucherCode(@RequestParam("id") Long id, Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		// display menu
 		setMenu(model, request);
 
-		Voucher bean = voucherService.getById(id);
-		VoucherForm temp = new VoucherForm();
+		VoucherCode bean = voucherCodeService.getById(id);
+		VoucherCodeForm temp = new VoucherCodeForm();
 		temp.setId(bean.getId());
+		temp.setVoucherId(bean.getVoucher().getId());
 		temp.setCode(bean.getCode());
-		temp.setDescription(bean.getDescription());
-		temp.setPoint(bean.getPoint());
-		temp.setDiscount(bean.getDiscount());
-		temp.setStatus(bean.getStatus());
+		temp.setSecurecode(bean.getSecurecode());
 		temp.setBlocked(bean.getBlocked());
 		temp.setBlockMessage(bean.getBlockMessage());
-		temp.setStartDate(DateUtil.formatDate(bean.getStartDate()));
-		temp.setEndDate(DateUtil.formatDate(bean.getEndDate()));
-		temp.setWeekDays(bean.getWeekDays());
-		temp.setDayOfMonth(bean.getDayOfMonth());
-		temp.setStartTime(bean.getStartTime());
-		temp.setEndTime(bean.getEndTime());
-		temp.setApproved(DateUtil.formatDate(bean.getApproved())); 
-		temp.setCustomerId(bean.getCustomerId());
-		temp.setExpire(DateUtil.formatDate(bean.getExpire()));
-		temp.setCreatorId(bean.getCreatorId());
-		model.addAttribute("voucher", temp);
+		temp.setUsed(DateUtil.formatDate(bean.getUsed()));
+		temp.setIndex(bean.getIndex());
+		temp.setRedeem(DateUtil.formatDate(bean.getRedeem()));
+		temp.setOrderId(bean.getOrder().getId());
+		
+		model.addAttribute("voucherCode", temp);
 
-		return ControllerConstants.Tiles.Voucher.Edit;
+		return ControllerConstants.Tiles.VoucherCode.Edit;
 	}
 	
 	
 
-	@RequestMapping(value = "/admin/vouchers/save.html", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherForm bean) {
+	@RequestMapping(value = "/admin/voucherCodes/save.html", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherCodeForm bean) {
 
 		
 
@@ -235,26 +242,20 @@ public class VoucherController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 			try {
-				Voucher temp = voucherService.getById(bean.getId());
+				VoucherCode temp = voucherCodeService.getById(bean.getId());
 				temp.setId(bean.getId());
+				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
 				temp.setCode(bean.getCode());
-				temp.setDescription(bean.getDescription());
-				temp.setPoint(bean.getPoint());
-				temp.setDiscount(bean.getDiscount());
-				temp.setStatus(bean.getStatus());
+				temp.setSecurecode(bean.getSecurecode());
 				temp.setBlocked(bean.getBlocked());
 				temp.setBlockMessage(bean.getBlockMessage());
-				temp.setStartDate(DateUtil.getDate(bean.getStartDate()));
-				temp.setEndDate(DateUtil.getDate(bean.getEndDate()));
-				temp.setWeekDays(bean.getWeekDays());
-				temp.setDayOfMonth(bean.getDayOfMonth());
-				temp.setStartTime(bean.getStartTime());
-				temp.setEndTime(bean.getEndTime());
-				temp.setApproved(DateUtil.getDate(bean.getApproved())); 
-				temp.setCustomerId(bean.getCustomerId());
-				temp.setExpire(DateUtil.getDate(bean.getExpire()));
-				temp.setCreatorId(bean.getCreatorId());
-				voucherService.saveVoucher(temp);
+				temp.setCustomer(customerService.getById(bean.getCustomerId()));
+				temp.setUsed(DateUtil.getDate(bean.getUsed()));
+				temp.setIndex(bean.getIndex());
+				temp.setRedeem(DateUtil.getDate(bean.getRedeem()));
+				temp.setOrder(orderService.getById(bean.getOrderId()));
+				
+				voucherCodeService.saveVoucher(temp);
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 				
 				
@@ -275,7 +276,7 @@ public class VoucherController {
 		// display menu
 		Map<String, String> activeMenus = new HashMap<>();
 
-		activeMenus.put("voucher", "voucher");
+		activeMenus.put("voucherCode", "voucherCode");
 
 		@SuppressWarnings("unchecked")
 		Map<String, Menu> menus = (Map<String, Menu>) request.getAttribute("MENUMAP");
