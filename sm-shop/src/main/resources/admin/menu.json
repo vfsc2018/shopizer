@@ -259,7 +259,14 @@
 "role":"CUSTOMER",
 "order":8,
 "menus":[
-	{"menu":{"code":"voucher","url":"","role":"CUSTOMER","order":0}},
+	{"menu":{"code":"voucher","url":"","role":"CUSTOMER","order":0,"menus":[
+			{"menu":{
+				"code":"voucher-create","url":"/admin/vouchers/createVoucher.html","role":"PRODUCTS","order":0
+			}},
+			{"menu":{
+				"code":"voucher","url":"/admin/vouchers/list.html","role":"PRODUCTS","order":2
+			}}		
+	]}},
 	{"menu":{"code":"voucherCode","url":"","role":"CUSTOMER","order":1}}
 ]
 }},

@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;
 
+import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.voucher.VoucherRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -36,6 +37,10 @@ public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Vouc
 		return vouchersRepository.saveAndFlush(form);
 	}
 
+	public boolean deleteVoucher(Long id) throws ServiceException {
+		vouchersRepository.deleteById(id);
+		return true;
 
+	}
 	
 }

@@ -3,6 +3,7 @@ package com.salesmanager.shop.admin.controller.voucher;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -187,7 +188,19 @@ public class VoucherController {
 
 		return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/admin/vouchers/createVoucher.html", method=RequestMethod.GET)
+	public String displayProductCreate(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//display menu
+		setMenu(model,request);
+		
+		VoucherForm temp = new VoucherForm();
+		model.addAttribute("voucher", temp);
+		return "admin-vouchers-create";
 
+	}
+	
+	
 
 
 	@RequestMapping(value = "/admin/vouchers/view.html", method = RequestMethod.GET)
@@ -235,7 +248,10 @@ public class VoucherController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 			try {
-				Voucher temp = voucherService.getById(bean.getId());
+				Voucher temp = new Voucher();
+				if(bean.getId()!=null && bean.getId()>0){
+					temp = voucherService.getById(bean.getId());
+				}
 				temp.setId(bean.getId());
 				temp.setCode(bean.getCode());
 				temp.setDescription(bean.getDescription());
@@ -268,7 +284,28 @@ public class VoucherController {
 
 	}
 	
-	
+    @RequestMapping(value="/admin/vouchers/remove.html", method=RequestMethod.POST)
+    public @ResponseBody ResponseEntity<String> deleteVoucher(HttpServletRequest request, Locale locale) {
+        String sid = request.getParameter("id");
+        AjaxResponse resp = new AjaxResponse();
+        try {
+            Long id = Long.parseLong(sid);
+            if(voucherService.deleteVoucher(id)){
+                resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+            }else{
+                resp.setStatusMessage(messages.getMessage("message.product.not.empty", locale));
+                resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error while deleting voucher", e);
+            resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+            resp.setErrorMessage(e);
+        }
+        String returnString = resp.toJSONString();
+        final HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
+    }
 
 	private void setMenu(Model model, HttpServletRequest request) {
 

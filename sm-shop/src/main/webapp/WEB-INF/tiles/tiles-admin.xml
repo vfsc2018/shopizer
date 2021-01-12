@@ -383,6 +383,11 @@
   	<definition name="admin-vouchers-edit" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/vouchers/voucher.jsp" /> 
   	</definition>
+
+  	<definition name="admin-vouchers-create" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/vouchers/createVoucher.jsp" /> 
+  	</definition>
+
   	
     <definition name="admin-vouchers-vouchers" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/vouchers/vouchers.jsp" /> 
