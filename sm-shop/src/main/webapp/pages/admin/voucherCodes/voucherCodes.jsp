@@ -36,7 +36,7 @@
       		<br/>
       		
 								 <c:set var="gridHeader" value="/pages/admin/voucherCodes/voucherCodes-gridHeader.jsp" scope="request"/>
-								 <c:set var="canRemoveEntry" value="false" scope="request"/>
+								 <c:set var="canRemoveEntry" value="true" scope="request"/>
 				
 				            	 <jsp:include page="/pages/admin/components/list.jsp"></jsp:include> 
 								 <!-- End listing grid include -->

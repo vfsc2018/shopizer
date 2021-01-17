@@ -397,7 +397,9 @@
   		<put-attribute name="body" value="/pages/admin/vouchers/vouchers.jsp" /> 
   	</definition>
   	
-
+  	<definition name="admin-voucherCodes-create" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/voucherCodes/createVoucherCode.jsp" /> 
+  	</definition>
 
 
 

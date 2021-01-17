@@ -34,10 +34,12 @@ import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
 import com.salesmanager.core.model.voucherCode.VoucherCodeList;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
+import com.salesmanager.shop.admin.controller.voucher.VoucherForm;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
@@ -83,7 +85,17 @@ public class VoucherCodeController {
 
 	}
 
+	@RequestMapping(value="/admin/voucherCodes/createVoucherCode.html", method=RequestMethod.GET)
+	public String displayProductCreate(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//display menu
+		setMenu(model,request);
+		
+		VoucherCodeForm temp = new VoucherCodeForm();
+		model.addAttribute("voucherCode", temp);
+		return "admin-voucherCodes-create";
 
+	}
+	
 	@RequestMapping(value = "/admin/voucherCodes/paging.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageBills(
 			HttpServletRequest request, HttpServletResponse response,
@@ -242,9 +254,16 @@ public class VoucherCodeController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 			try {
-				VoucherCode temp = voucherCodeService.getById(bean.getId());
+/*				VoucherCode temp = voucherCodeService.getById(bean.getId());
 				temp.setId(bean.getId());
 				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
+				*/
+				VoucherCode temp = new VoucherCode();
+				if(bean.getId()!=null && bean.getId()>0){
+					temp = voucherCodeService.getById(bean.getId());
+				}
+				
+				
 				temp.setCode(bean.getCode());
 				temp.setSecurecode(bean.getSecurecode());
 				temp.setBlocked(bean.getBlocked());
@@ -269,7 +288,28 @@ public class VoucherCodeController {
 
 	}
 	
-	
+    @RequestMapping(value="/admin/voucherCodes/remove.html", method=RequestMethod.POST)
+    public @ResponseBody ResponseEntity<String> deleteVoucher(HttpServletRequest request, Locale locale) {
+        String sid = request.getParameter("id");
+        AjaxResponse resp = new AjaxResponse();
+        try {
+            Long id = Long.parseLong(sid);
+            if(voucherCodeService.deleteVoucher(id)){
+                resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+            }else{
+                resp.setStatusMessage(messages.getMessage("message.product.not.empty", locale));
+                resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error while deleting voucher", e);
+            resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+            resp.setErrorMessage(e);
+        }
+        String returnString = resp.toJSONString();
+        final HttpHeaders httpHeaders= new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return new ResponseEntity<>(returnString, httpHeaders, HttpStatus.OK);
+    }	
 
 	private void setMenu(Model model, HttpServletRequest request) {
 

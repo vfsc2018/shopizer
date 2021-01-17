@@ -267,7 +267,14 @@
 				"code":"voucher","url":"/admin/vouchers/list.html","role":"PRODUCTS","order":2
 			}}		
 	]}},
-	{"menu":{"code":"voucherCode","url":"","role":"CUSTOMER","order":1}}
+	{"menu":{"code":"voucherCode","url":"","role":"CUSTOMER","order":1,"menus":[
+			{"menu":{
+				"code":"voucherCode-create","url":"/admin/voucherCodes/createVoucherCode.html","role":"PRODUCTS","order":0
+			}},
+			{"menu":{
+				"code":"voucherCode","url":"/admin/voucherCodes/list.html","role":"PRODUCTS","order":2
+			}}			
+	]}}
 ]
 }},
 
