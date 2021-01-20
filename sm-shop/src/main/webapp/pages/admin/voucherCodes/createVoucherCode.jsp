@@ -94,7 +94,7 @@
 		<h3>
 					<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.title.voucherCode.create" text="Create voucher"/>: <c:out value="${voucherCode.id}" />
+                     		 <s:message code="label.title.voucherCode.create" text="Create voucher code"/>: <c:out value="${voucherCode.id}" />
                      		 <br>
                        </div>       
                   </div>
@@ -109,7 +109,7 @@
 					
 					<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.voucherId" text="VoucherId" var="rootVar"/></label>	 
+					                  <label><s:message code="label.entity.voucherId" text="VoucherId" /></label>	 
 					                  <div class="controls">
 					 						<form:select cssClass="billing-country-list" path="voucherId">
 						  						<form:options items="${lstVoucher}" itemValue="id" itemLabel="code"/>
