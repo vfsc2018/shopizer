@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.voucher;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -25,6 +27,10 @@ public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Vouc
 		return vouchersRepository.listByStore(store, criteria);
 	}
     
+	@Override
+	public List<Voucher> getVoucherEndDate(){
+		return vouchersRepository.getVoucherEndDate();
+	}
     
 	@Inject
 	public VoucherServiceImpl(VoucherRepository vouchersRepository) {

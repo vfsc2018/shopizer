@@ -109,9 +109,11 @@
 					
 					<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.voucherId" text="VoucherId"/></label>	 
-					                  <div class="controls"> 
-					                  		<form:input  cssClass="small" path="voucherId"/>            															
+					                  <label><s:message code="label.entity.voucherId" text="VoucherId" var="rootVar"/></label>	 
+					                  <div class="controls">
+					 						<form:select cssClass="billing-country-list" path="voucherId">
+						  						<form:options items="${lstVoucher}" itemValue="id" itemLabel="code"/>
+					       					</form:select>
 					                   </div>
 					           </div>       				
       				</div>      				
@@ -139,7 +141,10 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
 					                  <div class="controls"> 
-											<form:input  cssClass="small" path="blocked"/>  													
+										<form:select path="blocked">
+												<form:option value="1" label="Yes"/>
+												<form:option value="0" label="No"/>
+										</form:select>    													
 					                   </div>
 					           </div>       				
       				</div>

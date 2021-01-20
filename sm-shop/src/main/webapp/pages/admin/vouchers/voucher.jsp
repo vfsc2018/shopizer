@@ -164,7 +164,10 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.status" text="status"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="status"/>      														
+											<form:select path="status">
+													<form:option value="1" label="Yes"/>
+													<form:option value="0" label="No"/>
+											</form:select>       														
 					                   </div>
 					           </div>       				
       				</div>
@@ -172,7 +175,10 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="blocked"/>      														
+										<form:select path="blocked">
+												<form:option value="1" label="Yes"/>
+												<form:option value="0" label="No"/>
+										</form:select>     														
 					                   </div>
 					           </div>       				
       				</div>

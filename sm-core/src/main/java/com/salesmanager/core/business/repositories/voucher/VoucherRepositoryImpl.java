@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.repositories.voucher;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -7,6 +9,7 @@ import javax.persistence.Query;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucher.VoucherCriteria;
 import com.salesmanager.core.model.voucher.VoucherList;
 
@@ -16,6 +19,18 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
     @PersistenceContext
 	private EntityManager em;
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Voucher> getVoucherEndDate() {
+
+		StringBuilder baseQuery = new StringBuilder("select c from Voucher as c where c.id = c.id ");
+		baseQuery.append(" order by c.id desc ");
+		Query objectQ = em.createQuery(baseQuery.toString());
+		return objectQ.getResultList();
+	}    
+
+	
 	
     
 	@SuppressWarnings("unchecked")

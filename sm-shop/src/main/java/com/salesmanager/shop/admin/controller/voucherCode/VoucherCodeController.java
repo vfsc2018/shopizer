@@ -3,6 +3,7 @@ package com.salesmanager.shop.admin.controller.voucherCode;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +35,10 @@ import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
 import com.salesmanager.core.model.voucherCode.VoucherCodeList;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
-import com.salesmanager.shop.admin.controller.voucher.VoucherForm;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
@@ -53,7 +52,7 @@ public class VoucherCodeController {
 	private VoucherCodeService voucherCodeService;
 	@Inject
 	private VoucherService voucherService;
-
+	
 	
 	@Inject
 	private CustomerService customerService;
@@ -76,9 +75,9 @@ public class VoucherCodeController {
 	@RequestMapping(value = "/admin/voucherCodes/list.html", method = RequestMethod.GET)
 	public String displayOrders(Model model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
+		
 		setMenu(model, request);
-
+		
 		// the list of orders is from page method
 
 		return ControllerConstants.Tiles.VoucherCode.vouchers;
@@ -91,9 +90,30 @@ public class VoucherCodeController {
 		setMenu(model,request);
 		
 		VoucherCodeForm temp = new VoucherCodeForm();
+		temp.setCode(genCode());
 		model.addAttribute("voucherCode", temp);
+		
+		model.addAttribute("lstVoucher", voucherService.getVoucherEndDate());
+		
+		
 		return "admin-voucherCodes-create";
 
+	}
+	
+	private String genCode(){
+	    int leftLimit = 97; // letter 'a'
+	    int rightLimit = 122; // letter 'z'
+	    int targetStringLength = 10;
+	    Random random = new Random();
+	    StringBuilder buffer = new StringBuilder(targetStringLength);
+	    for (int i = 0; i < targetStringLength; i++) {
+	        int randomLimitedInt = leftLimit + (int) 
+	          (random.nextFloat() * (rightLimit - leftLimit + 1));
+	        buffer.append((char) randomLimitedInt);
+	    }
+	    String generatedString = buffer.toString();
+	    
+		return generatedString;
 	}
 	
 	@RequestMapping(value = "/admin/voucherCodes/paging.html", method = RequestMethod.POST)
@@ -263,7 +283,8 @@ public class VoucherCodeController {
 					temp = voucherCodeService.getById(bean.getId());
 				}
 				
-				
+				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
+
 				temp.setCode(bean.getCode());
 				temp.setSecurecode(bean.getSecurecode());
 				temp.setBlocked(bean.getBlocked());
