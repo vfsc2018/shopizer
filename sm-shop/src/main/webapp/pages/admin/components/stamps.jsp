@@ -56,8 +56,15 @@
 				<div id="printSection">
 					<table class="styleClass">
 						<tr>
-							<td colspan="2" align="center" >
-								<svg id="barcode"></svg>
+							<td colspan="2"> 
+								<table border="0px" width="100%" >
+								<tr>
+								<td><h1>VT</h1></td>
+								<td>
+									<svg id="barcode"></svg>
+								</td>
+								</tr>
+								</table>
 							</td>
 						</tr>
 						<tr>
@@ -88,8 +95,9 @@
 		</div>
 		
 		<script>
-		
-			JsBarcode("#barcode", "<c:out value="${stamp.sku}" />");
-		
+		JsBarcode("#barcode", "<c:out value="${stamp.sku}" />", {
+			  height: 50
+			});
+			
 		</script> 
 	</div>	
