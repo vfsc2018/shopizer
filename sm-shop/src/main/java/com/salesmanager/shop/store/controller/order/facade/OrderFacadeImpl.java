@@ -1029,20 +1029,22 @@ public class OrderFacadeImpl implements OrderFacade {
 			final Language language, final com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder)
 			throws ConversionException {
 		List<ReadableOrderProduct> orderProducts = new ArrayList<>();
-		for (OrderProduct p : order.getOrderProducts()) {
-			ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
-			orderProductPopulator.setLocale(locale);
-			orderProductPopulator.setProductService(productService);
-			orderProductPopulator.setPricingService(pricingService);
-			orderProductPopulator.setimageUtils(imageUtils);
-			ReadableOrderProduct orderProduct = new ReadableOrderProduct();
-			orderProductPopulator.populate(p, orderProduct, store, language);
+		if(order!=null &&  !CollectionUtils.isEmpty(order.getOrderProducts())){
+			for (OrderProduct p : order.getOrderProducts()) {
+				ReadableOrderProductPopulator orderProductPopulator = new ReadableOrderProductPopulator();
+				orderProductPopulator.setLocale(locale);
+				orderProductPopulator.setProductService(productService);
+				orderProductPopulator.setPricingService(pricingService);
+				orderProductPopulator.setimageUtils(imageUtils);
+				ReadableOrderProduct orderProduct = new ReadableOrderProduct();
+				orderProductPopulator.populate(p, orderProduct, store, language);
 
-			// image
+				// image
 
-			// attributes
+				// attributes
 
-			orderProducts.add(orderProduct);
+				orderProducts.add(orderProduct);
+			}
 		}
 
 		readableOrder.setProducts(orderProducts);

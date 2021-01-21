@@ -12,22 +12,41 @@ public class VoucherForm  implements Serializable{
 	private Long id;
 	private String code;
 	private String description;
-	private int point;
-	private int discount;
-	private int status;
-	private int blocked;
+	private Integer  point = 0;
+	private Integer  discount = 0;
+	private Integer percent = 0;
+	private Integer  status = 0;
+	private Integer  blocked = 0;
 	private String blockMessage;
 	private String startDate;
 	private String endDate;
-	private String weekDays;
+	private String weekDays = "1,2,3,4,5,6,7";
 	private String dayOfMonth;
-	private int startTime;
-	private int endTime;
+	private Integer  startTime;
+	private Integer  endTime;
 	private String approved;
-	private long customerId;
+	private Long partnerId;
 	private String expire;
-	private long creatorId;
+	private String manager;
 	/*********************************************/
+
+	public Integer getPercent() {
+		return percent;
+	}
+
+
+	public void setPercent(Integer percent) {
+		this.percent = percent;
+	}
+
+	public String getManager() {
+		return manager ;
+	}
+
+
+	public void setManager(String manager ) {
+		this.manager  = manager ;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -46,28 +65,28 @@ public class VoucherForm  implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public int getPoint() {
+	public Integer getPoint() {
 		return point;
 	}
-	public void setPoint(int point) {
+	public void setPoint(Integer  point) {
 		this.point = point;
 	}
-	public int getDiscount() {
+	public Integer  getDiscount() {
 		return discount;
 	}
-	public void setDiscount(int discount) {
+	public void setDiscount(Integer  discount) {
 		this.discount = discount;
 	}
-	public int getStatus() {
+	public Integer  getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(Integer  status) {
 		this.status = status;
 	}
-	public int getBlocked() {
+	public Integer  getBlocked() {
 		return blocked;
 	}
-	public void setBlocked(int blocked) {
+	public void setBlocked(Integer  blocked) {
 		this.blocked = blocked;
 	}
 	public String getBlockMessage() {
@@ -100,16 +119,16 @@ public class VoucherForm  implements Serializable{
 	public void setDayOfMonth(String dayOfMonth) {
 		this.dayOfMonth = dayOfMonth;
 	}
-	public int getStartTime() {
+	public Integer  getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(int startTime) {
+	public void setStartTime(Integer startTime) {
 		this.startTime = startTime;
 	}
-	public int getEndTime() {
+	public Integer  getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(int endTime) {
+	public void setEndTime(Integer endTime) {
 		this.endTime = endTime;
 	}
 	public String getApproved() {
@@ -118,11 +137,11 @@ public class VoucherForm  implements Serializable{
 	public void setApproved(String approved) {
 		this.approved = approved;
 	}
-	public long getCustomerId() {
-		return customerId;
+	public Long getPartnerId() {
+		return partnerId  ;
 	}
-	public void setCustomerId(long customerId) {
-		this.customerId = customerId;
+	public void setPartnerId(Long partnerId) {
+		this.partnerId   = partnerId  ;
 	}
 	public String getExpire() {
 		return expire;
@@ -130,14 +149,4 @@ public class VoucherForm  implements Serializable{
 	public void setExpire(String expire) {
 		this.expire = expire;
 	}
-	public long getCreatorId() {
-		return creatorId;
-	}
-	public void setCreatorId(long creatorId) {
-		this.creatorId = creatorId;
-	}
-	
-	/*********************************/
-	
-	
 }

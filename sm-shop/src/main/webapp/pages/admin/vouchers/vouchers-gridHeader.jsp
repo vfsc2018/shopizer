@@ -9,7 +9,6 @@
     {title:"<s:message code="label.entity.approved" text="approved"/>", name:"approved", width:120},
     {title:"<s:message code="label.entity.startDate" text="startDate"/>", name:"startDate", width:120},
     {title:"<s:message code="label.entity.endDate" text="endDate"/>", name:"endDate", width:120},
-    {title:"<s:message code="label.entity.customerId" text="customerId"/>", name:"customerId", width:100,canFilter:false},
     {title:"<s:message code="label.entity.expire" text="expire"/>", name:"expire", width:120},
     {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}
     

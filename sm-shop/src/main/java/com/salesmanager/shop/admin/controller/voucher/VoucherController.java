@@ -95,7 +95,7 @@ public class VoucherController {
 			String	approved = request.getParameter("approved");
 			String	startDate = request.getParameter("startDate");
 			String	endDate = request.getParameter("endDate");
-			String customerId = request.getParameter("customerId");
+			// String customerId = request.getParameter("customerId");
 			String expire = request.getParameter("expire");
 			
 			if(approved!=null && approved.length()!=10){
@@ -135,15 +135,6 @@ public class VoucherController {
 			if(!StringUtils.isBlank(endDate)) {
 				criteria.setEndDate(endDate);
 			}
-			try {
-				if(!StringUtils.isBlank(customerId)) {
-					criteria.setCustomerId(Long.parseLong(customerId));
-				}
-				
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			
 			if(!StringUtils.isBlank(expire)) {
 				criteria.setEndDate(expire);
@@ -169,7 +160,8 @@ public class VoucherController {
 					entry.put("startDate", DateUtil.formatTimeDate(transaction.getStartDate()));
 					entry.put("endDate", DateUtil.formatTimeDate(transaction.getEndDate()));
 					
-					entry.put("customerId", transaction.getCustomerId());
+					// entry.put("partnerId", transaction.getPartnerId());
+					
 					entry.put("expire", DateUtil.formatTimeDate(transaction.getExpire()));
 					resp.addDataEntry(entry);
 
@@ -228,9 +220,9 @@ public class VoucherController {
 		temp.setStartTime(bean.getStartTime());
 		temp.setEndTime(bean.getEndTime());
 		temp.setApproved(DateUtil.formatDate(bean.getApproved())); 
-		temp.setCustomerId(bean.getCustomerId());
+		temp.setPartnerId(bean.getPartnerId());
 		temp.setExpire(DateUtil.formatDate(bean.getExpire()));
-		temp.setCreatorId(bean.getCreatorId());
+		temp.setManager(bean.getManager());
 		model.addAttribute("voucher", temp);
 
 		return ControllerConstants.Tiles.Voucher.Edit;
@@ -257,6 +249,7 @@ public class VoucherController {
 				temp.setDescription(bean.getDescription());
 				temp.setPoint(bean.getPoint());
 				temp.setDiscount(bean.getDiscount());
+				temp.setPercent(bean.getPercent());
 				temp.setStatus(bean.getStatus());
 				temp.setBlocked(bean.getBlocked());
 				temp.setBlockMessage(bean.getBlockMessage());
@@ -267,9 +260,9 @@ public class VoucherController {
 				temp.setStartTime(bean.getStartTime());
 				temp.setEndTime(bean.getEndTime());
 				temp.setApproved(DateUtil.getDate(bean.getApproved())); 
-				temp.setCustomerId(bean.getCustomerId());
-				temp.setExpire(DateUtil.getDate(bean.getExpire()));
-				temp.setCreatorId(bean.getCreatorId());
+				temp.setPartnerId(bean.getPartnerId());
+				// temp.setExpire(DateUtil.getDate(bean.getExpire()));
+				temp.setManager(bean.getManager());
 				voucherService.saveVoucher(temp);
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 				

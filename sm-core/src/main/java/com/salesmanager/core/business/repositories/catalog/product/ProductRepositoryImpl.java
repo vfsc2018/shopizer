@@ -141,7 +141,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	@Override
 	@SuppressWarnings("unchecked")
 	public Product getByCode(String productCode, Language language) {
-
+		
 			StringBuilder qs = new StringBuilder();
 			qs.append("select distinct p from Product as p ");
 			qs.append("join fetch p.availabilities pa ");
@@ -181,9 +181,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
 			q.setParameter("code", productCode);
 			q.setParameter("lang", language.getId());
-
-			return (Product)q.getSingleResult();
-
+			try{
+				return (Product)q.getSingleResult();
+			}catch(Exception e){
+				System.out.println("ERROR:" + e.getMessage() + ":" + productCode + ":" + language.getCode());
+			}
+			return null;
 	}
 
 	

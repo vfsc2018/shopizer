@@ -131,7 +131,7 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.code" text="Code"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="code"/>      														
+					                        <form:input  cssClass="input-large highlight" path="code"/>      														
 					                   </div>
 					           </div>       				
       				</div>
@@ -139,7 +139,7 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.description" text="description"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="description"/>      														
+					                        <form:input  cssClass="input-large highlight" path="description"/>      														
 					                   </div>
 					           </div>       				
       				</div>
@@ -151,7 +151,14 @@
 					                   </div>
 					           </div>       				
       				</div>
-      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.percent" text="percent"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="percent"/>      														
+					                   </div>
+					           </div>       				
+      				</div>
       				<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.discount" text="discount"/></label>	 
@@ -159,15 +166,16 @@
 					                        <form:input  cssClass="small" path="discount"/>      														
 					                   </div>
 					           </div>       				
-      				</div>
+					</div>
+					    
 					<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.status" text="status"/></label>	 
-					                  <div class="controls">      
+					                  <div class="controls"> 
 											<form:select path="status">
 													<form:option value="1" label="Yes"/>
 													<form:option value="0" label="No"/>
-											</form:select> 
+											</form:select>       														
 					                   </div>
 					           </div>       				
       				</div>
@@ -178,7 +186,7 @@
 										<form:select path="blocked">
 												<form:option value="1" label="Yes"/>
 												<form:option value="0" label="No"/>
-										</form:select>   					                        
+										</form:select>     														
 					                   </div>
 					           </div>       				
       				</div>
@@ -194,7 +202,7 @@
       				       				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.startDate" text="Start Date"/></label>	 
+					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input id="startDate" cssClass="small" path="startDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
 											<script type="text/javascript">
@@ -205,7 +213,7 @@
       				</div>      				      				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.endDate" text="End date"/></label>	 
+					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input id="endDate" cssClass="small" path="endDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
 											<script type="text/javascript">
@@ -220,7 +228,7 @@
 								<div class="control-group">
 					                  <label><s:message code="label.generic.weekDays" text="weekDays"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="weekDays"/>      														
+					                        <form:input  cssClass="input-large highlight" path="weekDays"/>      														
 					                   </div>
 					           </div>       				
       				</div>
@@ -229,7 +237,7 @@
 							<div class="control-group">
 				                  <label><s:message code="label.generic.dayOfMonth" text="dayOfMonth"/></label>	 
 				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="dayOfMonth"/>      														
+				                        <form:input  cssClass="small" path="dayOfMonth"/>      														
 				                   </div>
 				           </div>       				
       				</div>
@@ -237,7 +245,7 @@
 							<div class="control-group">
 				                  <label><s:message code="label.entity.startTime" text="startTime"/></label>	 
 				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="startTime"/>      														
+				                        <form:input  cssClass="small" path="startTime"/>      														
 				                   </div>
 				           </div>       				
       				</div>
@@ -245,49 +253,31 @@
 							<div class="control-group">
 				                  <label><s:message code="label.entity.endTime" text="endTime"/></label>	 
 				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="endTime"/>      														
+				                        <form:input  cssClass="small" path="endTime"/>      														
 				                   </div>
 				           </div>       				
       				</div>
       				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.dateApproved" text="approved"/></label>	 
+					                  <label><s:message code="label.entity.approved" text="approved"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input id="approved" cssClass="small" path="approved" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+					                        <form:input id="approved" cssClass="input-large highlight" path="approved" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
 											<script type="text/javascript">
 												$('#approved').datepicker();
 											</script>    
 					                   </div>
 					           </div>       				
-      				</div>
+      				</div>    				
+      				
       				<div class="span8">
 							<div class="control-group">
-				                  <label><s:message code="label.entity.customerId" text="customerId"/></label>	 
+				                  <label><s:message code="label.entity.manager" text="manager"/></label>	 
 				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="customerId"/>      														
+				                        <form:input  cssClass="input-large highlight" path="manager"/>      														
 				                   </div>
 				           </div>       				
-      				</div>      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.expire" text="expire"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input id="expire" cssClass="small" path="expire" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#expire').datepicker();
-											</script>    
-					                   </div>
-					           </div>       				
-      				</div>
-      				<div class="span8">
-							<div class="control-group">
-				                  <label><s:message code="label.entity.creatorId" text="creatorId"/></label>	 
-				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="creatorId"/>      														
-				                   </div>
-				           </div>       				
-      				</div>      				
+      				</div>    				
             <br/>   
             <div class="span8">
 	              <div class="form-actions">

@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.json.simple.JSONAware;
 
@@ -34,21 +36,24 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	private Long id;
 	private String code;
 	private String description;
-	private int point;
-	private int discount;
-	private int status;
-	private int blocked;
+	private Integer point = 0;
+	private Integer discount = 0;
+	@Min(0)
+	@Max(100)
+	private Integer percent = 0;
+	private Integer status = 0;
+	private Integer blocked = 0;
 	private String blockMessage;
 	private Date startDate;
 	private Date endDate;
 	private String weekDays;
 	private String dayOfMonth;
-	private int startTime;
-	private int endTime;
+	private Integer startTime;
+	private Integer endTime;
 	private Date approved;
-	private long customerId;
+	private Long partnerId;
 	private Date expire;
-	private long creatorId;
+	private String manager;
 	
 
 	public String getCode() {
@@ -67,42 +72,51 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 		this.description = description;
 	}
 
-	public int getPoint() {
+	public Integer getPoint() {
 		return point;
 	}
 
 
-	public void setPoint(int point) {
+	public void setPoint(Integer point) {
 		this.point = point;
 	}
 
 
-	public int getDiscount() {
+	public Integer getDiscount() {
 		return discount;
 	}
 
 
-	public void setDiscount(int discount) {
+	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}
 
 
-	public int getStatus() {
+	public Integer getPercent() {
+		return percent;
+	}
+
+
+	public void setPercent(Integer percent) {
+		this.percent = percent;
+	}
+
+	public Integer getStatus() {
 		return status;
 	}
 
 
-	public void setStatus(int status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
 
-	public int getBlocked() {
+	public Integer getBlocked() {
 		return blocked;
 	}
 
 
-	public void setBlocked(int blocked) {
+	public void setBlocked(Integer blocked) {
 		this.blocked = blocked;
 	}
 
@@ -157,22 +171,22 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	}
 
 
-	public int getStartTime() {
+	public Integer getStartTime() {
 		return startTime;
 	}
 
 
-	public void setStartTime(int startTime) {
+	public void setStartTime(Integer startTime) {
 		this.startTime = startTime;
 	}
 
 
-	public int getEndTime() {
+	public Integer getEndTime() {
 		return endTime;
 	}
 
 
-	public void setEndTime(int endTime) {
+	public void setEndTime(Integer endTime) {
 		this.endTime = endTime;
 	}
 
@@ -187,13 +201,13 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	}
 
 
-	public long getCustomerId() {
-		return customerId;
+	public Long getPartnerId() {
+		return partnerId ;
 	}
 
 
-	public void setCustomerId(long customerId) {
-		this.customerId = customerId;
+	public void setPartnerId(Long partnerId ) {
+		this.partnerId = partnerId ;
 	}
 
 
@@ -207,13 +221,13 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	}
 
 
-	public long getCreatorId() {
-		return creatorId;
+	public String getManager() {
+		return manager ;
 	}
 
 
-	public void setCreatorId(long creatorId) {
-		this.creatorId = creatorId;
+	public void setManager(String manager ) {
+		this.manager  = manager ;
 	}
 
 

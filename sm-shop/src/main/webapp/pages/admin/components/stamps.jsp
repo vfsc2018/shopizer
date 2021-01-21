@@ -59,7 +59,7 @@
 							<td colspan="2"> 
 								<table border="0px" width="100%" >
 								<tr>
-								<td><h1>VT</h1></td>
+								<td><h1>Vft</h1></td>
 								<td>
 									<svg id="barcode"></svg>
 								</td>
