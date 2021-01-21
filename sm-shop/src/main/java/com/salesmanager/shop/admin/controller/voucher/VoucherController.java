@@ -154,15 +154,17 @@ public class VoucherController {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", transaction.getId());
-					entry.put("blocked", transaction.getBlocked());
+					entry.put("blocked", transaction.getBlocked()!=null && transaction.getBlocked()>0);
+					entry.put("code", transaction.getCode());
 					
-					entry.put("approved", DateUtil.formatTimeDate(transaction.getApproved()));
-					entry.put("startDate", DateUtil.formatTimeDate(transaction.getStartDate()));
-					entry.put("endDate", DateUtil.formatTimeDate(transaction.getEndDate()));
+					entry.put("approved", transaction.getApproved()!=null);
+					entry.put("startDate", DateUtil.formatDate(transaction.getStartDate()));
+					entry.put("endDate", DateUtil.formatDate(transaction.getEndDate()));
+					entry.put("voucher", transaction.getPoint() + "/" + transaction.getDiscount() + "/" + transaction.getPercent());
 					
 					// entry.put("partnerId", transaction.getPartnerId());
 					
-					entry.put("expire", DateUtil.formatTimeDate(transaction.getExpire()));
+					entry.put("manager", transaction.getManager());
 					resp.addDataEntry(entry);
 
 				}
