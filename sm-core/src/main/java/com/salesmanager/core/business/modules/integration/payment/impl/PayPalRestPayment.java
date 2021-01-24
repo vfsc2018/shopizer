@@ -227,17 +227,17 @@ public class PayPalRestPayment implements PaymentModule {
 		return null;
 	}
 	
-	private String getAccessToken(String clientID, String clientSecret) throws Exception {
+	// private String getAccessToken(String clientID, String clientSecret) throws Exception {
 
 		// ###AccessToken
 		// Retrieve the access token from
 		// OAuthTokenCredential by passing in
 		// ClientID and ClientSecret
 
-		return null;
+		// return null;
 		//return new OAuthTokenCredential(clientID, clientSecret)
 		//		.getAccessToken();
-	}
+	// }
 
 	@Override
 	public Transaction capture(MerchantStore store, Customer customer,

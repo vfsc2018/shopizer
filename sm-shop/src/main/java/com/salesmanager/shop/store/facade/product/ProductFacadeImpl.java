@@ -273,22 +273,17 @@ public class ProductFacadeImpl implements ProductFacade {
 		Validate.notNull(criterias, "ProductCriteria must be set for this product");
 
 		/** This is for category **/
-		if (CollectionUtils.isNotEmpty(criterias.getCategoryIds())) {
+		if (CollectionUtils.isNotEmpty(criterias.getCategoryIds()) && criterias.getCategoryIds().size() == 1) {
 
-			if (criterias.getCategoryIds().size() == 1) {
-
-				com.salesmanager.core.model.catalog.category.Category category = categoryService
-						.getById(criterias.getCategoryIds().get(0));
+				com.salesmanager.core.model.catalog.category.Category category = categoryService.getById(criterias.getCategoryIds().get(0));
 
 				if (category != null) {
-					String lineage = new StringBuilder().append(category.getLineage()).append(Constants.SLASH)
-							.toString();
+					String lineage = new StringBuilder().append(category.getLineage()).append(Constants.SLASH).toString();
 
-					List<com.salesmanager.core.model.catalog.category.Category> categories = categoryService
-							.getListByLineage(store, lineage);
+					List<com.salesmanager.core.model.catalog.category.Category> categories = categoryService.getListByLineage(store, lineage);
 
 					List<Long> ids = new ArrayList<>();
-					if (categories != null && categories.size() > 0) {
+					if (CollectionUtils.isNotEmpty(categories)) {
 						for (com.salesmanager.core.model.catalog.category.Category c : categories) {
 							ids.add(c.getId());
 						}
@@ -296,11 +291,10 @@ public class ProductFacadeImpl implements ProductFacade {
 					ids.add(category.getId());
 					criterias.setCategoryIds(ids);
 				}
-			}
+			
 		}
 
-		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language,
-				criterias);
+		com.salesmanager.core.model.catalog.product.ProductList products = productService.listByStore(store, language, criterias);
 
 		ReadableProductPopulator populator = new ReadableProductPopulator();
 		populator.setPricingService(pricingService);
@@ -320,8 +314,9 @@ public class ProductFacadeImpl implements ProductFacade {
 		productList.setNumber(products.getTotalCount() >= criterias.getMaxCount() ? products.getTotalCount()
 				: criterias.getMaxCount());
 
-		int lastPageNumber = (int) (Math.ceil(products.getTotalCount() / criterias.getPageSize()));
-		productList.setTotalPages(lastPageNumber);
+		int lastPageNumber = products.getTotalCount() / criterias.getPageSize();
+		int lastProducts = products.getTotalCount()%criterias.getPageSize();
+		productList.setTotalPages(lastPageNumber + (lastProducts==0?0:1));
 
 		return productList;
 	}
@@ -461,8 +456,8 @@ public class ProductFacadeImpl implements ProductFacade {
 
 		List<ProductRelationship> relatedItems = productRelationshipService.getByType(store, product,
 				ProductRelationshipType.RELATED_ITEM);
-		if (relatedItems != null && relatedItems.size() > 0) {
-			List<ReadableProduct> items = new ArrayList<ReadableProduct>();
+		if (!CollectionUtils.isEmpty(relatedItems)) {
+			List<ReadableProduct> items = new ArrayList<>();
 			for (ProductRelationship relationship : relatedItems) {
 				Product relatedProduct = relationship.getRelatedProduct();
 				ReadableProduct proxyProduct = populator.populate(relatedProduct, new ReadableProduct(), store, language);

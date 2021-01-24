@@ -14,7 +14,7 @@ public class ReadableProductOption extends ProductOption {
 	
 	private String name;
 	private String lang;
-	private List<ReadableProductOptionValueEntity> optionValues = new ArrayList<ReadableProductOptionValueEntity>();
+	private List<ReadableProductOptionValueEntity> optionValues = new ArrayList<>();
 
 
 	public String getName() {

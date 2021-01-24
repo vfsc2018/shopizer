@@ -15,8 +15,8 @@ public class ReadableUser extends UserEntity {
   private String loginTime;
   private String merchant;
 
-  private List<ReadablePermission> permissions = new ArrayList<ReadablePermission>();
-  private List<ReadableGroup> groups = new ArrayList<ReadableGroup>();
+  private List<ReadablePermission> permissions = new ArrayList<>();
+  private List<ReadableGroup> groups = new ArrayList<>();
   
   
 

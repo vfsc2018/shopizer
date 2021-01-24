@@ -11,7 +11,7 @@ public class ReadableMerchantStoreList extends ReadableList {
    */
   private static final long serialVersionUID = 1L;
 
-  private List<ReadableMerchantStore> data = new ArrayList<ReadableMerchantStore>();
+  private List<ReadableMerchantStore> data = new ArrayList<>();
 
   public List<ReadableMerchantStore> getData() {
     return data;

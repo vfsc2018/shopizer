@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 
@@ -47,8 +48,7 @@ public class CustomerOptionSet extends SalesManagerEntity<Long, CustomerOptionSe
 	@JoinColumn(name="CUSTOMER_OPTION_VALUE_ID", nullable=false)
 	private CustomerOptionValue customerOptionValue = null;
 	
-
-
+	@JsonIgnore
 	@Column(name="SORT_ORDER")
 	private Integer sortOrder = 0;
 	

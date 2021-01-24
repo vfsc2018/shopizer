@@ -28,8 +28,10 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.annotations.Cascade;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
@@ -163,6 +165,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Column(name = "QUANTITY_ORDERED")
 	private Integer productOrdered;
 	
+	@JsonIgnore
 	@Column(name = "SORT_ORDER")
 	private Integer sortOrder = 0;
 
@@ -247,7 +250,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 
 
 	public boolean isProductVirtual() {
-		return productVirtual;
+		return getProductVirtual();
 	}
 
 
@@ -466,7 +469,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 
 	
 	public ProductDescription getProductDescription() {
-		if(this.getDescriptions()!=null && this.getDescriptions().size()>0) {
+		if(!CollectionUtils.isEmpty(this.getDescriptions())) {
 			return this.getDescriptions().iterator().next();
 		}
 		return null;
@@ -474,7 +477,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	
 	public ProductImage getProductImage() {
 		ProductImage productImage = null;
-		if(this.getImages()!=null && this.getImages().size()>0) {
+		if(!CollectionUtils.isEmpty(this.getImages())) {
 			for(ProductImage image : this.getImages()) {
 				productImage = image;
 				if(productImage.isDefaultImage()) {

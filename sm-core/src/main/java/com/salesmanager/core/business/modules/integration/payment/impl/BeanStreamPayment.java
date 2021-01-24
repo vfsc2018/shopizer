@@ -379,14 +379,14 @@ public class BeanStreamPayment implements PaymentModule {
 			//check
 			//trnApproved=1&trnId=10003067&messageId=1&messageText=Approved&trnOrderNumber=E40089&authCode=TEST&errorType=N&errorFields=
 
-			String transactionApproved = (String)nvp.get("TRNAPPROVED");
-			String transactionId = (String)nvp.get("TRNID");
-			String messageId = (String)nvp.get("MESSAGEID");
-			String messageText = (String)nvp.get("MESSAGETEXT");
-			String orderId = (String)nvp.get("TRNORDERNUMBER");
-			String authCode = (String)nvp.get("AUTHCODE");
-			String errorType = (String)nvp.get("ERRORTYPE");
-			String errorFields = (String)nvp.get("ERRORFIELDS");
+			String transactionApproved = nvp.get("TRNAPPROVED");
+			// String transactionId = nvp.get("TRNID");
+			String messageId = nvp.get("MESSAGEID");
+			String messageText = nvp.get("MESSAGETEXT");
+			// String orderId = nvp.get("TRNORDERNUMBER");
+			// String authCode = nvp.get("AUTHCODE");
+			// String errorType = nvp.get("ERRORTYPE");
+			// String errorFields = nvp.get("ERRORFIELDS");
 			if(!StringUtils.isBlank(orderNumber)) {
 				nvp.put("INTERNALORDERID", orderNumber);
 			}
@@ -671,12 +671,12 @@ public class BeanStreamPayment implements PaymentModule {
 		transaction.setTransactionDate(new Date());
 		transaction.setTransactionType(transactionType);
 		transaction.setPaymentType(PaymentType.CREDITCARD);
-		transaction.getTransactionDetails().put("TRANSACTIONID", (String)nvp.get("TRNID"));
-		transaction.getTransactionDetails().put("TRNAPPROVED", (String)nvp.get("TRNAPPROVED"));
-		transaction.getTransactionDetails().put("TRNORDERNUMBER", (String)nvp.get("TRNORDERNUMBER"));
-		transaction.getTransactionDetails().put("MESSAGETEXT", (String)nvp.get("MESSAGETEXT"));
+		transaction.getTransactionDetails().put("TRANSACTIONID", nvp.get("TRNID"));
+		transaction.getTransactionDetails().put("TRNAPPROVED", nvp.get("TRNAPPROVED"));
+		transaction.getTransactionDetails().put("TRNORDERNUMBER", nvp.get("TRNORDERNUMBER"));
+		transaction.getTransactionDetails().put("MESSAGETEXT", nvp.get("MESSAGETEXT"));
 		if(nvp.get("INTERNALORDERID")!=null) {
-			transaction.getTransactionDetails().put("INTERNALORDERID", (String)nvp.get("INTERNALORDERID"));
+			transaction.getTransactionDetails().put("INTERNALORDERID", nvp.get("INTERNALORDERID"));
 		}
 		return transaction;
 		

@@ -6,8 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,7 +35,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ShopProductRelationshipTag.class);
+	// private static final Logger LOGGER = LoggerFactory.getLogger(ShopProductRelationshipTag.class);
 
 	@Inject
 	private ProductRelationshipService productRelationshipService;
@@ -70,7 +69,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		if (productRelationshipService == null || pricingService==null || imageUtils==null) {
-			LOGGER.debug("Autowiring ProductRelationshipService");
+			// LOGGER.debug("Autowiring ProductRelationshipService");
             WebApplicationContext wac = getRequestContext().getWebApplicationContext();
             AutowireCapableBeanFactory factory = wac.getAutowireCapableBeanFactory();
             factory.autowireBean(this);
@@ -104,15 +103,15 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 		
 			//get from the cache
 			objects = (List<ReadableProduct>) cache.getFromCache(groupKey.toString());
-			Boolean missedContent = null;
+			// Boolean missedContent = null;
 
-			if(objects==null && missedContent==null) {
+			if(objects==null){ // && missedContent==null) {
 				objects = getProducts(request);
 
 				//put in cache
 				cache.putInCache(objects, groupKey.toString());
 					
-			} else {
+			// } else {
 				//put in missed cache
 				//cache.putInCache(new Boolean(true), groupKeyMissed.toString());
 			}
@@ -120,7 +119,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 		} else {
 			objects = getProducts(request);
 		}
-		if(objects!=null && objects.size()>0) {
+		if(!CollectionUtils.isEmpty(objects)) {
 			request.setAttribute(this.getGroupName(), objects);
 		}
 		
@@ -128,7 +127,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 
 	}
 
-
+	@Override
 	public int doEndTag() {
 		return EVAL_PAGE;
 	}
@@ -144,7 +143,7 @@ public class ShopProductRelationshipTag extends RequestContextAwareTag  {
 		populator.setPricingService(pricingService);
 		populator.setimageUtils(imageUtils);
 		
-		List<ReadableProduct> products = new ArrayList<ReadableProduct>();
+		List<ReadableProduct> products = new ArrayList<>();
 		for(ProductRelationship relationship : relationships) {
 			
 			Product product = relationship.getRelatedProduct();

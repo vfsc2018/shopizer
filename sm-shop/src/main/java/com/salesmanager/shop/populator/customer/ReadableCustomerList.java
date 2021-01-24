@@ -12,7 +12,7 @@ public class ReadableCustomerList extends ReadableList {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private List<ReadableCustomer> customers = new ArrayList<ReadableCustomer>();
+	private List<ReadableCustomer> customers = new ArrayList<>();
 
 	public List<ReadableCustomer> getCustomers() {
 		return customers;

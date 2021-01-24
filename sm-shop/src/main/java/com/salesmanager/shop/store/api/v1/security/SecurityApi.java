@@ -67,7 +67,7 @@ public class SecurityApi {
 			throw new ServiceRuntimeException("An error occured while getting group [" + group + "]");
 		}
 		Set<Permission> permissions = g.getPermissions();
-		List<ReadablePermission> readablePermissions = new ArrayList<ReadablePermission>();
+		List<ReadablePermission> readablePermissions = new ArrayList<>();
 		for (Permission permission : permissions) {
 			ReadablePermission readablePermission = new ReadablePermission();
 			readablePermission.setName(permission.getPermissionName());
@@ -87,7 +87,7 @@ public class SecurityApi {
 	@GetMapping("/private/permissions")
 	public List<ReadablePermission> permissions() {
 		List<Permission> permissions = permissionService.list();
-		List<ReadablePermission> readablePermissions = new ArrayList<ReadablePermission>();
+		List<ReadablePermission> readablePermissions = new ArrayList<>();
 		for (Permission permission : permissions) {
 			ReadablePermission readablePermission = new ReadablePermission();
 			readablePermission.setName(permission.getPermissionName());
@@ -105,7 +105,7 @@ public class SecurityApi {
 	@GetMapping("/private/groups")
 	public List<ReadableGroup> groups() {
 		List<Group> groups = groupService.list();
-		List<ReadableGroup> readableGroups = new ArrayList<ReadableGroup>();
+		List<ReadableGroup> readableGroups = new ArrayList<>();
 		for (Group group : groups) {
 			ReadableGroup readableGroup = new ReadableGroup();
 			readableGroup.setName(group.getGroupName());

@@ -9,9 +9,12 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -134,14 +137,11 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 			InputStream in = null;
 			ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
 			try {
-				in =
-					(InputStream) this.getClass().getClassLoader().getResourceAsStream("admin/menu.json");
+				in = this.getClass().getClassLoader().getResourceAsStream("admin/menu.json");
 
 				Map<String,Object> data = mapper.readValue(in, Map.class);
 
-				Menu currentMenu = null;
-				
-				menus = new LinkedHashMap<String,Menu>();
+				menus = new LinkedHashMap<>();
 				List objects = (List)data.get("menus");
 				for(Object object : objects) {
 					Menu m = getMenu(object);
@@ -169,12 +169,12 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 		} 
 		
 		
-		List<Menu> list = new ArrayList<Menu>(menus.values());
+		List<Menu> list = new ArrayList<>();
+		if(menus!=null && !CollectionUtils.isEmpty(menus.values())){
+			list = new ArrayList<>(menus.values());
+		}
 
 		request.setAttribute("MENULIST", list);
-
-		
-		
 		request.setAttribute("MENUMAP", menus);
 		response.setCharacterEncoding("UTF-8");
 		

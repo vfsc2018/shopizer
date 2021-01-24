@@ -54,7 +54,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		
 		List<Country> countries = this.getCountries(language);
 		
-		Map<String,Country> returnMap = new LinkedHashMap<String,Country>();
+		Map<String,Country> returnMap = new LinkedHashMap<>();
 		
 		for(Country country : countries) {
 			returnMap.put(country.getIsoCode(), country);

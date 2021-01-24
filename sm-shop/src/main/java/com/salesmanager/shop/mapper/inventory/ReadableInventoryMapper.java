@@ -107,7 +107,7 @@ public class ReadableInventoryMapper implements Mapper<ProductAvailability, Read
   private List<ReadableProductPrice> prices(ProductAvailability source, MerchantStore store, Language language) throws ConversionException {
     
     ReadableProductPricePopulator populator = null;
-    List<ReadableProductPrice> prices = new ArrayList<ReadableProductPrice>();
+    List<ReadableProductPrice> prices = new ArrayList<>();
     
     for(ProductPrice price : source.getPrices()) {
         

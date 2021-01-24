@@ -3,7 +3,6 @@ package com.salesmanager.core.business.repositories.notifications;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import com.salesmanager.core.model.message.Notifications;
 import java.util.List;

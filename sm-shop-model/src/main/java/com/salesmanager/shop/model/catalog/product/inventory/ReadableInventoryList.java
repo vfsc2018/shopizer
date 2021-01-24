@@ -10,7 +10,7 @@ public class ReadableInventoryList extends ReadableList {
    * 
    */
   private static final long serialVersionUID = 1L;
-  private List<ReadableInventory> inventory = new ArrayList<ReadableInventory>();
+  private List<ReadableInventory> inventory = new ArrayList<>();
   public List<ReadableInventory> getInventory() {
     return inventory;
   }

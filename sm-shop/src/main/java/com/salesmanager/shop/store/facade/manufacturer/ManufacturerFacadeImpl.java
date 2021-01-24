@@ -180,7 +180,7 @@ public class ManufacturerFacadeImpl implements ManufacturerFacade {
 
       
       ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-      List<ReadableManufacturer> returnList = new ArrayList<ReadableManufacturer>();
+      List<ReadableManufacturer> returnList = new ArrayList<>();
   
       for (Manufacturer m : manufacturers) {
         ReadableManufacturer readableManufacturer = new ReadableManufacturer();
@@ -236,7 +236,7 @@ public ReadableManufacturerList listByStore(MerchantStore store, Language langua
 
         
         ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-        List<ReadableManufacturer> returnList = new ArrayList<ReadableManufacturer>();
+        List<ReadableManufacturer> returnList = new ArrayList<>();
     
         for (Manufacturer mf : manufacturers) {
           ReadableManufacturer readableManufacturer = new ReadableManufacturer();

@@ -70,9 +70,9 @@ public class ZonesLoader {
 				countriesMap.put(country.getIsoCode(), country);
 			}
 
-			Map<String, Zone> zonesMap = new LinkedHashMap<String, Zone>();
-			Map<String, List<ZoneDescription>> zonesDescriptionsMap = new LinkedHashMap<String, List<ZoneDescription>>();
-			Map<String, String> zonesMark = new LinkedHashMap<String, String>();
+			Map<String, Zone> zonesMap = new LinkedHashMap<>();
+			Map<String, List<ZoneDescription>> zonesDescriptionsMap = new LinkedHashMap<>();
+			Map<String, String> zonesMark = new LinkedHashMap<>();
 
 			// load files individually
 			for (Resource resource : files) {
@@ -82,7 +82,7 @@ public class ZonesLoader {
 				}
 				Map<String, Object> data = mapper.readValue(in, Map.class);
 				
-				if(resource.getFilename().contains("_")) {
+				if(resource.getFilename()!=null && resource.getFilename().contains("_")) {
 					for (Language l : languages) {
 						if (resource.getFilename().contains("_" + l.getCode())) {// lead for this
 							// language
@@ -281,7 +281,7 @@ public class ZonesLoader {
 
 	private List<Resource> geZoneFiles(String path) throws IOException {
 		
-		List<Resource> files = new ArrayList<Resource>();
+		List<Resource> files = new ArrayList<>();
 		Resource[] resources =resourceResolver.getResources(PATH);
 		
 		for(int i = 0; i< resources.length; i++) {

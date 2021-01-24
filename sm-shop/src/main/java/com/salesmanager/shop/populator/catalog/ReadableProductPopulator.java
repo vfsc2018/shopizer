@@ -219,7 +219,7 @@ public class ReadableProductPopulator extends
 			
 			Set<ProductImage> images = source.getImages();
 			if(images!=null && images.size()>0) {
-				List<ReadableImage> imageList = new ArrayList<ReadableImage>();
+				List<ReadableImage> imageList = new ArrayList<>();
 				
 				String contextPath = imageUtils.getContextPath();
 				
@@ -254,7 +254,7 @@ public class ReadableProductPopulator extends
 			if(!CollectionUtils.isEmpty(source.getCategories())) {
 				
 				ReadableCategoryPopulator categoryPopulator = new ReadableCategoryPopulator();
-				List<ReadableCategory> categoryList = new ArrayList<ReadableCategory>();
+				List<ReadableCategory> categoryList = new ArrayList<>();
 				
 				for(Category category : source.getCategories()) {
 					
@@ -394,7 +394,7 @@ public class ReadableProductPopulator extends
 					}
 				
 				if(selectableOptions != null) {
-					List<ReadableProductOption> options = new ArrayList<ReadableProductOption>(selectableOptions.values());
+					List<ReadableProductOption> options = new ArrayList<>(selectableOptions.values());
 					target.setOptions(options);
 				}
 

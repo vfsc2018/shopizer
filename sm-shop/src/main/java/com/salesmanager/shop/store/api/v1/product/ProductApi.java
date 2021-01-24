@@ -552,8 +552,7 @@ public class ProductApi {
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(
       value = {
-        "/private/product/{productId}/category/{categoryId}",
-        "/auth/product/{productId}/category/{categoryId}"
+        "/private/product/{productId}/category/{categoryId}"
       },
       method = RequestMethod.POST)
   @ApiImplicitParams({

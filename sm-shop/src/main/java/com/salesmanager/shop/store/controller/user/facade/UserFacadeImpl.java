@@ -461,7 +461,7 @@ public class UserFacadeImpl implements UserFacade {
 			
 			
 			userList = userService.listByCriteria(criteria, page, count);
-			List<ReadableUser> readableUsers = new ArrayList<ReadableUser>();
+			List<ReadableUser> readableUsers = new ArrayList<>();
 			if(userList != null) {
 				readableUsers = userList.getContent().stream()
 						.map(user -> convertUserToReadableUser(language, user)).collect(Collectors.toList());

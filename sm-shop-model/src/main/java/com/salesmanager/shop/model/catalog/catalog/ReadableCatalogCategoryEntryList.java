@@ -11,7 +11,7 @@ public class ReadableCatalogCategoryEntryList extends ReadableList {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ReadableCatalogCategoryEntry> catalogEntry = new ArrayList<ReadableCatalogCategoryEntry>();
+	private List<ReadableCatalogCategoryEntry> catalogEntry = new ArrayList<>();
 	public List<ReadableCatalogCategoryEntry> getCatalogEntry() {
 		return catalogEntry;
 	}

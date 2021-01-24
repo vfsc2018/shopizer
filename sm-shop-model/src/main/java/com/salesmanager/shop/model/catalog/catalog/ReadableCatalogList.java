@@ -11,7 +11,7 @@ public class ReadableCatalogList extends ReadableList {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ReadableCatalog> catalogs = new ArrayList<ReadableCatalog>();
+	private List<ReadableCatalog> catalogs = new ArrayList<>();
 	public List<ReadableCatalog> getCatalogs() {
 		return catalogs;
 	}

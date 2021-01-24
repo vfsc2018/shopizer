@@ -461,7 +461,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
 			
 			Page<MerchantStore> children = merchantStoreService.listChildren(code, page, count);
-			List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
+			List<ReadableMerchantStore> readableStores = new ArrayList<>();
 			ReadableMerchantStoreList readableList = new ReadableMerchantStoreList();
 			if (!CollectionUtils.isEmpty(children.getContent())) {
 				for (MerchantStore store : children)
@@ -478,7 +478,7 @@ public class StoreFacadeImpl implements StoreFacade {
 			
 			
 /*			List<MerchantStore> children = merchantStoreService.listChildren(code);
-			List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
+			List<ReadableMerchantStore> readableStores = new ArrayList<>();
 			if (!CollectionUtils.isEmpty(children)) {
 				for (MerchantStore store : children)
 					readableStores.add(convertMerchantStoreToReadableMerchantStore(language, store));
@@ -495,7 +495,7 @@ public class StoreFacadeImpl implements StoreFacade {
 		
 		try {
 			Page<MerchantStore> stores = null;
-			List<ReadableMerchantStore> readableStores = new ArrayList<ReadableMerchantStore>();
+			List<ReadableMerchantStore> readableStores = new ArrayList<>();
 			ReadableMerchantStoreList readableList = new ReadableMerchantStoreList();
 			
 			Optional<String> code = Optional.ofNullable(criteria.getStoreCode());

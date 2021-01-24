@@ -142,7 +142,7 @@ public class ReadableMerchantStorePopulator extends
 		}*/
 		
 		if(!CollectionUtils.isEmpty(source.getLanguages())) {
-			List<Language> supported = new ArrayList<Language>();
+			List<Language> supported = new ArrayList<>();
 			for(Language lang : source.getLanguages()) {
 				supported.add(lang);
 			}

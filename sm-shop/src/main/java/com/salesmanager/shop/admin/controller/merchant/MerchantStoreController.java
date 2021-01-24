@@ -291,7 +291,7 @@ public class MerchantStoreController {
 		currency = currencyService.getById(currency.getId());
 
 		List<Language> supportedLanguages = store.getLanguages();
-		List<Language> supportedLanguagesList = new ArrayList<Language>();
+		List<Language> supportedLanguagesList = new ArrayList<>();
 		Map<String, Language> languagesMap = languageService.getLanguagesMap();
 		for (Language lang : supportedLanguages) {
 

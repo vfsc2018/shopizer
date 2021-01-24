@@ -23,6 +23,7 @@ import javax.validation.Valid;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -65,6 +66,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     @Column(name = "CATEGORY_IMAGE", length=100)
     private String categoryImage;
 
+    @JsonIgnore
     @Column(name = "SORT_ORDER")
     private Integer sortOrder = 0;
 

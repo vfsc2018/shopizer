@@ -15,7 +15,7 @@ public class ReadableCatalog extends ReadableCatalogName {
 	
 	private ReadableMerchantStore store;
 
-	private List<ReadableCategory> category = new ArrayList<ReadableCategory>();
+	private List<ReadableCategory> category = new ArrayList<>();
 
 	
 /*	public List<ReadableCatalogCategoryEntry> getEntry() {

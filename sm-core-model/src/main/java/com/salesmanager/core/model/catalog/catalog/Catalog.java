@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
@@ -86,6 +87,7 @@ public class Catalog extends SalesManagerEntity<Long, Catalog> implements Audita
     @Column(name="CODE", length=100, nullable=false)
     private String code;
 
+    @JsonIgnore
     @Column(name = "SORT_ORDER")
     private Integer sortOrder = 0;
 

@@ -297,7 +297,7 @@ public class ShopProductController {
 
 		List<ProductReview> reviews = productReviewService.getByProduct(product, language);
 		if(!CollectionUtils.isEmpty(reviews)) {
-			List<ReadableProductReview> revs = new ArrayList<ReadableProductReview>();
+			List<ReadableProductReview> revs = new ArrayList<>();
 			ReadableProductReviewPopulator reviewPopulator = new ReadableProductReviewPopulator();
 			for(ProductReview review : reviews) {
 				ReadableProductReview rev = new ReadableProductReview();
@@ -411,8 +411,8 @@ public class ShopProductController {
 		populator.setimageUtils(imageUtils);
 		
 		List<ProductRelationship> relatedItems = productRelationshipService.getByType(store, product, ProductRelationshipType.RELATED_ITEM);
-		if(relatedItems!=null && relatedItems.size()>0) {
-			List<ReadableProduct> items = new ArrayList<ReadableProduct>();
+		if(!CollectionUtils.isEmpty(relatedItems)) {
+			List<ReadableProduct> items = new ArrayList<>();
 			for(ProductRelationship relationship : relatedItems) {
 				Product relatedProduct = relationship.getRelatedProduct();
 				ReadableProduct proxyProduct = populator.populate(relatedProduct, new ReadableProduct(), store, language);

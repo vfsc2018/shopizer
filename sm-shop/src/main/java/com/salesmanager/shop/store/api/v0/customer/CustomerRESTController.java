@@ -270,7 +270,7 @@ public class CustomerRESTController {
 		}
 		
 		List<Customer> customers = customerService.getListByStore(merchantStore);
-		List<ReadableCustomer> returnCustomers = new ArrayList<ReadableCustomer>();
+		List<ReadableCustomer> returnCustomers = new ArrayList<>();
 		for(Customer customer : customers) {
 
 			ReadableCustomerPopulator populator = new ReadableCustomerPopulator();

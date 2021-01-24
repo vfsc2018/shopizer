@@ -10,8 +10,8 @@ public class ReadableProductOptionValueList extends ReadableList {
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
-  List<ReadableProductOptionValueEntity> optionValues = new ArrayList<ReadableProductOptionValueEntity>();
+  // private static final long serialVersionUID = 1L;
+  private List<ReadableProductOptionValueEntity> optionValues = new ArrayList<>();
   public List<ReadableProductOptionValueEntity> getOptionValues() {
     return optionValues;
   }

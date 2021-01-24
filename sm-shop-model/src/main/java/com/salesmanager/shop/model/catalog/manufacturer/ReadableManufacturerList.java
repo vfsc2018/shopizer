@@ -11,7 +11,7 @@ public class ReadableManufacturerList extends ReadableList {
    */
   private static final long serialVersionUID = 1L;
   
-  private List<ReadableManufacturer> manufacturers = new ArrayList<ReadableManufacturer>();
+  private List<ReadableManufacturer> manufacturers = new ArrayList<>();
 
   public List<ReadableManufacturer> getManufacturers() {
     return manufacturers;

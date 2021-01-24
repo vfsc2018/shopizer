@@ -25,6 +25,7 @@ import javax.validation.constraints.Pattern;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -42,6 +43,7 @@ public class CustomerOption extends SalesManagerEntity<Long, CustomerOption> {
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
 	
+	@JsonIgnore
 	@Column(name="SORT_ORDER")
 	private Integer sortOrder = 0;
 	

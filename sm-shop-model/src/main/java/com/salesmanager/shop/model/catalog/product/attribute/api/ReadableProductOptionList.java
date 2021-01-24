@@ -12,7 +12,7 @@ public class ReadableProductOptionList extends ReadableList {
    */
   private static final long serialVersionUID = 1L;
 
-  private List<ReadableProductOptionEntity> options = new ArrayList<ReadableProductOptionEntity>();
+  private List<ReadableProductOptionEntity> options = new ArrayList<>();
 
   public List<ReadableProductOptionEntity> getOptions() {
     return options;

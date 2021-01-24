@@ -747,7 +747,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 							}
 							if (!objects.containsKey(key)) {
 								// cacheCategories = new ArrayList<Category>();
-								cacheCategories = new ArrayList<ReadableCategory>();
+								cacheCategories = new ArrayList<>();
 
 								objects.put(key, cacheCategories);
 							} else {

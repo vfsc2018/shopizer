@@ -15,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.google.api.gax.paging.Page;
 import com.google.cloud.ReadChannel;
-import com.google.cloud.storage.Acl;
-import com.google.cloud.storage.Acl.Role;
-import com.google.cloud.storage.Acl.User;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
@@ -146,7 +143,7 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
           storage.list(
               bucketName, BlobListOption.currentDirectory(), BlobListOption.prefix(merchantStoreCode));
 
-      List<OutputContentFile> files = new ArrayList<OutputContentFile>();
+      List<OutputContentFile> files = new ArrayList<>();
       for (Blob blob : blobs.iterateAll()) {
         blob.getName();
         ReadChannel reader = blob.reader();

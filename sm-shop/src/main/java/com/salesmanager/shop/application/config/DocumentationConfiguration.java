@@ -45,7 +45,7 @@ public class DocumentationConfiguration {
 	@Bean
 	public Docket api() {
 
-		final List<ResponseMessage> getMessages = new ArrayList<ResponseMessage>();
+		final List<ResponseMessage> getMessages = new ArrayList<>();
 		getMessages.add(new ResponseMessageBuilder().code(500).message("500 message")
 				.responseModel(new ModelRef("Error")).build());
 		getMessages.add(new ResponseMessageBuilder().code(403).message("Forbidden").build());

@@ -87,7 +87,7 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	public Map<String,Language> getLanguagesMap() throws ServiceException {
 		
 		List<Language> langs = this.getLanguages();
-		Map<String,Language> returnMap = new LinkedHashMap<String,Language>();
+		Map<String,Language> returnMap = new LinkedHashMap<>();
 		
 		for(Language lang : langs) {
 			returnMap.put(lang.getCode(), lang);

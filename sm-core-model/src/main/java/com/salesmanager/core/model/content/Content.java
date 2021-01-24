@@ -25,6 +25,7 @@ import javax.validation.Valid;
 
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -54,7 +55,7 @@ public class Content extends SalesManagerEntity<Long, Content> {
 	
 	@Valid
 	@OneToMany(mappedBy="content", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+	private List<ContentDescription> descriptions = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -80,6 +81,7 @@ public class Content extends SalesManagerEntity<Long, Content> {
 	@Enumerated(value = EnumType.STRING)
 	private ContentType contentType; 
 	
+	@JsonIgnore
 	@Column(name = "SORT_ORDER")
 	private Integer sortOrder = 0;
 	

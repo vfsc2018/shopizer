@@ -12,7 +12,7 @@ public class ReadableProductList extends ReadableList {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private List<ReadableProduct> products = new ArrayList<ReadableProduct>();
+	private List<ReadableProduct> products = new ArrayList<>();
 	public void setProducts(List<ReadableProduct> products) {
 		this.products = products;
 	}

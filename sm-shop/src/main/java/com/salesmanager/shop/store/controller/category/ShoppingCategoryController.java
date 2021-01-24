@@ -312,7 +312,7 @@ public class ShoppingCategoryController {
 	}
 		
 	private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language) throws Exception {
-		List<ReadableManufacturer> manufacturerList = new ArrayList<ReadableManufacturer>();
+		List<ReadableManufacturer> manufacturerList = new ArrayList<>();
 		List<com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer> manufacturers = manufacturerService.listByProductsByCategoriesId(store, ids, language);
 		if(!manufacturers.isEmpty()) {
 			
@@ -332,7 +332,7 @@ public class ShoppingCategoryController {
 		}
 
 		List<Object[]> countProductsByCategories = categoryService.countProductsByCategories(store, subIds);
-		Map<Long, Long> countByCategories = new HashMap<Long,Long>();
+		Map<Long, Long> countByCategories = new HashMap<>();
 		
 		for(Object[] counts : countProductsByCategories) {
 			Category c = (Category)counts[0];
@@ -367,7 +367,7 @@ public class ShoppingCategoryController {
 		//sub categories
 		List<Category> subCategories = categoryService.listByParent(category, language);
 		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
-		List<ReadableCategory> subCategoryProxies = new ArrayList<ReadableCategory>();
+		List<ReadableCategory> subCategoryProxies = new ArrayList<>();
 		
 		
 		
@@ -424,7 +424,7 @@ public class ShoppingCategoryController {
 		
 		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 		
-		List<ReadableCategory> returnCategories = new ArrayList<ReadableCategory>();
+		List<ReadableCategory> returnCategories = new ArrayList<>();
 		for(Category category : categories) {
 			ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), merchantStore, l);
 			returnCategories.add(categoryProxy);

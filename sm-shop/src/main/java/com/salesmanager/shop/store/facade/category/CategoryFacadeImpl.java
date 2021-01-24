@@ -347,7 +347,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			Language language) {
 		Category category = categoryService.getById(categoryId, store.getId());
 
-		List<ReadableProductVariant> variants = new ArrayList<ReadableProductVariant>();
+		List<ReadableProductVariant> variants = new ArrayList<>();
 
 		if (category == null) {
 			throw new ResourceNotFoundException("Category [" + categoryId + "] not found");
@@ -382,7 +382,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 				ReadableProductVariant productVariant = new ReadableProductVariant();
 				productVariant.setName(option.getDescriptionsSettoList().get(0).getName());
-				List<ReadableProductVariantValue> optionValues = new ArrayList<ReadableProductVariantValue>();
+				List<ReadableProductVariantValue> optionValues = new ArrayList<>();
 				for (ProductOptionValue value : values) {
 					ReadableProductVariantValue v = new ReadableProductVariantValue();
 					v.setName(value.getDescriptionsSettoList().get(0).getName());

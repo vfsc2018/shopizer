@@ -12,7 +12,7 @@ public class ReadableProductAttributeList extends ReadableList {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private List<ReadableProductAttributeEntity> attributes = new ArrayList<ReadableProductAttributeEntity>();
+	private List<ReadableProductAttributeEntity> attributes = new ArrayList<>();
 
 	public List<ReadableProductAttributeEntity> getAttributes() {
 		return attributes;
