@@ -331,8 +331,17 @@ public class VoucherCodeController {
 				temp.setIndex(bean.getIndex());
 				temp.setRedeem(DateUtil.getDate(bean.getRedeem()));
 				temp.setOrder(orderService.getById(bean.getOrderId()));
-				
-				voucherCodeService.saveVoucher(temp);
+				if(bean.getId()!=null && bean.getId()>0){
+					voucherCodeService.saveVoucher(temp);	
+				}else{
+					if(bean.getAmtCode()>0){
+						for(int i = 1;i<=bean.getAmtCode();i++){
+							temp.setCode(genCode());
+							temp.setId(0L);
+							voucherCodeService.saveVoucher(temp);	
+						}
+					}
+				}
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 				
 				

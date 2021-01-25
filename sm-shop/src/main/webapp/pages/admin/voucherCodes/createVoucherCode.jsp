@@ -117,7 +117,17 @@
 					                   </div>
 					           </div>       				
       				</div>      				
+					
+					<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.amtCode" text="Amt code"/></label>	 
+					                  <div class="controls"> 
+					                  		<form:input  cssClass="small" path="amtCode"/>          															
+					                   </div>
+					           </div>       				
+      				</div>
       				
+      				      				
 					<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.code" text="Code"/></label>	 
