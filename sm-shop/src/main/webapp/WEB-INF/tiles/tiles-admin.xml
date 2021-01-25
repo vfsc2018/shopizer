@@ -275,6 +275,11 @@
   		<put-attribute name="body" value="/pages/admin/components/reportBill.jsp" /> 
   	</definition>  	
 
+  	<definition name="admin-orders-report-voucherCode" template="/layout/admin/layout.jsp"> 
+  		<put-attribute name="body" value="/pages/admin/components/reportVoucherCode.jsp" /> 
+  	</definition>  
+  	  	
+
   	<definition name="admin-orders-report-order" template="/layout/admin/layout.jsp"> 
   		<put-attribute name="body" value="/pages/admin/components/reportOrder.jsp" /> 
   	</definition>  

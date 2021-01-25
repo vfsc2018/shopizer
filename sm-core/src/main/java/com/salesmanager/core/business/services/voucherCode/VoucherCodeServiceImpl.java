@@ -1,5 +1,7 @@
 package com.salesmanager.core.business.services.voucherCode;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -40,6 +42,10 @@ public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	public boolean deleteVoucher(Long id) throws ServiceException {
 		voucherCodesRepository.deleteById(id);
 		return true;
+	}
+	
+	public int getVoucherCodeByVoucherId(Long voucherId){
+		return voucherCodesRepository.getVoucherCodeByVoucherId(voucherId);
 	}
 	
 }

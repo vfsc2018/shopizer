@@ -14,4 +14,5 @@ public interface VoucherCodeService extends SalesManagerEntityService<Long, Vouc
 	public VoucherCode saveVoucher(VoucherCode form) throws BindException;
 	VoucherCodeList getListByStore(MerchantStore store, VoucherCodeCriteria criteria);
 	public boolean deleteVoucher(Long id) throws ServiceException;
+	public int getVoucherCodeByVoucherId(Long voucherId);
 }

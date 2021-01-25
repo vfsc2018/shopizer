@@ -77,7 +77,7 @@
 						</tr>
 						<tr>
 							<td><s:message code="label.stamp.price" text="Price"/></td>
-							<td><c:out value="${stamp.price}" /> VND</td>
+							<td><c:out value="${stamp.price}" /> <c:out value="${stamp.currency.code}" /></td>
 						</tr>	
 						<tr>
 							<td><s:message code="label.stamp.netweight" text="Netweight"/></td>

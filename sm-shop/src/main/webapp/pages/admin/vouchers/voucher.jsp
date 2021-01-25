@@ -119,7 +119,9 @@
                   </div>
            </h3>
 		   <br/>
-
+	<button  type="button" id ="btVoucherCode" class="btn btn-medium btn-primary" ><s:message code="button.label.voucherCode" text="Voucher code"/></button>
+	
+	
          <form:form method="POST" id="FormBuildBill" modelAttribute="voucher" >
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
@@ -294,4 +296,10 @@
 	 </div>
   </div>
 </div>
-
+<script>				
+$(document).ready(function(){ 				
+		$("#btVoucherCode").click(function() {
+			 location.href="<c:url value="/admin/voucherCodes/list.html" />?voucherId=" + <c:out value="${voucher.id}" />;
+		}); 
+});
+</script>	

@@ -7,6 +7,6 @@ import com.salesmanager.core.model.voucherCode.VoucherCodeList;
 public interface VoucherCodeRepositoryCustom {
 
 	VoucherCodeList listByStore(MerchantStore store, VoucherCodeCriteria criteria);
-
+	int getVoucherCodeByVoucherId(Long voucherId);
 
 }

@@ -159,7 +159,7 @@ public class ProductController {
 			}
 			
 			model.addAttribute("product", dbProduct);
-	
+			
 			
 			product.setProduct(dbProduct);
 			Set<ProductDescription> productDescriptions = dbProduct.getDescriptions();
@@ -233,8 +233,10 @@ public class ProductController {
 			
 			stamp.setSku(product.getProduct().getSku());
 			stamp.setCurrency(store.getCurrency());
+
 			stamp.setPrice(product.getPrice().getProductPriceAmount());
 			stamp.setWeight(product.getProduct().getProductWeight());
+			
 			for(ProductDescription bean1 : dbProduct.getDescriptions()){
 				if(bean1.getLanguage().getCode().equals(language.getCode())){
 					stamp.setProductName(bean1.getName());

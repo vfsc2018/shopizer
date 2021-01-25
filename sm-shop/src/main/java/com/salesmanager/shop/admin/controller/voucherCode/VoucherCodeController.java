@@ -1,6 +1,8 @@
 package com.salesmanager.shop.admin.controller.voucherCode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -35,6 +37,7 @@ import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
 import com.salesmanager.core.model.voucherCode.VoucherCodeList;
@@ -77,6 +80,16 @@ public class VoucherCodeController {
 			HttpServletResponse response) throws Exception {
 		
 		setMenu(model, request);
+		String voucherId = request.getParameter("voucherId");
+		
+		if(voucherId!=null && !voucherId.equals("")){
+			request.getSession().setAttribute("voucherId",voucherId);
+			
+			model.addAttribute("voucher",voucherService.getById(Long.parseLong(voucherId)));
+			model.addAttribute("intAmount",voucherCodeService.getVoucherCodeByVoucherId(Long.parseLong(voucherId)));
+		}else{
+			request.getSession().removeAttribute("voucherId");
+		}
 		
 		// the list of orders is from page method
 
@@ -84,6 +97,27 @@ public class VoucherCodeController {
 
 	}
 
+	@RequestMapping(value = "/admin/voucherCodes/reportCode.html", method = RequestMethod.GET)
+	public String reportBill(@RequestParam("id") Integer billId,Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// display menu
+		setMenu(model, request);
+		List<BillMaster> dataStore = new ArrayList<>();
+		try {
+			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_VOUCHERCODEDATA");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		model.addAttribute("data",dataStore);
+		
+		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		model.addAttribute("currency",sessionStore.getCurrency());
+		
+		return "admin-orders-report-voucherCode";
+	}	
+	
+	
 	@RequestMapping(value="/admin/voucherCodes/createVoucherCode.html", method=RequestMethod.GET)
 	public String displayProductCreate(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//display menu
@@ -155,7 +189,7 @@ public class VoucherCodeController {
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-
+			
 			
 			try {
 				if(!StringUtils.isBlank(id)) {
@@ -164,7 +198,9 @@ public class VoucherCodeController {
 				if(!StringUtils.isBlank(voucherId)) {
 					criteria.setVoucherId(Long.parseLong(voucherId));
 				}
-				
+				if(request.getSession().getAttribute("voucherId")!=null){
+					criteria.setVoucherId(Long.parseLong((String)request.getSession().getAttribute("voucherId")));
+				}
 				
 				if(!StringUtils.isBlank(securecode)) {
 					criteria.setSecurecode(securecode);
@@ -195,7 +231,8 @@ public class VoucherCodeController {
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 
 			VoucherCodeList list = voucherCodeService.getListByStore(store, criteria);
-
+			
+			request.getSession().setAttribute("STORE_VOUCHERCODEDATA",list.getVoucherCodes());
 			
 			if (list.getVoucherCodes() != null) {
 

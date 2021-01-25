@@ -1,5 +1,8 @@
 package com.salesmanager.core.business.repositories.voucherCode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -7,6 +10,7 @@ import javax.persistence.Query;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
 import com.salesmanager.core.model.voucherCode.VoucherCodeList;
 
@@ -126,5 +130,28 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 		
 	}    
 
+
+	
+	
+	@Override
+	public int getVoucherCodeByVoucherId(Long voucherId) {
+		List<VoucherCode> lstdata = new ArrayList<VoucherCode>();
+		StringBuilder baseQuery = new StringBuilder("select count(c) from VoucherCode as c where c.id = c.id ");
+
+		if(voucherId!=null && voucherId>0) {
+			String nameQuery =" and c.voucher.id = :voucher  ";
+			baseQuery.append(nameQuery);
+		}
+
+
+		Query objectQ = em.createQuery(baseQuery.toString());
+		if(voucherId!=null && voucherId>0) {
+			objectQ.setParameter("voucher",voucherId);
+		}
+		Number count = (Number) objectQ.getSingleResult();
+		return count.intValue();
+		
+		
+	}    
 
 }
