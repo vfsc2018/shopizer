@@ -244,14 +244,28 @@ public class VoucherCodeController {
 					Map entry = new HashMap();
 					
 					entry.put("id", transaction.getId());
-					entry.put("voucherId", transaction.getBlocked());
-					entry.put("securecode", transaction.getSecurecode());
-					entry.put("customerId ", transaction.getCustomer().getId());
+					if(transaction.getVoucher()!=null){
+						entry.put("voucherId", transaction.getVoucher().getId());
+					}
 					
-					entry.put("used", DateUtil.formatTimeDate(transaction.getUsed()));
-					entry.put("redeem", DateUtil.formatTimeDate(transaction.getRedeem()));
+					entry.put("code", transaction.getCode());
+					entry.put("index", transaction.getIndex());
 					
-					entry.put("orderId ", transaction.getOrder().getId());
+					if(transaction.getCustomer()!=null){
+						entry.put("customerId ", transaction.getCustomer().getId());	
+					}
+					
+					if(transaction.getUsed()!=null){
+						entry.put("used", DateUtil.formatTimeDate(transaction.getUsed()));	
+					}
+					if(transaction.getRedeem()!=null){
+						entry.put("redeem", DateUtil.formatTimeDate(transaction.getRedeem()));	
+					}
+					
+					if(transaction.getOrder()!=null){
+						entry.put("orderId ", transaction.getOrder().getId());	
+					}
+					
 					
 					resp.addDataEntry(entry);
 
@@ -292,14 +306,16 @@ public class VoucherCodeController {
 		temp.setUsed(DateUtil.formatDate(bean.getUsed()));
 		temp.setIndex(bean.getIndex());
 		temp.setRedeem(DateUtil.formatDate(bean.getRedeem()));
-		temp.setOrderId(bean.getOrder().getId());
+		if(bean.getOrder()!=null){
+			temp.setOrderId(bean.getOrder().getId());	
+		}
+		
 		
 		model.addAttribute("voucherCode", temp);
 
 		return ControllerConstants.Tiles.VoucherCode.Edit;
 	}
-	
-	
+
 
 	@RequestMapping(value = "/admin/voucherCodes/save.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherCodeForm bean) {
@@ -311,10 +327,7 @@ public class VoucherCodeController {
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 			try {
-/*				VoucherCode temp = voucherCodeService.getById(bean.getId());
-				temp.setId(bean.getId());
-				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
-				*/
+
 				VoucherCode temp = new VoucherCode();
 				if(bean.getId()!=null && bean.getId()>0){
 					temp = voucherCodeService.getById(bean.getId());
@@ -333,13 +346,47 @@ public class VoucherCodeController {
 				temp.setOrder(orderService.getById(bean.getOrderId()));
 				if(bean.getId()!=null && bean.getId()>0){
 					voucherCodeService.saveVoucher(temp);	
-				}else{
-					if(bean.getAmtCode()>0){
-						for(int i = 1;i<=bean.getAmtCode();i++){
-							temp.setCode(genCode());
-							temp.setId(0L);
-							voucherCodeService.saveVoucher(temp);	
-						}
+				}
+				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+				
+				
+			} catch (Exception e) {
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorMessage(e);
+			}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<>(returnString, httpHeaders,HttpStatus.OK);
+
+	}
+	
+
+	@RequestMapping(value = "/admin/voucherCodes/genCode.html", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> genCode(@RequestBody VoucherCodeCreateForm bean) {
+
+		
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
+			try {
+
+				VoucherCode temp = new VoucherCode();
+				
+				
+				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
+				int nextIndex = voucherCodeService.countGrByVoucherId(bean.getVoucherId());
+				
+				
+				
+				if(bean.getAmtCode()>0){
+					for(int i = 1;i<=bean.getAmtCode();i++){
+						temp.setCode(genCode());
+						temp.setIndex(++nextIndex);
+						temp.setId(0L);
+						
+						voucherCodeService.saveVoucher(temp);	
 					}
 				}
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

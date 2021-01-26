@@ -57,7 +57,7 @@
                 var data = $(this).serializeObject();
                 $.ajax({
                     'type': 'POST',
-                    'url': "<c:url value="/admin/voucherCodes/save.html"/>",
+                    'url': "<c:url value="/admin/voucherCodes/genCode.html"/>",
                     'contentType': 'application/json',
                     'data': JSON.stringify(data),
                     'dataType': 'json',
@@ -126,95 +126,7 @@
 					                   </div>
 					           </div>       				
       				</div>
-      				
-      				      				
-					<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.code" text="Code"/></label>	 
-					                  <div class="controls"> 
-					                  		<form:input  cssClass="small" path="code"/>          															
-					                   </div>
-					           </div>       				
-      				</div>
-      				
-					<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.securecode" text="securecode"/></label>	 
-					                  <div class="controls"> 
-											<form:input  cssClass="small" path="securecode"/>      					                  												
-					                   </div>
-					           </div>       				
-      				</div>
-      				
-      				
-					<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
-					                  <div class="controls"> 
-										<form:select path="blocked">
-												<form:option value="1" label="Yes"/>
-												<form:option value="0" label="No"/>
-										</form:select>    													
-					                   </div>
-					           </div>       				
-      				</div>
-      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.blockMessage" text="blockMessage"/></label>	 
-					                  <div class="controls">
-					                   		<form:input  cssClass="small" path="blockMessage"/>  	  															
-					                   </div>
-					           </div>       				
-      				</div>
-      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.customerId" text="customerId"/></label>	 
-					                  <div class="controls"> 
-					                  		<form:input  cssClass="small" path="customerId"/>  																
-					                   </div>
-					           </div>       				
-      				</div>
-      				      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.generic.used" text="used"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input id="used" cssClass="small" path="used" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#used').datepicker();
-											</script> 
-					                   </div>
-					           </div>       				
-      				</div>
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.generic.index" text="index"/></label>	 
-					                  <div class="controls"> 
-					                  		<form:input  cssClass="small" path="index"/>  	  														
-					                   </div>
-					           </div>       				
-      				</div>      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.generic.redeem" text="redeem"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input id="redeem" cssClass="small" path="redeem" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#redeem').datepicker();
-											</script>
-					                   </div>
-					           </div>       				
-      				</div>
-      				<div class="span8">
-							<div class="control-group">
-				                  <label><s:message code="label.entity.orderId" text="orderId"/></label>	 
-				                  <div class="controls"> 
-				                  		<form:input  cssClass="small" path="orderId"/>  	  		    														
-				                   </div>
-				           </div>       				
-      				</div>
+
             <br/>   
             <div class="span8">
 	              <div class="form-actions">

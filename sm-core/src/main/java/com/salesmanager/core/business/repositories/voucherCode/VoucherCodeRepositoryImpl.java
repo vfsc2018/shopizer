@@ -154,4 +154,23 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 		
 	}    
 
+	
+	@Override
+	public int countGrByVoucherId(Long voucherId) {
+
+		StringBuilder baseQuery = new StringBuilder("select max(c.index) from VoucherCode as c where c.id = c.id ");
+		if(voucherId!=null && voucherId>0){
+			String nameQuery =" and c.voucher.id = :voucher  ";
+			baseQuery.append(nameQuery);
+		}
+		Query objectQ = em.createQuery(baseQuery.toString());
+		if(voucherId!=null && voucherId>0) {
+			objectQ.setParameter("voucher",voucherId);
+		}
+		Number count = (Number)objectQ.getSingleResult();
+		if(count==null) return 0;
+		return count.intValue();
+		
+		
+	}   
 }

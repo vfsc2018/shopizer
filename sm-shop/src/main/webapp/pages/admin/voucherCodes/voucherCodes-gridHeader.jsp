@@ -6,7 +6,8 @@
 
 	{title:"<s:message code="label.entity.id" text="Id"/>", name:"id", width:50},
 	{title:"<s:message code="label.entity.voucherId" text="voucherId"/>", name:"voucherId", width:50},
-    {title:"<s:message code="label.entity.securecode" text="securecode"/>", name:"securecode", width:120},
+	{title:"<s:message code="label.entity.code" text="Code"/>", name:"code"},
+    {title:"<s:message code="label.entity.index" text="Index"/>", name:"index", width:120},
     {title:"<s:message code="label.entity.customerId " text="customerId "/>", name:"customerId ", width:120},
     {title:"<s:message code="label.entity.used" text="used"/>", name:"used", width:120},
     {title:"<s:message code="label.entity.used" text="redeem"/>", name:"redeem", width:120},

@@ -8,5 +8,6 @@ public interface VoucherCodeRepositoryCustom {
 
 	VoucherCodeList listByStore(MerchantStore store, VoucherCodeCriteria criteria);
 	int getVoucherCodeByVoucherId(Long voucherId);
+	public int countGrByVoucherId(Long voucherId);
 
 }

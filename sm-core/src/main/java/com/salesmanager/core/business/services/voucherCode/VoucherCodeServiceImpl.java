@@ -48,4 +48,7 @@ public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 		return voucherCodesRepository.getVoucherCodeByVoucherId(voucherId);
 	}
 	
+	public int countGrByVoucherId(Long voucherId){
+		return  voucherCodesRepository.countGrByVoucherId(voucherId);
+	}
 }
