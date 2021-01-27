@@ -44,16 +44,15 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 	@JoinColumn(name="VOUCHER_ID", nullable=true)
 	private Voucher voucher;
 	
-	
 	private String code;
 	private String securecode;
+	private String batch;
 	private int blocked;
 	private String blockMessage;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CUSTOMER_ID", nullable=true)
 	private Customer customer;
-	
 	
 	private Date used;
 	private int index;
@@ -90,6 +89,13 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 		this.voucher = voucher;
 	}
 
+	public String getBatch() {
+		return batch;
+	}
+
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
 
 	public String getCode() {
 		return code;

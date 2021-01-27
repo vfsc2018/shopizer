@@ -51,11 +51,6 @@ public class GCPProductContentFileManager implements ProductAssetsManager {
   private final static String SMALL = "SMALL";
   private final static String LARGE = "LARGE";
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 1L;
-
 
   @Override
   public OutputContentFile getProductImage(String merchantStoreCode, String productCode,

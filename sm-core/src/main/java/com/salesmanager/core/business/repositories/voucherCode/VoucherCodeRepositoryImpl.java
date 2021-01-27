@@ -135,7 +135,6 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 	
 	@Override
 	public int getVoucherCodeByVoucherId(Long voucherId) {
-		List<VoucherCode> lstdata = new ArrayList<VoucherCode>();
 		StringBuilder baseQuery = new StringBuilder("select count(c) from VoucherCode as c where c.id = c.id ");
 
 		if(voucherId!=null && voucherId>0) {

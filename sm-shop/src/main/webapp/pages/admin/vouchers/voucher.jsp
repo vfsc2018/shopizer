@@ -172,17 +172,6 @@
 					    
 					<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.status" text="status"/></label>	 
-					                  <div class="controls"> 
-											<form:select path="status">
-													<form:option value="1" label="Yes"/>
-													<form:option value="0" label="No"/>
-											</form:select>       														
-					                   </div>
-					           </div>       				
-      				</div>
-					<div class="span8">
-								<div class="control-group">
 					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
 					                  <div class="controls"> 
 										<form:select path="blocked">

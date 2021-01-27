@@ -38,6 +38,7 @@ import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMaster;
+import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
 import com.salesmanager.core.model.voucherCode.VoucherCodeList;
@@ -46,6 +47,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.VoucherUtils;
 
 @Controller
 @Scope("session")
@@ -250,6 +252,8 @@ public class VoucherCodeController {
 					
 					entry.put("code", transaction.getCode());
 					entry.put("index", transaction.getIndex());
+					entry.put("batch", transaction.getBatch());
+					entry.put("blocked", transaction.getBlocked()>0);
 					
 					if(transaction.getCustomer()!=null){
 						entry.put("customerId ", transaction.getCustomer().getId());	
@@ -300,6 +304,7 @@ public class VoucherCodeController {
 		temp.setId(bean.getId());
 		temp.setVoucherId(bean.getVoucher().getId());
 		temp.setCode(bean.getCode());
+		temp.setBatch(bean.getBatch());
 		temp.setSecurecode(bean.getSecurecode());
 		temp.setBlocked(bean.getBlocked());
 		temp.setBlockMessage(bean.getBlockMessage());
@@ -364,34 +369,31 @@ public class VoucherCodeController {
 	@RequestMapping(value = "/admin/voucherCodes/genCode.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> genCode(@RequestBody VoucherCodeCreateForm bean) {
 
-		
-
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		
-			try {
 
-				VoucherCode temp = new VoucherCode();
-				
-				
-				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
-				int nextIndex = voucherCodeService.countGrByVoucherId(bean.getVoucherId());
-				
-				
-				
-				if(bean.getAmtCode()>0){
-					for(int i = 1;i<=bean.getAmtCode();i++){
-						temp.setCode(genCode());
-						temp.setIndex(++nextIndex);
-						temp.setId(0L);
-						
-						voucherCodeService.saveVoucher(temp);	
-					}
+		if(bean.getAmtCode()==null || bean.getAmtCode()<=0){
+			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+			String returnString = resp.toJSONString();
+			return new ResponseEntity<>(returnString, httpHeaders,HttpStatus.OK);
+		}
+			try {
+				List<VoucherCode> ls = new ArrayList<>();
+				Integer nextIndex = voucherCodeService.countGrByVoucherId(bean.getVoucherId());
+				Long next = nextIndex.longValue();
+				Voucher voucher = voucherService.getById(bean.getVoucherId());
+				for(int i = 1;i<=bean.getAmtCode();i++){
+					VoucherCode code = new VoucherCode();
+					code.setVoucher(voucher);
+					code.setIndex(nextIndex + i);
+					code.setCode(VoucherUtils.encode(VoucherUtils.TYPE_ORDER_PAYMENT, voucher.getId(), next + i));
+					code.setId(0L);
+					code.setBatch(bean.getBatch());
+					ls.add(code);
 				}
+				voucherCodeService.saveVoucher(ls);	
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
-				
-				
 			} catch (Exception e) {
 				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
 				resp.setErrorMessage(e);

@@ -202,9 +202,9 @@
       				       				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+					                  <label><s:message code="label.entity.startDate" text="Start date"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input id="startDate" cssClass="small" path="startDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+					                        <form:input id="startDate" cssClass="input-large highlight" path="startDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
 											<script type="text/javascript">
 												$('#startDate').datepicker();
 											</script>    
@@ -213,9 +213,9 @@
       				</div>      				      				
       				<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.deliveryDate" text="Delivery date"/></label>	 
+					                  <label><s:message code="label.entity.endDate" text="Finish date"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input id="endDate" cssClass="small" path="endDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+					                        <form:input id="endDate" cssClass="input-large highlight" path="endDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
 											<script type="text/javascript">
 												$('#endDate').datepicker();
 											</script>    
