@@ -120,9 +120,17 @@
 					
 					<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.amtCode" text="Amt code"/></label>	 
+					                  <label><s:message code="label.voucher.code.total" text="Total code"/></label>	 
 					                  <div class="controls"> 
-					                  		<form:input  cssClass="small" path="amtCode"/>          															
+					                  		<form:input  cssClass="input-large highlight" path="amtCode"/>          															
+					                   </div>
+					           </div>       				
+                      </div>
+                      <div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.voucher.code.batch" text="Batch code"/></label>	 
+					                  <div class="controls"> 
+					                  		<form:input  cssClass="input-large highlight" path="batch"/>          															
 					                   </div>
 					           </div>       				
       				</div>

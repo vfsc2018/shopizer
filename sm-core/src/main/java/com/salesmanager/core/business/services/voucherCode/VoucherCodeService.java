@@ -1,6 +1,7 @@
 package com.salesmanager.core.business.services.voucherCode;
 
-import org.springframework.validation.BindException;
+
+import java.util.List;
 
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
@@ -11,7 +12,8 @@ import com.salesmanager.core.model.voucherCode.VoucherCodeList;
 
 public interface VoucherCodeService extends SalesManagerEntityService<Long, VoucherCode> {
 	
-	public VoucherCode saveVoucher(VoucherCode form) throws BindException;
+	public VoucherCode saveVoucher(VoucherCode code);
+	public List<?> saveVoucher(List<VoucherCode> code);
 	VoucherCodeList getListByStore(MerchantStore store, VoucherCodeCriteria criteria);
 	public boolean deleteVoucher(Long id) throws ServiceException;
 	public int getVoucherCodeByVoucherId(Long voucherId);

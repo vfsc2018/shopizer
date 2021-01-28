@@ -57,9 +57,6 @@ public class RelatedItemsController {
 	@Inject
 	ProductRelationshipService productRelationshipService;
 	
-	
-	
-	
 	@PreAuthorize("hasRole('PRODUCTS')")
 	@RequestMapping(value="/admin/catalogue/related/update.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> updateRelationship(HttpServletRequest request, HttpServletResponse response) {
@@ -77,16 +74,17 @@ public class RelatedItemsController {
 			ObjectMapper mapper = new ObjectMapper();
 			@SuppressWarnings("rawtypes")
 			Map conf = mapper.readValue(values, Map.class);
-			Integer sid = (Integer)conf.get("relationshipId");
-			Long relationshipId = new Long(sid);
-			Double quantity  = new Double(0);
-			if(baseQuantity!=null && !baseQuantity.equals("")) quantity = Double.parseDouble(baseQuantity);
-			ProductRelationship entity = productRelationshipService.findById1(relationshipId);
-			if(quantity>0) entity.setQuantity(quantity);
-			if(unit!=null && !unit.equals("")) entity.setUnit(unit);
-			productRelationshipService.update(entity);
+			Object id = conf.get("relationshipId");
+			if(id!=null) {
+				Long relationshipId = ((Integer)id).longValue();
+				Double quantity  = 0.0;
+				if(baseQuantity!=null && !baseQuantity.equals("")) quantity = Double.parseDouble(baseQuantity);
+				ProductRelationship entity = productRelationshipService.findById1(relationshipId);
+				if(quantity>0) entity.setQuantity(quantity);
+				if(unit!=null && !unit.equals("")) entity.setUnit(unit);
+				productRelationshipService.update(entity);
+			}
 			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
-		
 		} catch (Exception e) {
 			LOGGER.error("Error while paging products", e);
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
@@ -265,7 +263,7 @@ public class RelatedItemsController {
 			
 			productRelationshipService.saveOrUpdate(relationship);
 			
-
+			// resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);
 			resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_SUCCESS);
 		
 		} catch (Exception e) {

@@ -16,13 +16,20 @@ public class VoucherCodeForm  implements Serializable{
 	private Long id;
 	private Long voucherId;
 	private int index;
-	private int amtCode;
+	private Integer amtCode;
+	private String batch;
 	
-	
-	public int getAmtCode() {
+	public String getBatch() {
+		return batch;
+	}
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
+
+	public Integer getAmtCode() {
 		return amtCode;
 	}
-	public void setAmtCode(int amtCode) {
+	public void setAmtCode(Integer amtCode) {
 		this.amtCode = amtCode;
 	}
 	public int getIndex() {

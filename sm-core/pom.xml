@@ -175,7 +175,6 @@
 			</exclusions>
 		</dependency>
 
-
 		<!-- Payment dependencies -->
 
 		<!-- Paypal -->

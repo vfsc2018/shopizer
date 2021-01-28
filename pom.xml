@@ -215,6 +215,11 @@
 				<version>${shopizer.search.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.hashids</groupId>
+				<artifactId>hashids</artifactId>
+				<version>1.0.3</version>
+			</dependency>
 
 			<!-- <dependency>
 				<groupId>mysql</groupId>
@@ -336,7 +341,6 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-
 
 			<!-- Payment dependencies -->
 
@@ -508,6 +512,10 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 				
+		<dependency>
+			<groupId>org.hashids</groupId>
+			<artifactId>hashids</artifactId>
+		</dependency>
 	</dependencies>
 
 	<repositories>

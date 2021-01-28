@@ -35,8 +35,12 @@ public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	}
 	
 	
-	public VoucherCode saveVoucher(VoucherCode form) throws BindException {
-		return voucherCodesRepository.saveAndFlush(form);
+	public VoucherCode saveVoucher(VoucherCode code) {
+		return voucherCodesRepository.saveAndFlush(code); 
+	}
+
+	public  List<?> saveVoucher(List<VoucherCode> code) {
+		return voucherCodesRepository.saveAll(code);
 	}
 	
 	public boolean deleteVoucher(Long id) throws ServiceException {
