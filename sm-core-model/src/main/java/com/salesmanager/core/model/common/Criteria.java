@@ -12,6 +12,17 @@ public class Criteria {
 	private int pageSize = 10;
 	private boolean legacyPagination = true;
 	private String code;
+	private int index;
+	
+	
+	public int getIndex() {
+		return index;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
 	private String name;
 	private String language;
 	private String user;

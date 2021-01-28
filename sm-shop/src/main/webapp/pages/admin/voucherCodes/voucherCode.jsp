@@ -57,7 +57,7 @@
                 var data = $(this).serializeObject();
                 $.ajax({
                     'type': 'POST',
-                    'url': "<c:url value="/admin/vouchers/save.html"/>",
+                    'url': "<c:url value="/admin/voucherCodes/save.html"/>",
                     'contentType': 'application/json',
                     'data': JSON.stringify(data),
                     'dataType': 'json',
@@ -106,7 +106,7 @@
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
 					
-					
+					<input name="id" id="id" type="hidden" value="<c:out value="${voucherCode.id}"/>">
 					<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.id" text="Id"/></label>	 
@@ -147,7 +147,12 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
 					                  <div class="controls"> 
-					                       <c:out value="${voucherCode.blocked}" />  													
+					                  	
+					                  	<form:select path="blocked">
+												<form:option value="1" label="Yes"/>
+												<form:option value="0" label="No"/>
+										</form:select>
+										  													
 					                   </div>
 					           </div>       				
       				</div>
@@ -156,7 +161,7 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blockMessage" text="blockMessage"/></label>	 
 					                  <div class="controls"> 
-					                        <c:out value="${voucherCode.blockMessage}" />  															
+					                        <form:input  cssClass="small" path="blockMessage"/>      	  															
 					                   </div>
 					           </div>       				
       				</div>
@@ -202,7 +207,12 @@
 				                   </div>
 				           </div>       				
       				</div>
-
+		            <br/>   
+		            <div class="span8">
+			              <div class="form-actions">
+			              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
+			      		  </div>
+		      		</div> 
             <br/>   
    		</form:form>       
 
