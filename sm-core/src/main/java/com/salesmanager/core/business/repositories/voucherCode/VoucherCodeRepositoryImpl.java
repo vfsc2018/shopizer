@@ -39,6 +39,18 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			baseQuery.append(nameQuery);
 		}
 		
+		if(!StringUtils.isBlank(criteria.getCode())) {
+			String nameQuery =" and c.code = :code ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+		
+		if(criteria.getIndex()>0) {
+			String nameQuery =" and c.index = :index ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+		
 		if(criteria.getCustomerId()!=null && criteria.getCustomerId()>0) {
 			String nameQuery =" and c.customer.id = :customer  ";
 			baseCountQuery.append(nameQuery);
@@ -79,6 +91,17 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			countQ.setParameter("voucher",criteria.getVoucherId());
 			objectQ.setParameter("voucher",criteria.getVoucherId());
 		}
+		
+		if(!StringUtils.isBlank(criteria.getCode())) {
+			countQ.setParameter("code",criteria.getCode());
+			objectQ.setParameter("code",criteria.getCode());
+		}
+		
+		if(criteria.getIndex()>0) {
+			countQ.setParameter("index",criteria.getIndex());
+			objectQ.setParameter("index",criteria.getIndex());
+		}
+		
 		
 		if(criteria.getCustomerId()!=null && criteria.getCustomerId()>0) {
 			countQ.setParameter("customer",criteria.getCustomerId());

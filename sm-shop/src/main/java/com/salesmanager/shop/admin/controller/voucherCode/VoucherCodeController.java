@@ -170,7 +170,8 @@ public class VoucherCodeController {
 			String voucherId = request.getParameter("voucherId");
 			
 			
-			String	securecode = request.getParameter("securecode");
+			String	code = request.getParameter("code");
+			String	index = request.getParameter("index");
 			String	customerId  = request.getParameter("customerId ");
 			
 			
@@ -204,8 +205,12 @@ public class VoucherCodeController {
 					criteria.setVoucherId(Long.parseLong((String)request.getSession().getAttribute("voucherId")));
 				}
 				
-				if(!StringUtils.isBlank(securecode)) {
-					criteria.setSecurecode(securecode);
+				if(!StringUtils.isBlank(code)) {
+					criteria.setCode(code);
+				}
+				
+				if(!StringUtils.isBlank(index)) {
+					criteria.setIndex(Integer.parseInt(index));
 				}
 				
 				if(!StringUtils.isBlank(orderId)) {
@@ -215,9 +220,11 @@ public class VoucherCodeController {
 				if(!StringUtils.isBlank(customerId )) {
 					criteria.setCustomerId(Long.parseLong(customerId) );
 				}
+				
 				if(!StringUtils.isBlank(used)) {
 					criteria.setUsed(used);
 				}
+				
 				if(!StringUtils.isBlank(redeem)) {
 					criteria.setRedeem(redeem);
 				}
@@ -323,7 +330,7 @@ public class VoucherCodeController {
 
 
 	@RequestMapping(value = "/admin/voucherCodes/save.html", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherCodeForm bean) {
+	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherCodeEditForm bean) {
 
 		
 
@@ -338,20 +345,10 @@ public class VoucherCodeController {
 					temp = voucherCodeService.getById(bean.getId());
 				}
 				
-				temp.setVoucher(voucherService.getById(bean.getVoucherId()));
-
-				temp.setCode(bean.getCode());
-				temp.setSecurecode(bean.getSecurecode());
 				temp.setBlocked(bean.getBlocked());
 				temp.setBlockMessage(bean.getBlockMessage());
-				temp.setCustomer(customerService.getById(bean.getCustomerId()));
-				temp.setUsed(DateUtil.getDate(bean.getUsed()));
-				temp.setIndex(bean.getIndex());
-				temp.setRedeem(DateUtil.getDate(bean.getRedeem()));
-				temp.setOrder(orderService.getById(bean.getOrderId()));
-				if(bean.getId()!=null && bean.getId()>0){
-					voucherCodeService.saveVoucher(temp);	
-				}
+				
+				voucherCodeService.saveVoucher(temp);	
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 				
 				
