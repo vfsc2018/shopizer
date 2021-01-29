@@ -47,8 +47,7 @@ public interface OrderFacade {
 	
 	/** creates a working copy of customer when the user is anonymous **/
 	Customer initEmptyCustomer(MerchantStore store);
-	List<Country> getShipToCountry(MerchantStore store, Language language)
-			throws Exception;
+	List<Country> getShipToCountry(MerchantStore store, Language language) throws Exception;
 	
 	/**
 	 * Get a ShippingQuote based on merchant configuration and items to be shipped

@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -28,7 +29,8 @@ import com.salesmanager.core.model.voucher.Voucher;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "VOUCHER_CODE", schema= SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "VOUCHER_CODE", schema= SchemaConstant.SALESMANAGER_SCHEMA, 
+	indexes = {@Index(columnList = "code")})
 public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implements Auditable, JSONAware {
 
 	private static final long serialVersionUID = 1L;

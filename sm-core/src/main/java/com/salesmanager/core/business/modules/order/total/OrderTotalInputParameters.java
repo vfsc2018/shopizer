@@ -10,6 +10,7 @@ import java.util.Date;
 public class OrderTotalInputParameters {
 	
 	private Double discount;//output value set by engine
+	private Double moneyoff;
 	private String totalCode;//output value set by engine
 	
 	//input parameters
@@ -22,6 +23,13 @@ public class OrderTotalInputParameters {
 	
 	//might add variation based on other objects such as Customer
 	
+	public Double getMoneyoff() {
+		return moneyoff;
+	}
+	public void setMoneyoff(Double moneyoff) {
+		this.moneyoff = moneyoff;
+	}
+
 	public Double getDiscount() {
 		return discount;
 	}

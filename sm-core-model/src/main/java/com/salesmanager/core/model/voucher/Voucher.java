@@ -15,6 +15,7 @@ import javax.validation.constraints.Min;
 
 import org.json.simple.JSONAware;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -23,6 +24,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 
 
 @Entity
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @EntityListeners(value = AuditListener.class)
 @Table(name = "VOUCHER", schema= SchemaConstant.SALESMANAGER_SCHEMA)
 public class Voucher extends SalesManagerEntity<Long, Voucher> implements Auditable, JSONAware {

@@ -75,42 +75,32 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
 		OrderTotalResponse resp = new OrderTotalResponse();
 		
 		OrderTotalInputParameters inputParameters = new OrderTotalInputParameters();
-		inputParameters.setPromoCode(summary.getPromoCode());
-		inputParameters.setDate(new Date());
+		
+		if(summary.getVoucher().getPercent()!=null){
+			inputParameters.setPromoCode(summary.getPromoCode());
+			inputParameters.setDiscount(summary.getVoucher().getPercent().intValue()*0.01);
+		}
 		
         kieSession.insert(inputParameters);
         kieSession.setGlobal("total",resp);
         kieSession.fireAllRules();
+		Double discount = resp.getDiscount();
 
-		if(resp.getDiscount() != null) {
+		if(discount!=null && discount.doubleValue()>0){
+			OrderTotal orderTotal = new OrderTotal();
+			orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
+			orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
+			orderTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
+			orderTotal.setText(summary.getPromoCode());
 			
-			OrderTotal orderTotal = null;
-			if(resp.getDiscount() != null) {
-					orderTotal = new OrderTotal();
-					orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
-					orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-					orderTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
-					orderTotal.setText(summary.getPromoCode());
-					
-					//calculate discount that will be added as a negative value
-					FinalPrice productPrice = pricingService.calculateProductPrice(product);
-					
-					Double discount = resp.getDiscount();
-					BigDecimal reduction = productPrice.getFinalPrice().multiply(BigDecimal.valueOf(discount));
-					reduction = reduction.multiply(BigDecimal.valueOf(shoppingCartItem.getQuantity()));
-					
-					orderTotal.setValue(reduction);//discount value
-					
-					//TODO check expiration
-			}
-				
-			
-			
+			//calculate discount that will be added as a negative value
+			FinalPrice productPrice = pricingService.calculateProductPrice(product);
+			BigDecimal reduction = productPrice.getFinalPrice().multiply(BigDecimal.valueOf(discount));
+			reduction = reduction.multiply(BigDecimal.valueOf(shoppingCartItem.getQuantity()));
+			orderTotal.setValue(reduction);
 			return orderTotal;
 			
 		}
-		
-		
 		
 		return null;
 	}

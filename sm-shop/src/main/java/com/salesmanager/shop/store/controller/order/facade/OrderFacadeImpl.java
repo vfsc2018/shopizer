@@ -1246,6 +1246,11 @@ public class OrderFacadeImpl implements OrderFacade {
 			List<ShoppingCartItem> itemsSet = new ArrayList<>(cart.getLineItems());
 			orderSummary.setProducts(itemsSet);
 
+			if(order.getVoucherCode()!=null && order.getVoucherCode().getVoucher()!=null){
+				orderSummary.setVoucher(order.getVoucherCode().getVoucher());
+				orderSummary.setPromoCode(order.getVoucherCode().getCode());
+			}
+
 			orderTotalSummary = orderService.caculateOrderTotal(orderSummary, customer, store, language);
 
 			if (order.getPayment().getAmount() == null) {

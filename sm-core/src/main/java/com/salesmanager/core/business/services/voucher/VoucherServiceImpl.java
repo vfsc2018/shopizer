@@ -19,32 +19,31 @@ import com.salesmanager.core.model.voucher.VoucherList;
 public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Voucher> implements VoucherService {
 
 	@Inject
-	private VoucherRepository vouchersRepository;
+	private VoucherRepository voucherRepository;
 
-	
 	@Override
 	public VoucherList getListByStore(MerchantStore store, VoucherCriteria criteria) {
-		return vouchersRepository.listByStore(store, criteria);
+		return voucherRepository.listByStore(store, criteria);
 	}
     
 	@Override
 	public List<Voucher> getVoucherEndDate(){
-		return vouchersRepository.getVoucherEndDate();
+		return voucherRepository.getVoucherEndDate();
 	}
     
 	@Inject
-	public VoucherServiceImpl(VoucherRepository vouchersRepository) {
-		super(vouchersRepository);
-		this.vouchersRepository = vouchersRepository;
+	public VoucherServiceImpl(VoucherRepository voucherRepository) {
+		super(voucherRepository);
+		this.voucherRepository = voucherRepository;
 	}
 	
 	
 	public Voucher saveVoucher(Voucher form) throws BindException {
-		return vouchersRepository.saveAndFlush(form);
+		return voucherRepository.saveAndFlush(form);
 	}
 
 	public boolean deleteVoucher(Long id) throws ServiceException {
-		vouchersRepository.deleteById(id);
+		voucherRepository.deleteById(id);
 		return true;
 
 	}

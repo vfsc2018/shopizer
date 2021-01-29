@@ -1,6 +1,10 @@
 package com.salesmanager.shop.model.order.v1;
 
+import javax.persistence.Transient;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.salesmanager.core.model.voucher.Voucher;
+import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.shop.model.order.transaction.PersistablePayment;
 
 /**
@@ -22,8 +26,38 @@ public class PersistableOrder extends Order {
 	private Long shoppingCartId;
 	@JsonIgnore
 	private Long customerId;
+
+	private String code;
+	private String securecode;
+
+	@Transient
+	private VoucherCode voucherCode;
 	
-	
+	public VoucherCode getVoucherCode() {
+		return voucherCode;
+	}
+
+	public void setVoucherCode(VoucherCode voucherCode) {
+		this.voucherCode = voucherCode;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getSecurecode() {
+		return securecode;
+	}
+
+
+	public void setSecurecode(String securecode) {
+		this.securecode = securecode;
+	}
 	
 	public Long getShoppingCartId() {
 		return shoppingCartId;

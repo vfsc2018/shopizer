@@ -88,7 +88,7 @@ public class VoucherCodeController {
 			request.getSession().setAttribute("voucherId",voucherId);
 			
 			model.addAttribute("voucher",voucherService.getById(Long.parseLong(voucherId)));
-			model.addAttribute("intAmount",voucherCodeService.getVoucherCodeByVoucherId(Long.parseLong(voucherId)));
+			model.addAttribute("intAmount",voucherCodeService.countCodeByVoucherId(Long.parseLong(voucherId)));
 		}else{
 			request.getSession().removeAttribute("voucherId");
 		}
@@ -380,7 +380,7 @@ public class VoucherCodeController {
 		}
 			try {
 				List<VoucherCode> ls = new ArrayList<>();
-				Integer nextIndex = voucherCodeService.countGrByVoucherId(bean.getVoucherId());
+				Integer nextIndex = voucherCodeService.getMaxIndexByVoucherId(bean.getVoucherId());
 				Long next = nextIndex.longValue();
 				Voucher voucher = voucherService.getById(bean.getVoucherId());
 				for(int i = 1;i<=bean.getAmtCode();i++){

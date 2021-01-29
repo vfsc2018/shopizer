@@ -2,10 +2,13 @@ package com.salesmanager.shop.admin.controller.voucher;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * @author Ducdv83@gmail.com
  *
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class VoucherForm  implements Serializable{
 
 	private static final long serialVersionUID = -5449520886006625559L;

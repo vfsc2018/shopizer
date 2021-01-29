@@ -16,6 +16,8 @@ public interface VoucherCodeService extends SalesManagerEntityService<Long, Vouc
 	public List<?> saveVoucher(List<VoucherCode> code);
 	VoucherCodeList getListByStore(MerchantStore store, VoucherCodeCriteria criteria);
 	public boolean deleteVoucher(Long id) throws ServiceException;
-	public int getVoucherCodeByVoucherId(Long voucherId);
-	public int countGrByVoucherId(Long voucherId);
+	public int countCodeByVoucherId(Long voucherId);
+	public int getMaxIndexByVoucherId(Long voucherId);
+	public VoucherCode getVoucherCode(Long voucherId, Integer index);
+	public VoucherCode getVoucherCode(String code);
 }

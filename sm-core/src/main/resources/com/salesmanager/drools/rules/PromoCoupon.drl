@@ -6,11 +6,16 @@ global com.salesmanager.core.business.modules.order.total.OrderTotalResponse tot
 
 dialect  "mvel"
 
-
-rule "Bam0520"
+rule "DISCOUNT"
     when
-        OrderTotalInputParameters(promoCode == 'Bam0520')
-        OrderTotalInputParameters(date < "31-Oct-2020")
+        order: OrderTotalInputParameters(discount > 0)
     then
-        total.setDiscount(0.10);
+        total.setDiscount(order.getDiscount());
+end
+
+rule "TRANHONGQUANG"
+    when
+        OrderTotalInputParameters(promoCode == 'TRANHONGQUANG')
+    then
+        total.setDiscount(0.50);
 end

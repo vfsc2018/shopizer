@@ -19,7 +19,6 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
     @PersistenceContext
 	private EntityManager em;
 
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Voucher> getVoucherEndDate() {
@@ -29,9 +28,6 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
 		Query objectQ = em.createQuery(baseQuery.toString());
 		return objectQ.getResultList();
 	}    
-
-	
-	
     
 	@SuppressWarnings("unchecked")
 	@Override

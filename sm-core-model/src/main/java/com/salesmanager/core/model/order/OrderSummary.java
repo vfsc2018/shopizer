@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import com.salesmanager.core.model.shipping.ShippingSummary;
 import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
+import com.salesmanager.core.model.voucher.Voucher;
 
 
 /**
@@ -25,6 +28,17 @@ public class OrderSummary implements Serializable {
 	private ShippingSummary shippingSummary;
 	private String promoCode;
 	private List<ShoppingCartItem> products = new ArrayList<>();
+
+	@Transient
+	private Voucher voucher;
+
+	public Voucher getVoucher() {
+		return voucher;
+	}
+	public void setVoucher(Voucher voucher) {
+		this.voucher = voucher;
+	}
+
 
 	public void setProducts(List<ShoppingCartItem> products) {
 		this.products = products;

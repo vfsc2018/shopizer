@@ -333,11 +333,26 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         		OrderSummaryType.SHOPPINGCART.name().equals(summary.getOrderSummaryType().name())
         		
         		) {
+            // if(summary.getVoucher()!=null){
+            //     OrderTotal promo = new OrderTotal();
+            //     promo.setModule(Constants.OT_PROMOTION_MODULE_CODE);
+            //     promo.setOrderTotalType(OrderTotalType.SUBTOTAL);
+            //     promo.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
+            //     promo.setSortOrder(0);
+            //     promo.setTitle(summary.getVoucher().getDescription());
+            //     promo.setText(summary.getPromoCode());
+            //     if(summary.getVoucher().getDiscount()!=null && summary.getVoucher().getDiscount().intValue()>0){
+            //         promo.setValue(new BigDecimal(summary.getVoucher().getDiscount()));
+            //     }else if(summary.getVoucher().getPercent()!=null && summary.getVoucher().getPercent().intValue()>0 && summary.getVoucher().getPercent().intValue()<=100){
 
+            //     }
+
+            //     orderTotals.add(variation);
+	        // 	subTotal = subTotal.subtract(variation.getValue());
+            // }
 	        //Post processing order total variation modules for sub total calculation - drools, custom modules
 	        //may affect the sub total
 	        OrderTotalVariation orderTotalVariation = orderTotalService.findOrderTotalVariation(summary, customer, store, language);
-	        
 	        int currentCount = 10;
 	        
 	        if(CollectionUtils.isNotEmpty(orderTotalVariation.getVariations())) {
@@ -368,8 +383,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
         //shipping
         if(summary.getShippingSummary()!=null) {
-
-
 	            OrderTotal shippingSubTotal = new OrderTotal();
 	            shippingSubTotal.setModule(Constants.OT_SHIPPING_MODULE_CODE);
 	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
@@ -408,7 +421,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
         //tax
         List<TaxItem> taxes = taxService.calculateTax(summary, customer, store, language);
-        if(taxes!=null && taxes.size()>0) {
+        if(CollectionUtils.isNotEmpty(taxes)) {
         	BigDecimal totalTaxes = new BigDecimal(0);
         	totalTaxes.setScale(0, RoundingMode.HALF_UP);
             int taxCount = 200;

@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -23,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salesmanager.core.business.repositories.voucherCode.VoucherCodeRepository;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.bill.BillMasterService;
@@ -44,6 +47,8 @@ import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
+import com.salesmanager.core.model.voucherCode.VoucherCode;
+import com.salesmanager.shop.admin.controller.voucherCode.VoucherCodeCheck;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
@@ -52,6 +57,7 @@ import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
+import com.salesmanager.shop.store.api.v1.voucher.VoucherApi;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.security.user.JWTUser;
@@ -94,8 +100,8 @@ public class OrderApi {
 	@Autowired
 	private CustomerFacade customerFacade;
 
-	// @Inject
-	// private AuthorizationUtils authorizationUtils;
+	@Inject
+	private VoucherCodeRepository voucherCodeRepository;
 	
 	// private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
@@ -430,7 +436,8 @@ public class OrderApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = { "/private/cart/{code}/checkout" }, method = RequestMethod.POST)
+	@PostMapping(value = { "/private/cart/{code}/checkout" })
+	@Transactional
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	@ApiImplicitParams({ 
@@ -441,6 +448,7 @@ public class OrderApi {
 			HttpServletResponse response, Locale locale) throws Exception {
 
 		try {
+
 			Principal principal = request.getUserPrincipal();
 			String userName = principal.getName();
 
@@ -448,6 +456,11 @@ public class OrderApi {
 
 			if (customer == null) {
 				response.sendError(401, "Error while performing checkout customer not authorized");
+				return null;
+			}
+			
+			if ((order.getCode() == null && order.getSecurecode()!=null) || (order.getCode() != null && order.getSecurecode()==null) ) {
+				response.sendError(401, "Error voucher code");
 				return null;
 			}
 
@@ -458,14 +471,34 @@ public class OrderApi {
 			
 			order.setShoppingCartId(cart.getId());
 			order.setCustomerId(customer.getId());
-			if(order.getCurrency()==null){
-				order.setCurrency("VND");
-			}
+			order.setCurrency("VND");
 			order.getPayment().setTransactionType(TransactionType.INIT.name());
+
+			VoucherCode voucherCode = null;
+			if(order.getCode()!=null && order.getSecurecode()!=null){
+				VoucherCodeCheck vc = new VoucherCodeCheck();
+				vc.setCode(order.getCode());
+				vc.setSecurecode(order.getSecurecode());
+				VoucherApi voucherApi = new VoucherApi();
+				voucherCode =  voucherApi.getVoucher(vc);
+				if(voucherCode==null){
+					response.sendError(401, "Error voucher code with order");
+					return null;
+				}
+				order.setVoucherCode(voucherCode);
+			}
 			
 			Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language, locale);
 			Long orderId = modelOrder.getId();
 			order.setId(orderId);
+
+			if(voucherCode!=null){
+				voucherCode.setCustomer(customer);
+				voucherCode.setOrder(modelOrder);
+				voucherCode.setUsed(new Date());
+				voucherCode.setBatch(customer.getBilling().getFirstName());
+				voucherCodeRepository.save(voucherCode);
+			}
 
 			// hash payment token
 			order.getPayment().setPaymentToken("***");

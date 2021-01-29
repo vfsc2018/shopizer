@@ -8,6 +8,7 @@ import com.salesmanager.core.model.voucher.Voucher;
 
 public interface VoucherRepository extends JpaRepository<Voucher, Long>,VoucherRepositoryCustom {
 
+
 /*	@Query("select t from Voucher t join fetch t.order to where to.id = ?1")
 	List<Voucher> findByOrder(Long orderId);
 	

@@ -47,6 +47,7 @@ public class Constants {
   public final static String OT_TAX_MODULE_CODE = "tax";
   public final static String OT_REFUND_MODULE_CODE = "refund";
   public final static String OT_DISCOUNT_TITLE = "order.total.discount";
+  public final static String OT_PROMOTION_MODULE_CODE = "promotion";
 
   public final static String DEFAULT_STORE = "DEFAULT";
 

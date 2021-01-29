@@ -48,11 +48,17 @@ public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 		return true;
 	}
 	
-	public int getVoucherCodeByVoucherId(Long voucherId){
-		return voucherCodesRepository.getVoucherCodeByVoucherId(voucherId);
+	public int countCodeByVoucherId(Long voucherId){
+		return voucherCodesRepository.countCodeByVoucherId(voucherId);
 	}
 	
-	public int countGrByVoucherId(Long voucherId){
-		return  voucherCodesRepository.countGrByVoucherId(voucherId);
+	public VoucherCode getVoucherCode(Long voucherId, Integer index) {
+		return voucherCodesRepository.getVoucherCode(voucherId, index);
+	}
+	public VoucherCode getVoucherCode(String code) {
+		return voucherCodesRepository.getVoucherCode(code);
+	}
+	public int getMaxIndexByVoucherId(Long voucherId){
+		return  voucherCodesRepository.getMaxIndexByVoucherId(voucherId);
 	}
 }

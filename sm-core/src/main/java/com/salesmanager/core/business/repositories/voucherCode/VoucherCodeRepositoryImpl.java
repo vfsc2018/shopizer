@@ -130,11 +130,38 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 		
 	}    
 
+	@Override
+	public VoucherCode getVoucherCode(Long voucherId, Integer index) {
+		StringBuilder baseQuery = new StringBuilder("select c from VoucherCode as c where c.voucher.id = ?1 AND c.index=?2 order by c.id");
 
+
+		Query objectQ = em.createQuery(baseQuery.toString());
+		objectQ.setParameter(1,voucherId);
+		objectQ.setParameter(2, index);
+		try{
+			return (VoucherCode)objectQ.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}    
+
+	@Override
+	public VoucherCode getVoucherCode(String code) {
+		StringBuilder baseQuery = new StringBuilder("select c from VoucherCode as c where c.code = ?1 order by c.id");
+
+
+		Query objectQ = em.createQuery(baseQuery.toString());
+		objectQ.setParameter(1,code);
+		try{
+			return (VoucherCode)objectQ.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}    
 	
 	
 	@Override
-	public int getVoucherCodeByVoucherId(Long voucherId) {
+	public int countCodeByVoucherId(Long voucherId) {
 		StringBuilder baseQuery = new StringBuilder("select count(c) from VoucherCode as c where c.id = c.id ");
 
 		if(voucherId!=null && voucherId>0) {
@@ -155,7 +182,7 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 
 	
 	@Override
-	public int countGrByVoucherId(Long voucherId) {
+	public int getMaxIndexByVoucherId(Long voucherId) {
 
 		StringBuilder baseQuery = new StringBuilder("select max(c.index) from VoucherCode as c where c.id = c.id ");
 		if(voucherId!=null && voucherId>0){
