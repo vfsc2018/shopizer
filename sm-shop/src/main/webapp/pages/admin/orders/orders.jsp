@@ -22,7 +22,7 @@
 			<div>
 			<table width="100%" border="0px">
 				<tr>
-					<td align="left" width="50%">
+					<td align="left" >
 						<h3><s:message code="label.order.title" text="Orders" /></h3>	
 						 <!-- Listing grid include -->
 						 <c:set value="/admin/orders/paging.html" var="pagingUrl" scope="request"/>
@@ -33,7 +33,16 @@
 						 <c:set var="componentTitleKey" value="label.order.title" scope="request"/>
 								 
 					</td>
-				<td align="right">
+				<td align="right" nowrap="nowrap">
+													        <input id="fromDate" style="width:100px" class="small" name="fromDate" />      
+											<script type="text/javascript">
+												$('#fromDate').datepicker();
+											</script>   
+											
+											<input id="toDate" style="width:100px" css="small" name="toDate" />      
+											<script type="text/javascript">
+												$('#toDate').datepicker();
+											</script> 
 		              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>
 		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.summary" text="Summary"/></button>	              		
 		      	</td>
@@ -82,4 +91,15 @@ $(document).ready(function(){
 		});
 		
 });
-</script>		
+</script>
+<style>
+.datepicker {
+	position: absolute;
+    z-index: 999999;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 18px;
+    padding-bottom: 4px;
+    width: 218px;
+}
+</style>		

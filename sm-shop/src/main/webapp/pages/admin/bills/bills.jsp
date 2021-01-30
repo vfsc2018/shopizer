@@ -3,7 +3,11 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<%@ page session="false" %>			
+<%@ page session="false" %>	
+<link href="<c:url value="/resources/css/bootstrap/css/datepicker.css" />" rel="stylesheet"></link>
+<script src="<c:url value="/resources/js/bootstrap/bootstrap-datepicker.js" />"></script>
+
+		
 <div class="tabbable">
 
  					<jsp:include page="/common/adminTabs.jsp" />
@@ -18,7 +22,7 @@
 			<div>
 			<table width="100%" border="0px">
 				<tr>
-					<td align="left" width="50%">
+					<td align="left">
 						<h3><s:message code="label.listBills.title" text="Bills" /></h3>	
 						 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
@@ -28,7 +32,16 @@
 						 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
 								 
 					</td>
-				<td align="right">
+				<td align="right" nowrap="nowrap">
+									        <input id="fromDate" style="width:100px" class="small" name="fromDate" />      
+											<script type="text/javascript">
+												$('#fromDate').datepicker();
+											</script>   
+											
+											<input id="toDate" style="width:100px" css="small" name="toDate" />      
+											<script type="text/javascript">
+												$('#toDate').datepicker();
+											</script>   
 		              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>
 		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.summary" text="Summary"/></button>	              		
 		      	</td>
@@ -62,3 +75,18 @@ $(document).ready(function(){
 		
 });
 </script>		
+<style>
+.datepicker {
+	position: absolute;
+    z-index: 999999;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 18px;
+    padding-bottom: 4px;
+    width: 218px;
+}
+
+
+
+
+</style>
