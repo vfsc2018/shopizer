@@ -14,6 +14,8 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.ImageFilePath;
 import com.salesmanager.shop.utils.LabelUtils;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +98,7 @@ public class OptionsValueController {
 		
 		List<Language> languages = store.getLanguages();
 
-		Set<ProductOptionValueDescription> descriptions = new HashSet<ProductOptionValueDescription>();
+		Set<ProductOptionValueDescription> descriptions = new HashSet<>();
 		
 		ProductOptionValue option = new ProductOptionValue();
 		
@@ -201,9 +203,9 @@ public class OptionsValueController {
 			
 
 		List<ProductOptionValueDescription> descriptions = optionValue.getDescriptionsList();
-		if(descriptions!=null && descriptions.size()>0) {
+		if(CollectionUtils.isNotEmpty(descriptions)) {
 			
-				Set<ProductOptionValueDescription> descs = new HashSet<ProductOptionValueDescription>();
+				Set<ProductOptionValueDescription> descs = new HashSet<>();
 				
 				//if(descs==null || descs.size()==0) {			
 

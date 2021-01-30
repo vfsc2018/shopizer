@@ -1,5 +1,6 @@
 package com.salesmanager.core.model.order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,10 @@ import java.util.List;
  */
 public abstract class OrderTotalVariation {
 	
-	List<OrderTotal> variations = null;
+
+	List<OrderTotal> variations = new ArrayList<>();
+
+	protected OrderTotalVariation(){}
 
 	public List<OrderTotal> getVariations() {
 		return variations;

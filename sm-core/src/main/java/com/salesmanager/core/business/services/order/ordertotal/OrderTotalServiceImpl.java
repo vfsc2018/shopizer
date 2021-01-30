@@ -45,14 +45,15 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 	
 		RebatesOrderTotalVariation variation = new RebatesOrderTotalVariation();
 		
-		List<OrderTotal> totals = null;
+		
 
 		if(summary.getVoucher()!=null){
 			if(summary.getVoucher().getDiscount()!=null){
 				OrderTotal orderTotal = new OrderTotal();
 				orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 				orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-				orderTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
+				orderTotal.setTitle(Constants.OT_PROMOTION_MODULE_CODE + summary.getVoucher().getDiscount() + "VND");
+				orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
 				orderTotal.setText(summary.getVoucher().getDescription() + " #" + summary.getPromoCode());
 				orderTotal.setValue(new BigDecimal(summary.getVoucher().getDiscount()));
 				variation.getVariations().add(orderTotal);	
@@ -76,11 +77,6 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 					if(orderTotal==null) {
 						continue;
 					}
-					if(totals==null) {
-						totals = new ArrayList<>();
-						variation.setVariations(totals);
-					}
-					
 					//if product is null it will be catched when invoking the module
 					orderTotal.setText(StringUtils.isNoneBlank(orderTotal.getText())?orderTotal.getText():product.getProductDescription().getName());
 					variation.getVariations().add(orderTotal);	

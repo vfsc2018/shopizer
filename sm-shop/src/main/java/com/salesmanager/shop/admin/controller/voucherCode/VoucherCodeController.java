@@ -1,4 +1,4 @@
-package com.salesmanager.shop.admin.controller.voucherCode;
+package com.salesmanager.shop.admin.controller.vouchercode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -269,12 +269,12 @@ public class VoucherCodeController {
 					if(transaction.getUsed()!=null){
 						entry.put("used", DateUtil.formatTimeDate(transaction.getUsed()));	
 					}
-					if(transaction.getRedeem()!=null){
-						entry.put("redeem", DateUtil.formatTimeDate(transaction.getRedeem()));	
-					}
+					// if(transaction.getRedeem()!=null){
+					// 	entry.put("redeem", DateUtil.formatTimeDate(transaction.getRedeem()));	
+					// }
 					
 					if(transaction.getOrder()!=null){
-						entry.put("orderId ", transaction.getOrder().getId());	
+						entry.put("orderId", transaction.getOrderId());	
 					}
 					
 					

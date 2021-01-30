@@ -162,7 +162,7 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	private MerchantStore merchant;
 	
 	//@OneToMany(mappedBy = "order")
-	//private Set<OrderAccount> orderAccounts = new HashSet<OrderAccount>();
+	//private Set<OrderAccount> orderAccounts = new HashSet<>();
 	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private Set<OrderProduct> orderProducts = new LinkedHashSet<>();

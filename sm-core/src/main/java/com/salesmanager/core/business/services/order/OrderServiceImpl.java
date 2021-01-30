@@ -333,25 +333,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         		OrderSummaryType.SHOPPINGCART.name().equals(summary.getOrderSummaryType().name())
         		
         		) {
-            // if(summary.getVoucher()!=null){
-            //     OrderTotal promo = new OrderTotal();
-            //     promo.setModule(Constants.OT_PROMOTION_MODULE_CODE);
-            //     promo.setOrderTotalType(OrderTotalType.SUBTOTAL);
-            //     promo.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
-            //     promo.setSortOrder(0);
-            //     promo.setTitle(summary.getVoucher().getDescription());
-            //     promo.setText(summary.getPromoCode());
-            //     if(summary.getVoucher().getDiscount()!=null && summary.getVoucher().getDiscount().intValue()>0){
-            //         promo.setValue(new BigDecimal(summary.getVoucher().getDiscount()));
-            //     }else if(summary.getVoucher().getPercent()!=null && summary.getVoucher().getPercent().intValue()>0 && summary.getVoucher().getPercent().intValue()<=100){
-
-            //     }
-
-            //     orderTotals.add(variation);
-	        // 	subTotal = subTotal.subtract(variation.getValue());
-            // }
-	        //Post processing order total variation modules for sub total calculation - drools, custom modules
-	        //may affect the sub total
+           
 	        OrderTotalVariation orderTotalVariation = orderTotalService.findOrderTotalVariation(summary, customer, store, language);
 	        int currentCount = 10;
 	        
@@ -374,7 +356,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotalSubTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
         orderTotalSubTotal.setOrderTotalCode("order.total.subtotal");
         orderTotalSubTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
-        //orderTotalSubTotal.setText("order.total.subtotal");
+        orderTotalSubTotal.setText("order.total.subtotal");
         orderTotalSubTotal.setSortOrder(5);
         orderTotalSubTotal.setValue(subTotal);
         
@@ -388,7 +370,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
 	            shippingSubTotal.setOrderTotalCode("order.total.shipping");
 	            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
-	            //shippingSubTotal.setText("order.total.shipping");
+	            shippingSubTotal.setText("order.total.shipping");
 	            shippingSubTotal.setSortOrder(100);
 	
 	            orderTotals.add(shippingSubTotal);
@@ -410,7 +392,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                     handlingubTotal.setOrderTotalType(OrderTotalType.HANDLING);
                     handlingubTotal.setOrderTotalCode("order.total.handling");
                     handlingubTotal.setTitle(Constants.OT_HANDLING_MODULE_CODE);
-                    //handlingubTotal.setText("order.total.handling");
+                    handlingubTotal.setText("order.total.handling");
                     handlingubTotal.setSortOrder(120);
                     handlingubTotal.setValue(summary.getShippingSummary().getHandling());
                     orderTotals.add(handlingubTotal);

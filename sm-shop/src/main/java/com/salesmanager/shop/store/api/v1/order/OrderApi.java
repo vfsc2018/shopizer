@@ -38,6 +38,7 @@ import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
+import com.salesmanager.core.business.services.voucher.VoucherService;
 import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -48,7 +49,7 @@ import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
-import com.salesmanager.shop.admin.controller.voucherCode.VoucherCodeCheck;
+import com.salesmanager.shop.admin.controller.vouchercode.VoucherCodeCheck;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
@@ -102,6 +103,9 @@ public class OrderApi {
 
 	@Inject
 	private VoucherCodeRepository voucherCodeRepository;
+
+	@Inject
+	private VoucherService voucherService;
 	
 	// private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
@@ -363,7 +367,7 @@ public class OrderApi {
 		}
 
 		//List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
-		List<OrderStatus> status = new ArrayList<OrderStatus>();
+		List<OrderStatus> status = new ArrayList<>();
 		status.add(OrderStatus.PROCESSING);
 		status.add(OrderStatus.PROCESSED);
 		status.add(OrderStatus.DELIVERING);
@@ -386,7 +390,7 @@ public class OrderApi {
 		}
 
 		//List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
-		List<OrderStatus> status = new ArrayList<OrderStatus>();
+		List<OrderStatus> status = new ArrayList<>();
 		status.add(OrderStatus.PROCESSING);
 		status.add(OrderStatus.PROCESSED);
 		status.add(OrderStatus.DELIVERING);
@@ -476,11 +480,7 @@ public class OrderApi {
 
 			VoucherCode voucherCode = null;
 			if(order.getCode()!=null && order.getSecurecode()!=null){
-				VoucherCodeCheck vc = new VoucherCodeCheck();
-				vc.setCode(order.getCode());
-				vc.setSecurecode(order.getSecurecode());
-				VoucherApi voucherApi = new VoucherApi();
-				voucherCode =  voucherApi.getVoucher(vc);
+				voucherCode =  voucherService.getVoucher(order.getCode(), order.getSecurecode());
 				if(voucherCode==null){
 					response.sendError(401, "Error voucher code with order");
 					return null;
@@ -496,12 +496,13 @@ public class OrderApi {
 				voucherCode.setCustomer(customer);
 				voucherCode.setOrder(modelOrder);
 				voucherCode.setUsed(new Date());
-				voucherCode.setBatch(customer.getBilling().getFirstName());
+				voucherCode.setSecurecode(order.getSecurecode());
 				voucherCodeRepository.save(voucherCode);
 			}
 
 			// hash payment token
 			order.getPayment().setPaymentToken("***");
+			order.setVoucherCode(null);
 			notificationUtils.createAfterOrder(customer, modelOrder);
 			return order;
 

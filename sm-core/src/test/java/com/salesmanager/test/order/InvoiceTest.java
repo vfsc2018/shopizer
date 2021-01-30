@@ -46,7 +46,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	    colorDescription.setLanguage(en);
 	    colorDescription.setProductOption(color);
 	    
-	    Set<ProductOptionDescription> colorDescriptions = new HashSet<ProductOptionDescription>();
+	    Set<ProductOptionDescription> colorDescriptions = new HashSet<>();
 	    colorDescriptions.add(colorDescription);
 	    
 	    color.setDescriptions(colorDescriptions);
@@ -64,7 +64,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 	    redDescription.setName("Red");
 	    redDescription.setProductOptionValue(red);
 	    
-	    Set<ProductOptionValueDescription> redDescriptions = new HashSet<ProductOptionValueDescription>();
+	    Set<ProductOptionValueDescription> redDescriptions = new HashSet<>();
 	    redDescriptions.add(redDescription);
 	    
 	    red.setDescriptions(redDescriptions);
@@ -237,7 +237,7 @@ public class InvoiceTest extends com.salesmanager.test.common.AbstractSalesManag
 		orderAttribute.setProductOptionValueId(red.getId());
 		orderAttribute.setProductAttributePrice(colorAttribute.getProductAttributePrice());
 		
-		Set<OrderProductAttribute> orderAttributes = new HashSet<OrderProductAttribute>();
+		Set<OrderProductAttribute> orderAttributes = new HashSet<>();
 		orderAttributes.add(orderAttribute);
 		
 		oproduct.setOrderAttributes(orderAttributes);

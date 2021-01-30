@@ -91,7 +91,7 @@ public class ProductImageApi {
         }
       }
 
-      List<ProductImage> contentImagesList = new ArrayList<ProductImage>();
+      List<ProductImage> contentImagesList = new ArrayList<>();
 
       for (MultipartFile multipartFile : files) {
         if (!multipartFile.isEmpty()) {

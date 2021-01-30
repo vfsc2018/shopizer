@@ -90,8 +90,9 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
 			OrderTotal orderTotal = new OrderTotal();
 			orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 			orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-			orderTotal.setTitle(Constants.OT_SUBTOTAL_MODULE_CODE);
-			orderTotal.setText(summary.getPromoCode());
+			orderTotal.setTitle(Constants.OT_PROMOTION_MODULE_CODE + (int)(discount.doubleValue()*100) + "%");
+			orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
+			orderTotal.setText(summary.getVoucher().getDescription() + " #" + summary.getPromoCode());
 			
 			//calculate discount that will be added as a negative value
 			FinalPrice productPrice = pricingService.calculateProductPrice(product);

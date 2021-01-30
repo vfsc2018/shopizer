@@ -1,4 +1,4 @@
-package com.salesmanager.shop.admin.controller.voucherCode;
+package com.salesmanager.shop.admin.controller.vouchercode;
 
 import java.io.Serializable;
 

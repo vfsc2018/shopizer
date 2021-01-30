@@ -28,7 +28,7 @@ public class LocaleUtils {
 	 */
 	public static Locale getLocale(MerchantStore store) {
 		
-		Locale defaultLocale = Constants.DEFAULT_LOCALE;
+		Locale defaultLocale = Constants.VIETNAME_LOCALE;
 		Locale[] locales = Locale.getAvailableLocales();
 		for(int i = 0; i< locales.length; i++) {
 			Locale l = locales[i];

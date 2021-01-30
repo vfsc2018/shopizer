@@ -98,7 +98,7 @@ public class OrderProductPopulator extends
 			OrderProductPrice orderProductPrice = orderProductPrice(finalPrice);
 			orderProductPrice.setOrderProduct(target);
 			
-			Set<OrderProductPrice> prices = new HashSet<OrderProductPrice>();
+			Set<OrderProductPrice> prices = new HashSet<>();
 			prices.add(orderProductPrice);
 
 			//Other prices
@@ -116,7 +116,7 @@ public class OrderProductPopulator extends
 			//OrderProductAttribute
 			Set<ShoppingCartAttributeItem> attributeItems = source.getAttributes();
 			if(!CollectionUtils.isEmpty(attributeItems)) {
-				Set<OrderProductAttribute> attributes = new HashSet<OrderProductAttribute>();
+				Set<OrderProductAttribute> attributes = new HashSet<>();
 				for(ShoppingCartAttributeItem attribute : attributeItems) {
 					OrderProductAttribute orderProductAttribute = new OrderProductAttribute();
 					orderProductAttribute.setOrderProduct(target);

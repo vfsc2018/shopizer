@@ -12,7 +12,7 @@ public class ProductPrice {
 	@Valid
 	private com.salesmanager.core.model.catalog.product.price.ProductPrice price = null;
 	@Valid
-	private List <ProductPriceDescription> descriptions = new ArrayList<ProductPriceDescription>();
+	private List <ProductPriceDescription> descriptions = new ArrayList<>();
 	private String priceText;
 	private String specialPriceText;
 	private ProductAvailability productAvailability;

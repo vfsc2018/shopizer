@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -242,6 +243,10 @@ public class CustomerApi {
   public ResponseEntity<?> updateNotificationToken(@RequestBody @Valid NotificationRequest device, HttpServletRequest request) {
       Principal principal = request.getUserPrincipal();
       String username = principal.getName();
+
+      if(StringUtils.isEmpty(device.getOs()) || StringUtils.isEmpty(device.getToken())){
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
       
       try{
         customerRepository.updateToken(device.getOs(), device.getToken(), username);

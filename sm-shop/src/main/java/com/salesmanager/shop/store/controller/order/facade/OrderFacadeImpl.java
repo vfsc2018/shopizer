@@ -49,6 +49,7 @@ import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.CreditCardUtils;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.Billing;
@@ -112,7 +113,8 @@ import com.salesmanager.shop.utils.LocaleUtils;
 public class OrderFacadeImpl implements OrderFacade {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderFacadeImpl.class);
-
+	@Inject
+	private ProductPriceUtils productPriceUtils;
 	@Inject
 	private OrderService orderService;
 	@Inject
@@ -1257,15 +1259,14 @@ public class OrderFacadeImpl implements OrderFacade {
 				throw new ConversionException("Requires Payment.amount");
 			}
 
-			String submitedAmount = order.getPayment().getAmount().replace(".00", "");
-
+			BigDecimal submitedAmount = pricingService.getAmount(order.getPayment().getAmount());
 			BigDecimal calculatedAmount = orderTotalSummary.getTotal();
-			String strCalculatedTotal = pricingService.getStringAmount(calculatedAmount, store).replace(".00", "");
+			// String strCalculatedTotal = pricingService.getStringAmount(calculatedAmount, store).replace(".00", "");
 
 			// compare both prices
-			if (!submitedAmount.equals(strCalculatedTotal)) {
-				throw new ConversionException("Payment.amount does not match what the system has calculated "
-						+ strCalculatedTotal + " please recalculate the order and submit again");
+			if (submitedAmount.doubleValue()<=0 || calculatedAmount.doubleValue()>submitedAmount.doubleValue()) {
+				throw new ConversionException("Payment.amount(" + submitedAmount + ") does not match what the system has calculated "
+						+ calculatedAmount + " please recalculate the order and submit again");
 			}
 
 			modelOrder.setTotal(calculatedAmount);

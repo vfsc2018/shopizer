@@ -35,7 +35,7 @@ public class ShippingMethodDecisionTest extends com.salesmanager.test.common.Abs
 		pDetail.setShippingLength(10);
 		pDetail.setShippingWeight(70);
 		pDetail.setShippingWidth(78);
-		List<PackageDetails> details = new ArrayList<PackageDetails>();
+		List<PackageDetails> details = new ArrayList<>();
 		details.add(pDetail);
 
 		Delivery delivery = new Delivery();

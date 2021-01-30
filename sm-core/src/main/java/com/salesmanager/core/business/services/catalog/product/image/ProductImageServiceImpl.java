@@ -125,7 +125,7 @@ public class ProductImageServiceImpl extends SalesManagerEntityServiceImpl<Long,
 
 		
 			if(productImage.getDescriptions()==null) {
-				productImage.setDescriptions(new ArrayList<ProductImageDescription>());
+				productImage.setDescriptions(new ArrayList<>());
 			}
 			
 			productImage.getDescriptions().add(description);

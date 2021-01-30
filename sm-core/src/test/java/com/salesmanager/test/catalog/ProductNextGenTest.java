@@ -243,7 +243,7 @@ public class ProductNextGenTest extends com.salesmanager.test.common.AbstractSal
 		possibleSizes.setOption(size);
 		
 		
-		List<ProductOptionValue> values = new ArrayList<ProductOptionValue>();
+		List<ProductOptionValue> values = new ArrayList<>();
 		values.add(nine);
 		values.add(ten);
 		

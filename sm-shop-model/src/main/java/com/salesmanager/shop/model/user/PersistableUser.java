@@ -14,7 +14,7 @@ public class PersistableUser extends UserEntity {
    */
   private static final long serialVersionUID = 1L;
   
-  private List<PersistableGroup> groups = new ArrayList<PersistableGroup>();
+  private List<PersistableGroup> groups = new ArrayList<>();
 
   public String getPassword() {
     return password;

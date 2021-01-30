@@ -93,7 +93,7 @@ public class S3ProductContentFileManager
       List<S3ObjectSummary> objects = results.getObjectSummaries();
       for (S3ObjectSummary os : objects) {
         if (files == null) {
-          files = new ArrayList<OutputContentFile>();
+          files = new ArrayList<>();
         }
         String mimetype = URLConnection.guessContentTypeFromName(os.getKey());
         if (!StringUtils.isBlank(mimetype)) {

@@ -17,6 +17,7 @@ import javax.persistence.TableGenerator;
 
 import org.json.simple.JSONAware;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -53,18 +54,21 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 	private String blockMessage;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="CUSTOMER_ID", nullable=true)
+	@JoinColumn(name="CUSTOMER_ID", nullable=false)
 	private Customer customer;
 	
 	private Date used;
 	private int index;
 	private Date redeem;
 	
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="ORDER_ID", nullable=true)
+	@JsonIgnore
+	@ManyToOne(targetEntity = Order.class)
+	@JoinColumn(name = "ORDER_ID", updatable=false, nullable=false)
 	private Order order;
-	
+
+	public Long getOrderId() {
+		return order.getId();
+	}
 	
 	@Override
 	public String toJSONString() {

@@ -21,6 +21,8 @@ import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Pattern;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
@@ -57,7 +59,7 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	private String code;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productOptionValue")
-	private Set<ProductOptionValueDescription> descriptions = new HashSet<ProductOptionValueDescription>();
+	private Set<ProductOptionValueDescription> descriptions = new HashSet<>();
 	
 	@Transient
 	private MultipartFile image = null;
@@ -71,7 +73,7 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	}
 
 	@Transient
-	private List<ProductOptionValueDescription> descriptionsList = new ArrayList<ProductOptionValueDescription>();
+	private List<ProductOptionValueDescription> descriptionsList = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -131,8 +133,8 @@ public class ProductOptionValue extends SalesManagerEntity<Long, ProductOptionVa
 	}
 	
 	public List<ProductOptionValueDescription> getDescriptionsSettoList() {
-		if(descriptionsList==null || descriptionsList.size()==0) {
-			descriptionsList = new ArrayList<ProductOptionValueDescription>(this.getDescriptions());
+		if(CollectionUtils.isEmpty(descriptionsList)) {
+			descriptionsList = new ArrayList<>(this.getDescriptions());
 		} 
 		return descriptionsList;
 	}

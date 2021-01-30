@@ -1,18 +1,12 @@
-package com.salesmanager.shop.admin.controller.voucherCode;
+package com.salesmanager.shop.admin.controller.vouchercode;
 
-import java.io.Serializable;
-
-/**
- * @author Ducdv83@gmail.com
- *
- */
 public class VoucherCodeCheck{
 
 	private String code;
 	private String securecode;
 
 	public VoucherCodeCheck(){
-		
+
 	}
 	
 	public String getCode() {

@@ -665,7 +665,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 
 	
 					if(dbProduct!=null){
-						List<OrderProductEx> proRelaList =new ArrayList<OrderProductEx>();
+						List<OrderProductEx> proRelaList =new ArrayList<>();
 						OrderProductEx proRela = null;
 						for(BillItem sBean : bean.getItems()){
 							proRela =  new OrderProductEx();

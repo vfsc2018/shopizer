@@ -324,7 +324,7 @@ public class ProductManagementAPIIntegrationTest extends ServicesTestSupport {
         // persistableImage.setBytes(this.extractBytes(imgPath));
         // persistableImage.setImageName(imgPath.getName());
 
-        // List<PersistableImage> images = new ArrayList<PersistableImage>();
+        // List<PersistableImage> images = new ArrayList<>();
         // images.add(persistableImage);
 
         // product.setImages(images);

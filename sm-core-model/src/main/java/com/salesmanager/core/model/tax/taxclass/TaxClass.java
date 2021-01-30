@@ -60,7 +60,7 @@ public class TaxClass extends SalesManagerEntity<Long, TaxClass> {
 
 
 	@OneToMany(mappedBy = "taxClass", targetEntity = Product.class)
-	private List<Product> products = new ArrayList<Product>();
+	private List<Product> products = new ArrayList<>();
 	
 
 /*	@ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)

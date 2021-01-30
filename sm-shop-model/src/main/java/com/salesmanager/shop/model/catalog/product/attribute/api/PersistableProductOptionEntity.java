@@ -12,7 +12,7 @@ public class PersistableProductOptionEntity extends ProductOptionEntity {
    * 
    */
   private static final long serialVersionUID = 1L;
-  private List<ProductOptionDescription> descriptions = new ArrayList<ProductOptionDescription>();
+  private List<ProductOptionDescription> descriptions = new ArrayList<>();
   public List<ProductOptionDescription> getDescriptions() {
     return descriptions;
   }

@@ -366,7 +366,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 				references.put(attr.getProductOption().getCode(), attr.getProductOption());
 				List<ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
 				if (values == null) {
-					values = new ArrayList<ProductOptionValue>();
+					values = new ArrayList<>();
 					rawFacet.put(attr.getProductOption().getCode(), values);
 				}
 				values.add(attr.getProductOptionValue());

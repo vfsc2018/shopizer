@@ -669,7 +669,7 @@ public class ProductTest extends com.salesmanager.test.common.AbstractSalesManag
 	    
 	    relationships.add(relationship);
 	    
-	    product.setRelationships(new HashSet<ProductRelationship>(relationships));
+	    product.setRelationships(new HashSet<>(relationships));
 	    
 	    productService.save(product);
 		

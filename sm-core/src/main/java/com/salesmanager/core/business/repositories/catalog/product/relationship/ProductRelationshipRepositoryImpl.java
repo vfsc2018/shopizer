@@ -217,14 +217,14 @@ public class ProductRelationshipRepositoryImpl implements ProductRelationshipRep
     	@SuppressWarnings("unchecked")
 		List<ProductRelationship> relations =  q.getResultList();
     	
-    	Map<String,ProductRelationship> relationMap = new HashMap<String,ProductRelationship>();
+    	Map<String,ProductRelationship> relationMap = new HashMap<>();
     	for(ProductRelationship relationship : relations) {
     		if(!relationMap.containsKey(relationship.getCode())) {
     			relationMap.put(relationship.getCode(), relationship);
     		}
     	}
     	
-    	List<ProductRelationship> returnList = new ArrayList<ProductRelationship>(relationMap.values());
+    	List<ProductRelationship> returnList = new ArrayList<>(relationMap.values());
 
     	
     	return returnList;

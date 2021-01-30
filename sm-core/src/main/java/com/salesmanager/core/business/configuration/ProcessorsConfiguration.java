@@ -2,12 +2,15 @@ package com.salesmanager.core.business.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.salesmanager.core.business.modules.cart.ShoppingCartProcessor;
 import com.salesmanager.core.business.modules.order.OrderProcessor;
-// import com.salesmanager.core.business.modules.order.total.PromoCodeCalculatorModule;
+import com.salesmanager.core.business.modules.order.total.PromoCodeCalculatorModule;
 import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
 
 /**
@@ -33,8 +36,8 @@ public class ProcessorsConfiguration {
 	// @Inject
 	// private ShoppingCartProcessor shippingCartProcessor;
 	
-	// @Inject
-	// private PromoCodeCalculatorModule promoCodeCalculatorModule;
+	@Inject
+	private PromoCodeCalculatorModule promoCodeCalculatorModule;
 
 	
 	/**
@@ -68,10 +71,9 @@ public class ProcessorsConfiguration {
 	@Bean
 	public List<OrderTotalPostProcessorModule> orderTotalsPostProcessors() {
 		
-		return new ArrayList<>();
-		///processors.add(new com.salesmanager.core.business.modules.order.total.ManufacturerShippingCodeOrderTotalModuleImpl());
-		// processors.add(promoCodeCalculatorModule);
-		// return processors;
+		List<OrderTotalPostProcessorModule> processors = new ArrayList<>();
+		processors.add(promoCodeCalculatorModule);
+		return processors;
 		
 	}
 

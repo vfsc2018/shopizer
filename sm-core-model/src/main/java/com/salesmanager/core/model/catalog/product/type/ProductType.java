@@ -44,7 +44,7 @@ public class ProductType extends SalesManagerEntity<Long, ProductType> implement
   private AuditSection auditSection = new AuditSection();
   
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "productType")
-  private Set<ProductTypeDescription> descriptions = new HashSet<ProductTypeDescription>();
+  private Set<ProductTypeDescription> descriptions = new HashSet<>();
 
   @Column(name = "PRD_TYPE_CODE")
   private String code;

@@ -114,7 +114,7 @@ public class GCPStaticContentAssetsManagerImpl implements ContentAssetsManager {
 		try {
 
 			List<String> fileNames = getFileNames(merchantStoreCode, folderPath, fileContentType);
-			List<OutputContentFile> files = new ArrayList<OutputContentFile>();
+			List<OutputContentFile> files = new ArrayList<>();
 		
 			for (String fileName : fileNames) {
 				files.add(getFile(merchantStoreCode, folderPath, fileContentType, fileName));

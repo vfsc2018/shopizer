@@ -169,7 +169,7 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
           "CmsImageFileManagerInfinispan has a null cacheManager.getTreeCache()");
     }
 
-    List<OutputContentFile> images = new ArrayList<OutputContentFile>();
+    List<OutputContentFile> images = new ArrayList<>();
 
 
     try {
@@ -313,16 +313,12 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
       throw new ServiceException(
           "CmsImageFileManagerInfinispan has a null cacheManager.getTreeCache()");
     }
-    List<OutputContentFile> images = new ArrayList<OutputContentFile>();
+    List<OutputContentFile> images = new ArrayList<>();
     FileNameMap fileNameMap = URLConnection.getFileNameMap();
 
     try {
-
-
       StringBuilder nodePath = new StringBuilder();
       nodePath.append(merchantStoreCode);
-
-
       Node<String, Object> merchantNode = this.getNode(nodePath.toString());
 
       Set<Node<String, Object>> childs = merchantNode.getChildren();

@@ -128,8 +128,13 @@ public class AuthenticateCustomerApi {
             Validate.notNull(customer.getBilling().getPhone(),"Requires billing phone");
             Validate.notNull(customer.getBilling().getAddress(),"Requires billing address");
             Validate.notNull(customer.getBilling().getCountry(),"Requires customer Country code");
-            
-            customerFacade.registerCustomer(customer, merchantStore, language);
+            Validate.notNull(customer.getPassword(), "Password cannot be null");
+
+            try{
+                customerFacade.registerCustomer(customer, merchantStore, language);
+            }catch(Exception e){
+                return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            }
             
             // Perform the security
             Authentication authentication = null;
