@@ -32,7 +32,16 @@ public class VoucherForm  implements Serializable{
 	private String expire;
 	private String manager;
 	/*********************************************/
+	private String productSku;
+	
+	public String getProductSku() {
+		return productSku;
+	}
 
+	public void setProductSku(String productSku) {
+		this.productSku = productSku;
+	}
+	
 	public Integer getPercent() {
 		return percent;
 	}

@@ -4,7 +4,6 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
 import com.salesmanager.shop.model.order.transaction.PersistablePayment;
 

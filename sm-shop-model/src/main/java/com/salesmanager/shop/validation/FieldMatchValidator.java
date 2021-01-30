@@ -14,6 +14,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
     private String secondFieldName;
     private BeanUtils beanUtils;
 
+    @Override
     public void initialize(final FieldMatch constraintAnnotation)
     {
         this.firstFieldName = constraintAnnotation.first();

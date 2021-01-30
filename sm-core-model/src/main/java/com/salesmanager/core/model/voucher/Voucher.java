@@ -56,7 +56,15 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	private Long partnerId;
 	private Date expire;
 	private String manager;
+	private String productSku;
 	
+	public String getProductSku() {
+		return productSku;
+	}
+
+	public void setProductSku(String productSku) {
+		this.productSku = productSku;
+	}
 
 	public String getCode() {
 		return code;

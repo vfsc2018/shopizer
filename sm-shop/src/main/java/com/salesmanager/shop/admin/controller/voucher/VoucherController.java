@@ -3,7 +3,6 @@ package com.salesmanager.shop.admin.controller.voucher;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -62,8 +61,7 @@ public class VoucherController {
 
 
 	@RequestMapping(value = "/admin/vouchers/list.html", method = RequestMethod.GET)
-	public String displayOrders(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String displayOrders(Model model, HttpServletRequest request, HttpServletResponse response) {
 
 		setMenu(model, request);
 
@@ -154,6 +152,8 @@ public class VoucherController {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", transaction.getId());
+					entry.put("manager", transaction.getManager());
+					entry.put("product", transaction.getProductSku());
 					entry.put("blocked", transaction.getBlocked()!=null && transaction.getBlocked()>0);
 					entry.put("code", transaction.getCode());
 					
@@ -164,7 +164,6 @@ public class VoucherController {
 					
 					// entry.put("partnerId", transaction.getPartnerId());
 					
-					entry.put("manager", transaction.getManager());
 					resp.addDataEntry(entry);
 
 				}
@@ -211,6 +210,7 @@ public class VoucherController {
 		temp.setCode(bean.getCode());
 		temp.setDescription(bean.getDescription());
 		temp.setPoint(bean.getPoint());
+		temp.setPercent(bean.getPercent());
 		temp.setDiscount(bean.getDiscount());
 		temp.setStatus(bean.getStatus());
 		temp.setBlocked(bean.getBlocked());
@@ -225,6 +225,7 @@ public class VoucherController {
 		temp.setPartnerId(bean.getPartnerId());
 		temp.setExpire(DateUtil.formatDate(bean.getExpire()));
 		temp.setManager(bean.getManager());
+		temp.setProductSku(bean.getProductSku());
 		model.addAttribute("voucher", temp);
 
 		return ControllerConstants.Tiles.Voucher.Edit;
@@ -265,6 +266,7 @@ public class VoucherController {
 				temp.setPartnerId(bean.getPartnerId());
 				// temp.setExpire(DateUtil.getDate(bean.getExpire()));
 				temp.setManager(bean.getManager());
+				temp.setProductSku(bean.getProductSku());
 				voucherService.saveVoucher(temp);
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 				
