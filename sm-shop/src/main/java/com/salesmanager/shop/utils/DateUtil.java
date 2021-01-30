@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -91,16 +92,16 @@ public class DateUtil {
 	 * @param dt
 	 * @return
 	 */
-	public static String formatDateMonthString(Date dt) {
+	// public static String formatDateMonthString(Date dt) {
 
-		if (dt == null)
-			return null;
-		SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
-		return format.format(dt);
+	// 	if (dt == null)
+	// 		return null;
+	// 	SimpleDateFormat format = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
+	// 	return format.format(dt);
 
-	}
+	// }
 
-	public static Date getDate(String date) throws Exception {
+	public static Date getDate(String date) throws ParseException {
 		DateFormat myDateFormat = new SimpleDateFormat(Constants.DEFAULT_DATE_FORMAT);
 		return myDateFormat.parse(date);
 	}

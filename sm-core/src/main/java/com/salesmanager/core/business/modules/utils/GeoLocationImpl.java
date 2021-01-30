@@ -24,7 +24,7 @@ public class GeoLocationImpl implements GeoLocation {
 
 
 	@Override
-	public Address getAddress(String ipAddress) throws Exception {
+	public Address getAddress(String ipAddress) throws ServiceException {
 		
 			if(reader==null) {
 					try {

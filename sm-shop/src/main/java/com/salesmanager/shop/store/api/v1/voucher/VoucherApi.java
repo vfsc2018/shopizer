@@ -50,6 +50,9 @@ public class VoucherApi {
 		if(v.getPercent()!=null && v.getPercent().intValue()>0){
 			info.setPercent(v.getPercent());
 		}
+		if(v.getProductSku()!=null){
+			info.setProduct(v.getProductSku());
+		}
 		return new ResponseEntity<>(info, HttpStatus.OK);
 	}
 }

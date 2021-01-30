@@ -49,7 +49,6 @@ import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
 import com.salesmanager.core.model.voucherCode.VoucherCode;
-import com.salesmanager.shop.admin.controller.vouchercode.VoucherCodeCheck;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
@@ -58,7 +57,6 @@ import com.salesmanager.shop.model.order.v1.PersistableOrder;
 import com.salesmanager.shop.populator.customer.ReadableCustomerPopulator;
 import com.salesmanager.shop.store.api.exception.ResourceNotFoundException;
 import com.salesmanager.shop.store.api.exception.ServiceRuntimeException;
-import com.salesmanager.shop.store.api.v1.voucher.VoucherApi;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.security.user.JWTUser;
@@ -498,10 +496,11 @@ public class OrderApi {
 				voucherCode.setUsed(new Date());
 				voucherCode.setSecurecode(order.getSecurecode());
 				voucherCodeRepository.save(voucherCode);
+				order.getPayment().setPaymentToken(order.getSecurecode());
+			}else{
+				order.getPayment().setPaymentToken("***");
 			}
 
-			// hash payment token
-			order.getPayment().setPaymentToken("***");
 			order.setVoucherCode(null);
 			notificationUtils.createAfterOrder(customer, modelOrder);
 			return order;

@@ -1,7 +1,6 @@
 package com.salesmanager.core.business.modules.order.total;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
@@ -69,38 +68,52 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
 		if(StringUtils.isBlank(summary.getPromoCode())) {
 			return null;
 		}
-		
+		String sku = null;
+		if(summary.getVoucher()!=null && StringUtils.isNotBlank(summary.getVoucher().getProductSku())){
+			sku = summary.getVoucher().getProductSku();
+		}
+
 		KieSession kieSession=droolsBeanFactory.getKieSession(ResourceFactory.newClassPathResource("com/salesmanager/drools/rules/PromoCoupon.drl"));
 		
 		OrderTotalResponse resp = new OrderTotalResponse();
 		
 		OrderTotalInputParameters inputParameters = new OrderTotalInputParameters();
-		
+		inputParameters.setPromoCode(summary.getPromoCode());
+
 		if(summary.getVoucher().getPercent()!=null){
-			inputParameters.setPromoCode(summary.getPromoCode());
 			inputParameters.setDiscount(summary.getVoucher().getPercent().intValue()*0.01);
+		}
+		if(sku!=null && summary.getVoucher().getDiscount()!=null){
+			inputParameters.setMoneyoff(summary.getVoucher().getDiscount().intValue()*1.0);
 		}
 		
         kieSession.insert(inputParameters);
         kieSession.setGlobal("total",resp);
         kieSession.fireAllRules();
 		Double discount = resp.getDiscount();
+		Double moneyoff = resp.getMoneyoff();
 
-		if(discount!=null && discount.doubleValue()>0){
+		if((discount!=null && discount.doubleValue()>0) || (moneyoff!=null && moneyoff.doubleValue()>0)){
 			OrderTotal orderTotal = new OrderTotal();
 			orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 			orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-			orderTotal.setTitle(Constants.OT_PROMOTION_MODULE_CODE + (int)(discount.doubleValue()*100) + "%");
+			orderTotal.setTitle(Constants.OT_PROMOTION_MODULE_CODE);
 			orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
 			orderTotal.setText(summary.getVoucher().getDescription() + " #" + summary.getPromoCode());
 			
 			//calculate discount that will be added as a negative value
 			FinalPrice productPrice = pricingService.calculateProductPrice(product);
-			BigDecimal reduction = productPrice.getFinalPrice().multiply(BigDecimal.valueOf(discount));
+			BigDecimal reduction = productPrice.getFinalPrice();
+			if(discount!=null && discount.doubleValue()>0){
+				reduction = reduction.multiply(BigDecimal.valueOf(discount));
+			}
+			if(moneyoff!=null && moneyoff.doubleValue()>0){
+				reduction = reduction.subtract(BigDecimal.valueOf(moneyoff));
+			}
+			
 			reduction = reduction.multiply(BigDecimal.valueOf(shoppingCartItem.getQuantity()));
 			orderTotal.setValue(reduction);
 			return orderTotal;
-			
 		}
 		
 		return null;

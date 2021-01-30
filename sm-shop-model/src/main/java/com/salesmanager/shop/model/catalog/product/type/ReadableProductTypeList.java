@@ -10,7 +10,7 @@ public class ReadableProductTypeList extends ReadableList {
 	/**
 	 * 
 	 */
-	// private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 	
 	private List<ReadableProductType> list = new ArrayList<>();
 

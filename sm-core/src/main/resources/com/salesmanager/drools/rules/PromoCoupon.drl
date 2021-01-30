@@ -8,9 +8,10 @@ dialect  "mvel"
 
 rule "DISCOUNT"
     when
-        order: OrderTotalInputParameters(discount > 0)
+        order: OrderTotalInputParameters(discount > 0 || moneyoff>0)
     then
         total.setDiscount(order.getDiscount());
+        total.setMoneyoff(order.getMoneyoff());
 end
 
 rule "TRANHONGQUANG"

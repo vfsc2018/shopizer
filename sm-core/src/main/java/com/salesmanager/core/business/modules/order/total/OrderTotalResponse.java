@@ -3,8 +3,16 @@ package com.salesmanager.core.business.modules.order.total;
 public class OrderTotalResponse {
 	
 	private Double discount = null;
+	private Double moneyoff = null;
 	private String expiration;
 	private int type = 0;
+	
+	public Double getMoneyoff() {
+		return moneyoff;
+	}
+	public void setMoneyoff(Double moneyoff) {
+		this.moneyoff = moneyoff;
+	}
 
 	public int getType() {
 		return type;

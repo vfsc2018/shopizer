@@ -11,6 +11,7 @@
     {title:"<s:message code="label.entity.startDate" text="startDate"/>", name:"startDate", width:90},
     {title:"<s:message code="label.entity.endDate" text="endDate"/>", name:"endDate", width:90},
     {title:"<s:message code="label.entity.voucher" text="voucher"/>", name:"voucher"},
+    {title:"<s:message code="label.entity.product" text="product"/>", name:"product"},
     {title:"<s:message code="label.entity.manager" text="manager"/>", name:"manager"},
     {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}
     

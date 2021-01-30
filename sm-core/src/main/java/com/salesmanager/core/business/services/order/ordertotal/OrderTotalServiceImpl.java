@@ -1,7 +1,6 @@
 package com.salesmanager.core.business.services.order.ordertotal;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -45,9 +44,35 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 	
 		RebatesOrderTotalVariation variation = new RebatesOrderTotalVariation();
 		
-		
+		String sku = null;
+		String code = summary.getPromoCode();
 
-		if(summary.getVoucher()!=null){
+		if(summary.getVoucher()!=null && StringUtils.isNotBlank(summary.getVoucher().getProductSku())){
+			sku = summary.getVoucher().getProductSku();
+		}
+		
+		if(code!=null && orderTotalPostProcessors != null) {
+			for(OrderTotalPostProcessorModule module : orderTotalPostProcessors) {
+				//TODO check if the module is enabled from the Admin
+				
+				List<ShoppingCartItem> items = summary.getProducts();
+				for(ShoppingCartItem item : items) {
+					
+					Long productId = item.getProductId();
+					Product product = productService.getProductForLocale(productId, language, languageService.toLocale(language, store));
+					if(sku==null || sku.equals(product.getSku())){
+						OrderTotal orderTotal = module.caculateProductPiceVariation(summary, item, product, customer, store);
+						if(orderTotal==null) {
+							continue;
+						}
+						//if product is null it will be catched when invoking the module
+						orderTotal.setText(product.getProductDescription().getName());
+						variation.getVariations().add(orderTotal);	
+					}
+				}
+			}
+		}
+		if(summary.getVoucher()!=null && sku==null){
 			if(summary.getVoucher().getDiscount()!=null){
 				OrderTotal orderTotal = new OrderTotal();
 				orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
@@ -62,28 +87,6 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 				// processing in caculateProductPiceVariation
 			}
 		}
-		
-		if(orderTotalPostProcessors != null) {
-			for(OrderTotalPostProcessorModule module : orderTotalPostProcessors) {
-				//TODO check if the module is enabled from the Admin
-				
-				List<ShoppingCartItem> items = summary.getProducts();
-				for(ShoppingCartItem item : items) {
-					
-					Long productId = item.getProductId();
-					Product product = productService.getProductForLocale(productId, language, languageService.toLocale(language, store));
-					
-					OrderTotal orderTotal = module.caculateProductPiceVariation(summary, item, product, customer, store);
-					if(orderTotal==null) {
-						continue;
-					}
-					//if product is null it will be catched when invoking the module
-					orderTotal.setText(StringUtils.isNoneBlank(orderTotal.getText())?orderTotal.getText():product.getProductDescription().getName());
-					variation.getVariations().add(orderTotal);	
-				}
-			}
-		}
-		
 		
 		return variation;
 	}

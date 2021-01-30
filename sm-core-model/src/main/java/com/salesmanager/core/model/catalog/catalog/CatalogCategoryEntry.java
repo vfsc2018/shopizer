@@ -55,7 +55,6 @@ public class CatalogCategoryEntry extends SalesManagerEntity<Long, CatalogCatego
 	@JoinColumn(name = "CATALOG_ID", nullable = false)
 	private Catalog catalog;
 	
-	//TODO d products ????
 	
     @Column(name = "VISIBLE")
     private boolean visible;

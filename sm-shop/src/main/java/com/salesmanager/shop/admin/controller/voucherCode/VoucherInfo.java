@@ -10,11 +10,21 @@ public class VoucherInfo{
 	private Integer point;
 	private Integer discount;
 	private Integer percent;
-
+	private String product;
+	
 	public VoucherInfo(){
 
 	}
 	
+	
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
 	public String getCode() {
 		return code;
 	}
@@ -55,7 +65,6 @@ public class VoucherInfo{
 	public Integer getPercent() {
 		return percent;
 	}
-
 
 	public void setPercent(Integer percent) {
 		this.percent = percent;
