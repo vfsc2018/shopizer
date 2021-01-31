@@ -577,8 +577,7 @@ public class ShoppingCartFacadeImpl
             {
                 if ( CollectionUtils.isNotEmpty( cartModel.getLineItems() ) )
                 {
-                    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> shoppingCartItemSet =
-                        new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+                    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> shoppingCartItemSet = new HashSet<>();
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cartModel.getLineItems() )
                     {
                         if(shoppingCartItem.getId().longValue() == itemID.longValue() )
@@ -658,7 +657,7 @@ public class ShoppingCartFacadeImpl
 
     		Validate.notEmpty(shoppingCartItems,"shoppingCartItems null or empty");
     		ShoppingCart cartModel = null;
-    		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> cartItems = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+    		Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> cartItems = new HashSet<>();
     		for(ShoppingCartItem item : shoppingCartItems) {
 
     			if(item.getQuantity()<1) {
@@ -841,7 +840,7 @@ public class ShoppingCartFacadeImpl
 	      throw new ResourceNotFoundException("Cart code [ " + cartCode + " ] not found");
 	    }
 
-	    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+	    Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> items = new HashSet<>();
 	    com.salesmanager.core.model.shoppingcart.ShoppingCartItem itemToDelete = null;
 	    for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem shoppingCartItem : cart.getLineItems() )
         {
@@ -864,14 +863,14 @@ public class ShoppingCartFacadeImpl
 	    }
 
         //remaining items
-	    if(items.size()>0) {
+	    if(CollectionUtils.isNotEmpty(items)) {
 	    	cart.setLineItems(items);
 	    } else {
 	    	cart.getLineItems().clear();
 	    }
 
         shoppingCartService.saveOrUpdate(cart);//update cart with remaining items
-	    if(items.size()>0 && returnCart) {
+	    if(CollectionUtils.isNotEmpty(items) && returnCart) {
           return this.getByCode(cartCode, merchant, language);
         }
         return null;

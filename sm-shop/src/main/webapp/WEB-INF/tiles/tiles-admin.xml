@@ -403,20 +403,20 @@
   	</definition>
   	
   	<definition name="admin-voucherCodes-create" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/voucherCodes/createVoucherCode.jsp" /> 
+  		<put-attribute name="body" value="/pages/admin/vouchercodes/createVoucherCode.jsp" /> 
   	</definition>
 
 
 
   	<definition name="admin-voucherCodes-edit" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/voucherCodes/voucherCode.jsp" /> 
+  		<put-attribute name="body" value="/pages/admin/vouchercodes/voucherCode.jsp" /> 
   	</definition>
   	
     <definition name="admin-voucherCodes-voucherCodes" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/voucherCodes/voucherCodes.jsp" /> 
+  		<put-attribute name="body" value="/pages/admin/vouchercodes/voucherCodes.jsp" /> 
   	</definition>
   	
     <definition name="admin-voucherCodes" template="/layout/admin/layout.jsp">
-  		<put-attribute name="body" value="/pages/admin/voucherCodes/voucherCodes.jsp" /> 
+  		<put-attribute name="body" value="/pages/admin/vouchercodes/voucherCodes.jsp" /> 
   	</definition>  	  	
 </tiles-definitions>

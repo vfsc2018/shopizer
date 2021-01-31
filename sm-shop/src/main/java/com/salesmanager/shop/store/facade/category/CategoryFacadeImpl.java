@@ -109,7 +109,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 
 			Map<Long, ReadableCategory> readableCategoryMap = readableCategories.stream()
 					.collect(Collectors.toMap(ReadableCategory::getId, Function.identity()));
-
+			
 			readableCategories.stream()
 					// .filter(ReadableCategory::isVisible)
 					.filter(cat -> Objects.nonNull(cat.getParent()))
@@ -119,10 +119,10 @@ public class CategoryFacadeImpl implements CategoryFacade {
 							parentCategory.getChildren().add(readableCategory);
 						}
 					});
-
+					
 			List<ReadableCategory> filteredList = readableCategoryMap.values().stream().filter(cat -> cat.getDepth() == 0)
 					.sorted(Comparator.comparing(ReadableCategory::getSortOrder)).collect(Collectors.toList());
-
+			
 			returnList.setCategories(filteredList);
 
 			return returnList;

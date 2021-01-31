@@ -50,6 +50,12 @@
     
     $(document).ready(function() {
 
+		$("#btVoucherCode").click(function() {
+			 location.href="<c:url value="/admin/vouchercodes/list.html" />?voucherId=" + <c:out value="${voucher.id}" />;
+		}); 
+		$("#btCreateCode").click(function() {
+			 location.href="<c:url value="/admin/vouchercodes/createVoucherCode.html" />?voucherId=" + <c:out value="${voucher.id}" />;
+		}); 
         // process the form
         	$("#FormBuildBill").submit(function(event){
         	    event.preventDefault(); 
@@ -276,7 +282,8 @@
             <div class="span8">
 	              <div class="form-actions">
 						  <button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	
-						  <button  type="button" id ="btVoucherCode" class="btn btn-medium btn-primary" ><s:message code="button.label.voucherCode" text="Voucher code"/></button>              		
+						  <button  type="button" id ="btVoucherCode" class="btn btn-medium btn-primary" ><s:message code="button.label.voucherCode" text="List of codes"/></button>  
+						  <button  type="button" id ="btCreateCode" class="btn btn-medium btn-primary" ><s:message code="button.label.createCode" text="Create codes"/></button>              		
 	      		  </div>
       		</div> 
             <br/>   
@@ -289,10 +296,4 @@
 	 </div>
   </div>
 </div>
-<script>				
-$(document).ready(function(){ 				
-		$("#btVoucherCode").click(function() {
-			 location.href="<c:url value="/admin/voucherCodes/list.html" />?voucherId=" + <c:out value="${voucher.id}" />;
-		}); 
-});
-</script>	
+

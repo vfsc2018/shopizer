@@ -57,7 +57,7 @@
                 var data = $(this).serializeObject();
                 $.ajax({
                     'type': 'POST',
-                    'url': "<c:url value="/admin/voucherCodes/save.html"/>",
+                    'url': "<c:url value="/admin/vouchercodes/save.html"/>",
                     'contentType': 'application/json',
                     'data': JSON.stringify(data),
                     'dataType': 'json',

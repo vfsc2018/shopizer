@@ -37,15 +37,17 @@ public class TransactionRepositoryImpl implements TransactionRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getDetail())) {
-			String nameQuery =" and c.details like:pDetail  ";
+			String nameQuery =" and lower(c.details) LIKE lower(:pDetail)  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
 		
-		
-		baseQuery.append(" order by c.id desc ");
-	
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			// baseQuery.append(" order by c.id desc ");
+		}
 
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query

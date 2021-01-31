@@ -125,6 +125,7 @@ public class OrdersController {
 
 			OrderCriteria criteria = new OrderCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 

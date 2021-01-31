@@ -106,13 +106,13 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
-			String nameQuery =" and (o.billing.firstName like:nm or o.billing.lastName like:nm) ";
+			String nameQuery =" and (lower(o.billing.firstName) LIKE lower(:nm) or o.billing.lastName LIKE :nm) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 
 		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameParam = " and (o.billing.address like :addr OR o.billing.city like :addr OR o.billing.state like :addr OR o.delivery.address like :addr OR o.delivery.city like :addr OR o.delivery.state like :addr) "; // or o.billing.zone.code like :addr or o.delivery.zone.code like :addr) ";
+			String nameParam = " and (lower(o.billing.address) LIKE lower(:addr) OR o.billing.city like :addr OR o.billing.state like :addr OR o.delivery.address like :addr OR o.delivery.city like :addr OR o.delivery.state like :addr) "; // or o.billing.zone.code like :addr or o.delivery.zone.code like :addr) ";
 			countBuilderWhere.append(nameParam);
 			objectBuilderWhere.append(nameParam);
 		}
@@ -279,14 +279,14 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		countBuilderSelect.append(storeQuery);
 		
 		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
-			String nameQuery =  " and o.billing.firstName like:name or o.billing.lastName like:name";
+			String nameQuery =  " and lower(o.billing.firstName) LIKE lower(:name) or o.billing.lastName LIKE :name";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
 		}
 
 
 		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameQuery =" and o.billing.address like:addr";
+			String nameQuery =" and lower(o.billing.address) LIKE lower(:addr) ";
 			countBuilderSelect.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
@@ -299,7 +299,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 		//id
 		if(criteria.getId() != null) {
-			String nameQuery =  " and str(o.id) like:id";
+			String nameQuery =  " and str(o.id) like :id";
 			objectBuilderWhere.append(nameQuery);
 			countBuilderSelect.append(nameQuery);
 		}

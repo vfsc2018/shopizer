@@ -1,5 +1,6 @@
 package com.salesmanager.shop.admin.model.catalog;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
 import com.salesmanager.core.model.catalog.product.image.ProductImage;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product implements Serializable {
 	
 	/**

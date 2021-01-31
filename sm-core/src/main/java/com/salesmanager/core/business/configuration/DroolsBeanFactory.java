@@ -86,7 +86,7 @@ public class DroolsBeanFactory {
     public KieSession getKieSession(Resource dt) {
         KieFileSystem kieFileSystem = kieServices.newKieFileSystem().write(dt);
 
-       KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem).buildAll();
+        KieBuilder kieBuilder = kieServices.newKieBuilder(kieFileSystem).buildAll();
 
         KieRepository kieRepository = kieServices.getRepository();
 
@@ -94,9 +94,7 @@ public class DroolsBeanFactory {
 
         KieContainer kieContainer = kieServices.newKieContainer(krDefaultReleaseId);
 
-        KieSession ksession = kieContainer.newKieSession();
-
-        return ksession;
+        return kieContainer.newKieSession();
     }
 
     /*

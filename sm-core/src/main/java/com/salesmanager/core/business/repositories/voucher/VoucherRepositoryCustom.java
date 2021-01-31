@@ -10,6 +10,6 @@ import com.salesmanager.core.model.voucher.VoucherList;
 public interface VoucherRepositoryCustom {
 
 	VoucherList listByStore(MerchantStore store, VoucherCriteria criteria);
-	public List<Voucher> getVoucherEndDate();
+	public List<Voucher> getActiveVoucher();
 
 }

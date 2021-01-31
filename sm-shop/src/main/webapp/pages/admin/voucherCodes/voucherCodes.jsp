@@ -19,11 +19,11 @@
 			<table width="100%" border="0px">
 				<tr>
 					<td align="left" width="50%">
-						<h3><s:message code="label.voucherCodes.title" text="List vouchers" /></h3>	
-						 <c:set value="/admin/voucherCodes/paging.html" var="pagingUrl" scope="request"/>
-						 <c:set value="/admin/voucherCodes/remove.html" var="removeUrl" scope="request"/>
-						 <c:set value="/admin/voucherCodes/view.html" var="editUrl" scope="request"/>
-						 <c:set value="/admin/voucherCodes/list.html" var="afterRemoveUrl" scope="request"/>
+						<h3><s:message code="label.voucherCodes.title" text="List of vouchers" /></h3>	
+						 <c:set value="/admin/vouchercodes/paging.html" var="pagingUrl" scope="request"/>
+						 <c:set value="/admin/vouchercodes/remove.html" var="removeUrl" scope="request"/>
+						 <c:set value="/admin/vouchercodes/view.html" var="editUrl" scope="request"/>
+						 <c:set value="/admin/vouchercodes/list.html" var="afterRemoveUrl" scope="request"/>
 						 <c:set var="entityId" value="id" scope="request"/>
 						 <c:set var="componentTitleKey" value="label.voucherCodes.title" scope="request"/>
 					</td>
@@ -51,7 +51,7 @@
       		</div> 
       		<br/>
       		
-								 <c:set var="gridHeader" value="/pages/admin/voucherCodes/voucherCodes-gridHeader.jsp" scope="request"/>
+								 <c:set var="gridHeader" value="/pages/admin/vouchercodes/voucherCodes-gridHeader.jsp" scope="request"/>
 								 <c:set var="canRemoveEntry" value="false" scope="request"/>
 				
 				            	 <jsp:include page="/pages/admin/components/list.jsp"></jsp:include> 
@@ -69,7 +69,7 @@
 <script>				
 $(document).ready(function(){ 				
 		$("#btReportBill").click(function() {
-			 location.href="<c:url value="/admin/voucherCodes/reportCode.html" />?id=0";
+			 location.href="<c:url value="/admin/vouchercodes/reportCode.html" />?id=0";
 		}); 
 });
 </script>		

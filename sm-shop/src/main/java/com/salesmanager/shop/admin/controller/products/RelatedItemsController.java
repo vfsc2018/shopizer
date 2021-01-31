@@ -18,6 +18,7 @@ import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.CategoryUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -77,10 +78,19 @@ public class RelatedItemsController {
 			if(id!=null) {
 				Long relationshipId = ((Integer)id).longValue();
 				Double quantity  = 0.0;
-				if(baseQuantity!=null && !baseQuantity.equals("")) quantity = Double.parseDouble(baseQuantity);
+				if(StringUtils.isNotBlank(baseQuantity)){ 
+					try{
+						quantity = Double.parseDouble(baseQuantity);
+					}catch(Exception e){
+						System.out.println(e.toString());
+					}
+				}
 				ProductRelationship entity = productRelationshipService.findById1(relationshipId);
-				if(quantity>0) entity.setQuantity(quantity);
-				if(unit!=null && !unit.equals("")) entity.setUnit(unit);
+				if(quantity.doubleValue()<=0) quantity = null;
+				if(StringUtils.isBlank(unit)) unit = null;
+
+				entity.setQuantity(quantity);
+				entity.setUnit(unit);
 				productRelationshipService.update(entity);
 			}
 			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);

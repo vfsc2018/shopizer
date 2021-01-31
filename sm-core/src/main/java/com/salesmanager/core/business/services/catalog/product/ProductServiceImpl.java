@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -112,7 +113,6 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	@SuppressWarnings({ "unchecked"})
 	public List<Product> getProductsByIds(List<Long> productIds) throws ServiceException {
 		Set<Long> idSet = productIds.stream().collect(Collectors.toSet());
 		return productRepository.getProductsListByIds(idSet);
@@ -185,12 +185,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 		categoryIds.add(category.getId());
 
-		//Get products
-		List<Product> products = productRepository.getProductsForLocale(category.getMerchantStore(), categoryIds, language, locale);
-
-		//Filter availability
-
-		return products;
+		return productRepository.getProductsForLocale(category.getMerchantStore(), categoryIds, language, locale);
 	}
 
 	@Override
@@ -291,7 +286,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 		try {
 
-			if(images!=null && images.size()>0) {
+			if(CollectionUtils.isNotEmpty(images)) {
 				for(ProductImage image : images) {
 					if(image.getImage()!=null && (image.getId()==null || image.getId()==0L)) {
 						image.setProduct(product);

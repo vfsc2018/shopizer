@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.services.voucherCode;
+package com.salesmanager.core.business.services.vouchercode;
 
 import java.util.List;
 
@@ -6,15 +6,14 @@ import javax.inject.Inject;
 
 import org.hashids.Hashids;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindException;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.repositories.voucherCode.VoucherCodeRepository;
+import com.salesmanager.core.business.repositories.vouchercode.VoucherCodeRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
-import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
-import com.salesmanager.core.model.voucherCode.VoucherCodeList;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCodeCriteria;
+import com.salesmanager.core.model.vouchercode.VoucherCodeList;
 
 @Service("voucherCodeService")
 public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, VoucherCode> implements VoucherCodeService {

@@ -87,18 +87,18 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 		}
 
 		if(!StringUtils.isBlank(criteria.getMessage())) {
-			String nameQuery =" and c.message like:pMessager  ";
+			String nameQuery =" and lower(c.message) LIKE lower(:pMessager)  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		if(!StringUtils.isBlank(criteria.getCustomerName())){
-			String nameQuery =" and (c.customer.billing.firstName like:pCustomer or c.customer.billing.lastName like:pCustomer) ";
+			String nameQuery =" and (lower(c.customer.billing.firstName) LIKE lower(:pCustomer) or c.customer.billing.lastName LIKE :pCustomer) ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getTopic())) {
-			String nameQuery =" and c.topic like:pTopic ";
+			String nameQuery =" and c.topic LIKE :pTopic ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
@@ -110,10 +110,12 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 			
 		}
 		
-		
-		baseQuery.append(" order by c.id desc ");
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			// baseQuery.append(" order by c.id desc ");
+		}
 	
-
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query
 		Query objectQ = em.createQuery(baseQuery.toString());

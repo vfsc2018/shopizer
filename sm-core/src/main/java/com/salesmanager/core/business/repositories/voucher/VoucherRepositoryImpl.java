@@ -13,7 +13,6 @@ import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucher.VoucherCriteria;
 import com.salesmanager.core.model.voucher.VoucherList;
 
-
 public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
 
     @PersistenceContext
@@ -21,10 +20,10 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Voucher> getVoucherEndDate() {
+	public List<Voucher> getActiveVoucher() {
 
-		StringBuilder baseQuery = new StringBuilder("select c from Voucher as c where c.id = c.id ");
-		baseQuery.append(" order by c.id desc ");
+		StringBuilder baseQuery = new StringBuilder("select c from Voucher as c ");
+		baseQuery.append(" WHERE c.blocked=0 and c.endDate >= now() ORDER by c.id desc ");
 		Query objectQ = em.createQuery(baseQuery.toString());
 		return objectQ.getResultList();
 	}    
@@ -41,41 +40,52 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
 			baseQuery.append(nameQuery);
 		}
 		
-		if(criteria.getBlocked()>0) {
-			String nameQuery =" and c.blocked <= :pblocked  ";
+		if(criteria.getBlocked()) {
+			String nameQuery =" and c.blocked > 0 ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
-		if(!StringUtils.isBlank(criteria.getApproved())) {
-			String nameQuery =" and TO_CHAR(c.approved,'DD/MM/YYYY') = :approved ";
+		if(criteria.getApproved()) {
+			String nameQuery =" and c.approved is not NULL ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
-		if(!StringUtils.isBlank(criteria.getStartDate())) {
-			String nameQuery =" and TO_CHAR(c.startDate,'DD/MM/YYYY') = :startDate ";
+
+		if(criteria.getStartDate()!=null) {
+			String nameQuery =" and c.startDate >= :startDate ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
-		if(!StringUtils.isBlank(criteria.getEndDate())) {
-			String nameQuery =" and TO_CHAR(c.endDate,'DD/MM/YYYY') = :endDate ";
+		if(criteria.getEndDate()!=null) {
+			String nameQuery =" and c.endDate <= :endDate ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getCode())) {
+			String nameQuery =" and lower(c.code) LIKE lower(:code) ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}	
+
+		if(!StringUtils.isBlank(criteria.getProduct())) {
+			String nameQuery =" and lower(c.productSku) ILIKE lower(:product) ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getManager())) {
+			String nameQuery =" and lower(c.manager) LIKE lower(:manager) ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
-		if(criteria.getCustomerId()!=null) {
-			String nameQuery =" and c.customerId <= :pcustomerId  ";
-			baseCountQuery.append(nameQuery);
-			baseQuery.append(nameQuery);
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			// baseQuery.append(" order by c.id desc ");
 		}
-		if(!StringUtils.isBlank(criteria.getExpire())) {
-			String nameQuery =" and TO_CHAR(c.expire,'DD/MM/YYYY') = :expire ";
-			baseCountQuery.append(nameQuery);
-			baseQuery.append(nameQuery);
-		}		
-		
-		
-		baseQuery.append(" order by c.id desc ");
 	
 
 		Query countQ = em.createQuery(baseCountQuery.toString());
@@ -86,32 +96,30 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
 			countQ.setParameter("pid",criteria.getId());
 			objectQ.setParameter("pid",criteria.getId());
 		}
-		if(criteria.getBlocked()>0) {
-			countQ.setParameter("pblocked",criteria.getBlocked());
-			objectQ.setParameter("pblocked",criteria.getBlocked());
-		}
-		if(!StringUtils.isBlank(criteria.getApproved())) {
-			countQ.setParameter("approved",criteria.getApproved());
-			objectQ.setParameter("approved",criteria.getApproved());
-		}
 
-		if(!StringUtils.isBlank(criteria.getStartDate())) {
-			countQ.setParameter("startDate",criteria.getStartDate());
+		if(criteria.getStartDate()!=null) {
+			countQ.setParameter("startDate", criteria.getStartDate());
 			objectQ.setParameter("startDate",criteria.getStartDate());
 		}
-		if(!StringUtils.isBlank(criteria.getApproved())) {
+		if(criteria.getEndDate()!=null) {
 			countQ.setParameter("endDate",criteria.getEndDate());
 			objectQ.setParameter("endDate",criteria.getEndDate());
 		}
-
-		if(criteria.getCustomerId()!=null) {
-			countQ.setParameter("customerId",criteria.getCustomerId());
-			objectQ.setParameter("customerId",criteria.getCustomerId());
-		}
-		if(!StringUtils.isBlank(criteria.getExpire())) {
-			countQ.setParameter("expire",criteria.getExpire());
-			objectQ.setParameter("expire",criteria.getExpire());
+		if(!StringUtils.isBlank(criteria.getProduct())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getProduct()).append("%").toString();
+			countQ.setParameter("product",nameParam);
+			objectQ.setParameter("product",nameParam);
+		}	
+		if(!StringUtils.isBlank(criteria.getCode())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getCode()).append("%").toString();
+			countQ.setParameter("code",nameParam);
+			objectQ.setParameter("code",nameParam);
 		}		
+		if(!StringUtils.isBlank(criteria.getManager())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getManager()).append("%").toString();
+			countQ.setParameter("manager",nameParam);
+			objectQ.setParameter("manager",nameParam);
+		}	
 		
 		Number count = (Number) countQ.getSingleResult();
 

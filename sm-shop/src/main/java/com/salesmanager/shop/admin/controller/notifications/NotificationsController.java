@@ -98,6 +98,7 @@ public class NotificationsController {
 			
 			NotificationsCriteria criteria = new NotificationsCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 

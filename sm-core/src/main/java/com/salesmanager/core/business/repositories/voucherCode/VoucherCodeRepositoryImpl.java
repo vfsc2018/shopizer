@@ -1,7 +1,4 @@
-package com.salesmanager.core.business.repositories.voucherCode;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.salesmanager.core.business.repositories.vouchercode;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,9 +7,9 @@ import javax.persistence.Query;
 import org.apache.commons.lang3.StringUtils;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
-import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
-import com.salesmanager.core.model.voucherCode.VoucherCodeList;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCodeCriteria;
+import com.salesmanager.core.model.vouchercode.VoucherCodeList;
 
 
 
@@ -32,50 +29,58 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
+		if(criteria.getBlocked()) {
+			String nameQuery =" and c.blocked > 0 ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
 		
-		if(criteria.getVoucherId()!=null && criteria.getVoucherId()>0) {
+		if(criteria.getVoucherId()!=null) {
 			String nameQuery =" and c.voucher.id = :voucher  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getCode())) {
-			String nameQuery =" and c.code = :code ";
+			String nameQuery =" and c.code LIKE :code ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
+
+		if(!StringUtils.isBlank(criteria.getBatch())) {
+			String nameQuery =" and lower(c.batch) LIKE lower(:batch) ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
 		if(criteria.getIndex()>0) {
-			String nameQuery =" and c.index = :index ";
+			String nameQuery =" and c.index <= :index ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
-		if(criteria.getCustomerId()!=null && criteria.getCustomerId()>0) {
-			String nameQuery =" and c.customer.id = :customer  ";
+		if(criteria.getCustomerId()!=null) {
+			String nameQuery =" and c.customer.id = :customer ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
-		if(!StringUtils.isBlank(criteria.getUsed())) {
-			String nameQuery =" and c.used = :used ";
-			baseCountQuery.append(nameQuery);
-			baseQuery.append(nameQuery);
-		}
-		if(!StringUtils.isBlank(criteria.getRedeem())) {
-			String nameQuery =" and c.redeem = :redeem ";
+		if(criteria.getUsed()!=null) {
+			String nameQuery =" and TO_CHAR(c.used,'DD/MM/YYYY') = :used ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
-		if(criteria.getOrderId()!=null && criteria.getOrderId()>0) {
+		if(criteria.getOrderId()!=null) {
 			String nameQuery =" and c.order.id = :orderId  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
-		
-		
-		baseQuery.append(" order by c.id desc ");
+		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
+			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
+		}else{
+			// baseQuery.append(" order by c.id desc ");
+		}
 	
 
 		Query countQ = em.createQuery(baseCountQuery.toString());
@@ -86,15 +91,22 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			countQ.setParameter("pid",criteria.getId());
 			objectQ.setParameter("pid",criteria.getId());
 		}
+
+		if(!StringUtils.isBlank(criteria.getCode())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getCode()).append("%").toString();
+			countQ.setParameter("code",nameParam);
+			objectQ.setParameter("code",nameParam);
+		}	
+
+		if(!StringUtils.isBlank(criteria.getBatch())) {
+			String nameParam = new StringBuilder().append("%").append(criteria.getBatch()).append("%").toString();
+			countQ.setParameter("batch",nameParam);
+			objectQ.setParameter("batch",nameParam);
+		}	
 		
-		if(criteria.getVoucherId()!=null && criteria.getVoucherId()>0) {
+		if(criteria.getVoucherId()!=null) {
 			countQ.setParameter("voucher",criteria.getVoucherId());
 			objectQ.setParameter("voucher",criteria.getVoucherId());
-		}
-		
-		if(!StringUtils.isBlank(criteria.getCode())) {
-			countQ.setParameter("code",criteria.getCode());
-			objectQ.setParameter("code",criteria.getCode());
 		}
 		
 		if(criteria.getIndex()>0) {
@@ -111,17 +123,11 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			countQ.setParameter("used",criteria.getUsed());
 			objectQ.setParameter("used",criteria.getUsed());
 		}
-		if(!StringUtils.isBlank(criteria.getRedeem())) {
-			countQ.setParameter("redeem",criteria.getRedeem());
-			objectQ.setParameter("redeem",criteria.getRedeem());
-		}
 		
-		if(criteria.getOrderId()!=null && criteria.getOrderId()>0) {
+		if(criteria.getOrderId()!=null) {
 			countQ.setParameter("orderId",criteria.getOrderId());
 			objectQ.setParameter("orderId",criteria.getOrderId());
 		}
-		
-			
 		
 		Number count = (Number) countQ.getSingleResult();
 

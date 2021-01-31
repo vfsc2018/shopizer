@@ -49,37 +49,37 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		}
 
 		if(!StringUtils.isBlank(criteria.getPhone())) {
-			String nameQuery =" and c.billing.telephone like:ph ";
+			String nameQuery =" and c.billing.telephone like :ph ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 
 		if(!StringUtils.isBlank(criteria.getName())) {
-			String nameQuery =" and (c.billing.firstName like:nm or c.billing.lastName like:nm) ";
+			String nameQuery =" and (lower(c.billing.firstName) LIKE lower(:nm) or c.billing.lastName LIKE :nm) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getFirstName())) {
-			String nameQuery =" and c.billing.firstName like:fn";
+			String nameQuery =" and clower(.billing.firstName) LIKE lower(:fn) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 
 		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameQuery =" and c.billing.address like:addr";
+			String nameQuery =" and lower(c.billing.address) LIKE :lower(:addr) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getLastName())) {
-			String nameQuery =" and c.billing.lastName like:ln";
+			String nameQuery =" and c.billing.lastName LIKE :ln";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getEmail())) {
-			String mailQuery =" and c.emailAddress like:email";
+			String mailQuery =" and c.emailAddress like :email";
 			countBuilderWhere.append(mailQuery);
 			objectBuilderWhere.append(mailQuery);
 		}
@@ -96,7 +96,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
 			objectBuilderWhere.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
 		}else{
-			objectBuilderWhere.append(" order by c.id desc ");
+			// objectBuilderWhere.append(" order by c.id desc ");
 		}
 		
 		//count query

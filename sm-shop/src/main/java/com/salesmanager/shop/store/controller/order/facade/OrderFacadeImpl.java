@@ -1171,9 +1171,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			delivery = customer.getDelivery();
 		}
 
-		ShippingQuote quote = shippingService.getShippingQuote(cart.getId(), store, delivery, shippingProducts,
-				language);
-		return quote;
+		return shippingService.getShippingQuote(cart.getId(), store, delivery, shippingProducts,language);
 	}
 
 	@Override

@@ -43,7 +43,7 @@ public class PersistableCustomerOptionPopulator extends
 			target.setPublicOption(true);
 			
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-				Set<com.salesmanager.core.model.customer.attribute.CustomerOptionDescription> descriptions = new HashSet<com.salesmanager.core.model.customer.attribute.CustomerOptionDescription>();
+				Set<com.salesmanager.core.model.customer.attribute.CustomerOptionDescription> descriptions = new HashSet<>();
 				for(CustomerOptionDescription desc  : source.getDescriptions()) {
 					com.salesmanager.core.model.customer.attribute.CustomerOptionDescription description = new com.salesmanager.core.model.customer.attribute.CustomerOptionDescription();
 					Language lang = languageService.getByCode(desc.getLanguage());

@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.salesmanager.core.business.repositories.voucherCode.VoucherCodeRepository;
+import com.salesmanager.core.business.repositories.vouchercode.VoucherCodeRepository;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.bill.BillMasterService;
@@ -48,7 +48,7 @@ import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.TransactionType;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
 import com.salesmanager.shop.model.customer.ReadableCustomer;
 import com.salesmanager.shop.model.order.v0.ReadableOrder;
 import com.salesmanager.shop.model.order.v0.ReadableOrderList;
@@ -475,6 +475,7 @@ public class OrderApi {
 			order.setCustomerId(customer.getId());
 			order.setCurrency("VND");
 			order.getPayment().setTransactionType(TransactionType.INIT.name());
+			order.getPayment().setPaymentToken("***");
 
 			VoucherCode voucherCode = null;
 			if(order.getCode()!=null && order.getSecurecode()!=null){
@@ -484,6 +485,7 @@ public class OrderApi {
 					return null;
 				}
 				order.setVoucherCode(voucherCode);
+				order.getPayment().setPaymentToken(order.getCode());
 			}
 			
 			Order modelOrder = orderFacade.processOrder(order, customer, merchantStore, language, locale);
@@ -496,9 +498,6 @@ public class OrderApi {
 				voucherCode.setUsed(new Date());
 				voucherCode.setSecurecode(order.getSecurecode());
 				voucherCodeRepository.save(voucherCode);
-				order.getPayment().setPaymentToken(order.getSecurecode());
-			}else{
-				order.getPayment().setPaymentToken("***");
 			}
 
 			order.setVoucherCode(null);

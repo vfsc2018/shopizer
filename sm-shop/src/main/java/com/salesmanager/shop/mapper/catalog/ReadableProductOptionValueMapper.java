@@ -31,7 +31,7 @@ public class ReadableProductOptionValueMapper implements Mapper<ProductOptionVal
     ReadableProductOptionValueEntity readableProductOptionValue = new ReadableProductOptionValueEntity();
     if(language == null) {
     	readableProductOptionValue = new ReadableProductOptionValueFull();
-      List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription> descriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription>();
+      List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription> descriptions = new ArrayList<>();
       for(ProductOptionValueDescription desc : source.getDescriptions()) {
           com.salesmanager.shop.model.catalog.product.attribute.ProductOptionValueDescription d = this.description(desc);
           descriptions.add(d);

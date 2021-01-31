@@ -5,7 +5,7 @@
 <%@ taglib uri="/WEB-INF/shopizer-tags.tld" prefix="sm" %> 
 
 <%@ page session="false" %>
-
+<script src="<c:url value="/resources/js/barcode/JsBarcode.all.min.js" />"></script>
 <script> 
     function print() { 
         var divContents = document.getElementById('printSection').innerHTML; 
@@ -48,22 +48,15 @@ td, th {
 </style>	
 <img id="image" src="/resources/img/vfsc.png" alt="logo" />	
 		<div align="center">
-		<h3><s:message code="label.voucherCode.Print.Title" text="Title voucher code"/></h3></td>
+		<h3><s:message code="label.voucherCode.Print.Title" text="VOUCHER CODES LIST"/></h3></td>
 		</div>
 <table id="caculatorId" width="100%"> 
 	<thead> 
 		<tr>
-			<th><s:message code="label.order.reportVoucherCode.stt" text="STT"/></th> 
-			<th><s:message code="label.entity.voucherId" text="Voucher ID"/></th> 
-			<th><s:message code="label.entity.code" text="Code"/></th> 
-			<th><s:message code="label.entity.securecode" text="Secure code"/></th>
-			<th><s:message code="label.entity.blocked" text="blocked"/></th>
-			<th><s:message code="label.entity.customerId" text="customerId"/></th>
-			<th><s:message code="label.generic.used" text="used"/></th>  
-			<th><s:message code="label.generic.index" text="index"/></th>
-			<th><s:message code="label.generic.redeem" text="redeem"/></th>  
-			<th><s:message code="label.entity.orderId" text="orderId"/></th>  
-			  
+			<th><s:message code="label.order.reportVoucherCode.stt" text="No"/></th> 
+			<th><s:message code="label.entity.voucherId" text="Voucher"/></th> 
+			<th><s:message code="label.entity.barcode" text="Code"/></th> 
+			<th><s:message code="label.generic.used" text="Used"/></th>  
 		</tr> 
 	</thead>
 	<tbody>
@@ -73,14 +66,10 @@ td, th {
 		<tr>
 				<td><c:out value="${stt}" /></td>
 				<td><c:out value="${entity.voucher.id}" /></td>
-				<td><c:out value="${entity.code}" /></td>
-				<td><c:out value="${entity.securecode}" /></td>
-				<td><c:out value="${entity.blocked}" /></td>
-				<td><c:out value="${entity.customer.id}" /></td>
+				<td><svg id="barcode${stt}"></svg>
+					<script>JsBarcode("#barcode${stt}", '<c:out value="${entity.code}" />', {height: 60});</script> 
+				</td>
 				<td><c:out value="${entity.used}" /></td>
-				<td><c:out value="${entity.index}" /></td>
-				<td><c:out value="${entity.redeem}" /></td>
-				<td><c:out value="${entity.order.id}" /></td>
 		</tr>
 	</c:forEach>
 	</tbody>

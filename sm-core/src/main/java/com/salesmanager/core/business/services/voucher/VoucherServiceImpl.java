@@ -14,12 +14,12 @@ import org.springframework.validation.BindException;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.voucher.VoucherRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
-import com.salesmanager.core.business.services.voucherCode.VoucherCodeService;
+import com.salesmanager.core.business.services.vouchercode.VoucherCodeService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.voucher.VoucherCriteria;
 import com.salesmanager.core.model.voucher.VoucherList;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
 
 @Service("voucherService")
 public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Voucher> implements VoucherService {
@@ -120,8 +120,8 @@ public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Vouc
 	}
     
 	@Override
-	public List<Voucher> getVoucherEndDate(){
-		return voucherRepository.getVoucherEndDate();
+	public List<Voucher> getActiveVoucher(){
+		return voucherRepository.getActiveVoucher();
 	}
     
 	@Inject

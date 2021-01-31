@@ -43,7 +43,7 @@ public class ReadableCategoryMapper implements Mapper<Category, ReadableCategory
   }
 
   private void feedDescription(Category source, Language language, ReadableCategory target) {
-    List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions = new ArrayList<com.salesmanager.shop.model.catalog.category.CategoryDescription>();
+    List<com.salesmanager.shop.model.catalog.category.CategoryDescription> descriptions = new ArrayList<>();
     for(CategoryDescription description : source.getDescriptions()) {
       if (language == null) {
         descriptions.add(convertDescription(description));

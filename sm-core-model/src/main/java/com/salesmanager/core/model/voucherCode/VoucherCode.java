@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.voucherCode;
+package com.salesmanager.core.model.vouchercode;
 
 import java.util.Date;
 
@@ -40,11 +40,11 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 	@Column(name = "ID")
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "VOUCHER_CODE_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
-	
 	private Long id;
 
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="VOUCHER_ID", nullable=true)
+	@JoinColumn(name="VOUCHER_ID", nullable=false)
 	private Voucher voucher;
 	
 	private String code;
@@ -53,8 +53,9 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 	private int blocked;
 	private String blockMessage;
 	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="CUSTOMER_ID", nullable=false)
+	@JoinColumn(name="CUSTOMER_ID", nullable=true)
 	private Customer customer;
 	
 	private Date used;
@@ -63,7 +64,7 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 	
 	@JsonIgnore
 	@ManyToOne(targetEntity = Order.class)
-	@JoinColumn(name = "ORDER_ID", updatable=false, nullable=false)
+	@JoinColumn(name = "ORDER_ID", nullable=true)
 	private Order order;
 
 	public Long getOrderId() {
@@ -89,7 +90,9 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 	public Voucher getVoucher() {
 		return voucher;
 	}
-
+	public Long getVoucherId() {
+		return voucher.getId();
+	}
 
 	public void setVoucher(Voucher voucher) {
 		this.voucher = voucher;
@@ -145,6 +148,10 @@ public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implement
 
 	public Customer getCustomer() {
 		return customer;
+	}
+
+	public Long getCustomerId() {
+		return customer.getId();
 	}
 
 

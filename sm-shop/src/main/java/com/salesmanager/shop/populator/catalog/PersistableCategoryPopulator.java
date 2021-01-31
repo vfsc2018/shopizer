@@ -115,7 +115,7 @@ public class PersistableCategoryPopulator extends
 
 
 		if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-			Set<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new HashSet<com.salesmanager.core.model.catalog.category.CategoryDescription>();
+			Set<com.salesmanager.core.model.catalog.category.CategoryDescription> descriptions = new HashSet<>();
 			if(CollectionUtils.isNotEmpty(target.getDescriptions())) {
     			for(com.salesmanager.core.model.catalog.category.CategoryDescription description : target.getDescriptions()) {
     			    for(CategoryDescription d : source.getDescriptions()) {

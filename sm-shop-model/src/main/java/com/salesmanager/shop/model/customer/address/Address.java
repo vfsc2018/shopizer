@@ -1,6 +1,9 @@
 package com.salesmanager.shop.model.customer.address;
 
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringEscapeUtils;
 
@@ -9,6 +12,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
  * @author carlsamson
  *
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address extends AddressLocation {
 	
 	/**

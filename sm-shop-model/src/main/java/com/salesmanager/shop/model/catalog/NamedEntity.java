@@ -1,8 +1,9 @@
 package com.salesmanager.shop.model.catalog;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.shop.model.entity.ShopEntity;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class NamedEntity extends ShopEntity {
 	
 	/**

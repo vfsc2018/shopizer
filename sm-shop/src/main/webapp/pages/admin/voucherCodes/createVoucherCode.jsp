@@ -23,7 +23,7 @@
     $(function() {
 
 		$("#btSaveBill").click(function() {
-			$( "#FormBuildBill" ).submit();
+			$( "#FormCreateBatchCode" ).submit();
 		});
 
     });
@@ -51,13 +51,13 @@
     $(document).ready(function() {
 
         // process the form
-        	$("#FormBuildBill").submit(function(event){
+        	$("#FormCreateBatchCode").submit(function(event){
         	    event.preventDefault(); 
         	    var post_url = $(this).attr("action"); 
                 var data = $(this).serializeObject();
                 $.ajax({
                     'type': 'POST',
-                    'url': "<c:url value="/admin/voucherCodes/genCode.html"/>",
+                    'url': "<c:url value="/admin/vouchercodes/genCode.html"/>",
                     'contentType': 'application/json',
                     'data': JSON.stringify(data),
                     'dataType': 'json',
@@ -101,7 +101,7 @@
            </h3>
 		   <br/>
 
-         <form:form method="POST" id="FormBuildBill" modelAttribute="voucherCode" >
+         <form:form method="POST" id="FormCreateBatchCode" modelAttribute="voucherCode" >
                 <form:errors path="*" cssClass="alert alert-error" element="div" />
 	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
 	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
@@ -137,9 +137,10 @@
 
             <br/>   
             <div class="span8">
-	              <div class="form-actions">
-	              		<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
-	      		  </div>
+	            <div class="form-actions">
+	              	<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
+                    <button  type="button" id ="btVoucherCode" class="btn btn-medium btn-primary" ><s:message code="button.label.voucherCode" text="List of codes"/></button>   
+                </div>
       		</div> 
             <br/> 
             <br/>   
@@ -150,3 +151,10 @@
   </div>
 </div>
 
+<script>				
+$(document).ready(function(){ 				
+		$("#btVoucherCode").click(function() {
+			 location.href="<c:url value="/admin/vouchercodes/list.html" />?voucherId=" + $("#voucherId").val();
+		}); 
+});
+</script>	

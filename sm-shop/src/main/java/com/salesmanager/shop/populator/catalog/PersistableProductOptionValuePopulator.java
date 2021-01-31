@@ -52,7 +52,7 @@ public class PersistableProductOptionValuePopulator extends
 			target.setCode(source.getCode());
 			
 			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
-				Set<com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription> descriptions = new HashSet<com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription>();
+				Set<com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription> descriptions = new HashSet<>();
 				for(ProductOptionValueDescription desc  : source.getDescriptions()) {
 					com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription description = new com.salesmanager.core.model.catalog.product.attribute.ProductOptionValueDescription();
 					Language lang = languageService.getByCode(desc.getLanguage());

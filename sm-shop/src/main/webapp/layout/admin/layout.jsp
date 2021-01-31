@@ -368,7 +368,7 @@ response.setDateHeader ("Expires", -1);
   				window.location='<c:url value="/admin/vouchers/list.html" />';
 			});
 			$("#voucherCode-link").click(function() {
-  				window.location='<c:url value="/admin/voucherCodes/list.html" />';
+  				window.location='<c:url value="/admin/vouchercodes/list.html" />';
 			});				
 		}); 
 		

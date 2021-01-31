@@ -2,6 +2,8 @@ package com.salesmanager.shop.model.catalog.product;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.shop.model.references.DimensionUnitOfMeasure;
 import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
 
@@ -10,6 +12,7 @@ import com.salesmanager.shop.model.references.WeightUnitOfMeasure;
  * @author carlsamson
  *
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProductSpecification implements Serializable {
 
   /**
