@@ -80,7 +80,7 @@ public class ReadableProductPopulator extends
 		
 		try {
 		  
-	        List<com.salesmanager.shop.model.catalog.product.ProductDescription> fulldescriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.ProductDescription>();
+	        List<com.salesmanager.shop.model.catalog.product.ProductDescription> fulldescriptions = new ArrayList<>();
 	        if(language == null) {
 	          target = new ReadableProductFull();
 	        }

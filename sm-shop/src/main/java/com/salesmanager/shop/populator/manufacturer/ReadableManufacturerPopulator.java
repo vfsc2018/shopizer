@@ -7,6 +7,9 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturer;
 import com.salesmanager.shop.model.catalog.manufacturer.ReadableManufacturerFull;
+
+import org.apache.commons.collections.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,10 +32,9 @@ public class ReadableManufacturerPopulator extends
     target.setOrder(source.getOrder());
     target.setId(source.getId());
     target.setCode(source.getCode());
-    if (source.getDescriptions() != null && source.getDescriptions().size() > 0) {
+    if (CollectionUtils.isNotEmpty(source.getDescriptions())) {
 
-      List<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription> fulldescriptions =
-          new ArrayList<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription>();
+      List<com.salesmanager.shop.model.catalog.manufacturer.ManufacturerDescription> fulldescriptions = new ArrayList<>();
 
       Set<ManufacturerDescription> descriptions = source.getDescriptions();
       ManufacturerDescription description = null;

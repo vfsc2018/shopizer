@@ -89,16 +89,13 @@ public class VoucherController {
 			String id = request.getParameter("id");
 			String blocked = request.getParameter("blocked");
 			
-			
 			String	approved = request.getParameter("approved");
 			String	startDate = request.getParameter("startDate");
 			String	endDate = request.getParameter("endDate");
-			// String customerId = request.getParameter("customerId");
-			String expire = request.getParameter("expire");
+			String manager = request.getParameter("manager");
+			String product = request.getParameter("product");
+			String code = request.getParameter("code");
 			
-			if(approved!=null && approved.length()!=10){
-				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
-			}
 			if(startDate!=null && startDate.length()!=10){
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}			
@@ -108,34 +105,41 @@ public class VoucherController {
 
 			VoucherCriteria criteria = new VoucherCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 
+			criteria.setApproved(approved!=null && approved.equals("true"));
+			criteria.setBlocked(blocked!=null && blocked.equals("true"));
+			if(!StringUtils.isBlank(id)) {
+				try {
+						criteria.setId(Long.parseLong(id));
+				} catch (Exception e) {
+					return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
+				}
+			}
 			
-			try {
-				if(!StringUtils.isBlank(id)) {
-					criteria.setId(Long.parseLong(id));
-				}
-				if(!StringUtils.isBlank(blocked)) {
-					criteria.setBlocked(Integer.parseInt(blocked));
-				}
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			if(!StringUtils.isBlank(approved)) {
-				criteria.setApproved(approved);
-			}
 			if(!StringUtils.isBlank(startDate)) {
-				criteria.setStartDate(startDate);
+				try{
+					criteria.setStartDate(DateUtil.getDate(startDate));
+				}catch(Exception e){}
 			}
 			if(!StringUtils.isBlank(endDate)) {
-				criteria.setEndDate(endDate);
+				try{
+					criteria.setEndDate(DateUtil.getDate(endDate));
+				}catch(Exception e){}
 			}
 			
-			if(!StringUtils.isBlank(expire)) {
-				criteria.setEndDate(expire);
+			if(!StringUtils.isBlank(manager)) {
+				criteria.setManager(manager);
+			}
+
+			if(!StringUtils.isBlank(product)) {
+				criteria.setProduct(product);
+			}
+
+			if(!StringUtils.isBlank(code)) {
+				criteria.setCode(code);
 			}
 			
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
@@ -235,8 +239,6 @@ public class VoucherController {
 
 	@RequestMapping(value = "/admin/vouchers/save.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody VoucherForm bean) {
-
-		
 
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();

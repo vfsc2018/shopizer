@@ -88,32 +88,31 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			baseQuery.append(nameQuery);
 		}
 		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameQuery =" and c.address like:addr  ";
+			String nameQuery =" and lower(c.address) LIKE lower(:addr)  ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		if(!StringUtils.isBlank(criteria.getCustomerName())){
-			String nameQuery =" and (c.order.billing.firstName like:nm or c.order.billing.lastName like:nm) ";
+			String nameQuery =" and (lower(c.order.billing.firstName) LIKE lower(:nm) or c.order.billing.lastName LIKE :nm) ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		if(!StringUtils.isBlank(criteria.getPhone())) {
-			String nameQuery =" and c.phone like:ph ";
+			String nameQuery =" and c.phone like :ph ";
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getSku())) {
-			baseCountQuery.append(" and c.sku like:sk ");
-			baseQuery.append(" and c.sku like:sk ");
-			
+			String nameQuery =" and lower(c.sku) LIKE lower(:sk) ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
 		}
 		
 		if(!StringUtils.isBlank(criteria.getProductName())) {
-			
-			baseCountQuery.append(" and c.productName like:nm");
-			baseQuery.append(" and c.productName like:nm");
-			
+			String nameQuery =" and lower(c.productName) LIKE lower(:nm) ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
 		}
 
 		if(criteria.getId()!=null) {
@@ -123,20 +122,21 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		}
 
 		if(criteria.getOrderId()!=null) {
-			baseCountQuery.append(" and c.order.id = :pOrderId");
-			baseQuery.append(" and c.order.id = :pOrderId");
+			String nameQuery = " and c.order.id = :pOrderId " ;
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
 			
 		}
 		if(!StringUtils.isBlank(criteria.getStatus())) {
-			baseCountQuery.append(" and c.status = :pStatus");
-			baseQuery.append(" and c.status = :pStatus");
-			
+			String nameQuery = " and c.status = :pStatus " ;
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
 		}
 
 		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
 			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
 		}else{
-			baseQuery.append(" order by c.id desc ");
+			// baseQuery.append(" order by c.id desc ");
 		}
 		
 		Query countQ = em.createQuery(baseCountQuery.toString());

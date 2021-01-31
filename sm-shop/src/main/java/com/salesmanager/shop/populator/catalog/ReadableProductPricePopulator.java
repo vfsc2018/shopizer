@@ -61,7 +61,7 @@ public class ReadableProductPricePopulator extends
 			}
 			
 		    if(source.getDescriptions()!=null && source.getDescriptions().size()>0) {
-		       List<com.salesmanager.shop.model.catalog.product.ProductPriceDescription> fulldescriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.ProductPriceDescription>();
+		       List<com.salesmanager.shop.model.catalog.product.ProductPriceDescription> fulldescriptions = new ArrayList<>();
 	            
                Set<ProductPriceDescription> descriptions = source.getDescriptions();
                ProductPriceDescription description = null;

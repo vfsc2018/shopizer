@@ -29,7 +29,7 @@ public class ReadableProductOptionMapper implements Mapper<ProductOption, Readab
     ReadableProductOptionEntity readableProductOption = new ReadableProductOptionEntity();
     if(language == null) {
       readableProductOption = new ReadableProductOptionFull();
-      List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription> descriptions = new ArrayList<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription>();
+      List<com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription> descriptions = new ArrayList<>();
       for(ProductOptionDescription desc : source.getDescriptions()) {
           com.salesmanager.shop.model.catalog.product.attribute.ProductOptionDescription d = this.description(desc);
           descriptions.add(d);

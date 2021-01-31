@@ -97,11 +97,9 @@ public class TransactionsController {
 				return new ResponseEntity<>("{}",httpHeaders,HttpStatus.OK);
 			}
 
-
-			
-			
 			TransactionsCriteria criteria = new TransactionsCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 

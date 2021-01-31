@@ -142,12 +142,42 @@
 					                        <form:input  cssClass="input-large highlight" path="description"/>      														
 					                   </div>
 					           </div>       				
+					  </div>
+					  <div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.product.sku" text="product's sku"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="productSku"/>      														
+					                   </div>
+					           </div>       				
+					  </div>
+					  <div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.startDate" text="start date"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="startDate" cssClass="input-large highlight" path="startDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#startDate').datepicker();
+											</script>    
+					                   </div>
+					           </div>       				
+      				</div>      				      				
+      				<div class="span8">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.endDate" text="end date"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input id="endDate" cssClass="input-large highlight" path="endDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#endDate').datepicker();
+											</script>    
+					                   </div>
+					           </div>       				
       				</div>
 					<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.point" text="point"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="point"/>      														
+					                        <form:input  cssClass="input-large highlight" path="point"/>      														
 					                   </div>
 					           </div>       				
       				</div>
@@ -155,7 +185,7 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.percent" text="percent"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="percent"/>      														
+					                        <form:input  cssClass="input-large highlight" path="percent"/>      														
 					                   </div>
 					           </div>       				
       				</div>
@@ -163,22 +193,31 @@
 								<div class="control-group">
 					                  <label><s:message code="label.entity.discount" text="discount"/></label>	 
 					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="discount"/>      														
+					                        <form:input  cssClass="input-large highlight" path="discount"/>      														
 					                   </div>
 					           </div>       				
 					</div>
-					    
 					<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.status" text="status"/></label>	 
+					                  <label><s:message code="label.entity.approved" text="approved"/></label>	 
 					                  <div class="controls"> 
-											<form:select path="status">
-													<form:option value="1" label="Yes"/>
-													<form:option value="0" label="No"/>
-											</form:select>       														
+					                        <form:input id="approved" cssClass="input-large highlight" path="approved" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
+											<script type="text/javascript">
+												$('#approved').datepicker();
+											</script>    
 					                   </div>
 					           </div>       				
-      				</div>
+      				</div>    				
+      				
+      				<div class="span8">
+							<div class="control-group">
+				                  <label><s:message code="label.entity.manager" text="manager"/></label>	 
+				                  <div class="controls"> 
+				                        <form:input  cssClass="input-large highlight" path="manager"/>      														
+				                   </div>
+				           </div>       				
+					  </div>   
+					  
 					<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
@@ -198,32 +237,7 @@
 					                        <form:input  cssClass="small" path="blockMessage"/>      														
 					                   </div>
 					           </div>       				
-      				</div>
-      				       				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.startDate" text="Start date"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input id="startDate" cssClass="input-large highlight" path="startDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#startDate').datepicker();
-											</script>    
-					                   </div>
-					           </div>       				
-      				</div>      				      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.endDate" text="Finish date"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input id="endDate" cssClass="input-large highlight" path="endDate" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#endDate').datepicker();
-											</script>    
-					                   </div>
-					           </div>       				
-      				</div>
-
-      				      				
+      				</div> 				
       				<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.generic.weekDays" text="weekDays"/></label>	 
@@ -256,28 +270,7 @@
 				                        <form:input  cssClass="small" path="endTime"/>      														
 				                   </div>
 				           </div>       				
-      				</div>
-      				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.approved" text="approved"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input id="approved" cssClass="input-large highlight" path="approved" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
-											<script type="text/javascript">
-												$('#approved').datepicker();
-											</script>    
-					                   </div>
-					           </div>       				
-      				</div>    				
-      				
-      				<div class="span8">
-							<div class="control-group">
-				                  <label><s:message code="label.entity.manager" text="manager"/></label>	 
-				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="manager"/>      														
-				                   </div>
-				           </div>       				
-      				</div>    				
+      				</div> 				
             <br/>   
             <div class="span8">
 	              <div class="form-actions">
@@ -294,4 +287,3 @@
 	 </div>
   </div>
 </div>
-

@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.voucherCode;
+package com.salesmanager.core.model.vouchercode;
 
 import com.salesmanager.core.model.common.Criteria;
 
@@ -12,10 +12,20 @@ public class VoucherCodeCriteria extends Criteria {
 	public void setVoucherId(Long voucherId) {
 		this.voucherId = voucherId;
 	}
+	private String batch;
 	private String securecode;
 	private String used ;
 	private String redeem;
 	private Long customerId;
+	private boolean blocked;
+
+	public boolean getBlocked() {
+		return blocked;
+	}
+	public void setBlocked(boolean blocked) {
+		this.blocked = blocked;
+	}
+
 	public Long getCustomerId() {
 		return customerId;
 	}
@@ -55,5 +65,12 @@ public class VoucherCodeCriteria extends Criteria {
 		this.redeem = redeem;
 	}
 
+	public String getBatch() {
+		return batch;
+	}
+
+	public void setBatch(String batch) {
+		this.batch = batch;
+	}
 	
 }

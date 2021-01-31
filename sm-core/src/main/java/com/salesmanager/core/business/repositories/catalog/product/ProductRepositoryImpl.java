@@ -39,12 +39,12 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	@Override
 
 	public Product getById(Long productId, MerchantStore store) {
-		return (Product)get(productId, store);
+		return get(productId, store);
 	}
 
 	@Override
 	public Product getById(Long productId) {
-		return (Product)get(productId, null);
+		return get(productId, null);
 	}
 
 
@@ -465,7 +465,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 	}
 
 	@Override
-	public List<?> getProductsListByIds(Set<Long> productds) {
+	@SuppressWarnings("unchecked")
+	public List<Product> getProductsListByIds(Set<Long> productds) {
 		StringBuilder qs = new StringBuilder();
 		qs.append(productQuery());
 		qs.append("where p.id in (:pid) ");
@@ -606,7 +607,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		if (!StringUtils.isBlank(criteria.getProductName())) {
-			countBuilderWhere.append(" and lower(pd.name) like:nm");
+			countBuilderWhere.append(" and lower(pd.name) LIKE lower(:nm)");
 		}
 
 		if (!CollectionUtils.isEmpty(criteria.getCategoryIds())) {

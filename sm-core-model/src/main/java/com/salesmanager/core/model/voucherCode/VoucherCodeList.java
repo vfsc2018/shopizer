@@ -1,4 +1,4 @@
-package com.salesmanager.core.model.voucherCode;
+package com.salesmanager.core.model.vouchercode;
 
 import java.util.ArrayList;
 import java.util.List;

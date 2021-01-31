@@ -132,6 +132,7 @@ public class BillsController {
 			
 			BillMasterCriteria criteria = new BillMasterCriteria();
 			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 

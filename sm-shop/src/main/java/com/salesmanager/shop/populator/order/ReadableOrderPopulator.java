@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -101,7 +100,7 @@ public class ReadableOrderPopulator extends
 			target.setBilling(address);
 		}
 		
-		if(source.getOrderAttributes()!=null && source.getOrderAttributes().size()>0) {
+		if(CollectionUtils.isNotEmpty(source.getOrderAttributes())) {
 			for(OrderAttribute attr : source.getOrderAttributes()) {
 				com.salesmanager.shop.model.order.OrderAttribute a = new com.salesmanager.shop.model.order.OrderAttribute();
 				a.setKey(attr.getKey());
@@ -129,7 +128,7 @@ public class ReadableOrderPopulator extends
 			target.setDelivery(address);
 		}
 		
-		List<com.salesmanager.shop.model.order.total.OrderTotal> totals = new ArrayList<com.salesmanager.shop.model.order.total.OrderTotal>();
+		List<com.salesmanager.shop.model.order.total.OrderTotal> totals = new ArrayList<>();
 		for(OrderTotal t : source.getOrderTotal()) {
 			if(t.getOrderTotalType()==null) {
 				continue;
@@ -151,19 +150,7 @@ public class ReadableOrderPopulator extends
 				target.setTax(totalTotal);
 				totals.add(totalTotal);
 			}
-			else if(t.getOrderTotalType().name().equals(OrderTotalType.SHIPPING.name())) {
-				com.salesmanager.shop.model.order.total.OrderTotal totalTotal = createTotal(t);
-				if(shippingTotal==null) {
-					shippingTotal = totalTotal;
-				} else {
-					BigDecimal v = shippingTotal.getValue();
-					v = v.add(totalTotal.getValue());
-					shippingTotal.setValue(v);
-				}
-				target.setShipping(totalTotal);
-				totals.add(totalTotal);
-			}
-			else if(t.getOrderTotalType().name().equals(OrderTotalType.HANDLING.name())) {
+			else if(t.getOrderTotalType().name().equals(OrderTotalType.SHIPPING.name()) || t.getOrderTotalType().name().equals(OrderTotalType.HANDLING.name())) {
 				com.salesmanager.shop.model.order.total.OrderTotal totalTotal = createTotal(t);
 				if(shippingTotal==null) {
 					shippingTotal = totalTotal;
@@ -178,7 +165,6 @@ public class ReadableOrderPopulator extends
 			else if(t.getOrderTotalType().name().equals(OrderTotalType.SUBTOTAL.name())) {
 				com.salesmanager.shop.model.order.total.OrderTotal subTotal = createTotal(t);
 				totals.add(subTotal);
-				
 			}
 			else {
 				com.salesmanager.shop.model.order.total.OrderTotal otherTotal = createTotal(t);
@@ -198,6 +184,8 @@ public class ReadableOrderPopulator extends
 		totalTotal.setModule(t.getModule());
 		totalTotal.setOrder(t.getSortOrder());
 		totalTotal.setValue(t.getValue());
+		totalTotal.setTitle(t.getTitle());
+		totalTotal.setText(t.getText());
 		return totalTotal;
 	}
 

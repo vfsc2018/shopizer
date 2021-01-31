@@ -259,20 +259,20 @@
 "role":"CUSTOMER",
 "order":8,
 "menus":[
-	{"menu":{"code":"voucher","url":"","role":"CUSTOMER","order":0,"menus":[
+	{"menu":{"code":"Voucher","url":"","role":"CUSTOMER","order":0,"menus":[
 			{"menu":{
 				"code":"voucher-create","url":"/admin/vouchers/createVoucher.html","role":"PRODUCTS","order":0
 			}},
 			{"menu":{
-				"code":"voucher","url":"/admin/vouchers/list.html","role":"PRODUCTS","order":2
+				"code":"List of vouchers","url":"/admin/vouchers/list.html","role":"PRODUCTS","order":2
 			}}		
 	]}},
-	{"menu":{"code":"voucherCode","url":"","role":"CUSTOMER","order":1,"menus":[
+	{"menu":{"code":"Code","url":"","role":"CUSTOMER","order":1,"menus":[
 			{"menu":{
-				"code":"voucherCode-create","url":"/admin/voucherCodes/createVoucherCode.html","role":"PRODUCTS","order":0
+				"code":"Create codes","url":"/admin/vouchercodes/createVoucherCode.html","role":"PRODUCTS","order":0
 			}},
 			{"menu":{
-				"code":"voucherCode","url":"/admin/voucherCodes/list.html","role":"PRODUCTS","order":2
+				"code":"List of codes","url":"/admin/vouchercodes/list.html","role":"PRODUCTS","order":2
 			}}			
 	]}}
 ]

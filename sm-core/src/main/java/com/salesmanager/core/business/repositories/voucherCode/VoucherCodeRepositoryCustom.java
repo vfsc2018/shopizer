@@ -1,9 +1,9 @@
-package com.salesmanager.core.business.repositories.voucherCode;
+package com.salesmanager.core.business.repositories.vouchercode;
 
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
-import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
-import com.salesmanager.core.model.voucherCode.VoucherCodeList;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCodeCriteria;
+import com.salesmanager.core.model.vouchercode.VoucherCodeList;
 
 public interface VoucherCodeRepositoryCustom {
 

@@ -53,7 +53,6 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 		
 		if(code!=null && orderTotalPostProcessors != null) {
 			for(OrderTotalPostProcessorModule module : orderTotalPostProcessors) {
-				//TODO check if the module is enabled from the Admin
 				
 				List<ShoppingCartItem> items = summary.getProducts();
 				for(ShoppingCartItem item : items) {
@@ -66,7 +65,7 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 							continue;
 						}
 						//if product is null it will be catched when invoking the module
-						orderTotal.setText(product.getProductDescription().getName());
+						// orderTotal.setText(product.getProductDescription().getName());
 						variation.getVariations().add(orderTotal);	
 					}
 				}
@@ -77,9 +76,9 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 				OrderTotal orderTotal = new OrderTotal();
 				orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 				orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
-				orderTotal.setTitle(Constants.OT_PROMOTION_MODULE_CODE + summary.getVoucher().getDiscount() + "VND");
 				orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
-				orderTotal.setText(summary.getVoucher().getDescription() + " #" + summary.getPromoCode());
+				orderTotal.setTitle(summary.getVoucher().getCode() + ": " + summary.getVoucher().getPoint() + "/" + summary.getVoucher().getDiscount() + "/" + summary.getVoucher().getPercent() +  " #" + summary.getPromoCode());
+				orderTotal.setText(summary.getVoucher().getDescription() + " #" + summary.getVoucher().getCode());
 				orderTotal.setValue(new BigDecimal(summary.getVoucher().getDiscount()));
 				variation.getVariations().add(orderTotal);	
 			}

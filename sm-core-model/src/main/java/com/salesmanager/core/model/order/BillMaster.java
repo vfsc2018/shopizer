@@ -25,6 +25,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -37,6 +38,7 @@ import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "BILL_MASTER", schema=SchemaConstant.SALESMANAGER_SCHEMA)
 @Cacheable
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BillMaster extends SalesManagerEntity<Long, BillMaster>  implements Auditable {
 	private static final long serialVersionUID = 1L;
 

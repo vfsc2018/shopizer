@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.services.voucher.VoucherService;
 import com.salesmanager.core.model.voucher.Voucher;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
 import com.salesmanager.shop.admin.controller.vouchercode.VoucherCodeCheck;
 import com.salesmanager.shop.admin.controller.vouchercode.VoucherInfo;
 

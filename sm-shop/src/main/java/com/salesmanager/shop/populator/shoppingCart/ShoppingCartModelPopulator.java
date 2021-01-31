@@ -113,15 +113,14 @@ public class ShoppingCartModelPopulator
         }
 
         List<ShoppingCartItem> items = shoppingCart.getShoppingCartItems();
-        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems =
-            new HashSet<com.salesmanager.core.model.shoppingcart.ShoppingCartItem>();
+        Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> newItems = new HashSet<>();
         if ( items != null && items.size() > 0 )
         {
             for ( ShoppingCartItem item : items )
             {
 
                 Set<com.salesmanager.core.model.shoppingcart.ShoppingCartItem> cartItems = cartMdel.getLineItems();
-                if ( cartItems != null && cartItems.size() > 0 )
+                if (CollectionUtils.isNotEmpty(cartItems))
                 {
 
                     for ( com.salesmanager.core.model.shoppingcart.ShoppingCartItem dbItem : cartItems )

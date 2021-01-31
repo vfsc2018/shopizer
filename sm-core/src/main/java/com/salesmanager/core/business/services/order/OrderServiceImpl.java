@@ -276,9 +276,6 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
         ShippingConfiguration shippingConfiguration = null;
 
-        BigDecimal grandTotal = new BigDecimal(0);
-        grandTotal.setScale(0, RoundingMode.HALF_UP);
-
         //price by item
         /**
          * qty * price
@@ -326,6 +323,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                 }
             }
         }
+        BigDecimal grandTotal = new BigDecimal(0);
+        grandTotal.setScale(0, RoundingMode.HALF_UP);
+        grandTotal = grandTotal.add(subTotal); // init grandTotal here
         
         //only in order page, otherwise invokes too many processing
         if(
@@ -341,7 +341,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 	        	for(OrderTotal variation : orderTotalVariation.getVariations()) {
 	        		variation.setSortOrder(currentCount++);
 	        		orderTotals.add(variation);
-	        		subTotal = subTotal.subtract(variation.getValue());
+	        		grandTotal = grandTotal.subtract(variation.getValue());
 	        	}
 	        }
         
@@ -349,7 +349,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
 
         totalSummary.setSubTotal(subTotal);
-        grandTotal=grandTotal.add(subTotal);
+        // grandTotal=grandTotal.add(subTotal);
 
         OrderTotal orderTotalSubTotal = new OrderTotal();
         orderTotalSubTotal.setModule(Constants.OT_SUBTOTAL_MODULE_CODE);
@@ -365,22 +365,21 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
         //shipping
         if(summary.getShippingSummary()!=null) {
-	            OrderTotal shippingSubTotal = new OrderTotal();
-	            shippingSubTotal.setModule(Constants.OT_SHIPPING_MODULE_CODE);
-	            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
-	            shippingSubTotal.setOrderTotalCode("order.total.shipping");
-	            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
-	            shippingSubTotal.setText("order.total.shipping");
-	            shippingSubTotal.setSortOrder(100);
-	
-	            orderTotals.add(shippingSubTotal);
+            OrderTotal shippingSubTotal = new OrderTotal();
+            shippingSubTotal.setModule(Constants.OT_SHIPPING_MODULE_CODE);
+            shippingSubTotal.setOrderTotalType(OrderTotalType.SHIPPING);
+            shippingSubTotal.setOrderTotalCode("order.total.shipping");
+            shippingSubTotal.setTitle(Constants.OT_SHIPPING_MODULE_CODE);
+            shippingSubTotal.setText("order.total.shipping");
+            shippingSubTotal.setSortOrder(100);
 
-            if(!summary.getShippingSummary().isFreeShipping()) {
+            orderTotals.add(shippingSubTotal);
+
+            if(summary.getShippingSummary().isFreeShipping()) {
+                shippingSubTotal.setValue(new BigDecimal(0));
+            }else{
                 shippingSubTotal.setValue(summary.getShippingSummary().getShipping());
                 grandTotal=grandTotal.add(summary.getShippingSummary().getShipping());
-            } else {
-                shippingSubTotal.setValue(new BigDecimal(0));
-                grandTotal=grandTotal.add(new BigDecimal(0));
             }
 
             //check handling fees
@@ -420,7 +419,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
                 totalTaxes = totalTaxes.add(tax.getItemPrice());
                 orderTotals.add(taxLine);
-                //grandTotal=grandTotal.add(tax.getItemPrice());
+                // grandTotal=grandTotal.add(tax.getItemPrice());
 
                 taxCount ++;
 
@@ -435,7 +434,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotal.setOrderTotalType(OrderTotalType.TOTAL);
         orderTotal.setOrderTotalCode("order.total.total");
         orderTotal.setTitle(Constants.OT_TOTAL_MODULE_CODE);
-        //orderTotal.setText("order.total.total");
+        orderTotal.setText("order.total.total");
         orderTotal.setSortOrder(500);
         orderTotal.setValue(grandTotal);
         orderTotals.add(orderTotal);

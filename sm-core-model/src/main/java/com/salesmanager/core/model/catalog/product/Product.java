@@ -32,6 +32,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.catalog.category.Category;
 import com.salesmanager.core.model.catalog.product.attribute.ProductAttribute;
@@ -54,6 +55,7 @@ import com.salesmanager.core.model.tax.taxclass.TaxClass;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "PRODUCT", schema=SchemaConstant.SALESMANAGER_SCHEMA, uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "SKU"}))
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Product extends SalesManagerEntity<Long, Product> implements Auditable {
 	private static final long serialVersionUID = 1L;
 

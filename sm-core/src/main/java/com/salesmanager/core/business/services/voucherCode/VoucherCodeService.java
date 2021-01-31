@@ -1,4 +1,4 @@
-package com.salesmanager.core.business.services.voucherCode;
+package com.salesmanager.core.business.services.vouchercode;
 
 
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.merchant.MerchantStore;
-import com.salesmanager.core.model.voucherCode.VoucherCode;
-import com.salesmanager.core.model.voucherCode.VoucherCodeCriteria;
-import com.salesmanager.core.model.voucherCode.VoucherCodeList;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
+import com.salesmanager.core.model.vouchercode.VoucherCodeCriteria;
+import com.salesmanager.core.model.vouchercode.VoucherCodeList;
 
 public interface VoucherCodeService extends SalesManagerEntityService<Long, VoucherCode> {
 	

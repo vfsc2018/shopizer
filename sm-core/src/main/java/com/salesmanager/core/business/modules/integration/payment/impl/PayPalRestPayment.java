@@ -142,7 +142,7 @@ public class PayPalRestPayment implements PaymentModule {
 			// The Payment creation API requires a list of
 			// Transaction; add the created `Transaction`
 			// to a List
-			List<com.paypal.api.payments.Transaction> transactions = new ArrayList<com.paypal.api.payments.Transaction>();
+			List<com.paypal.api.payments.Transaction> transactions = new ArrayList<>();
 			transactions.add(transaction);
 
 			// ###Payer

@@ -17,8 +17,7 @@ public interface ProductRepositoryCustom {
 
 	
 		ProductPrice getProductPriceByid(Long id) ;
-		ProductList listByStore(MerchantStore store, Language language,
-			ProductCriteria criteria);
+		ProductList listByStore(MerchantStore store, Language language, ProductCriteria criteria);
 
 		Product getProductWithOnlyMerchantStoreById(Long productId);
 
@@ -29,14 +28,13 @@ public interface ProductRepositoryCustom {
 		List<Product> getProductsListByCategories(Set<Long> categoryIds,
 				Language language);
 
-		List getProductsListByIds(Set<Long> productIds);
+		List<Product> getProductsListByIds(Set<Long> productIds);
 
 		List<Product> listByTaxClass(TaxClass taxClass);
 
 		List<Product> listByStore(MerchantStore store);
 
-		Product getProductForLocale(long productId, Language language,
-				Locale locale);
+		Product getProductForLocale(long productId, Language language, Locale locale);
 
 		Product getById(Long productId);
 		Product getById(Long productId, MerchantStore merchant);

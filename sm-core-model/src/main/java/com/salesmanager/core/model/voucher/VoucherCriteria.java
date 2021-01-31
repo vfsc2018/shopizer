@@ -1,16 +1,18 @@
 package com.salesmanager.core.model.voucher;
 
+import java.util.Date;
+
 import com.salesmanager.core.model.common.Criteria;
 
 public class VoucherCriteria extends Criteria {
 	
 	private Long id;
-	private int blocked;
-	private String approved;
-	private String startDate;
-	private String endDate;
-	private Long customerId;
-	private String expire;
+	private boolean blocked;
+	private boolean approved;
+	private Date startDate;
+	private Date endDate;
+	private String manager;
+	private String product;
 	
 	/***************************/
 	public Long getId() {
@@ -19,42 +21,42 @@ public class VoucherCriteria extends Criteria {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getBlocked() {
+	public boolean getBlocked() {
 		return blocked;
 	}
-	public void setBlocked(int blocked) {
+	public void setBlocked(boolean blocked) {
 		this.blocked = blocked;
 	}
-	public String getApproved() {
+	public boolean getApproved() {
 		return approved;
 	}
-	public void setApproved(String approved) {
+	public void setApproved(boolean approved) {
 		this.approved = approved;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public String getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(String endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public Long getCustomerId() {
-		return customerId;
+	
+	public String getProduct() {
+		return product;
 	}
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setProduct(String product) {
+		this.product = product;
 	}
-	public String getExpire() {
-		return expire;
+	public String getManager() {
+		return manager ;
 	}
-	public void setExpire(String expire) {
-		this.expire = expire;
+	public void setManager(String manager ) {
+		this.manager  = manager ;
 	}
-
 
 }
