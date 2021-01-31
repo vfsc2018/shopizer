@@ -33,17 +33,25 @@
 								 
 					</td>
 				<td align="right" nowrap="nowrap">
-									        <input id="fromDate" style="width:100px" class="small" name="fromDate" />      
-											<script type="text/javascript">
-												$('#fromDate').datepicker();
-											</script>   
-											
-											<input id="toDate" style="width:100px" css="small" name="toDate" />      
-											<script type="text/javascript">
-												$('#toDate').datepicker();
-											</script>   
+				
+				<c:url var="buildBill" value="/admin/bills/reportBill.html"/>
+				
+				<form:form method="POST" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
+				<input type="hidden" name="type" id="type" value="1" />
+				
+				
+				        <input id="fromDate" type="text" style="width:100px" class="small" name="fromDate" />      
+						<script type="text/javascript">
+							$('#fromDate').datepicker();
+						</script>   
+						
+						<input id="toDate" type="text" style="width:100px" css="small" name="toDate" />      
+						<script type="text/javascript">
+							$('#toDate').datepicker();
+						</script>   
 		              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>
-		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.summary" text="Summary"/></button>	              		
+		              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.summary" text="Summary"/></button>
+		        </form:form>	              		
 		      	</td>
 		      	</tr>
 	      	</table>	  
@@ -66,14 +74,23 @@
 <script>				
 $(document).ready(function(){ 				
 		$("#btReportBill").click(function() {
-			 location.href="<c:url value="/admin/bills/reportBill.html" />?id=0";
+			$( "#type").val(1);
+			$( "#FormBuildBill").submit();
+			
+			// location.href="<c:url value="/admin/bills/reportBill.html" />?id=0";
 		}); 
 		
 		$("#btCollectBill").click(function() {
-			 location.href="<c:url value="/admin/bills/collectBill.html" />?id=0";
+			$( "#type").val(2);
+			$( "#FormBuildBill").submit();
+			
+			// location.href="<c:url value="/admin/bills/collectBill.html" />?id=0";
 		});
 		
 });
+
+
+
 </script>		
 <style>
 .datepicker {

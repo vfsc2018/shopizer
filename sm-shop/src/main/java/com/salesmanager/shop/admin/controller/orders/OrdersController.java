@@ -9,6 +9,7 @@ import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.order.CollectBill;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
@@ -39,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -208,25 +210,82 @@ public class OrdersController {
 	
 	
 
-	@RequestMapping(value = "/admin/orders/reportOrder.html", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/orders/reportOrder.html", method = RequestMethod.POST)
 	@SuppressWarnings("unchecked")
-	public String reportBill(@RequestParam("id") Integer billId,Model model,
+	public String reportBill(Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// display menu
 		setMenu(model, request);
+		String type=request.getParameter("type");
+		
 		List<Order> dataStore = new ArrayList<>();
 		try {
 			dataStore = (List<Order>)request.getSession().getAttribute("STORE_ORDERDATA");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("data",dataStore);
+		List<CollectBill> datas = new ArrayList<>();
 		
-		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
-		model.addAttribute("currency",sessionStore.getCurrency());
+
+		String strFromDate = request.getParameter("fromDate");
+		Date fromDate=null;
+		if(strFromDate!=null && !strFromDate.equals("")){
+			try {
+				fromDate = DateUtil.getDate(strFromDate);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
 		
-		return "admin-orders-report-order";
+		String strToDate = request.getParameter("toDate");
+		Date toDate=null;
+		if(strToDate!=null && !strToDate.equals("")){
+			try {
+				toDate = DateUtil.getDate(strToDate);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		List<Order> dataStoreNew = new ArrayList<Order>();
+		int check=0;
+		for(Order bean: dataStore){
+			check=0;
+			if (bean.getDatePurchased()!=null 
+					&& bean.getDatePurchased().compareTo(fromDate) >= 0
+					&& bean.getDatePurchased().compareTo(toDate) <= 0
+					) {
+	            	System.out.println("Date1 is after Date2");
+	            	check=1;
+	        }
+			if(check>0) dataStoreNew.add(bean);
+		}
+		if(type.equals("1")){
+			model.addAttribute("data",dataStoreNew);
+			
+			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+			model.addAttribute("currency",sessionStore.getCurrency());
+			return "admin-orders-report-order";
+		}else{
+			String billIds ="";
+			for(Order billMaster:dataStoreNew){
+				if(billIds.equals("")) {
+					billIds = billMaster.getId() +"";
+				}else{
+					billIds +=","+billMaster.getId();
+				}
+			}
+			datas = billService.collectOrder(billIds);
+			model.addAttribute("data",datas);
+			
+			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+			model.addAttribute("currency",sessionStore.getCurrency());
+			
+			
+			return "admin-orders-collect-order";
+		}
+		
 	}
 	
 	

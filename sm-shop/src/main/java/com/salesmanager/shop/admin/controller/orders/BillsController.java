@@ -362,24 +362,102 @@ public class BillsController {
 
 	
 
-	@RequestMapping(value = "/admin/bills/reportBill.html", method = RequestMethod.GET)
-	public String reportBill(@RequestParam("id") Integer billId,Model model,
+	@RequestMapping(value = "/admin/bills/reportBill.html", method = RequestMethod.POST)
+	public String reportBill(Model model,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// display menu
 		setMenu(model, request);
+		String type = request.getParameter("type");
+		String strFromDate = request.getParameter("fromDate");
+		Date fromDate=null;
+		if(strFromDate!=null && !strFromDate.equals("")){
+			try {
+				fromDate = DateUtil.getDate(strFromDate);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		
+		String strToDate = request.getParameter("toDate");
+		Date toDate=null;
+		if(strToDate!=null && !strToDate.equals("")){
+			try {
+				toDate = DateUtil.getDate(strToDate);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		List<BillMaster> dataStoreNew = new ArrayList<>();
 		List<BillMaster> dataStore = new ArrayList<>();
 		try {
 			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
+			
+			if(type.equals("1")){
+					if(fromDate!=null || toDate!=null){
+						int check=0;
+						for(BillMaster bean: dataStore){
+							check=0;
+							if (bean.getDateExported()!=null 
+									&& bean.getDateExported().compareTo(fromDate) >= 0
+									&& bean.getDateExported().compareTo(toDate) <= 0
+									) {
+					            System.out.println("Date1 is after Date2");
+					            check=1;
+					        }
+
+							if(check>0) dataStoreNew.add(bean);
+						}
+						model.addAttribute("data",dataStoreNew);
+					} else  {
+						model.addAttribute("data",dataStore);		
+					}
+					
+					MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+					model.addAttribute("currency",sessionStore.getCurrency());
+					
+					return "admin-orders-report-bill";
+					
+			}else{
+				List<CollectBill> datas = new ArrayList<>();
+				String billIds ="";
+				int check=0;
+				dataStoreNew = new ArrayList<>();
+				for(BillMaster bean:dataStore){
+					check=0;
+					if (bean.getDateExported()!=null 
+							&& bean.getDateExported().compareTo(fromDate) >= 0
+							&& bean.getDateExported().compareTo(toDate) <= 0
+							) {
+			            System.out.println("Date1 is after Date2");
+			            check=1;
+			        }
+					
+					if(check>0){
+						if(billIds.equals("")) {
+							billIds = bean.getId() +"";
+						}else{
+							billIds +=","+bean.getId();
+						}						
+					}
+				}
+				datas = billService.collectBill(billIds);
+				model.addAttribute("data",datas);
+				
+				MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+				model.addAttribute("currency",sessionStore.getCurrency());
+
+				return "admin-orders-collect-bill";
+				
+				
+				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		model.addAttribute("data",dataStore);
 		
-		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
-		model.addAttribute("currency",sessionStore.getCurrency());
-		
-		return "admin-orders-report-bill";
+		return null;
+
 	}
 	
 	
