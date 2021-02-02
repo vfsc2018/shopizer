@@ -411,6 +411,10 @@
   	</definition>
 
 
+  	<definition name="admin-notification-create" template="/layout/admin/layout.jsp">
+  		<put-attribute name="body" value="/pages/admin/notifications/CreateNotification.jsp" /> 
+  	</definition>
+
 
   	<definition name="admin-voucherCodes-edit" template="/layout/admin/layout.jsp">
   		<put-attribute name="body" value="/pages/admin/vouchercodes/voucherCode.jsp" /> 
