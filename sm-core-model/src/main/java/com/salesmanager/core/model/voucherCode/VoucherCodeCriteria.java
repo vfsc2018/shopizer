@@ -18,6 +18,14 @@ public class VoucherCodeCriteria extends Criteria {
 	private String redeem;
 	private Long customerId;
 	private boolean blocked;
+	private boolean available;
+
+	public boolean getAvailable() {
+		return available;
+	}
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 
 	public boolean getBlocked() {
 		return blocked;

@@ -14,6 +14,7 @@ import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.customer.CustomerCriteria;
@@ -648,6 +649,8 @@ public class CustomerController {
 			CustomerCriteria criteria = new CustomerCriteria();
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
+			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 
 			if(!StringUtils.isBlank(address)) {
 				criteria.setAddress(address);
@@ -705,6 +708,11 @@ public class CustomerController {
 					entry.put("country", customer.getBilling().getCountry().getIsoCode());
 					entry.put("phone", customer.getBilling().getTelephone());
 					entry.put("address", customer.getBilling().getAddress());
+					Integer point = null;
+					if(customer.getLoyalty()!=null){
+						point = customer.getLoyalty().getVPoint();
+					}
+					entry.put("point", point);
 					if(customer.getAuditSection()==null){
 						entry.put("date", null);
 					}else{

@@ -11,4 +11,5 @@
 		{title:"<s:message code="label.generic.phone" text="Phone"/>", name:"phone"},
 		{title:"<s:message code="label.generic.address" text="Address"/>", name:"address"},
 		{title:"<s:message code="label.customer.datecreated" text="Date"/>", name:"date"},
+		{title:"<s:message code="label.customer.point" text="Point"/>", name:"point", align: "right", canFilter:false},
 		{title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false}

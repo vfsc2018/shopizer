@@ -61,7 +61,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 		}
 		
 		if(!StringUtils.isBlank(criteria.getFirstName())) {
-			String nameQuery =" and clower(.billing.firstName) LIKE lower(:fn) ";
+			String nameQuery =" and lower(c.billing.firstName) LIKE lower(:fn) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}

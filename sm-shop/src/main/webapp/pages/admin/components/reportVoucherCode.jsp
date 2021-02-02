@@ -24,14 +24,6 @@
 <div class="tabbable">
 	<jsp:include page="/common/adminTabs.jsp" />
 
-	<div class="tab-content">
-
-	<div class="tab-pane active" id="catalogue-section">
-	<c:if test="${product.id!=null && product.id>0}">
-			<c:set value="${product.id}" var="productId" scope="request"/>
-			<jsp:include page="/pages/admin/products/product-menu.jsp" />
-	</c:if>	
-	
 <div id="printSection" >
 <style>
 table {
@@ -66,9 +58,7 @@ td, th {
 		<tr>
 				<td><c:out value="${stt}" /></td>
 				<td><c:out value="${entity.voucher.id}" /></td>
-				<td><svg id="barcode${stt}"></svg>
-					<script>JsBarcode("#barcode${stt}", '<c:out value="${entity.code}" />', {height: 60});</script> 
-				</td>
+				<td><c:out value="${entity.code}" /></td>
 				<td><c:out value="${entity.used}" /></td>
 		</tr>
 	</c:forEach>

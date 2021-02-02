@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import freemarker.core.ReturnInstruction.Return;
+
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
@@ -41,6 +43,7 @@ import com.salesmanager.core.business.services.tax.TaxService;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
+import com.salesmanager.core.model.common.Loyalty;
 import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -107,34 +110,62 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         this.orderRepository = orderRepository;
     }
 
-    public boolean paymentOfflineConfirm(Long id, String admin){
-        return paymentConfirm(id,false,true,null,String.format("{orderId: %d, confirmed by: %s}",id, admin));
+    public int paymentOfflineConfirm(Long id, String admin){
+        return paymentConfirm(id,false,true,null, String.format("orderId: %d, confirmed by: %s",id, admin));
+        //String.format("{orderId: %d, promotion: %s, confirmed by: %s}",id, admin));
     }
 
-    public boolean paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail){
+    public int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail){
+        int result = 0;
         Order order = this.getById(id);
-        if(order!=null){
-            try{
-                if(success){
-                    Date now = new Date();
-                    order.setPaymentTime(now);
-                    this.saveOrUpdate(order);
+        if(order==null) return -1;
+        Customer customer = customerService.getById(order.getCustomerId());
+        if(customer==null) return -1;
+
+        Set<OrderTotal> totals = order.getOrderTotal();
+        int earn = 0;
+        if(CollectionUtils.isNotEmpty(totals)){
+            for(OrderTotal t: totals){
+                if(t.getPoint()!=null){
+                    earn += t.getPoint().intValue();
                 }
-                
-                if(total==null) {
-                    total = online? BigDecimal.valueOf(0):order.getTotal();
-                }
-                
-                return paymentConfirm(order, online, total, detail);
-            }catch(Exception e){
-                LOGGER.error(String.format("VNPAY paymentConfirm: %s", e.getMessage()));
             }
         }
-        return false;
 
+        Loyalty loyalty = new Loyalty();
+        if(customer.getLoyalty()!=null){
+            loyalty = customer.getLoyalty();
+        }
+        Integer point = loyalty.getVPoint();
+        if(point==null) point = 0;
+        
+        if(point + earn <0) return -1;
+        
+        try{
+            if(success && order.getPaymentTime()==null){
+                Date now = new Date();
+                order.setPaymentTime(now);
+                this.saveOrUpdate(order);
+                loyalty.setVPoint(point + earn);
+                customer.setLoyalty(loyalty);
+                result = order.getTotal().intValue();
+                customerService.saveOrUpdate(customer);
+                detail += (", point: " + point + ", earn: " + earn);
+            }
+            
+            if(total==null) {
+                total = online? BigDecimal.valueOf(0):order.getTotal();
+            }
+            
+        }catch(Exception e){
+            LOGGER.error(String.format("VNPAY paymentConfirm: %s", e.getMessage()));
+            return -1;
+        }
+        transactionConfirm(order, online, total, detail); // save transaction
+        return result;
     }
 
-    public boolean paymentConfirm(Order order, boolean online,BigDecimal total, String details){
+    public boolean transactionConfirm(Order order, boolean online,BigDecimal total, String details){
         try{
             Transaction transaction = new Transaction();
             transaction.setOrder(order);
@@ -145,7 +176,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                 transaction.setTransactionType(TransactionType.CAPTURE);
             }
             if(details!=null){
-                transaction.setDetails(details);
+                transaction.setDetails("{" + details + "}");
             }
             transaction.setTransactionDate(new Date());
             transaction.setPaymentType(PaymentType.MONEYORDER);
@@ -439,6 +470,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         orderTotal.setValue(grandTotal);
         orderTotals.add(orderTotal);
 
+        if(StringUtils.isBlank(summary.getPromoCode()) && grandTotal.doubleValue()>0) {
+			orderTotal.setPoint(grandTotal.intValue()/10000);
+        }
+        
         totalSummary.setTotal(grandTotal);
         totalSummary.setTotals(orderTotals);
         return totalSummary;
@@ -606,10 +641,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         return orderRepository.listByStore(store, criteria);
     }
 
-    @Override
-    public OrderList getOrders(final OrderCriteria criteria, MerchantStore store) {
-        return orderRepository.listOrders(store, criteria);
-    }
+    // @Override
+    // public OrderList getOrders(final OrderCriteria criteria, MerchantStore store) {
+    //     return orderRepository.listOrders(store, criteria);
+    // }
 
 
     @Override

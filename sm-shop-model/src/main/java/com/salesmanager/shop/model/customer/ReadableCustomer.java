@@ -15,6 +15,15 @@ public class ReadableCustomer extends CustomerEntity{
 	private static final long serialVersionUID = 1L;
 	private List<ReadableCustomerAttribute> attributes = new ArrayList<>();
 	private List<ReadableGroup> groups = new ArrayList<>();
+	private Integer point;
+
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
+	}
 	
 	public void setAttributes(List<ReadableCustomerAttribute> attributes) {
 		this.attributes = attributes;

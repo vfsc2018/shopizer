@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.order;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -210,6 +212,9 @@ public class OrderApi {
 		List<ReadableOrder> orders = returnList.getOrders();
 		if (!CollectionUtils.isEmpty(orders)) {
 			for (ReadableOrder order : orders) {
+				if(order.getTotal()!=null && order.getTotal().getValue().doubleValue()<0){
+					order.getTotal().setValue(new BigDecimal(0));
+				}
 				order.setCustomer(readableCustomer);
 			}
 		}
@@ -338,7 +343,10 @@ public class OrderApi {
 			response.sendError(404, "Order is null for customer " + principal);
 			return null;
 		}
-
+		if(order.getTotal()!=null && order.getTotal().getValue().doubleValue()<0){
+			order.getTotal().setValue(new BigDecimal(0));
+		}
+		
 		List<BillMaster> bills = billMasterService.findByOrderId(id);
 
 		order.setBills(bills);
@@ -460,7 +468,9 @@ public class OrderApi {
 				response.sendError(401, "Error while performing checkout customer not authorized");
 				return null;
 			}
-			
+			if(StringUtils.isEmpty(order.getCode())) order.setCode(null);
+			if(StringUtils.isEmpty(order.getSecurecode())) order.setSecurecode(null);
+
 			if ((order.getCode() == null && order.getSecurecode()!=null) || (order.getCode() != null && order.getSecurecode()==null) ) {
 				response.sendError(401, "Error voucher code");
 				return null;

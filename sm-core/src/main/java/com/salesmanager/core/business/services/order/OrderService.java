@@ -94,7 +94,7 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
 	 * @param criteria
 	 * @return
 	 */
-	OrderList getOrders(OrderCriteria criteria, MerchantStore store);
+	// OrderList getOrders(OrderCriteria criteria, MerchantStore store);
 
     void saveOrUpdate(Order order) throws ServiceException;
 
@@ -129,6 +129,6 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
 	List<Order> getCapturableOrders(MerchantStore store, Date startDate, Date endDate) throws ServiceException;
 
     void updateStatus();
-    boolean paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail);
-    boolean paymentOfflineConfirm(Long id,String admin);
+    int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail);
+    int paymentOfflineConfirm(Long id,String admin);
 }

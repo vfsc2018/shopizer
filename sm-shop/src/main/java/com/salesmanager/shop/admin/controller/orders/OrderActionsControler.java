@@ -457,7 +457,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		try {
 			
 			Long id = Long.parseLong(sId);
-			if(!orderService.paymentOfflineConfirm(id, admin)) {
+			if(orderService.paymentOfflineConfirm(id, admin)<0) {
 				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 				String returnString = resp.toJSONString();
 				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);

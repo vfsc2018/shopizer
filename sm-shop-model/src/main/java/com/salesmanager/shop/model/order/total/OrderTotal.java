@@ -15,9 +15,17 @@ public class OrderTotal extends Entity {
 	private String code;
 	private int order;
 	private String module;
+	private Integer point;
 	private BigDecimal value;
 	
-	
+	public Integer getPoint() {
+		return point;
+	}
+
+	public void setPoint(Integer point) {
+		this.point = point;
+	}
+
 	public String getTitle() {
 		return title;
 	}

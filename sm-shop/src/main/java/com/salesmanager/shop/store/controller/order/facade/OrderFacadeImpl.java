@@ -53,6 +53,7 @@ import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -916,6 +917,8 @@ public class OrderFacadeImpl implements OrderFacade {
 		criteria.setStartIndex(start);
 		criteria.setMaxCount(maxCount);
 		criteria.setCustomerId(customer.getId());
+		criteria.setOrderBy(CriteriaOrderBy.DESC);
+		criteria.setCriteriaOrderByField("id");
 
 		return this.getReadableOrderList(criteria, store, language);
 
@@ -928,7 +931,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		try {
 			criteria.setLegacyPagination(false);
 
-			OrderList orderList = orderService.getOrders(criteria, store);
+			OrderList orderList = orderService.listByStore(store, criteria);
 
 			List<Order> orders = orderList.getOrders();
 			com.salesmanager.shop.model.order.v0.ReadableOrderList returnList = new com.salesmanager.shop.model.order.v0.ReadableOrderList();
@@ -1201,7 +1204,9 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			Order modelOrder = new Order();
 			persistableOrderApiPopulator.populate(order, modelOrder, store, language);
-			
+			// if(order.getVoucherCode()!=null){
+			// 	modelOrder.setVoucher(order.getVoucherCode().getCode());
+			// }
 			for (ShoppingCartItem item : shoppingCartItems) {
 				OrderProduct orderProduct = new OrderProduct();
 				orderProduct = orderProductPopulator.populate(item, orderProduct, store, language);
@@ -1211,7 +1216,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			modelOrder.setOrderProducts(orderProducts);
 
-			if (order.getAttributes() != null && !order.getAttributes().isEmpty()) {
+			if (CollectionUtils.isNotEmpty(order.getAttributes())) {
 				Set<OrderAttribute> attrs = new HashSet<>();
 				for (com.salesmanager.shop.model.order.OrderAttribute attribute : order.getAttributes()) {
 					OrderAttribute attr = new OrderAttribute();
