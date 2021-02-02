@@ -19,20 +19,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.notifications.NotificationsService;
+import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.system.ModuleConfigurationService;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
-import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.core.model.common.CriteriaOrderBy;
+import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
+import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;
+import com.salesmanager.core.model.order.Order;
+import com.salesmanager.core.model.vouchercode.VoucherCode;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
@@ -44,9 +50,15 @@ import com.salesmanager.shop.utils.LabelUtils;
 public class NotificationsController {
 
 	@Inject
-	NotificationsService billService;
+	NotificationsService notificationService;
 
+	@Inject
+	private OrderService orderService;
 
+	@Inject
+	private CustomerService customerService;
+	
+	
 	@Inject
 	LabelUtils messages;
 
@@ -69,6 +81,71 @@ public class NotificationsController {
 
 	}
 
+	
+	@PreAuthorize("hasRole('ORDER')")
+	@RequestMapping(value="/admin/notifications/createNotification.html", method=RequestMethod.GET)
+	public String createNotification(Model model, HttpServletRequest request, HttpServletResponse response) {
+		//display menu
+		setMenu(model,request);
+		
+		NotificationForm temp = new NotificationForm();
+
+		model.addAttribute("notification", temp);
+		
+		
+		return "admin-notification-create";
+	}
+
+	@RequestMapping(value = "/admin/notifications/save.html", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody NotificationForm bean) {
+
+		
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
+			try {
+				//Validation before save
+				Order order = orderService.getById(bean.getOrderId());
+				Customer customer = customerService.getById(bean.getCustomerId());
+				
+				if(order==null){
+					resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+					resp.setErrorString("Pls check orderId:"+bean.getOrderId());
+					
+				}else if(customer==null){
+					resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+					resp.setErrorString("Pls check customerId:"+bean.getCustomerId());
+					
+				}else{ 
+				
+						//save to DB
+						Notifications temp = new Notifications();
+		
+						temp.setOrder(order);
+						temp.setCustomer(customer);
+
+						
+						temp.setTopic(bean.getTopic());
+						temp.setMessage(bean.getMessage());
+						
+						notificationService.save(temp);
+						
+						resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+				}
+				
+			} catch (Exception e) {
+				resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+				resp.setErrorMessage(e);
+			}
+		
+		String returnString = resp.toJSONString();
+		return new ResponseEntity<>(returnString, httpHeaders,HttpStatus.OK);
+
+	}	
+	
+	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/notifications/paging.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> pageBills(
@@ -130,7 +207,7 @@ public class NotificationsController {
 
 			MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 
-			NotificationsList list = billService.getListByStore2(store, criteria);
+			NotificationsList list = notificationService.getListByStore2(store, criteria);
 
 			
 			if (list.getNotificationss() != null) {
@@ -180,7 +257,7 @@ public class NotificationsController {
 		// display menu
 		setMenu(model, request);
 
-		Notifications bill = billService.getById(id);
+		Notifications bill = notificationService.getById(id);
 	
 		model.addAttribute("notification", bill);
 

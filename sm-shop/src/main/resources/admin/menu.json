@@ -287,7 +287,14 @@
 "order":9,
 "menus":[
 	{"menu":{
-		"code":"notifications-list","url":"/admin/notifications/list.html","role":"ORDER","order":0
+		"code":"notifications-list","url":"/admin/notifications/list.html","role":"ORDER","order":0,"menus":[
+			{"menu":{
+				"code":"notifications-create","url":"/admin/notifications/createNotification.html","role":"ORDER","order":0
+			}},
+			{"menu":{
+				"code":"notifications-list","url":"/admin/notifications/list.html","role":"ORDER","order":1
+			}}		
+		]
 	}}
 ]
 }},
