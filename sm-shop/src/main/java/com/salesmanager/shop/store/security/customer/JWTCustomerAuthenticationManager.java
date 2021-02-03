@@ -58,7 +58,7 @@ public class JWTCustomerAuthenticationManager extends CustomAuthenticationManage
         
         UsernamePasswordAuthenticationToken authentication = null;
         
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication() ;
+        // Authentication auth = SecurityContextHolder.getContext().getAuthentication() ;
         
         logger.info("checking authentication for user " + username);
         if (username != null) { //auth == null) {

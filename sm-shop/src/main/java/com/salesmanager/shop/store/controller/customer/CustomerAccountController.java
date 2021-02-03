@@ -273,15 +273,14 @@ public class CustomerAccountController extends AbstractController {
     	
 		CustomerPassword customerPassword = new CustomerPassword();
 		model.addAttribute("password", customerPassword);
+		customerFacade.changePassword(customer,password.getPassword());
+
+		// String newPassword = password.getPassword();
+		// String encodedPassword = passwordEncoder.encode(newPassword);
+		// customer.setPassword(encodedPassword);
+		// customerService.saveOrUpdate(customer);
 		
-		String newPassword = password.getPassword();
-		String encodedPassword = passwordEncoder.encode(newPassword);
-		
-		customer.setPassword(encodedPassword);
-		
-		customerService.saveOrUpdate(customer);
-		
-		emailTemplatesUtils.changePasswordNotificationEmail(customer, store, LocaleUtils.getLocale(customer.getDefaultLanguage()), request.getContextPath());
+		// emailTemplatesUtils.changePasswordNotificationEmail(customer, store, LocaleUtils.getLocale(customer.getDefaultLanguage()), request.getContextPath());
 		
 		model.addAttribute("success", "success");
 

@@ -47,8 +47,7 @@ public abstract class AbstractCustomerServices implements UserDetailsService{
 	protected abstract UserDetails userDetails(String userName, Customer customer, Collection<GrantedAuthority> authorities);
 	
 
-	public UserDetails loadUserByUsername(String userName)
-			throws UsernameNotFoundException, DataAccessException {
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 		Customer user = null;
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
 

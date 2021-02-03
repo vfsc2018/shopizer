@@ -370,9 +370,11 @@ public class BillsController {
 		// display menu
 		setMenu(model, request);
 		String type = request.getParameter("type");
+		
+
 		String strFromDate = request.getParameter("fromDate");
 		Date fromDate=null;
-		if(strFromDate!=null && !strFromDate.equals("")){
+		if(StringUtils.isNotEmpty(strFromDate)){
 			try {
 				fromDate = DateUtil.getDate(strFromDate);
 			} catch (Exception e) {
@@ -382,13 +384,14 @@ public class BillsController {
 		
 		String strToDate = request.getParameter("toDate");
 		Date toDate=null;
-		if(strToDate!=null && !strToDate.equals("")){
+		if(StringUtils.isNotEmpty(strToDate)){
 			try {
 				toDate = DateUtil.getDate(strToDate);
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 		}
+
 		List<BillMaster> dataStoreNew = new ArrayList<>();
 		List<BillMaster> dataStore = new ArrayList<>();
 		try {
@@ -396,19 +399,18 @@ public class BillsController {
 			
 			if(type.equals("1")){
 					if(fromDate!=null || toDate!=null){
-						int check=0;
 						for(BillMaster bean: dataStore){
-							check=0;
-							if (bean.getDateExported()!=null 
-									&& bean.getDateExported().compareTo(fromDate) >= 0
-									&& bean.getDateExported().compareTo(toDate) <= 0
-									) {
-					            System.out.println("Date1 is after Date2");
-					            check=1;
-					        }
+							boolean check1 = false;
+							boolean check2 = false;
 
-							if(check>0) dataStoreNew.add(bean);
+							if (bean.getDateExported()!=null){
+								check1 = fromDate==null || fromDate.before(bean.getDateExported());
+								check2 = toDate==null || toDate.after(bean.getDateExported());
+								if(check1 && check2) dataStoreNew.add(bean);
+							}
+							
 						}
+						
 						model.addAttribute("data",dataStoreNew);
 					} else  {
 						model.addAttribute("data",dataStore);		

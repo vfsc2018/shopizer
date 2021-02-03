@@ -33,11 +33,11 @@ public class JWTCustomerServicesImpl extends AbstractCustomerServices {
 	@Override
 	protected UserDetails userDetails(String userName, Customer customer, Collection<GrantedAuthority> authorities) {
         
-		AuditSection section = customer.getAuditSection();
-		Date lastModified = null;
-		if(section != null) {//does not represent password change
-			lastModified = section.getDateModified();
-		}
+		// AuditSection section = customer.getAuditSection();
+		Date lastPasswordReset = null;
+		// if(section != null) {//does not represent password change
+			lastPasswordReset = customer.getLastPasswordReset();
+		// }
 		
 		return new JWTUser(
         		customer.getId(),
@@ -48,7 +48,7 @@ public class JWTCustomerServicesImpl extends AbstractCustomerServices {
                 customer.getPassword(),
                 authorities,
                 true,
-                lastModified
+                lastPasswordReset
         );
 	}
 

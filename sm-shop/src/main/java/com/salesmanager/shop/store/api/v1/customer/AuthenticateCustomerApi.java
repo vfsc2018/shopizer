@@ -306,11 +306,10 @@ public class AuthenticateCustomerApi {
                 if(customer == null){
                     return ResponseEntity.notFound().build();
                 }
-                String encodedPassword = passwordEncoder.encode(auth.getPassword());
-			
-			    customer.setPassword(encodedPassword);
-			
-			    customerService.saveOrUpdate(customer);
+                customerFacade.changePassword(customer, auth.getPassword());
+                // String encodedPassword = passwordEncoder.encode(auth.getPassword());
+			    // customer.setPassword(encodedPassword);
+			    // customerService.saveOrUpdate(customer);
                  
                 cache.removeFromCache(keyName);         
                 return ResponseEntity.ok("Reset password successfull for " + auth.getUsername());

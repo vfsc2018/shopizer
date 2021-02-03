@@ -77,7 +77,7 @@ public class RelatedItemsController {
 			Object id = conf.get("relationshipId");
 			if(id!=null) {
 				Long relationshipId = ((Integer)id).longValue();
-				Double quantity  = 0.0;
+				Double quantity  = null;
 				if(StringUtils.isNotBlank(baseQuantity)){ 
 					try{
 						quantity = Double.parseDouble(baseQuantity);
@@ -85,12 +85,13 @@ public class RelatedItemsController {
 						System.out.println(e.toString());
 					}
 				}
+				
 				ProductRelationship entity = productRelationshipService.findById1(relationshipId);
-				if(quantity.doubleValue()<=0) quantity = null;
+				if(quantity!=null && quantity.doubleValue()<0) quantity = null;
 				if(StringUtils.isBlank(unit)) unit = null;
-
-				entity.setQuantity(quantity);
-				entity.setUnit(unit);
+				if(unit!=null) entity.setUnit(unit);
+				if(quantity!=null) entity.setQuantity(quantity);
+				
 				productRelationshipService.update(entity);
 			}
 			resp.setStatus(AjaxPageableResponse.RESPONSE_OPERATION_COMPLETED);

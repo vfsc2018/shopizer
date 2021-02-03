@@ -231,7 +231,7 @@ public class OrdersController {
 
 		String strFromDate = request.getParameter("fromDate");
 		Date fromDate=null;
-		if(strFromDate!=null && !strFromDate.equals("")){
+		if(StringUtils.isNotEmpty(strFromDate)){
 			try {
 				fromDate = DateUtil.getDate(strFromDate);
 			} catch (Exception e) {
@@ -241,7 +241,7 @@ public class OrdersController {
 		
 		String strToDate = request.getParameter("toDate");
 		Date toDate=null;
-		if(strToDate!=null && !strToDate.equals("")){
+		if(StringUtils.isNotEmpty(strToDate)){
 			try {
 				toDate = DateUtil.getDate(strToDate);
 			} catch (Exception e) {
@@ -249,18 +249,18 @@ public class OrdersController {
 			}
 		}
 		
-		List<Order> dataStoreNew = new ArrayList<Order>();
-		int check=0;
+		List<Order> dataStoreNew = new ArrayList<>();
+		
 		for(Order bean: dataStore){
-			check=0;
-			if (bean.getDatePurchased()!=null 
-					&& bean.getDatePurchased().compareTo(fromDate) >= 0
-					&& bean.getDatePurchased().compareTo(toDate) <= 0
-					) {
-	            	System.out.println("Date1 is after Date2");
-	            	check=1;
+			boolean check1 = false;
+			boolean check2 = false;
+
+			if (bean.getDatePurchased()!=null){
+				check1 = fromDate==null || fromDate.before(bean.getDatePurchased());
+				check2 = toDate==null || toDate.after(bean.getDatePurchased());
+				if(check1 && check2) dataStoreNew.add(bean);
 	        }
-			if(check>0) dataStoreNew.add(bean);
+			
 		}
 		if(type.equals("1")){
 			model.addAttribute("data",dataStoreNew);
