@@ -45,7 +45,15 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	
 	@Override
 	public Language getByCode(String code) throws ServiceException {
-		return languageRepository.findByCode(code);
+		List<Language> langs = this.getLanguages();
+		for(Language lang: langs){
+			if(lang.getCode()!=null && lang.getCode().equals(code)){
+				return lang;
+			}
+		}
+		return new Language(Constants.DEFAULT_LANGUAGE);
+		//return toLanguage(code);
+		//return languageRepository.findByCode(code);
 	}
 	
 	@Override
@@ -73,10 +81,22 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 	public Language toLanguage(Locale locale) {
 		
 		try {
-			Language lang = getLanguagesMap().get(locale.getLanguage());
-			return lang;
+			return getLanguagesMap().get(locale.getLanguage());
 		} catch (Exception e) {
 			LOGGER.error("Cannot convert locale " + locale.getLanguage() + " to language");
+		}
+		
+		return new Language(Constants.DEFAULT_LANGUAGE);
+
+	}
+
+	@Override
+	public Language toLanguage(String code) {
+		
+		try {
+			return getLanguagesMap().get(code);
+		} catch (Exception e) {
+			LOGGER.error("Cannot find code " + code + " to language");
 		}
 		
 		return new Language(Constants.DEFAULT_LANGUAGE);

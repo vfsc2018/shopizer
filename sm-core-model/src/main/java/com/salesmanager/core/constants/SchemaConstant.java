@@ -48,7 +48,7 @@ public class SchemaConstant {
 	/**
 	 * Locale per country iso codes
 	 */
-	public static final HashMap<String, Locale> LOCALES = new HashMap<String, Locale>();
+	public static final HashMap<String, Locale> LOCALES = new HashMap<>();
 
 	static {
 		for (Locale locale : Locale.getAvailableLocales()) {

@@ -58,7 +58,7 @@ public class ConfigurationController {
 	public String displayAccountsConfguration(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		setConfigurationMenu(model, request);
-		List<MerchantConfiguration> configs = new ArrayList<MerchantConfiguration>();
+		List<MerchantConfiguration> configs = new ArrayList<>();
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		MerchantConfiguration merchantFBConfiguration = merchantConfigurationService.getMerchantConfiguration(Constants.KEY_FACEBOOK_PAGE_URL,store);
 		if(null == merchantFBConfiguration)

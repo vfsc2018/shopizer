@@ -171,6 +171,7 @@ public class CategoryServiceImpl extends SalesManagerEntityServiceImpl<Long, Cat
 	}
 
 	@Override
+	
 	public Category getById(Long id, int merchantId) {
 
 		Category category = categoryRepository.findByIdAndStore(id, merchantId);

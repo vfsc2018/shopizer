@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -119,6 +121,7 @@ public class ProductReviewApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
+  @Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_review_' + #id")
   public List<ReadableProductReview> getAll(
       @PathVariable final Long id,
       @RequestParam(value = "start", required = false) Integer start,
@@ -137,9 +140,7 @@ public class ProductReviewApi {
         return null;
       }
 
-      List<ReadableProductReview> reviews = productFacade.getProductReviews(product, start, count, merchantStore, language);
-
-      return reviews;
+      return productFacade.getProductReviews(product, start, count, merchantStore, language);
 
     } catch (Exception e) {
       LOGGER.error("Error while getting product reviews", e);

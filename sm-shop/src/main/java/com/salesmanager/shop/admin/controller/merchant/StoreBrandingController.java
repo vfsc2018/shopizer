@@ -122,7 +122,7 @@ public class StoreBrandingController {
 			
             //Update store
             store.setStoreLogo(imageName);
-            merchantStoreService.update(store);
+            merchantStoreService.saveOrUpdate(store);
             request.getSession().setAttribute(Constants.ADMIN_STORE, store);
 
 		} else {
@@ -167,12 +167,10 @@ public class StoreBrandingController {
 
 		try {
 			
-
-			
 			contentService.removeFile(store.getCode(), FileContentType.LOGO, store.getStoreLogo());
 			
 			store.setStoreLogo(null);
-			merchantStoreService.update(store);
+			merchantStoreService.saveOrUpdate(store);
 		
 		
 		} catch (Exception e) {

@@ -30,7 +30,7 @@ public class MerchantConfig implements Serializable, JSONAware {
 	private boolean debugMode = false;
 	
 	/** Store default search json config **/
-	private Map<String,Boolean> useDefaultSearchConfig= new HashMap<String,Boolean>();//language code | true or false
+	private Map<String,Boolean> useDefaultSearchConfig= new HashMap<>();//language code | true or false
 	private Map<String,String> defaultSearchConfigPath= new HashMap<>();//language code | file path
 
 	@SuppressWarnings("unchecked")

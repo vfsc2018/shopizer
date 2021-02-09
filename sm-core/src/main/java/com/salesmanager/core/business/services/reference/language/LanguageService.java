@@ -20,6 +20,7 @@ public interface LanguageService extends SalesManagerEntityService<Integer, Lang
 	Locale toLocale(Language language, MerchantStore store);
 
 	Language toLanguage(Locale locale);
+	Language toLanguage(String code);
 	
 	Language defaultLanguage();
 }

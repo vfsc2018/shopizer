@@ -184,10 +184,11 @@
 	
 	<!-- downloads-->
 	<beans:bean id="downloadsManager"
-				class="com.salesmanager.core.business.modules.cms.impl.DownloadCacheManagerImpl">
-				<beans:constructor-arg value="${config.cms.store.location}"/><!-- location -->
-				<beans:constructor-arg value="product-file"/><!-- root -->
+		class="com.salesmanager.core.business.modules.cms.impl.DownloadCacheManagerImpl">
+		<beans:constructor-arg value="${config.cms.store.location}"/><!-- location -->
+		<beans:constructor-arg value="product-file"/><!-- root -->
 	</beans:bean>
+	
 	
 	<!-- httpd -->
 	<beans:bean id="httpdAssetsManager" 

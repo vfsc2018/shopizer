@@ -23,12 +23,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-
-import freemarker.core.ReturnInstruction.Return;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -648,6 +648,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
 
     @Override
+    @CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'order_' + #order.id")
     public void saveOrUpdate(final Order order) throws ServiceException {
 
         if(order.getId()!=null && order.getId()>0) {

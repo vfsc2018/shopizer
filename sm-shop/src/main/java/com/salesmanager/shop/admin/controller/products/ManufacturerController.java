@@ -88,13 +88,12 @@ public class ManufacturerController {
 		
 		
 		com.salesmanager.shop.admin.model.catalog.Manufacturer manufacturer = new com.salesmanager.shop.admin.model.catalog.Manufacturer();
-		List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
+		List<ManufacturerDescription> descriptions = new ArrayList<>();
 
 		
 		if( manufacturerId!=null && manufacturerId.longValue()!=0) {	//edit mode
 
-			Manufacturer dbManufacturer = new Manufacturer();
-			dbManufacturer = manufacturerService.getById( manufacturerId );
+			Manufacturer dbManufacturer = manufacturerService.getById( manufacturerId );
 			
 			if(dbManufacturer==null) {
 				return ControllerConstants.Tiles.Product.manufacturerList;
@@ -283,7 +282,7 @@ public class ManufacturerController {
 //			manufacturerImage.setImage(manufacturer.getImage().getInputStream());
 //			manufacturerImage.setManufacturerImage(imageName);
 //
-//			List<ManufacturerImageDescription> imagesDescriptions = new ArrayList<ManufacturerImageDescription>();
+//			List<ManufacturerImageDescription> imagesDescriptions = new ArrayList<>();
 //
 //			for(Language l : languages) {
 //

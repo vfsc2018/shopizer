@@ -68,7 +68,7 @@ public class UserServicesImpl implements WebUserServices{
 			throws UsernameNotFoundException, DataAccessException {
 
 		com.salesmanager.core.model.user.User user = null;
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		
 		try {
 

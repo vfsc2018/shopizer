@@ -54,22 +54,22 @@ public class CustomerApi {
 
 
   /** Create new customer for a given MerchantStore */
-  @PostMapping("/private/customer")
-  @ApiOperation(
-      httpMethod = "POST",
-      value = "Creates a customer",
-      notes = "Requires administration access",
-      produces = "application/json",
-      response = PersistableCustomer.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
-  })
-  public PersistableCustomer create(
-      @ApiIgnore MerchantStore merchantStore,
-      @Valid @RequestBody PersistableCustomer customer) {
-      return customerFacade.create(customer, merchantStore);
+  // @PostMapping("/private/customer")
+  // @ApiOperation(
+  //     httpMethod = "POST",
+  //     value = "Creates a customer",
+  //     notes = "Requires administration access",
+  //     produces = "application/json",
+  //     response = PersistableCustomer.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
+  // })
+  // public PersistableCustomer create(
+  //     @ApiIgnore MerchantStore merchantStore,
+  //     @Valid @RequestBody PersistableCustomer customer) {
+  //     return customerFacade.create(customer, merchantStore);
 
-  }
+  // }
 
 
   

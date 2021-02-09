@@ -250,7 +250,7 @@ public class ShippingServiceImpl implements ShippingService {
 			}
 			
 			try {
-				Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+				Map<String,IntegrationConfiguration> modules = new HashMap<>();
 				MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(SHIPPING_MODULES, store);
 				if(merchantConfiguration!=null) {
 					if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -283,7 +283,7 @@ public class ShippingServiceImpl implements ShippingService {
 		
 
 		try {
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(SHIPPING_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {
@@ -339,7 +339,7 @@ public class ShippingServiceImpl implements ShippingService {
 		try {
 			
 
-			Map<String,IntegrationConfiguration> modules = new HashMap<String,IntegrationConfiguration>();
+			Map<String,IntegrationConfiguration> modules = new HashMap<>();
 			MerchantConfiguration merchantConfiguration = merchantConfigurationService.getMerchantConfiguration(SHIPPING_MODULES, store);
 			if(merchantConfiguration!=null) {
 				if(!StringUtils.isBlank(merchantConfiguration.getValue())) {

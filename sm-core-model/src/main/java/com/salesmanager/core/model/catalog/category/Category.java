@@ -61,7 +61,7 @@ public class Category extends SalesManagerEntity<Long, Category> implements Audi
     private Category parent;
     
     @OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
-    private List<Category> categories = new ArrayList<Category>();
+    private List<Category> categories = new ArrayList<>();
     
     @Column(name = "CATEGORY_IMAGE", length=100)
     private String categoryImage;

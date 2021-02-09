@@ -9,10 +9,12 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.reference.country.CountryRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.utils.CacheUtils;
@@ -21,8 +23,7 @@ import com.salesmanager.core.model.reference.country.CountryDescription;
 import com.salesmanager.core.model.reference.language.Language;
 
 @Service("countryService")
-public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, Country>
-		implements CountryService {
+public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, Country> implements CountryService {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CountryServiceImpl.class);
 	
@@ -37,9 +38,26 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 		super(countryRepository);
 		this.countryRepository = countryRepository;
 	}
-	
+
 	public Country getByCode(String code) throws ServiceException {
-		return countryRepository.findByIsoCode(code);
+		
+		Country country = null;
+		try {
+
+			country = (Country) cache.getFromCache("COUNTRIES_" + code);
+
+			if(country==null) {
+				country = countryRepository.findByIsoCode(code);
+				cache.putInCache(country, "COUNTRIES_" + code);
+			}
+
+		} catch (Exception e) {
+			LOGGER.error("getCountries()", e);
+		}
+		
+		return country;
+
+		//return countryRepository.findByIsoCode(code);
 	}
 
 	@Override
@@ -67,7 +85,7 @@ public class CountryServiceImpl extends SalesManagerEntityServiceImpl<Integer, C
 	@Override
 	public List<Country> getCountries(final List<String> isoCodes, final Language language) throws ServiceException {
 		List<Country> countryList = getCountries(language);
-		List<Country> requestedCountryList = new ArrayList<Country>();
+		List<Country> requestedCountryList = new ArrayList<>();
 		if(!CollectionUtils.isEmpty(countryList)) {
 			for(Country c : countryList) {
 				if(isoCodes.contains(c.getIsoCode())) {

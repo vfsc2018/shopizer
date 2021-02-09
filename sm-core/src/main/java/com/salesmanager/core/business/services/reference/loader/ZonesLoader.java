@@ -56,7 +56,7 @@ public class ZonesLoader {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public List<Map<String, Zone>> loadIndividualZones() throws Exception {
 
-		List<Map<String, Zone>> loadedZones = new ArrayList<Map<String, Zone>>();
+		List<Map<String, Zone>> loadedZones = new ArrayList<>();
 		try {
 
 			List<Resource> files = geZoneFiles(PATH);
@@ -65,7 +65,7 @@ public class ZonesLoader {
 			ObjectMapper mapper = new ObjectMapper();
 
 			List<Country> countries = countryService.list();
-			Map<String, Country> countriesMap = new HashMap<String, Country>();
+			Map<String, Country> countriesMap = new HashMap<>();
 			for (Country country : countries) {
 				countriesMap.put(country.getIsoCode(), country);
 			}
@@ -145,7 +145,7 @@ public class ZonesLoader {
 		List<Language> languages = languageService.list();
 
 		List<Country> countries = countryService.list();
-		Map<String, Country> countriesMap = new HashMap<String, Country>();
+		Map<String, Country> countriesMap = new HashMap<>();
 		for (Country country : countries) {
 
 			countriesMap.put(country.getIsoCode(), country);
@@ -161,8 +161,8 @@ public class ZonesLoader {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> data = mapper.readValue(in, Map.class);
 
-			Map<String, Zone> zonesMap = new HashMap<String, Zone>();
-			Map<String, List<ZoneDescription>> zonesDescriptionsMap = new HashMap<String, List<ZoneDescription>>();
+			Map<String, Zone> zonesMap = new HashMap<>();
+			Map<String, List<ZoneDescription>> zonesDescriptionsMap = new HashMap<>();
 			Map<String, String> zonesMark = new HashMap<>();
 
 			for (Language l : languages) {

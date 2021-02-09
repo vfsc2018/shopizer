@@ -1,33 +1,24 @@
 package com.salesmanager.shop.store.api.v1.product;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.salesmanager.core.business.services.catalog.product.ProductService;
-import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.catalog.product.ReadableProductList;
-import com.salesmanager.shop.model.catalog.product.group.ProductGroup;
 import com.salesmanager.shop.store.controller.items.facade.ProductItemsFacade;
 
-import antlr.collections.List;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -54,58 +45,58 @@ public class ProductGroupApi {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProductGroupApi.class);
 
-  @ResponseStatus(HttpStatus.OK)
-  @PostMapping("/private/products/group")
-  @ApiOperation(httpMethod = "POST", value = "Create product group", notes = "", response = ProductGroup.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public @ResponseBody ProductGroup creteGroup(
-      @RequestBody ProductGroup group,
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language,
-      HttpServletResponse response)
-      throws Exception {
+  // @ResponseStatus(HttpStatus.OK)
+  // @PostMapping("/private/products/group")
+  // @ApiOperation(httpMethod = "POST", value = "Create product group", notes = "", response = ProductGroup.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public @ResponseBody ProductGroup creteGroup(
+  //     @RequestBody ProductGroup group,
+	// 		@ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language,
+  //     HttpServletResponse response)
+  //     throws Exception {
 	  
-	  return productItemsFacade.createProductGroup(group, merchantStore);
+	//   return productItemsFacade.createProductGroup(group, merchantStore);
 
-  }
+  // }
   
-  @ResponseStatus(HttpStatus.OK)
-  @PatchMapping("/private/products/group/{code}")
-  @ApiOperation(httpMethod = "PATCH", value = "Update product group visible flag", notes = "", response = ProductGroup.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public void updateGroup(
-      @RequestBody ProductGroup group,
-      @PathVariable String code,
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language,
-      HttpServletResponse response)
-      throws Exception {
+  // @ResponseStatus(HttpStatus.OK)
+  // @PatchMapping("/private/products/group/{code}")
+  // @ApiOperation(httpMethod = "PATCH", value = "Update product group visible flag", notes = "", response = ProductGroup.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public void updateGroup(
+  //     @RequestBody ProductGroup group,
+  //     @PathVariable String code,
+	// 		@ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language,
+  //     HttpServletResponse response)
+  //     throws Exception {
 	  
-	  productItemsFacade.updateProductGroup(code, group, merchantStore);
+	//   productItemsFacade.updateProductGroup(code, group, merchantStore);
 
-  }
+  // }
   
-  @GetMapping("/private/products/groups")
-  @ApiOperation(httpMethod = "GET", value = "Get products groups for a given merchant", notes = "", response = List.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public @ResponseBody java.util.List<ProductGroup> list(
-			@ApiIgnore MerchantStore merchantStore,
-			@ApiIgnore Language language,
-      HttpServletResponse response)
-      throws Exception {
+  // @GetMapping("/private/products/groups")
+  // @ApiOperation(httpMethod = "GET", value = "Get products groups for a given merchant", notes = "", response = List.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public @ResponseBody java.util.List<ProductGroup> list(
+	// 		@ApiIgnore MerchantStore merchantStore,
+	// 		@ApiIgnore Language language,
+  //     HttpServletResponse response)
+  //     throws Exception {
 	  
-	  return productItemsFacade.listProductGroups(merchantStore, language);
+	//   return productItemsFacade.listProductGroups(merchantStore, language);
 
-  }
+  // }
   
   
   /**
@@ -152,103 +143,103 @@ public class ProductGroupApi {
     return null;
   }
 
-  @ResponseStatus(HttpStatus.CREATED)
-  @RequestMapping(value = "/private/products/{productId}/group/{code}", method = RequestMethod.POST)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public @ResponseBody ReadableProductList addProductToGroup(
-      @PathVariable Long productId,
-      @PathVariable String code,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletResponse response) {
+  // @ResponseStatus(HttpStatus.CREATED)
+  // @RequestMapping(value = "/private/products/{productId}/group/{code}", method = RequestMethod.POST)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public @ResponseBody ReadableProductList addProductToGroup(
+  //     @PathVariable Long productId,
+  //     @PathVariable String code,
+  //     @ApiIgnore MerchantStore merchantStore,
+  //     @ApiIgnore Language language,
+  //     HttpServletResponse response) {
 
 	  
-	Product product = null;
-    try {
-      // get the product
-    	product = productService.getById(productId);
+	// Product product = null;
+  //   try {
+  //     // get the product
+  //   	product = productService.getById(productId);
 
-      if (product == null) {
-        response.sendError(404, "Product not fount for id " + productId);
-        return null;
-      }
+  //     if (product == null) {
+  //       response.sendError(404, "Product not fount for id " + productId);
+  //       return null;
+  //     }
       
-    } catch (Exception e) {
-        LOGGER.error("Error while adding product to group", e);
-        try {
-          response.sendError(503, "Error while adding product to group " + e.getMessage());
-        } catch (Exception ignore) {
-        }
+  //   } catch (Exception e) {
+  //       LOGGER.error("Error while adding product to group", e);
+  //       try {
+  //         response.sendError(503, "Error while adding product to group " + e.getMessage());
+  //       } catch (Exception ignore) {
+  //       }
 
-        return null;
-      }
+  //       return null;
+  //     }
 
-      ReadableProductList list =
-          productItemsFacade.addItemToGroup(product, code, merchantStore, language);
+  //     ReadableProductList list =
+  //         productItemsFacade.addItemToGroup(product, code, merchantStore, language);
 
-      return list;
+  //     return list;
 
 
-  }
+  // }
 
-  @ResponseStatus(HttpStatus.OK)
-  @RequestMapping(
-      value = "/private/products/{productId}/group/{code}",
-      method = RequestMethod.DELETE)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public @ResponseBody ReadableProductList removeProductFromGroup(
-      @PathVariable Long productId,
-      @PathVariable String code,
-      @ApiIgnore MerchantStore merchantStore,
-      @ApiIgnore Language language,
-      HttpServletRequest request,
-      HttpServletResponse response) {
+  // @ResponseStatus(HttpStatus.OK)
+  // @RequestMapping(
+  //     value = "/private/products/{productId}/group/{code}",
+  //     method = RequestMethod.DELETE)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public @ResponseBody ReadableProductList removeProductFromGroup(
+  //     @PathVariable Long productId,
+  //     @PathVariable String code,
+  //     @ApiIgnore MerchantStore merchantStore,
+  //     @ApiIgnore Language language,
+  //     HttpServletRequest request,
+  //     HttpServletResponse response) {
 
-    try {
-      // get the product
-      Product product = productService.getById(productId);
+  //   try {
+  //     // get the product
+  //     Product product = productService.getById(productId);
 
-      if (product == null) {
-        response.sendError(404, "Product not fount for id " + productId);
-        return null;
-      }
+  //     if (product == null) {
+  //       response.sendError(404, "Product not fount for id " + productId);
+  //       return null;
+  //     }
 
-      ReadableProductList list =
-          productItemsFacade.removeItemFromGroup(product, code, merchantStore, language);
+  //     ReadableProductList list =
+  //         productItemsFacade.removeItemFromGroup(product, code, merchantStore, language);
 
-      return list;
+  //     return list;
 
-    } catch (Exception e) {
-      LOGGER.error("Error while removing product from category", e);
-      try {
-        response.sendError(503, "Error while removing product from category " + e.getMessage());
-      } catch (Exception ignore) {
-      }
+  //   } catch (Exception e) {
+  //     LOGGER.error("Error while removing product from category", e);
+  //     try {
+  //       response.sendError(503, "Error while removing product from category " + e.getMessage());
+  //     } catch (Exception ignore) {
+  //     }
 
-      return null;
-    }
-  }
+  //     return null;
+  //   }
+  // }
   
-  @ResponseStatus(HttpStatus.OK)
-  @DeleteMapping("/products/group/{code}")
-  @ApiOperation(httpMethod = "DELETE", value = "Delete product group by group code", notes = "", response = Void.class)
-  @ApiImplicitParams({
-      @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-      @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public void deleteGroup(
-      @PathVariable final String code,
-	  @ApiIgnore MerchantStore merchantStore,
-	  @ApiIgnore Language language,
-      HttpServletResponse response) {
+  // @ResponseStatus(HttpStatus.OK)
+  // @DeleteMapping("/products/group/{code}")
+  // @ApiOperation(httpMethod = "DELETE", value = "Delete product group by group code", notes = "", response = Void.class)
+  // @ApiImplicitParams({
+  //     @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //     @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public void deleteGroup(
+  //     @PathVariable final String code,
+	//   @ApiIgnore MerchantStore merchantStore,
+	//   @ApiIgnore Language language,
+  //     HttpServletResponse response) {
 	  
-	  productItemsFacade.deleteGroup(code, merchantStore);
+	//   productItemsFacade.deleteGroup(code, merchantStore);
 
-  }
+  // }
 }

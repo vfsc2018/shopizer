@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.salesmanager.core.constants.MeasureUnit;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MerchantStoreEntity implements Serializable {
 	
 

@@ -10,7 +10,7 @@ public class ReadableCategoryFull extends ReadableCategory {
    */
   private static final long serialVersionUID = 1L;
   
-  private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+  private List<CategoryDescription> descriptions = new ArrayList<>();
 
   public List<CategoryDescription> getDescriptions() {
     return descriptions;

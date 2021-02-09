@@ -13,6 +13,10 @@ import com.salesmanager.core.model.reference.language.Language;
 public class LocaleUtils {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(LocaleUtils.class);
+
+	LocaleUtils(){
+		
+	}
 	
 	public static Locale getLocale(Language language) {
 		

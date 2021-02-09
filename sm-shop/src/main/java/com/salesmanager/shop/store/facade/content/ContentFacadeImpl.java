@@ -13,8 +13,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -49,7 +47,7 @@ import com.salesmanager.shop.utils.ImageFilePath;
 public class ContentFacadeImpl implements ContentFacade {
 
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContentFacade.class);
+	// private static final Logger LOGGER = LoggerFactory.getLogger(ContentFacadeImpl.class);
 
 	public static final String FILE_CONTENT_DELIMETER = "/";
 
@@ -264,7 +262,7 @@ public class ContentFacadeImpl implements ContentFacade {
 	private List<ContentDescriptionEntity> createContentDescriptionEntitys(MerchantStore store, Content contentModel,
 			Language language) throws ServiceException {
 
-		List<ContentDescriptionEntity> descriptions = new ArrayList<ContentDescriptionEntity>();
+		List<ContentDescriptionEntity> descriptions = new ArrayList<>();
 
 		if (!CollectionUtils.isEmpty(contentModel.getDescriptions())) {
 			for (ContentDescription description : contentModel.getDescriptions()) {
@@ -302,7 +300,7 @@ public class ContentFacadeImpl implements ContentFacade {
 		if (contentModel != null) {
 
 		}
-		List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+		List<ContentDescription> descriptions = new ArrayList<>();
 		for (ContentDescriptionEntity objectContent : content.getDescriptions()) {
 			Language lang = languageService.getByCode(objectContent.getLanguage());
 			ContentDescription contentDescription = new ContentDescription();
@@ -342,6 +340,7 @@ public class ContentFacadeImpl implements ContentFacade {
 	}
 
 	@Override
+	
 	public ReadableContentPage getContentPage(String code, MerchantStore store, Language language) {
 
 		Validate.notNull(code, "Content code cannot be null");
@@ -448,7 +447,7 @@ public class ContentFacadeImpl implements ContentFacade {
 			if (contentDescription.isPresent()) {
 				box.setName(contentDescription.get().getSeUrl());
 				box.setBoxContent("<![CDATA["
-						+ contentDescription.get().getDescription().replaceAll("\r\n", "").replaceAll("\t", "")
+						+ contentDescription.get().getDescription().replace("\r\n", "").replace("\t", "")
 						+ "]]>");
 			}
 			return box;
@@ -536,7 +535,7 @@ public class ContentFacadeImpl implements ContentFacade {
 		/**
 		 * get all types
 		 */
-		List<ContentType> types = new ArrayList<ContentType>();
+		List<ContentType> types = new ArrayList<>();
 		types.add(ContentType.BOX);
 		types.add(ContentType.PAGE);
 		types.add(ContentType.SECTION);

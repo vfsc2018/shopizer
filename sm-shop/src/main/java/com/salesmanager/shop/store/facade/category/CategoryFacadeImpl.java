@@ -360,8 +360,8 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			/**
 			 * Option NAME OptionValueName OptionValueName
 			 **/
-			Map<String, List<ProductOptionValue>> rawFacet = new HashMap<String, List<ProductOptionValue>>();
-			Map<String, ProductOption> references = new HashMap<String, ProductOption>();
+			Map<String, List<ProductOptionValue>> rawFacet = new HashMap<>();
+			Map<String, ProductOption> references = new HashMap<>();
 			for (ProductAttribute attr : attributes) {
 				references.put(attr.getProductOption().getCode(), attr.getProductOption());
 				List<ProductOptionValue> values = rawFacet.get(attr.getProductOption().getCode());
@@ -376,7 +376,7 @@ public class CategoryFacadeImpl implements CategoryFacade {
 			Iterator<Entry<String, ProductOption>> it = references.entrySet().iterator();
 			while (it.hasNext()) {
 				@SuppressWarnings("rawtypes")
-				Map.Entry pair = (Map.Entry) it.next();
+				Map.Entry pair = it.next();
 				ProductOption option = (ProductOption) pair.getValue();
 				List<ProductOptionValue> values = rawFacet.get(option.getCode());
 

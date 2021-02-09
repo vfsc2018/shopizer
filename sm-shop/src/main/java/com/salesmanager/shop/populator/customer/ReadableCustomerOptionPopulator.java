@@ -45,7 +45,7 @@ public class ReadableCustomerOptionPopulator extends
 
 		List<CustomerOptionValue> values = customerOption.getAvailableValues();
 		if(values==null) {
-			values = new ArrayList<CustomerOptionValue>();
+			values = new ArrayList<>();
 			customerOption.setAvailableValues(values);
 		}
 		

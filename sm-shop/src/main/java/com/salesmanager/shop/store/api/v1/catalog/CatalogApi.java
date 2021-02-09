@@ -5,8 +5,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,7 +48,7 @@ import springfox.documentation.annotations.ApiIgnore;
 })
 public class CatalogApi {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(CatalogApi.class);
+//   private static final Logger LOGGER = LoggerFactory.getLogger(CatalogApi.class);
   
   @Autowired
   private CatalogFacade catalogFacade;
@@ -87,7 +85,7 @@ public class CatalogApi {
       @ApiIgnore MerchantStore merchantStore, 
       @ApiIgnore Language language) {
       boolean existByCode = catalogFacade.uniqueCatalog(code, merchantStore);
-      return new ResponseEntity<EntityExists>(new EntityExists(existByCode), HttpStatus.OK);
+      return new ResponseEntity<>(new EntityExists(existByCode), HttpStatus.OK);
   }
 
 

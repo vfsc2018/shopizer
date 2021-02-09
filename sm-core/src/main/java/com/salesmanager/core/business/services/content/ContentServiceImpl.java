@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import com.salesmanager.core.business.exception.ServiceException;
@@ -429,10 +430,8 @@ public class ContentServiceImpl extends SalesManagerEntityServiceImpl<Long, Cont
 
 		Content content = contentRepository.findOne(id);
 
-		if (content != null) {
-			if (content.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				return null;
-			}
+		if (content == null || content.getMerchantStore()==null || content.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+			return null;
 		}
 
 		return content;

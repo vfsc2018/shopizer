@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.review.ProductReviewService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -110,6 +112,7 @@ public class ProductRelationshipApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
+  @Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_related_' + #id")
   public List<ReadableProduct> getAll(
       @PathVariable final Long id,
       @ApiIgnore MerchantStore merchantStore,
@@ -126,10 +129,7 @@ public class ProductRelationshipApi {
         return null;
       }
 
-      List<ReadableProduct> relatedItems =
-          productFacade.relatedItems(merchantStore, product, language);
-
-      return relatedItems;
+      return productFacade.relatedItems(merchantStore, product, language);
 
     } catch (Exception e) {
       LOGGER.error("Error while getting product reviews", e);

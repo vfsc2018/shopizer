@@ -1,7 +1,6 @@
 package com.salesmanager.shop.store.api.v1.shoppingCart;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
-import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
@@ -33,11 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @Controller
 @RequestMapping("/api/v1")
@@ -69,24 +65,16 @@ public class ShoppingCartApi {
       HttpServletResponse response) {
 
     try {
-      ReadableShoppingCart cart = 
-          shoppingCartFacade.addToCart(shoppingCartItem, merchantStore, language);
-
-      return cart;
-
+      return shoppingCartFacade.addToCart(shoppingCartItem, merchantStore, language);
     } catch (Exception e) {
-      try {
-      if(e instanceof ResourceNotFoundException) {
-        //response.sendError(204, "Error while adding product to cart id [" + shoppingCartItems.getProduct() + "] not found or not available");
-      }
       LOGGER.error("Error while adding product to cart", e);
-
-        response.sendError(503, "Error while adding product to cart " + e.getMessage());
-      } catch (Exception ignore) {
+      try{
+        response.sendError(503, "Error cart while adding product:" + shoppingCartItem.getProduct());
+      }catch(IOException ex){
+        LOGGER.error("Error while send respone Error", ex);
       }
-
-      return null;
     }
+    return null;
   }
 
   @RequestMapping(value = "/cart/{code}", method = RequestMethod.PUT)
@@ -126,38 +114,38 @@ public class ShoppingCartApi {
     }
   }
 
-  @PostMapping(value = "/cart/{code}/multi", consumes = {"application/json"}, produces = {"application/json"})
-  @ApiOperation(
-          httpMethod = "POST",
-          value = "Add to an existing shopping cart or modify an item quantity",
-          notes =
-                  "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
-          produces = "application/json",
-          response = ReadableShoppingCart.class)
-  @ApiImplicitParams({
-          @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-          @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
-  })
-  public ResponseEntity<ReadableShoppingCart> modifyCart(
-          @PathVariable String code,
-          @Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems,
-          @ApiIgnore MerchantStore merchantStore,
-          @ApiIgnore Language language) {
+  // @PostMapping(value = "/cart/{code}/multi", consumes = {"application/json"}, produces = {"application/json"})
+  // @ApiOperation(
+  //         httpMethod = "POST",
+  //         value = "Add to an existing shopping cart or modify an item quantity",
+  //         notes =
+  //                 "No customer ID in scope. Modify cart for non authenticated users, as simple as {\"product\":1232,\"quantity\":0} for instance will remove item 1234 from cart",
+  //         produces = "application/json",
+  //         response = ReadableShoppingCart.class)
+  // @ApiImplicitParams({
+  //         @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+  //         @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
+  // })
+  // public ResponseEntity<ReadableShoppingCart> modifyCart(
+  //         @PathVariable String code,
+  //         @Valid @RequestBody PersistableShoppingCartItem[] shoppingCartItems,
+  //         @ApiIgnore MerchantStore merchantStore,
+  //         @ApiIgnore Language language) {
 
-    try {
-      ReadableShoppingCart cart =
-              shoppingCartFacade.modifyCartMulti(code, Arrays.asList(shoppingCartItems), merchantStore, language);
+  //   try {
+  //     ReadableShoppingCart cart =
+  //             shoppingCartFacade.modifyCartMulti(code, Arrays.asList(shoppingCartItems), merchantStore, language);
 
-      return new ResponseEntity<>(cart, HttpStatus.CREATED);
+  //     return new ResponseEntity<>(cart, HttpStatus.CREATED);
 
-    } catch (IllegalArgumentException e) {
-      LOGGER.error("Cart or item not found " + code + " : " + shoppingCartItems, e);
-      return new ResponseEntity("Cart or Item not found " + code + " : " + shoppingCartItems, HttpStatus.NOT_FOUND);
+  //   } catch (IllegalArgumentException e) {
+  //     LOGGER.error("Cart or item not found " + code + " : " + shoppingCartItems, e);
+  //     return new ResponseEntity("Cart or Item not found " + code + " : " + shoppingCartItems, HttpStatus.NOT_FOUND);
 
-    } catch (Exception ignore) {
-      return new ResponseEntity("Error while modifying cart " + code + " " + ignore.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
+  //   } catch (Exception ignore) {
+  //     return new ResponseEntity("Error while modifying cart " + code + " " + ignore.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  //   }
+  // }
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "/cart/{code}", method = RequestMethod.GET)
@@ -268,26 +256,24 @@ public class ShoppingCartApi {
 	  	System.out.println("who os the username ? " + userName);
 
 		  Customer customer = customerService.getByNick(userName);
-      ReadableShoppingCart cart = shoppingCartFacade.addToCart(customer, shoppingCartItem, merchantStore, language);
-
-      return cart;
+      return shoppingCartFacade.addToCart(customer, shoppingCartItem, merchantStore, language);
 
     } catch (Exception e) {
       LOGGER.error("Error while adding product to cart", e);
-      try {
-        response.sendError(503, "Error while adding product to cart " + e.getMessage());
-      } catch (Exception ignore) {
+      try{
+        response.sendError(503, "Error cart while adding product:" + shoppingCartItem.getProduct());
+      }catch(IOException ex){
+        LOGGER.error("Error while send respone Error", ex);
       }
-
-      return null;
     }
+    return null;
   }
 
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(value = "/private/customer/cart", method = RequestMethod.GET)
   @ApiOperation(
       httpMethod = "GET",
-      value = "Get a chopping cart by id",
+      value = "Get a chopping cart by customer",
       notes = "",
       produces = "application/json",
       response = ReadableShoppingCart.class)
@@ -301,12 +287,10 @@ public class ShoppingCartApi {
       HttpServletRequest request,
       HttpServletResponse response) {
 
+    Principal principal = request.getUserPrincipal();
+    String userName = principal.getName();
+
     try {
-      Principal principal = request.getUserPrincipal();
-		  String userName = principal.getName();
-
-	  	System.out.println("who os the username ? " + userName);
-
 		  Customer customer = customerService.getByNick(userName);
 
       ReadableShoppingCart cart = shoppingCartFacade.getCart(customer, merchantStore, language);
@@ -320,13 +304,14 @@ public class ShoppingCartApi {
 
     } catch (Exception e) {
       LOGGER.error("Error while getting cart", e);
-      try {
-        response.sendError(503, "Error while getting cart " + e.getMessage());
-      } catch (Exception ignore) {
+      try{
+        response.sendError(503, "Error while getting cart of customer: " + userName);
+      }catch(IOException ex){
+        LOGGER.error("Error while send respone Error", ex);
       }
-
-      return null;
     }
+
+    return null;
   }
 
   // @ResponseStatus(HttpStatus.OK)
@@ -376,9 +361,7 @@ public class ShoppingCartApi {
   //   }
   // }
 
-  @DeleteMapping(
-      value = "/cart/{code}/product/{id}",
-      produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @DeleteMapping(value = "/cart/{code}/product/{id}")
   @ApiOperation(
       httpMethod = "DELETE",
       value = "Remove a product from a specific cart",
@@ -404,7 +387,7 @@ public class ShoppingCartApi {
       return new ResponseEntity<>(updatedCart, HttpStatus.NO_CONTENT);
   }
 
-  @DeleteMapping(value = "/cart/{code}", produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
+  @DeleteMapping(value = "/cart/{code}")
   @ApiOperation(
       httpMethod = "DELETE",
       value = "Remove a specific cart", produces = "application/json")

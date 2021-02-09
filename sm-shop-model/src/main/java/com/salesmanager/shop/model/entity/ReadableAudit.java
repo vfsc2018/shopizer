@@ -1,10 +1,19 @@
 package com.salesmanager.shop.model.entity;
 
-public class ReadableAudit {
+import java.io.Serializable;
+
+public class ReadableAudit implements Serializable {
+
+	private static final long serialVersionUID = 10990099L;
 
 	private String created;
 	private String modified;
 	private String user;
+
+	public ReadableAudit(){
+
+	}
+
 	public String getCreated() {
 		return created;
 	}
