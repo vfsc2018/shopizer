@@ -6,7 +6,7 @@ import java.util.List;
 public class MerchantStoreBrand {
   
 
-  private List<MerchantConfigEntity> socialNetworks = new ArrayList<MerchantConfigEntity>();
+  private List<MerchantConfigEntity> socialNetworks = new ArrayList<>();
 
   public List<MerchantConfigEntity> getSocialNetworks() {
     return socialNetworks;

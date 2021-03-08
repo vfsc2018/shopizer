@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,6 +25,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -35,6 +36,7 @@ import org.springframework.validation.ObjectError;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -53,6 +55,7 @@ import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -113,8 +116,8 @@ import com.salesmanager.shop.utils.LocaleUtils;
 public class OrderFacadeImpl implements OrderFacade {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderFacadeImpl.class);
-	@Inject
-	private ProductPriceUtils productPriceUtils;
+	// @Inject
+	// private ProductPriceUtils productPriceUtils;
 	@Inject
 	private OrderService orderService;
 	@Inject
@@ -156,8 +159,8 @@ public class OrderFacadeImpl implements OrderFacade {
 	@Autowired
 	private TransactionService transactionService;
 
-	@Inject
-	private EmailTemplatesUtils emailTemplatesUtils;
+	// @Inject
+	// private EmailTemplatesUtils emailTemplatesUtils;
 
 	@Inject
 	private LabelUtils messages;
@@ -326,10 +329,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 	public boolean payment(Long id, Transaction transaction){
 		Order order = orderService.getById(id);
-		if(order!=null){
-			
-		}
-		return false;
+		return order!=null;
 	}
 
 	private Order processOrderModel(ShopOrder order, Customer customer, Transaction transaction, MerchantStore store,
@@ -604,8 +604,6 @@ public class OrderFacadeImpl implements OrderFacade {
 
 		List<ShoppingCartItem> items = new ArrayList<>(shoppingCart.getLineItems());
 		order.setShoppingCartItems(items);
-
-		return;
 	}
 
 	@Override
@@ -642,10 +640,7 @@ public class OrderFacadeImpl implements OrderFacade {
 			delivery = customer.getDelivery();
 		}
 
-		ShippingQuote quote = shippingService.getShippingQuote(cart.getId(), store, delivery, shippingProducts,
-				language);
-
-		return quote;
+		return shippingService.getShippingQuote(cart.getId(), store, delivery, shippingProducts, language);
 
 	}
 
@@ -855,9 +850,8 @@ public class OrderFacadeImpl implements OrderFacade {
 			// validate shipping
 			if (shippingService.requiresShipping(order.getShoppingCartItems(), store)
 					&& order.getSelectedShippingOption() == null) {
-				ServiceException serviceException = new ServiceException(ServiceException.EXCEPTION_VALIDATION,
-						"shipping.required");
-				throw serviceException;
+				throw new ServiceException(ServiceException.EXCEPTION_VALIDATION,	"shipping.required");
+				
 			}
 
 			// pre-validate credit card
@@ -894,9 +888,7 @@ public class OrderFacadeImpl implements OrderFacade {
 				}
 
 				if (creditCardType == null) {
-					ServiceException serviceException = new ServiceException(ServiceException.EXCEPTION_VALIDATION,
-							"cc.type");
-					throw serviceException;
+					throw new ServiceException(ServiceException.EXCEPTION_VALIDATION, "cc.type");
 				}
 
 			}
@@ -909,6 +901,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
+	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.id + '_' + #start")
 	public com.salesmanager.shop.model.order.v0.ReadableOrderList getReadableOrderList(MerchantStore store,
 			Customer customer, int start, int maxCount, Language language) throws Exception {
 
@@ -916,6 +909,8 @@ public class OrderFacadeImpl implements OrderFacade {
 		criteria.setStartIndex(start);
 		criteria.setMaxCount(maxCount);
 		criteria.setCustomerId(customer.getId());
+		criteria.setOrderBy(CriteriaOrderBy.DESC);
+		criteria.setCriteriaOrderByField("id");
 
 		return this.getReadableOrderList(criteria, store, language);
 
@@ -928,7 +923,7 @@ public class OrderFacadeImpl implements OrderFacade {
 		try {
 			criteria.setLegacyPagination(false);
 
-			OrderList orderList = orderService.getOrders(criteria, store);
+			OrderList orderList = orderService.listByStore(store, criteria);
 
 			List<Order> orders = orderList.getOrders();
 			com.salesmanager.shop.model.order.v0.ReadableOrderList returnList = new com.salesmanager.shop.model.order.v0.ReadableOrderList();
@@ -1175,6 +1170,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.id + '_0'")
 	public Order processOrder(com.salesmanager.shop.model.order.v1.PersistableOrder order, Customer customer,
 			MerchantStore store, Language language, Locale locale) throws ServiceException {
 
@@ -1201,7 +1197,9 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			Order modelOrder = new Order();
 			persistableOrderApiPopulator.populate(order, modelOrder, store, language);
-			
+			// if(order.getVoucherCode()!=null){
+			// 	modelOrder.setVoucher(order.getVoucherCode().getCode());
+			// }
 			for (ShoppingCartItem item : shoppingCartItems) {
 				OrderProduct orderProduct = new OrderProduct();
 				orderProduct = orderProductPopulator.populate(item, orderProduct, store, language);
@@ -1211,7 +1209,7 @@ public class OrderFacadeImpl implements OrderFacade {
 
 			modelOrder.setOrderProducts(orderProducts);
 
-			if (order.getAttributes() != null && !order.getAttributes().isEmpty()) {
+			if (CollectionUtils.isNotEmpty(order.getAttributes())) {
 				Set<OrderAttribute> attrs = new HashSet<>();
 				for (com.salesmanager.shop.model.order.OrderAttribute attribute : order.getAttributes()) {
 					OrderAttribute attr = new OrderAttribute();

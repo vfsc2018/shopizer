@@ -9,6 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -73,6 +76,7 @@ public class ProductVariantApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
+  @Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_variant' + #id")
   public ReadableProductPrice calculateVariant(
       @PathVariable final Long id,
       @RequestBody ReadableSelectedProductVariant options,
@@ -133,6 +137,7 @@ public class ProductVariantApi {
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
       @ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi")
   })
+  @Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_category_variant' + #id")
   public List<ReadableProductVariant> categoryVariantList(
       @PathVariable final Long id, //category id
       @ApiIgnore MerchantStore merchantStore,

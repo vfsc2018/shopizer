@@ -544,7 +544,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 
 			List<Content> contentByStore = contents.get(contentKey.toString());
 			if (!CollectionUtils.isEmpty(contentByStore)) {
-				Map<String, ContentDescription> contentMap = new HashMap<String, ContentDescription>();
+				Map<String, ContentDescription> contentMap = new HashMap<>();
 				for (Content content : contentByStore) {
 					if (content.isVisible()) {
 						contentMap.put(content.getCode(), content.getDescription());
@@ -583,7 +583,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				// filter out invisible category
 				loadedCategories.stream().filter(cat -> cat.isVisible() == true).collect(Collectors.toList());
 
-				objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
+				objects = new ConcurrentHashMap<>();
 				objects.put(language.getCode(), loadedCategories);
 				webApplicationCache.putInCache(categoriesKey.toString(), objects);
 
@@ -607,15 +607,15 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	private Map<String, List<ContentDescription>> getContentPagesNames(MerchantStore store, Language language)
 			throws Exception {
 
-		Map<String, List<ContentDescription>> contents = new ConcurrentHashMap<String, List<ContentDescription>>();
+		Map<String, List<ContentDescription>> contents = new ConcurrentHashMap<>();
 
 		// Get boxes and sections from the database
-		List<ContentType> contentTypes = new ArrayList<ContentType>();
+		List<ContentType> contentTypes = new ArrayList<>();
 		contentTypes.add(ContentType.PAGE);
 
 		List<ContentDescription> contentPages = contentService.listNameByType(contentTypes, store, language);
 
-		if (contentPages != null && contentPages.size() > 0) {
+		if (CollectionUtils.isNotEmpty(contentPages)) {
 
 			// create a Map<String,List<Content>
 			for (ContentDescription content : contentPages) {
@@ -624,11 +624,11 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 				String key = new StringBuilder().append(store.getId()).append("_")
 						.append(Constants.CONTENT_PAGE_CACHE_KEY).append("-").append(lang.getCode()).toString();
 				List<ContentDescription> contentList = null;
-				if (contents == null || contents.size() == 0) {
-					contents = new HashMap<String, List<ContentDescription>>();
-				}
+				// if (CollectionUtils.isEmpty(contents)) {
+				// 	contents = new HashMap<>();
+				// }
 				if (!contents.containsKey(key)) {
-					contentList = new ArrayList<ContentDescription>();
+					contentList = new ArrayList<>();
 
 					contents.put(key, contentList);
 				} else {// get from key
@@ -646,16 +646,16 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 
 	private Map<String, List<Content>> getContent(MerchantStore store, Language language) throws Exception {
 
-		Map<String, List<Content>> contents = new ConcurrentHashMap<String, List<Content>>();
+		Map<String, List<Content>> contents = new ConcurrentHashMap<>();
 
 		// Get boxes and sections from the database
-		List<ContentType> contentTypes = new ArrayList<ContentType>();
+		List<ContentType> contentTypes = new ArrayList<>();
 		contentTypes.add(ContentType.BOX);
 		contentTypes.add(ContentType.SECTION);
 
 		List<Content> contentPages = contentService.listByType(contentTypes, store, language);
 
-		if (contentPages != null && contentPages.size() > 0) {
+		if (CollectionUtils.isNotEmpty(contentPages)) {
 
 			// create a Map<String,List<Content>
 			for (Content content : contentPages) {
@@ -666,11 +666,11 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 						String key = new StringBuilder().append(store.getId()).append("_")
 								.append(Constants.CONTENT_CACHE_KEY).append("-").append(lang.getCode()).toString();
 						List<Content> contentList = null;
-						if (contents == null || contents.size() == 0) {
-							contents = new HashMap<String, List<Content>>();
-						}
+						// if (CollectionUtils.isEmpty(contents)) {
+						// 	contents = new HashMap<>();
+						// }
 						if (!contents.containsKey(key)) {
-							contentList = new ArrayList<Content>();
+							contentList = new ArrayList<>();
 
 							contents.put(key, contentList);
 						} else {// get from key
@@ -700,9 +700,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	// throws Exception {
 	private Map<String, List<ReadableCategory>> getCategories(MerchantStore store, Language language) throws Exception {
 
-		// Map<String, List<Category>> objects = new ConcurrentHashMap<String,
+		// Map<String, List<Category>> objects = new ConcurrentHashMap<,
 		// List<Category>>();
-		Map<String, List<ReadableCategory>> objects = new ConcurrentHashMap<String, List<ReadableCategory>>();
+		Map<String, List<ReadableCategory>> objects = new ConcurrentHashMap<>();
 
 		/**
 		 * returns categories with required depth, 0 = root category, 1 = root +
@@ -712,9 +712,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 
 		ReadableCategoryPopulator readableCategoryPopulator = new ReadableCategoryPopulator();
 
-		Map<String, ReadableCategory> subs = new ConcurrentHashMap<String, ReadableCategory>();
+		Map<String, ReadableCategory> subs = new ConcurrentHashMap<>();
 
-		if (categories != null && categories.size() > 0) {
+		if (CollectionUtils.isNotEmpty(categories)) {
 
 			// create a Map<String,List<Content>
 			for (Category category : categories) {
@@ -740,13 +740,13 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 
 							// List<Category> cacheCategories = null;
 							List<ReadableCategory> cacheCategories = null;
-							if (objects == null || objects.size() == 0) {
-								// objects = new HashMap<String,
-								// List<Category>>();
-								objects = new HashMap<String, List<ReadableCategory>>();
-							}
+							// if (CollectionUtils.isEmpty(objects)) {
+							// 	// objects = new HashMap<
+							// 	// List<Category>>();
+							// 	objects = new HashMap<>();
+							// }
 							if (!objects.containsKey(key)) {
-								// cacheCategories = new ArrayList<Category>();
+								// cacheCategories = new ArrayList<>();
 								cacheCategories = new ArrayList<>();
 
 								objects.put(key, cacheCategories);
@@ -774,7 +774,7 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	@SuppressWarnings("unused")
 	private Map<String, Object> getConfigurations(MerchantStore store) {
 
-		Map<String, Object> configs = new HashMap<String, Object>();
+		Map<String, Object> configs = new HashMap<>();
 		try {
 
 			List<MerchantConfiguration> merchantConfiguration = merchantConfigurationService
@@ -784,9 +784,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			List<MerchantConfiguration> socialConfigs = merchantConfigurationService
 					.listByType(MerchantConfigurationType.SOCIAL, store);
 
-			if (!CollectionUtils.isEmpty(socialConfigs)) {
+			if (CollectionUtils.isNotEmpty(socialConfigs)) {
 				if (CollectionUtils.isEmpty(merchantConfiguration)) {
-					merchantConfiguration = new ArrayList<MerchantConfiguration>();
+					merchantConfiguration = new ArrayList<>();
 				}
 				merchantConfiguration.addAll(socialConfigs);
 			}
@@ -805,9 +805,9 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 			// get MerchantConfig
 			MerchantConfig merchantConfig = merchantConfigurationService.getMerchantConfig(store);
 			if (merchantConfig != null) {
-				if (configs == null) {
-					configs = new HashMap<String, Object>();
-				}
+				// if (configs == null) {
+				// 	configs = new HashMap<>();
+				// }
 
 				ObjectMapper m = new ObjectMapper();
 				@SuppressWarnings("unchecked")

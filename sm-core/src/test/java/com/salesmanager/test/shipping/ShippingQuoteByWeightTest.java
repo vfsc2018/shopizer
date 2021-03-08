@@ -182,7 +182,7 @@ public class ShippingQuoteByWeightTest extends com.salesmanager.test.common.Abst
 		CustomShippingQuoteWeightItem caQuote100 = new CustomShippingQuoteWeightItem();
 		caQuote100.setMaximumWeight(100);
 		caQuote100.setPrice(BigDecimal.valueOf(120));
-		List<CustomShippingQuoteWeightItem> quotes = new ArrayList<CustomShippingQuoteWeightItem>();
+		List<CustomShippingQuoteWeightItem> quotes = new ArrayList<>();
 		quotes.add(caQuote4);
 		quotes.add(caQuote10);
 		quotes.add(caQuote100);

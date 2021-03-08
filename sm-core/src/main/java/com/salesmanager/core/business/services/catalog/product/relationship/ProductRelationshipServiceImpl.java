@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.catalog.product.relationship.ProductRelationshipRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.model.catalog.product.Product;
@@ -31,6 +33,7 @@ public class ProductRelationshipServiceImpl extends
 	}
 	
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_related_' + #relationship.product.id")
 	public void saveOrUpdate(ProductRelationship relationship) throws ServiceException {
 		
 		if(relationship.getId()!=null && relationship.getId()>0) {

@@ -98,20 +98,24 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
 			orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 			orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
 			orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
-			
 			orderTotal.setTitle(summary.getVoucher().getCode() + ": " + summary.getVoucher().getPoint() + "/" + summary.getVoucher().getDiscount() + "/" + summary.getVoucher().getPercent() +  " #" + summary.getPromoCode());
 			orderTotal.setText(product.getProductDescription().getName() + " #" + product.getSku());
 
 			//calculate discount that will be added as a negative value
 			FinalPrice productPrice = pricingService.calculateProductPrice(product);
-			BigDecimal reduction = productPrice.getFinalPrice();
-			if(discount!=null && discount.doubleValue()>0){
-				reduction = reduction.multiply(BigDecimal.valueOf(discount));
-			}
+			// BigDecimal reduction = productPrice.getFinalPrice();
+
+			BigDecimal reduction = new BigDecimal(0);
 			if(moneyoff!=null && moneyoff.doubleValue()>0){
 				reduction = reduction.add(BigDecimal.valueOf(moneyoff));
 			}
+			if(discount!=null && discount.doubleValue()>0){
+				reduction = reduction.add(productPrice.getFinalPrice().multiply(BigDecimal.valueOf(discount)));
+			}
 			
+			if(sku!=null && sku.equals(product.getSku())){
+				orderTotal.setPoint(summary.getVoucher().getPoint());
+			}
 			reduction = reduction.multiply(BigDecimal.valueOf(shoppingCartItem.getQuantity()));
 			orderTotal.setValue(reduction);
 			return orderTotal;

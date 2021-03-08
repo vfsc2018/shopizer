@@ -28,7 +28,8 @@
 						 <c:set var="componentTitleKey" value="label.voucherCodes.title" scope="request"/>
 					</td>
 				<td align="right">
-		              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>	              		
+						  <button  type="button" id ="btReportCodes" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report codes"/></button>	
+						  <button  type="button" id ="btPrintCodes" class="btn btn-medium btn-primary" ><s:message code="button.label.print.code" text="Print codes"/></button>
 		      	</td>
 		      	</tr>
 		      	<tr>
@@ -68,8 +69,11 @@
 	
 <script>				
 $(document).ready(function(){ 				
-		$("#btReportBill").click(function() {
-			 location.href="<c:url value="/admin/vouchercodes/reportCode.html" />?id=0";
+		$("#btReportCodes").click(function() {
+			 location.href="<c:url value="/admin/vouchercodes/reportCode.html" />?id=<c:out value="${param.voucherId}"/>";
+		}); 
+		$("#btPrintCodes").click(function() {
+			 location.href="<c:url value="/admin/vouchercodes/printCode.html" />?id=<c:out value="${param.voucherId}"/>";
 		}); 
 });
 </script>		

@@ -47,7 +47,7 @@ public class ReadableOrderTotalPopulator extends
 
 				target.setTitle(messages.getMessage(source.getOrderTotalCode(), locale, source.getOrderTotalCode()));
 				target.setText(source.getText());
-				
+				target.setPoint(source.getPoint());
 				target.setValue(source.getValue());
 				target.setTotal(pricingService.getDisplayAmount(source.getValue(), store));
 				

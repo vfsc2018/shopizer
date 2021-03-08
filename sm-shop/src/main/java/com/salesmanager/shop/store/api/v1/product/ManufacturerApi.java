@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.manufacturer.ManufacturerService;
 import com.salesmanager.core.model.catalog.product.manufacturer.Manufacturer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -144,6 +147,7 @@ public class ManufacturerApi {
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	@ApiOperation(httpMethod = "GET", value = "List manufacturers by store", notes = "This request supports paging or not. Paging supports page number and request count", response = ReadableManufacturerList.class)
+	@Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_manufacturers' + #name + '_' +#page + '_' + #count")
 	public ReadableManufacturerList list(@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
@@ -187,31 +191,31 @@ public class ManufacturerApi {
 	// 	}
 	// }
 
-	@RequestMapping(value = "/manufacturer/{id}", method = RequestMethod.DELETE)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
-	public void delete(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
-			HttpServletResponse response) {
+	// @RequestMapping(value = "/manufacturer/{id}", method = RequestMethod.DELETE)
+	// @ResponseStatus(HttpStatus.OK)
+	// @ResponseBody
+	// @ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
+	// 		@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
+	// public void delete(@PathVariable Long id, @ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language,
+	// 		HttpServletResponse response) {
 
-		try {
-			Manufacturer manufacturer = manufacturerService.getById(id);
+	// 	try {
+	// 		Manufacturer manufacturer = manufacturerService.getById(id);
 
-			if (manufacturer != null) {
-				manufacturerFacade.deleteManufacturer(manufacturer, merchantStore, language);
-			} else {
-				response.sendError(404, "No Manufacturer found for ID : " + id);
-			}
+	// 		if (manufacturer != null) {
+	// 			manufacturerFacade.deleteManufacturer(manufacturer, merchantStore, language);
+	// 		} else {
+	// 			response.sendError(404, "No Manufacturer found for ID : " + id);
+	// 		}
 
-		} catch (Exception e) {
-			LOGGER.error("Error while deleting manufacturer id " + id, e);
-			try {
-				response.sendError(503, "Error while deleting manufacturer id " + id + " - " + e.getMessage());
-			} catch (Exception ignore) {
-			}
-		}
-	}
+	// 	} catch (Exception e) {
+	// 		LOGGER.error("Error while deleting manufacturer id " + id, e);
+	// 		try {
+	// 			response.sendError(503, "Error while deleting manufacturer id " + id + " - " + e.getMessage());
+	// 		} catch (Exception ignore) {
+	// 		}
+	// 	}
+	// }
 
 	@RequestMapping(value = "/category/{id}/manufacturers", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
@@ -219,6 +223,7 @@ public class ManufacturerApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
+	@Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_manufacturers' + #id")
 	public List<ReadableManufacturer> manufacturerList(@PathVariable final Long id, // category
 																					// id
 			@ApiIgnore MerchantStore merchantStore, @ApiIgnore Language language, HttpServletResponse response)

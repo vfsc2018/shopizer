@@ -13,6 +13,8 @@ import com.salesmanager.shop.admin.model.merchant.StoreLanding;
 import com.salesmanager.shop.admin.model.merchant.StoreLandingDescription;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -158,8 +160,8 @@ public class StoreLandingController {
 			
 
 		List<StoreLandingDescription> descriptions = storeLanding.getDescriptions();
-		List<ContentDescription> contentDescriptions = new ArrayList<ContentDescription>();
-		if(descriptions!=null) {
+		List<ContentDescription> contentDescriptions = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(descriptions)) {
 				
 				for(StoreLandingDescription description : descriptions) {
 					
@@ -167,7 +169,7 @@ public class StoreLandingController {
 					Language l = langs.get(code);
 					
 					ContentDescription contentDescription = null;
-					if(content.getDescriptions()!=null && content.getDescriptions().size()>0) {
+					if(CollectionUtils.isNotEmpty(content.getDescriptions())) {
 						
 						for(ContentDescription desc : content.getDescriptions()) {
 							

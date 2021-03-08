@@ -18,21 +18,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
 import com.salesmanager.shop.admin.security.UserAuthenticationSuccessHandler;
 import com.salesmanager.shop.admin.security.WebUserServices;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.security.AuthenticationTokenFilter;
 import com.salesmanager.shop.store.security.ServicesAuthenticationSuccessHandler;
-import com.salesmanager.shop.store.security.admin.JWTAdminAuthenticationProvider;
-import com.salesmanager.shop.store.security.admin.JWTAdminServicesImpl;
 import com.salesmanager.shop.store.security.customer.JWTCustomerAuthenticationProvider;
 
-/**
- * Main entry point for security - admin - customer - auth - private - services
- * 
- * @author dur9213
- *
- */
 @Configuration
 @EnableWebSecurity
 public class MultipleEntryPointsSecurityConfig {

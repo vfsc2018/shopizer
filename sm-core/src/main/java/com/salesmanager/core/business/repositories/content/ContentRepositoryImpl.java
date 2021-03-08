@@ -13,6 +13,8 @@ import com.salesmanager.core.model.content.ContentType;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 
+import org.apache.commons.collections.CollectionUtils;
+
 
 public class ContentRepositoryImpl implements ContentRepositoryCustom {
 
@@ -46,7 +48,7 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 			@SuppressWarnings("unchecked")
 			List<Content> contents = q.getResultList();
 			
-			List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+			List<ContentDescription> descriptions = new ArrayList<>();
 			for(Content c : contents) {
 					String name = c.getDescription().getName();
 					String url = c.getDescription().getSeUrl();
@@ -90,10 +92,10 @@ public class ContentRepositoryImpl implements ContentRepositoryCustom {
 			
 			@SuppressWarnings("unchecked")
 			List<Content> results = q.getResultList();
-	        if (results.isEmpty()) {
+	        if (CollectionUtils.isEmpty(results)) {
 	        	return null;
-	        } else if (results.size() >= 1) {
-	        		content = results.get(0);
+	        } else {
+	        	content = results.get(0);
 	        }
 	        
 			if(content!=null) {

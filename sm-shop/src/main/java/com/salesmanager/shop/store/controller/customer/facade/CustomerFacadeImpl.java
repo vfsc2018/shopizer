@@ -368,13 +368,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
     customerModel = customerPopulator.populate(customer, merchantStore, language);
     // we are creating or resetting a customer
-    if (StringUtils.isBlank(customerModel.getPassword())
-        && !StringUtils.isBlank(customer.getPassword())) {
+    if (StringUtils.isBlank(customerModel.getPassword()) && !StringUtils.isBlank(customer.getPassword())) {
       customerModel.setPassword(customer.getPassword());
     }
     // set groups
-    if (!StringUtils.isBlank(customerModel.getPassword())
-        && !StringUtils.isBlank(customerModel.getNick())) {
+    if (!StringUtils.isBlank(customerModel.getPassword()) && !StringUtils.isBlank(customerModel.getNick())) {
       customerModel.setPassword(passwordEncoder.encode(customer.getPassword()));
       setCustomerModelDefaultProperties(customerModel, merchantStore);
     }
@@ -838,22 +836,20 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
 
   @Override
-  public String resetPassword(Customer customer, MerchantStore store, Language language)
-      throws Exception {
+  public String resetPassword(Customer customer, MerchantStore store, Language language) throws Exception {
 
 
     String password = UserReset.generateRandomString(); 
-    System.out.println("Password:" + password);
-    String encodedPassword = passwordEncoder.encode(password);
+    
+    changePassword(customer, password);
 
-    customer.setPassword(encodedPassword);
-    customerService.saveOrUpdate(customer);
+    return password;
 
     // Locale locale = languageService.toLocale(language, store);
 
     // send email
 
-    try {
+    // try {
 
       // creation of a user, send an email
       // String[] storeEmail = {store.getStoreEmailAddress()};
@@ -887,11 +883,11 @@ public class CustomerFacadeImpl implements CustomerFacade {
 
       // emailService.sendHtmlEmail(store, email);
 
-    } catch (Exception e) {
-      LOG.error("Cannot send email to customer", e);
-    }
+    // } catch (Exception e) {
+    //   LOG.error("Cannot send email to customer", e);
+    // }
 
-    return password;
+    // return password;
 
   }
 
@@ -1073,6 +1069,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
   public void changePassword(Customer customer, String newPassword) {
     String encoded = passwordEncoder.encode(newPassword);
     customer.setPassword(encoded);
+    customer.setLastPasswordReset(new Date());
     try {
       customerService.update(customer);
     } catch (ServiceException e) {

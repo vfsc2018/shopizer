@@ -27,7 +27,7 @@ public class FinalPrice implements Serializable {
 	
 	private boolean defaultPrice;
 	private ProductPrice productPrice;
-	List<FinalPrice> additionalPrices;
+	private List<FinalPrice> additionalPrices;
 
 	public List<FinalPrice> getAdditionalPrices() {
 		return additionalPrices;

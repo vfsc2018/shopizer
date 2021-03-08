@@ -238,7 +238,7 @@ public class StoreFacadeImpl implements StoreFacade {
 
 	private void updateMerchantStore(MerchantStore mStore) {
 		try {
-			merchantStoreService.update(mStore);
+			merchantStoreService.saveOrUpdate(mStore);
 		} catch (ServiceException e) {
 			throw new ServiceRuntimeException(e);
 		}

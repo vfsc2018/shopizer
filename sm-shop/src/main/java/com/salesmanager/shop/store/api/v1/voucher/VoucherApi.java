@@ -3,8 +3,8 @@ package com.salesmanager.shop.store.api.v1.voucher;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +41,7 @@ public class VoucherApi {
 		VoucherInfo info = new VoucherInfo();
 		info.setDescription(v.getDescription());
 		info.setCode(v.getCode());
-		if(v.getPoint()!=null && v.getPoint().intValue()>0){
+		if(v.getPoint()!=null){
 			info.setPoint(v.getPoint());
 		}
 		if(v.getDiscount()!=null && v.getDiscount().intValue()>0){
@@ -50,7 +50,7 @@ public class VoucherApi {
 		if(v.getPercent()!=null && v.getPercent().intValue()>0){
 			info.setPercent(v.getPercent());
 		}
-		if(v.getProductSku()!=null){
+		if(StringUtils.isNotEmpty(v.getProductSku())){
 			info.setProduct(v.getProductSku());
 		}
 		return new ResponseEntity<>(info, HttpStatus.OK);

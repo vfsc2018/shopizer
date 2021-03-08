@@ -5,14 +5,18 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.merchant.MerchantRepository;
 import com.salesmanager.core.business.repositories.merchant.PageableMerchantRepository;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
@@ -44,11 +48,13 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	//}
 
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_MERCHANT, key = "#store.code")
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {
 		super.save(store);
 	}
 
 	@Override
+	@Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "#code")
 	public MerchantStore getByCode(String code) throws ServiceException {
 		return merchantRepository.findByCode(code);
 	}
@@ -72,7 +78,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	@Override
 	public Page<MerchantStore> listAll(Optional<String> storeName, int page, int count) throws ServiceException {
 		String store = null;
-		if (storeName != null && storeName.isPresent()) {
+		if (storeName.isPresent()) {
 			store = storeName.get();
 		}
 		Pageable pageRequest = PageRequest.of(page, count);
@@ -89,7 +95,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	public Page<MerchantStore> listAllRetailers(Optional<String> storeName, int page, int count)
 			throws ServiceException {
 		String store = null;
-		if (storeName != null && storeName.isPresent()) {
+		if (storeName.isPresent()) {
 			store = storeName.get();
 		}
 		Pageable pageRequest = PageRequest.of(page, count);
@@ -103,6 +109,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	}
 
 	@Override
+	@Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "'parent_' + #code")
 	public MerchantStore getParent(String code) throws ServiceException {
 		Validate.notNull(code, "MerchantStore code cannot be null");
 
@@ -142,7 +149,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	public Page<MerchantStore> listByGroup(Optional<String> storeName, String code, int page, int count) throws ServiceException {
 		
 		String name = null;
-		if (storeName != null && storeName.isPresent()) {
+		if (storeName.isPresent()) {
 			name = storeName.get();
 		}
 
@@ -154,10 +161,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		Pageable pageRequest = PageRequest.of(page, count);
 		
 		
-		Page<MerchantStore> stores = pageableMerchantRepository.listByGroup(code, id.get(), name, pageRequest);
-		return stores;
-		
-		
+		return pageableMerchantRepository.listByGroup(code, id.get(), name, pageRequest);
 	}
 
 	@Override
@@ -167,9 +171,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 		Optional<Integer> id = Optional.ofNullable(store.getId());
 		
 		List<MerchantStore> stores = merchantRepository.listByGroup(code, id.get());
-		
-		
-		return stores.size() > 0;
+		return CollectionUtils.isNotEmpty(stores);
 	}
 
 

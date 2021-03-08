@@ -808,8 +808,7 @@ public class ShoppingCartFacadeImpl
 	}
 
 	@Override
-	public ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
-			Language language) throws Exception {
+	public ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store, Language language) throws Exception {
 
 		Validate.notNull(item,"PersistableShoppingCartItem cannot be null");
 

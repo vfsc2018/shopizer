@@ -56,4 +56,7 @@ public class Constants {
 
   public final static Currency DEFAULT_CURRENCY = Currency.getInstance(new Locale("vi","VN"));
 
+  public final static int CODE_MINLEN = 9;
+  public final static String CODE_ALPHABET = "78912346QAZWSXEDCRFVTGBYHNUJMKLP";
+
 }

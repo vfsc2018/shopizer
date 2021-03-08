@@ -17,8 +17,15 @@ public class PersistableShoppingCartItem implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Long product;//product id
+	private String code;//product code
 	private int quantity;
 	private String promoCode;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public String getPromoCode() {
 		return promoCode;
 	}

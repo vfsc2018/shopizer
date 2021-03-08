@@ -207,7 +207,7 @@ public class ReferenceController {
 		
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		return new ResponseEntity<String>(serialized,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(serialized,httpHeaders,HttpStatus.OK);
 	
 	}
 	
@@ -244,7 +244,7 @@ public class ReferenceController {
 		
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-		return new ResponseEntity<String>(serialized,httpHeaders,HttpStatus.OK);
+		return new ResponseEntity<>(serialized,httpHeaders,HttpStatus.OK);
 	
 	}
 	

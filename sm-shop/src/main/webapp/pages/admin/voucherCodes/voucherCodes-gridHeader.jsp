@@ -10,8 +10,9 @@
 	{title:"<s:message code="label.entity.code" text="Code"/>", name:"code", width:120},
     {title:"<s:message code="label.entity.blocked" text="Blocked"/>", name:"blocked", type:"boolean"},
     {title:"<s:message code="label.entity.index" text="Index"/>", name:"index", width:50},
-    {title:"<s:message code="label.entity.customerId " text="customerId "/>", name:"customerId ", width:120},
-    {title:"<s:message code="label.entity.used" text="Used"/>", name:"used"},
+    {title:"<s:message code="label.entity.customerId " text="customer"/>", name:"customerId ", width:60},
     {title:"<s:message code="label.entity.orderId" text="orderId"/>", name:"orderId", width:50},
+    {title:"<s:message code="label.entity.used" text="Used Time"/>", name:"used"},
+    {title:"<s:message code="label.entity.all" text="Available"/>", name:"available", type:"boolean"},
     {title:"<s:message code="label.entity.details" text="Details"/>", name: "buttonField", align: "center",canFilter:false,canSort:false, canReorder:false}
     

@@ -21,10 +21,15 @@
         return false; 
     } 
 </script> 
+<script src="<c:url value="/resources/js/barcode/JsBarcode.all.min.js" />"></script>
 <div class="tabbable">
 	<jsp:include page="/common/adminTabs.jsp" />
 
-<div id="printSection" >
+	<img id="image" src="/resources/img/vfsc.png" alt="logo" />	
+		<div align="center">
+		<h3><s:message code="label.voucherCode.Print.Title" text="VOUCHER CODES"/></h3></td>
+		</div>
+<div id="printSection">
 <style>
 table {
   font-family: arial, sans-serif;
@@ -33,33 +38,23 @@ table {
 }
 
 td, th {
-  border: 1px solid #dddddd;
+  border: 0px solid #dddddd;
   text-align: left;
-  padding: 8px;
+  padding-top: 8px;
 }
 </style>	
-<img id="image" src="/resources/img/vfsc.png" alt="logo" />	
-		<div align="center">
-		<h3><s:message code="label.voucherCode.Print.Title" text="VOUCHER CODES LIST"/></h3></td>
-		</div>
-<table id="caculatorId" width="100%"> 
-	<thead> 
-		<tr>
-			<th><s:message code="label.order.reportVoucherCode.stt" text="No"/></th> 
-			<th><s:message code="label.entity.voucherId" text="Voucher"/></th> 
-			<th><s:message code="label.entity.barcode" text="Code"/></th> 
-			<th><s:message code="label.generic.used" text="Used"/></th>  
-		</tr> 
-	</thead>
+
+<table id="caculatorId"> 
 	<tbody>
 	<c:set var="stt" value="0" />
 	<c:forEach items="${data}" var="entity" varStatus="counter">
-	<c:set var="stt" value="${stt + 1 }" />
+	<c:set var="stt" value="${stt + 1}" />
 		<tr>
-				<td><c:out value="${stt}" /></td>
-				<td><c:out value="${entity.voucher.id}" /></td>
-				<td><c:out value="${entity.code}" /></td>
-				<td><c:out value="${entity.used}" /></td>
+			<td>
+                    <svg id="barcode${stt}"></svg>
+					<script>JsBarcode("#barcode${stt}", '<c:out value="${entity.code}" />', {height: 50});</script> 
+					<h4>http://vfscfood.com</h4>
+			</td>
 		</tr>
 	</c:forEach>
 	</tbody>

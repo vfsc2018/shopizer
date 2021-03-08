@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.salesmanager.core.model.content.FileContentType;
-import com.salesmanager.core.model.content.OutputContentFile;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.content.Content;
@@ -75,7 +74,7 @@ public class ContentAdministrationApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@GetMapping(value = "/private/content/list", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/admin/content/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public List<ImageFile> list(@RequestParam(value = "parentPath", required = false) String path,
@@ -97,7 +96,7 @@ public class ContentAdministrationApi {
 	 * @return
 	 * @throws Exception
 	 */
-	@GetMapping(value = "/private/content/folder", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/admin/content/folder", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public ContentFolder folder(
@@ -115,7 +114,7 @@ public class ContentAdministrationApi {
 	 * @param merchantStore
 	 * @param language
 	 */
-	@PostMapping(value = "/private/content/images/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	@PostMapping(value = "/admin/content/images/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	@ResponseStatus(HttpStatus.CREATED)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -149,7 +148,7 @@ public class ContentAdministrationApi {
 
 	}
 	
-	@GetMapping(value = "/content/images/download")
+	@GetMapping(value = "/admin/content/images/download")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "String", defaultValue = "vi") })
 	public @ResponseBody String download(
@@ -170,7 +169,7 @@ public class ContentAdministrationApi {
 
 	}
 	
-	@PostMapping(value = "/private/content/images/rename", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/admin/content/images/rename", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -197,7 +196,7 @@ public class ContentAdministrationApi {
 
 	}
 	
-	@DeleteMapping(value = "/private/content/images/remove", produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/admin/content/images/remove", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -247,7 +246,7 @@ public class ContentAdministrationApi {
 	
 	private String decodeContentPath(String path) throws UnsupportedEncodingException {
 		try {
-			return StringUtils.isBlank(path) || path.contains("/images") ? "/" : URLDecoder.decode(path.replaceAll(",",""), "UTF-8");
+			return StringUtils.isBlank(path) || path.contains("/images") ? "/" : URLDecoder.decode(path.replace(",",""), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			throw new RestApiException(e);
 		}

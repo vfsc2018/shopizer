@@ -131,7 +131,7 @@ public class ContentBoxesController {
 		
 		List<Language> languages = store.getLanguages();
 		
-		List<ContentDescription> descriptions = new ArrayList<ContentDescription>();
+		List<ContentDescription> descriptions = new ArrayList<>();
 		for(Language l : languages) {
 			for(ContentDescription description : content.getDescriptions()) {
 				if(description.getLanguage().getCode().equals(l.getCode())) {

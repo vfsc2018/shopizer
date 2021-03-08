@@ -13,8 +13,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.catalog.product.ProductRepository;
 import com.salesmanager.core.business.services.catalog.category.CategoryService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -216,6 +218,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 
 
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product' + #product.id")
 	public void delete(Product product) throws ServiceException {
 		LOGGER.debug("Deleting product");
 		Validate.notNull(product, "Product cannot be null");
@@ -255,6 +258,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product' + #product.id")
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);
@@ -334,17 +338,14 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		} catch(Exception e) {
 			LOGGER.error("Cannot save images " + e.getMessage());
 		}
-
-
-
 	}
 
-  @Override
-  public Product findOne(Long id, MerchantStore merchant) {
-    Validate.notNull(merchant,"MerchantStore must not be null");
-    Validate.notNull(id,"id must not be null");
-    return productRepository.getById(id, merchant);
-  }
+  	@Override
+	public Product findOne(Long id, MerchantStore merchant) {
+		Validate.notNull(merchant,"MerchantStore must not be null");
+		Validate.notNull(id,"id must not be null");
+		return productRepository.getById(id, merchant);
+	}
 
 
 }

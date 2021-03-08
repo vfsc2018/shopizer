@@ -1,5 +1,6 @@
 package com.salesmanager.shop.store.api.v1.order;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +15,13 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.vouchercode.VoucherCodeRepository;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
@@ -210,6 +215,9 @@ public class OrderApi {
 		List<ReadableOrder> orders = returnList.getOrders();
 		if (!CollectionUtils.isEmpty(orders)) {
 			for (ReadableOrder order : orders) {
+				if(order.getTotal()!=null && order.getTotal().getValue().doubleValue()<0){
+					order.getTotal().setValue(new BigDecimal(0));
+				}
 				order.setCustomer(readableCustomer);
 			}
 		}
@@ -315,6 +323,7 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'order_' + #id")
 	public ReadableOrder getOrder(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Principal principal = request.getUserPrincipal();
@@ -338,7 +347,10 @@ public class OrderApi {
 			response.sendError(404, "Order is null for customer " + principal);
 			return null;
 		}
-
+		if(order.getTotal()!=null && order.getTotal().getValue().doubleValue()<0){
+			order.getTotal().setValue(new BigDecimal(0));
+		}
+		
 		List<BillMaster> bills = billMasterService.findByOrderId(id);
 
 		order.setBills(bills);
@@ -375,6 +387,7 @@ public class OrderApi {
 	}
 
 	@PatchMapping("/private/customer/order/{id}/DONE/{billId}")
+	@CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'order_' + #id")
 	public ResponseEntity<?> setDone(@PathVariable final Long id, @PathVariable final Long billId, HttpServletRequest request) throws Exception {
 		
 		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
@@ -460,7 +473,9 @@ public class OrderApi {
 				response.sendError(401, "Error while performing checkout customer not authorized");
 				return null;
 			}
-			
+			if(StringUtils.isEmpty(order.getCode())) order.setCode(null);
+			if(StringUtils.isEmpty(order.getSecurecode())) order.setSecurecode(null);
+
 			if ((order.getCode() == null && order.getSecurecode()!=null) || (order.getCode() != null && order.getSecurecode()==null) ) {
 				response.sendError(401, "Error voucher code");
 				return null;

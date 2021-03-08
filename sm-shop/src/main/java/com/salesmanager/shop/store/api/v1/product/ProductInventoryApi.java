@@ -43,7 +43,7 @@ public class ProductInventoryApi {
 
   @ResponseStatus(HttpStatus.CREATED)
   @RequestMapping(
-      value = {"/private/product/inventory"},
+      value = {"/admin/product/inventory"},
       method = RequestMethod.POST)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -63,7 +63,7 @@ public class ProductInventoryApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{productId}/inventory/{id}"},
+      value = {"/admin/product/{productId}/inventory/{id}"},
       method = RequestMethod.PUT)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -85,7 +85,7 @@ public class ProductInventoryApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/inventory/{id}"},
+      value = {"/admin/product/inventory/{id}"},
       method = RequestMethod.DELETE)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -105,7 +105,7 @@ public class ProductInventoryApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{id}/inventory"},
+      value = {"/admin/product/{id}/inventory"},
       method = RequestMethod.GET)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -126,7 +126,7 @@ public class ProductInventoryApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{id}/inventory/{inventoryId}"},
+      value = {"/admin/product/{id}/inventory/{inventoryId}"},
       method = RequestMethod.GET)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),
@@ -147,7 +147,7 @@ public class ProductInventoryApi {
   
   @ResponseStatus(HttpStatus.OK)
   @RequestMapping(
-      value = {"/private/product/{id}/inventory/store/{code}"},
+      value = {"/admin/product/{id}/inventory/store/{code}"},
       method = RequestMethod.GET)
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "String", defaultValue = "DEFAULT"),

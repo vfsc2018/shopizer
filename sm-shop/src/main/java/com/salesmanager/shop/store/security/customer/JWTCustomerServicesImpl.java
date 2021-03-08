@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
-import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.shop.store.security.AbstractCustomerServices;
 import com.salesmanager.shop.store.security.user.JWTUser;
@@ -33,11 +33,12 @@ public class JWTCustomerServicesImpl extends AbstractCustomerServices {
 	@Override
 	protected UserDetails userDetails(String userName, Customer customer, Collection<GrantedAuthority> authorities) {
         
-		AuditSection section = customer.getAuditSection();
-		Date lastModified = null;
-		if(section != null) {//does not represent password change
-			lastModified = section.getDateModified();
-		}
+		// AuditSection section = customer.getAuditSection();
+		// Date lastModified = null;
+		// if(section != null) {//does not represent password change
+		// 	lastModified = section.getDateModified();
+		// }
+		Date lastPasswordReset = customer.getLastPasswordReset();
 		
 		return new JWTUser(
         		customer.getId(),
@@ -48,7 +49,7 @@ public class JWTCustomerServicesImpl extends AbstractCustomerServices {
                 customer.getPassword(),
                 authorities,
                 true,
-                lastModified
+                lastPasswordReset
         );
 	}
 

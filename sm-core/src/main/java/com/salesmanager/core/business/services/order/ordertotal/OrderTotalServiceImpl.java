@@ -45,7 +45,10 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 		RebatesOrderTotalVariation variation = new RebatesOrderTotalVariation();
 		
 		String sku = null;
-		String code = summary.getPromoCode();
+		String code = null;
+		if(StringUtils.isNotBlank(summary.getPromoCode())) {
+			code = summary.getPromoCode();
+		}
 
 		if(summary.getVoucher()!=null && StringUtils.isNotBlank(summary.getVoucher().getProductSku())){
 			sku = summary.getVoucher().getProductSku();
@@ -72,11 +75,12 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 			}
 		}
 		if(summary.getVoucher()!=null && sku==null){
-			if(summary.getVoucher().getDiscount()!=null){
+			if(summary.getVoucher().getDiscount()!=null || summary.getVoucher().getPoint()!=null){
 				OrderTotal orderTotal = new OrderTotal();
 				orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 				orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
 				orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
+				orderTotal.setPoint(summary.getVoucher().getPoint());
 				orderTotal.setTitle(summary.getVoucher().getCode() + ": " + summary.getVoucher().getPoint() + "/" + summary.getVoucher().getDiscount() + "/" + summary.getVoucher().getPercent() +  " #" + summary.getPromoCode());
 				orderTotal.setText(summary.getVoucher().getDescription() + " #" + summary.getVoucher().getCode());
 				orderTotal.setValue(new BigDecimal(summary.getVoucher().getDiscount()));

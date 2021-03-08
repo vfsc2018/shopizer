@@ -14,6 +14,7 @@ import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.Billing;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.customer.CustomerCriteria;
@@ -44,7 +45,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -88,6 +88,9 @@ public class CustomerController {
 	
 	@Inject
 	private CustomerService customerService;
+
+	@Inject
+	private CustomerFacade customerFacade;
 	
 	@Inject
 	private CustomerOptionService customerOptionService;
@@ -110,19 +113,12 @@ public class CustomerController {
 	@Inject
 	private CustomerAttributeService customerAttributeService;
 	
-	@Inject
-	@Named("passwordEncoder")
-	private PasswordEncoder passwordEncoder;
 	
 	// @Inject
 	// private EmailService emailService;
 	
 	// @Inject
 	// private EmailUtils emailUtils;
-	
-	@Inject
-	private CustomerFacade customerFacade;
-	
 	
 	/**
 	 * Customer details
@@ -648,6 +644,8 @@ public class CustomerController {
 			CustomerCriteria criteria = new CustomerCriteria();
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
+			criteria.setOrderBy(CriteriaOrderBy.DESC);
+			criteria.setCriteriaOrderByField("id");
 
 			if(!StringUtils.isBlank(address)) {
 				criteria.setAddress(address);
@@ -705,6 +703,11 @@ public class CustomerController {
 					entry.put("country", customer.getBilling().getCountry().getIsoCode());
 					entry.put("phone", customer.getBilling().getTelephone());
 					entry.put("address", customer.getBilling().getAddress());
+					Integer point = null;
+					if(customer.getLoyalty()!=null){
+						point = customer.getLoyalty().getVPoint();
+					}
+					entry.put("point", point);
 					if(customer.getAuditSection()==null){
 						entry.put("date", null);
 					}else{
@@ -843,17 +846,17 @@ public class CustomerController {
 			
 			// Locale customerLocale = LocaleUtils.getLocale(userLanguage);
 
-			String encodedPassword = passwordEncoder.encode(password);
+			// String encodedPassword = passwordEncoder.encode(password);
 			
-			customer.setPassword(encodedPassword);
+			// customer.setPassword(encodedPassword);
 			if(userName.contains("@")){
 				customer.setNick(userName);
 			}else{
 				customer.setNick(userName + "@vfsc.vn");
 			}
+			customerFacade.changePassword(customer, password);
 			
-			
-			customerService.saveOrUpdate(customer);
+			// customerService.saveOrUpdate(customer);
 			
 			//send email
 			

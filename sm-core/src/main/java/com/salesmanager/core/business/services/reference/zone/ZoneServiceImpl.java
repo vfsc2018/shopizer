@@ -155,7 +155,7 @@ public class ZoneServiceImpl extends SalesManagerEntityServiceImpl<Long, Zone> i
 		
 		
 			if(zones==null) {
-				zones = new HashMap<String, Zone>();
+				zones = new HashMap<>();
 				List<Zone> zns = zoneRepository.listByLanguage(language.getId());
 			
 				//set names

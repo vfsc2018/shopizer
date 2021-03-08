@@ -148,6 +148,7 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@JoinTable(name = "MERCHANT_LANGUAGE")
 	private List<Language> languages = new ArrayList<>();
 
+	@JsonIgnore
 	@Column(name = "USE_CACHE")
 	private boolean useCache = false;
 

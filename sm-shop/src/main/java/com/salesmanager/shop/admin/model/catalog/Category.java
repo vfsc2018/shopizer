@@ -21,7 +21,7 @@ public class Category implements Serializable {
   private com.salesmanager.core.model.catalog.category.Category category;
   
   @Valid
-  private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+  private List<CategoryDescription> descriptions = new ArrayList<>();
 
   public com.salesmanager.core.model.catalog.category.Category getCategory() {
     return category;

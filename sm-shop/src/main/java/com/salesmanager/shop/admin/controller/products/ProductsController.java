@@ -9,6 +9,7 @@ import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.ProductCriteria;
 import com.salesmanager.core.model.catalog.product.ProductList;
 import com.salesmanager.core.model.catalog.product.description.ProductDescription;
+import com.salesmanager.core.model.common.CriteriaOrderBy;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.admin.model.web.Menu;
@@ -80,7 +81,7 @@ public class ProductsController {
 		String categoryId = request.getParameter("categoryId");
 		String sku = request.getParameter("sku");
 		String available = request.getParameter("available");
-		String searchTerm = request.getParameter("searchTerm");
+		// String searchTerm = request.getParameter("searchTerm");
 		String name = request.getParameter("name");
 		
 		AjaxPageableResponse resp = new AjaxPageableResponse();
@@ -98,7 +99,8 @@ public class ProductsController {
 			
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-			
+			// criteria.setOrderBy(CriteriaOrderBy.DESC);
+			// criteria.setCriteriaOrderByField("id");
 			
 			if(!StringUtils.isBlank(categoryId) && !categoryId.equals("-1")) {
 				

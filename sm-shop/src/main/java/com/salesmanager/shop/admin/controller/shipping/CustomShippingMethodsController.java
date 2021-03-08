@@ -719,7 +719,7 @@ public class CustomShippingMethodsController {
 		//get supported countries
 		//List<String> includedCountries = shippingService.getSupportedCountries(store);
 		List<Country> shipToCountries = shippingService.getShipToCountryList(store, language);
-/*		List<Country> shippingCountries = new ArrayList<Country>();
+/*		List<Country> shippingCountries = new ArrayList<>();
 		Map<String,Country> countries = countryService.getCountriesMap(language);
 		if(shippingConfiguration.getShippingType().name().equals(ShippingType.INTERNATIONAL.name())){
 			

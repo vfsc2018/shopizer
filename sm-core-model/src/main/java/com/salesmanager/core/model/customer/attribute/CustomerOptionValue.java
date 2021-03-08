@@ -30,6 +30,8 @@ import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
 import com.salesmanager.core.model.merchant.MerchantStore;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 
 @Entity
 @Table(name="CUSTOMER_OPTION_VALUE", schema=SchemaConstant.SALESMANAGER_SCHEMA, indexes = { @Index(name="CUST_OPT_VAL_CODE_IDX",columnList = "CUSTOMER_OPT_VAL_CODE")}, uniqueConstraints=
@@ -57,10 +59,10 @@ public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOption
 	
 	@Valid
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customerOptionValue")
-	private Set<CustomerOptionValueDescription> descriptions = new HashSet<CustomerOptionValueDescription>();
+	private Set<CustomerOptionValueDescription> descriptions = new HashSet<>();
 	
 	@Transient
-	private List<CustomerOptionValueDescription> descriptionsList = new ArrayList<CustomerOptionValueDescription>();
+	private List<CustomerOptionValueDescription> descriptionsList = new ArrayList<>();
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -106,8 +108,8 @@ public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOption
 	}
 	
 	public List<CustomerOptionValueDescription> getDescriptionsSettoList() {
-		if(descriptionsList==null || descriptionsList.size()==0) {
-			descriptionsList = new ArrayList<CustomerOptionValueDescription>(this.getDescriptions());
+		if(CollectionUtils.isEmpty(descriptionsList)) {
+			descriptionsList = new ArrayList<>(this.getDescriptions());
 		} 
 		return descriptionsList;
 	}

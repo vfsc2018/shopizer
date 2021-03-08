@@ -159,7 +159,7 @@ public class ProductFacadeImpl implements ProductFacade {
 			throw new ResourceNotFoundException("Product [" + id + "] not found");
 		}
 
-		if (product.getMerchantStore().getId() != store.getId()) {
+		if (product.getMerchantStore().getId().intValue() != store.getId().intValue()){
 			throw new ResourceNotFoundException("Product [" + id + "] not found for store [" + store.getId() + "]");
 		}
 
@@ -332,7 +332,7 @@ public class ProductFacadeImpl implements ProductFacade {
 		List<Category> assigned = product.getCategories().stream()
 				.filter(cat -> cat.getId().longValue() == category.getId().longValue()).collect(Collectors.toList());
 
-		if (assigned.size() > 0) {
+		if (CollectionUtils.isNotEmpty(assigned)) {
 			throw new OperationNotAllowedException("Category with id [" + category.getId()
 					+ "] already attached to product [" + product.getId() + "]");
 		}

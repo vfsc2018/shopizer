@@ -159,7 +159,8 @@ public class PaymentApi {
             
             String details = String.format("{orderId:%s, transaction:%s, bankCode:%s, status:%s, totalMoney:%s}", transactionId, transactionNo, bankCode, status, totalMoney);
             boolean success = status!=null && status.equals(Payment.STATUS_SUCCESS);
-            if(orderService.paymentConfirm(id, true, success, new BigDecimal(totalMoney), details)){
+            
+            if(orderService.paymentConfirm(id, true, success, new BigDecimal(totalMoney), details)>=0){
                 return new ResponseEntity<>("{\"id\":" + id + "}", httpHeaders, HttpStatus.OK);
             }else{
                 return new ResponseEntity<>("{\"id\":" + id + ",\"token\":" + token + "}", httpHeaders, HttpStatus.BAD_REQUEST);

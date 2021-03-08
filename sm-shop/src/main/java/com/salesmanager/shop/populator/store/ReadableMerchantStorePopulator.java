@@ -2,6 +2,7 @@ package com.salesmanager.shop.populator.store;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
@@ -20,6 +21,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.country.Country;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.reference.zone.Zone;
+import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.references.ReadableAddress;
@@ -140,14 +142,16 @@ public class ReadableMerchantStorePopulator extends
 			
 			//target.setSupportedLanguages(langs);
 		}*/
-		
+		List<Language> supported = new ArrayList<>();
 		if(!CollectionUtils.isEmpty(source.getLanguages())) {
-			List<Language> supported = new ArrayList<>();
 			for(Language lang : source.getLanguages()) {
 				supported.add(lang);
 			}
-			target.setSupportedLanguages(supported);
+		}else{
+			supported.add(new Language(Constants.DEFAULT_LANGUAGE));
 		}
+
+		target.setSupportedLanguages(supported);
 		
 		if(source.getAuditSection()!=null) {
 			ReadableAudit audit = new ReadableAudit();

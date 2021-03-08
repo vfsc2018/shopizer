@@ -34,8 +34,8 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
       StringBuilder countBuilder = new StringBuilder();
       countBuilder.append("select count(distinct m) from MerchantStore m");
       if (criteria.getCode() != null) {
-        req.append("  where lower(m.code) like:code");
-        countBuilder.append(" where lower(m.code) like:code");
+        req.append("  where lower(m.code) like :code");
+        countBuilder.append(" where lower(m.code) like :code");
       }
       if (criteria.getName() != null) {
         if (criteria.getCode() == null) {
@@ -50,10 +50,9 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
       }
 
       if (!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
-        req.append(" order by m." + criteria.getCriteriaOrderByField() + " "
-            + criteria.getOrderBy().name().toLowerCase());
+        req.append(" order by m." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
       }
-
+      
       Query countQ = this.em.createQuery(countBuilder.toString());
 
       String hql = req.toString();
@@ -70,15 +69,12 @@ public class MerchantRepositoryImpl implements MerchantRepositoryCustom {
       if (criteria.getUser() != null) {
       }
 
-
-
       Number count = (Number) countQ.getSingleResult();
 
       GenericEntityList entityList = new GenericEntityList();
       entityList.setTotalCount(count.intValue());
       
       q = RepositoryHelper.paginateQuery(q, count, entityList, criteria);
-
 
       List<MerchantStore> stores = q.getResultList();
       entityList.setList(stores);

@@ -99,8 +99,6 @@ public class NotificationsController {
 	@RequestMapping(value = "/admin/notifications/save.html", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> buildBill(@RequestBody NotificationForm bean) {
 
-		
-
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);

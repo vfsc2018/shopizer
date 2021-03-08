@@ -25,7 +25,7 @@ public class ShopPermission implements Serializable
     @JsonProperty("group")
     private ShopGroup shopGroup;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
     private final static long serialVersionUID = -7938476709520334066L;
 
     @JsonProperty("type")

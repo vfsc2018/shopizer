@@ -35,6 +35,10 @@ public class ReadableCustomerPopulator extends
 			if(source.getId()!=null && source.getId()>0) {
 				target.setId(source.getId());
 			}
+			if (source.getLoyalty()!= null) {
+				target.setPoint(source.getLoyalty().getVPoint());
+			}
+			
 			target.setEmailAddress(source.getEmailAddress());
 
 			if (StringUtils.isNotEmpty(source.getNick())) {

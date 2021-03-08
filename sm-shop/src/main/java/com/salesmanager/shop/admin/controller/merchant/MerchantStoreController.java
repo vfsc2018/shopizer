@@ -308,7 +308,7 @@ public class MerchantStoreController {
 			store.setDefaultLanguage(defaultLanguage);
 		}
 
-		Locale storeLocale = LocaleUtils.getLocale(defaultLanguage);
+		// Locale storeLocale = LocaleUtils.getLocale(defaultLanguage);
 
 		store.setStoreTemplate(sessionStore.getStoreTemplate());
 		store.setCountry(country);
@@ -320,10 +320,10 @@ public class MerchantStoreController {
 
 		merchantStoreService.saveOrUpdate(store);
 
-		if (!store.getCode().equals(sessionStore.getCode())) {// create store
+		// if (!store.getCode().equals(sessionStore.getCode())) {// create store
 			// send email
 
-			try {
+			// try {
 
 				// Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store,
 				// 		messages, storeLocale);
@@ -348,11 +348,11 @@ public class MerchantStoreController {
 
 				// emailService.sendHtmlEmail(store, email);
 
-			} catch (Exception e) {
-				LOGGER.error("Cannot send email to user", e);
-			}
+		// 	} catch (Exception e) {
+		// 		LOGGER.error("Cannot send email to user", e);
+		// 	}
 
-		}
+		// }
 
 		sessionStore = merchantStoreService.getByCode(sessionStore.getCode());
 
@@ -380,14 +380,14 @@ public class MerchantStoreController {
 
 			if (StringUtils.isBlank(code)) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return new ResponseEntity<String>(resp.toJSONString(), httpHeaders, HttpStatus.OK);
+				return new ResponseEntity<>(resp.toJSONString(), httpHeaders, HttpStatus.OK);
 			}
 
 			MerchantStore store = merchantStoreService.getByCode(code);
 
 			if (store != null) {
 				resp.setStatus(AjaxResponse.CODE_ALREADY_EXIST);
-				return new ResponseEntity<String>(resp.toJSONString(), httpHeaders, HttpStatus.OK);
+				return new ResponseEntity<>(resp.toJSONString(), httpHeaders, HttpStatus.OK);
 			}
 
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

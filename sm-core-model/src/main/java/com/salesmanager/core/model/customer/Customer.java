@@ -83,6 +83,10 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CUSTOMER_DOB")
 	private Date dateOfBirth;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="LAST_PASSWORD_RESET")
+	private Date lastPasswordReset;
 	
 	@Email
 	@NotEmpty
@@ -185,7 +189,13 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 		this.id = id;
 	}
 
+	public Date getLastPasswordReset() {
+		return CloneUtils.clone(lastPasswordReset);
+	}
 
+	public void setLastPasswordReset(Date lastPasswordReset) {
+		this.lastPasswordReset = CloneUtils.clone(lastPasswordReset);
+	}
 
 	public Date getDateOfBirth() {
 		return CloneUtils.clone(dateOfBirth);
@@ -234,8 +244,6 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	public void setCompany(String company) {
 		this.company = company;
 	}
-
-
 
 	public String getPassword() {
 		return password;

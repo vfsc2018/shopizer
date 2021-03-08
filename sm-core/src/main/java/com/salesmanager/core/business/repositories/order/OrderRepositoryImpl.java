@@ -49,26 +49,10 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		StringBuilder countBuilderSelect = new StringBuilder();
 		StringBuilder objectBuilderSelect = new StringBuilder();
 		
-		//com.salesmanager.core.model.order.orderstatus.OrderStatus.valueOf(criteria.getStatus())
-
-		
-		
-		
-		
-		// String orderByCriteria = " order by o.id desc";
-		
-		// if(criteria.getOrderBy()!=null) {
-		// 	if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
-		// 		orderByCriteria = " order by o.id asc";
-		// 	}
-		// }
-		
 		String countBaseQuery = "select count(o) from Order as o";
 		String baseQuery = "select o from Order as o left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
 		countBuilderSelect.append(countBaseQuery);
 		objectBuilderSelect.append(baseQuery);
-
-		
 		
 		StringBuilder countBuilderWhere = new StringBuilder();
 		StringBuilder objectBuilderWhere = new StringBuilder();
@@ -144,7 +128,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
 			objectBuilderWhere.append(" order by o." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
 		}else{
-			objectBuilderWhere.append(" order by o.id desc ");
+			// objectBuilderWhere.append(" order by o.id desc ");
 		}
 
 		//count query
@@ -206,8 +190,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectQ.setParameter("pId",criteria.getId());
 		}
 		
-		
-		
 		if(criteria.getStatus()!=null) {
 			if(!checkEnum(criteria.getStatus())){
 				countQ.setParameter("pStatus",null);
@@ -232,8 +214,6 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
         
         objectQ.setFirstResult(first);
         
-        
-        
     	if(max>0) {
     			int maxCount = first + max;
 
@@ -251,141 +231,149 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		
 	}
 
-	@Override
-	public OrderList listOrders(MerchantStore store, OrderCriteria criteria) {
-		OrderList orderList = new OrderList();
-		StringBuilder countBuilderSelect = new StringBuilder();
-		StringBuilder objectBuilderSelect = new StringBuilder();
+	// @Override
+	// public OrderList listOrders(MerchantStore store, OrderCriteria criteria) {
+	// 	OrderList orderList = new OrderList();
+	// 	StringBuilder countBuilderSelect = new StringBuilder();
+	// 	StringBuilder objectBuilderSelect = new StringBuilder();
 
-		String orderByCriteria = " order by o.id desc";
+	// 	// String orderByCriteria = " order by o.id desc";
 
-		if(criteria.getOrderBy()!=null) {
-			if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
-				orderByCriteria = " order by o.id asc";
-			}
-		}
+	// 	// if(criteria.getOrderBy()!=null) {
+	// 	// 	if(CriteriaOrderBy.ASC.name().equals(criteria.getOrderBy().name())) {
+	// 	// 		orderByCriteria = " order by o.id asc";
+	// 	// 	}
+	// 	// }
 
 		
-		String baseQuery = "select o from Order as o left join fetch o.delivery.country left join fetch o.delivery.zone left join fetch o.billing.country left join fetch o.billing.zone left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
-		String countBaseQuery = "select count(o) from Order as o";
+	// 	String baseQuery = "select o from Order as o left join fetch o.delivery.country left join fetch o.delivery.zone left join fetch o.billing.country left join fetch o.billing.zone left join fetch o.orderTotal ot left join fetch o.orderProducts op left join fetch o.orderAttributes oa left join fetch op.orderAttributes opo left join fetch op.prices opp";
+	// 	String countBaseQuery = "select count(o) from Order as o";
 		
-		countBuilderSelect.append(countBaseQuery);
-		objectBuilderSelect.append(baseQuery);
+	// 	countBuilderSelect.append(countBaseQuery);
+	// 	objectBuilderSelect.append(baseQuery);
 
-		StringBuilder objectBuilderWhere = new StringBuilder();
+	// 	StringBuilder objectBuilderWhere = new StringBuilder();
 
-		String storeQuery =" where o.merchant.code=:mCode";;
-		objectBuilderWhere.append(storeQuery);
-		countBuilderSelect.append(storeQuery);
+	// 	String storeQuery =" where o.merchant.code=:mCode";;
+	// 	objectBuilderWhere.append(storeQuery);
+	// 	countBuilderSelect.append(storeQuery);
 		
-		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
-			String nameQuery =  " and lower(o.billing.firstName) LIKE lower(:name) or o.billing.lastName LIKE :name";
-			objectBuilderWhere.append(nameQuery);
-			countBuilderSelect.append(nameQuery);
-		}
+	// 	if(!StringUtils.isEmpty(criteria.getCustomerName())) {
+	// 		String nameQuery =  " and lower(o.billing.firstName) LIKE lower(:name) or o.billing.lastName LIKE :name";
+	// 		objectBuilderWhere.append(nameQuery);
+	// 		countBuilderSelect.append(nameQuery);
+	// 	}
 
 
-		if(!StringUtils.isBlank(criteria.getAddress())) {
-			String nameQuery =" and lower(o.billing.address) LIKE lower(:addr) ";
-			countBuilderSelect.append(nameQuery);
-			objectBuilderWhere.append(nameQuery);
-		}
+	// 	if(!StringUtils.isBlank(criteria.getAddress())) {
+	// 		String nameQuery =" and lower(o.billing.address) LIKE lower(:addr) ";
+	// 		countBuilderSelect.append(nameQuery);
+	// 		objectBuilderWhere.append(nameQuery);
+	// 	}
 		
-		if(!StringUtils.isEmpty(criteria.getEmail())) {
-			String nameQuery =  " and o.customerEmailAddress like:email";
-			objectBuilderWhere.append(nameQuery);
-			countBuilderSelect.append(nameQuery);
-		}
+	// 	if(!StringUtils.isEmpty(criteria.getEmail())) {
+	// 		String nameQuery =  " and o.customerEmailAddress like:email";
+	// 		objectBuilderWhere.append(nameQuery);
+	// 		countBuilderSelect.append(nameQuery);
+	// 	}
 		
-		//id
-		if(criteria.getId() != null) {
-			String nameQuery =  " and str(o.id) like :id";
-			objectBuilderWhere.append(nameQuery);
-			countBuilderSelect.append(nameQuery);
-		}
+	// 	//id
+	// 	if(criteria.getId() != null) {
+	// 		String nameQuery =  " and str(o.id) like :id";
+	// 		objectBuilderWhere.append(nameQuery);
+	// 		countBuilderSelect.append(nameQuery);
+	// 	}
 		
-		//phone
-		if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
-			String nameQuery =  " and o.billing.telephone like:phone or o.delivery.telephone like:phone";
-			objectBuilderWhere.append(nameQuery);
-			countBuilderSelect.append(nameQuery);
-		}
+	// 	//phone
+	// 	if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
+	// 		String nameQuery =  " and o.billing.telephone like:phone or o.delivery.telephone like:phone";
+	// 		objectBuilderWhere.append(nameQuery);
+	// 		countBuilderSelect.append(nameQuery);
+	// 	}
 		
-		//status
-		if(!StringUtils.isEmpty(criteria.getStatus())) {
-			String nameQuery =  " and o.status =:status";
-			objectBuilderWhere.append(nameQuery);
-			countBuilderSelect.append(nameQuery);
-		}
+	// 	//status
+	// 	if(!StringUtils.isEmpty(criteria.getStatus())) {
+	// 		String nameQuery =  " and o.status =:status";
+	// 		objectBuilderWhere.append(nameQuery);
+	// 		countBuilderSelect.append(nameQuery);
+	// 	}
 	
-		objectBuilderWhere.append(orderByCriteria);
+	// 	objectBuilderWhere.append(orderByCriteria);
 
-		//count query
-		Query countQ = em.createQuery(
-				countBuilderSelect.toString());
+	// 	//count query
+	// 	Query countQ = em.createQuery(
+	// 			countBuilderSelect.toString());
 
-		//object query
-		Query objectQ = em.createQuery(
-				objectBuilderSelect.toString() + objectBuilderWhere.toString());
+	// 	//object query
+	// 	Query objectQ = em.createQuery(
+	// 			objectBuilderSelect.toString() + objectBuilderWhere.toString());
 		
-		//customer name
-		if(!StringUtils.isEmpty(criteria.getCustomerName())) {
-			countQ.setParameter("name", like(criteria.getCustomerName()));
-			objectQ.setParameter("name", like(criteria.getCustomerName()));
-		}
-		if(!StringUtils.isEmpty(criteria.getAddress())) {
-			countQ.setParameter("addr", like(criteria.getAddress()));
-			objectQ.setParameter("addr", like(criteria.getAddress()));
-		}
-		//email
-		if(!StringUtils.isEmpty(criteria.getEmail())) {
-			countQ.setParameter("email", like(criteria.getEmail()));
-			objectQ.setParameter("email", like(criteria.getEmail()));			
-		}
+	// 	if(!StringUtils.isBlank(criteria.getMessage())) {
+	// 		String nameParam = new StringBuilder().append("%").append(criteria.getMessage()).append("%").toString();
+	// 		countQ.setParameter("pMessager",nameParam);
+	// 		objectQ.setParameter("pMessager",nameParam);
+	// 	}
+	// 	//customer name
+	// 	if(!StringUtils.isEmpty(criteria.getCustomerName())) {
+	// 		String nameParam = like(criteria.getCustomerName());
+	// 		countQ.setParameter("name", nameParam);
+	// 		objectQ.setParameter("name", nameParam);
+	// 	}
+	// 	if(!StringUtils.isEmpty(criteria.getAddress())) {
+	// 		String nameParam = like(criteria.getAddress());
+	// 		countQ.setParameter("addr", nameParam);
+	// 		objectQ.setParameter("addr", nameParam);
+	// 	}
+	// 	//email
+	// 	if(!StringUtils.isEmpty(criteria.getEmail())) {
+	// 		String nameParam = like(criteria.getEmail());
+	// 		countQ.setParameter("email", nameParam);
+	// 		objectQ.setParameter("email", nameParam);			
+	// 	}
 		
-		//id
-		if(criteria.getId() != null) {
-			countQ.setParameter("id", like(String.valueOf(criteria.getId())));
-			objectQ.setParameter("id", like(String.valueOf(criteria.getId())));
-		}
+	// 	//id
+	// 	if(criteria.getId() != null) {
+	// 		countQ.setParameter("id", like(String.valueOf(criteria.getId())));
+	// 		objectQ.setParameter("id", like(String.valueOf(criteria.getId())));
+	// 	}
 		
-		//phone
-		if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
-			countQ.setParameter("phone", like(criteria.getCustomerPhone()));
-			objectQ.setParameter("phone", like(criteria.getCustomerPhone()));
-		}
+	// 	//phone
+	// 	if(!StringUtils.isEmpty(criteria.getCustomerPhone())) {
+	// 		countQ.setParameter("phone", like(criteria.getCustomerPhone()));
+	// 		objectQ.setParameter("phone", like(criteria.getCustomerPhone()));
+	// 	}
 		
-		//status
-		if(!StringUtils.isEmpty(criteria.getStatus())) {
-			countQ.setParameter("status", OrderStatus.valueOf(criteria.getStatus().toUpperCase()));
-			objectQ.setParameter("status", OrderStatus.valueOf(criteria.getStatus().toUpperCase()));
-		}
+	// 	//status
+	// 	if(!StringUtils.isEmpty(criteria.getStatus())) {
+	// 		countQ.setParameter("status", OrderStatus.valueOf(criteria.getStatus().toUpperCase()));
+	// 		objectQ.setParameter("status", OrderStatus.valueOf(criteria.getStatus().toUpperCase()));
+	// 	}
 		
 
-		countQ.setParameter("mCode", store.getCode());
-		objectQ.setParameter("mCode", store.getCode());
+	// 	countQ.setParameter("mCode", store.getCode());
+	// 	objectQ.setParameter("mCode", store.getCode());
 
 
-		Number count = (Number) countQ.getSingleResult();
+	// 	Number count = (Number) countQ.getSingleResult();
 
-		if(count.intValue()==0)
-			return orderList;
+	// 	if(count.intValue()==0)
+	// 		return orderList;
 
-	    @SuppressWarnings("rawtypes")
-		GenericEntityList entityList = new GenericEntityList();
-	    entityList.setTotalCount(count.intValue());
+	//     @SuppressWarnings("rawtypes")
+	// 	GenericEntityList entityList = new GenericEntityList();
+	//     entityList.setTotalCount(count.intValue());
 		
-		objectQ = RepositoryHelper.paginateQuery(objectQ, count, entityList, criteria);
+	// 	objectQ = RepositoryHelper.paginateQuery(objectQ, count, entityList, criteria);
 		
-		//TODO use GenericEntityList
+	// 	//TODO use GenericEntityList
 
-		orderList.setTotalCount(entityList.getTotalCount());
-		orderList.setTotalPages(entityList.getTotalPages());
+	// 	orderList.setTotalCount(entityList.getTotalCount());
+	// 	orderList.setTotalPages(entityList.getTotalPages());
 
-		orderList.setOrders(objectQ.getResultList());
+	// 	orderList.setOrders(objectQ.getResultList());
 
-		return orderList;
-	}
+	// 	return orderList;
+	// }
 	
 	private String like(String q) {
 		return '%' + q + '%';

@@ -107,8 +107,7 @@ public interface ShoppingCartFacade {
 	 * @return
 	 * @throws Exception
 	 */
-	ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store,
-			Language language) throws Exception;
+	ReadableShoppingCart addToCart(PersistableShoppingCartItem item, MerchantStore store, Language language) throws Exception;
 
 	/**
 	 * Removes a shopping cart item

@@ -12,7 +12,7 @@ import java.util.List;
 public class ContentFolder {
 	
 	private String path;
-	List<Content> content = new ArrayList<Content>();
+	List<Content> content = new ArrayList<>();
 	public String getPath() {
 		return path;
 	}

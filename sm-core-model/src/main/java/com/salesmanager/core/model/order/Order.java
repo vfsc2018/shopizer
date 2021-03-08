@@ -129,6 +129,10 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	
 	@Column (name ="SHIPPING_MODULE_CODE")
 	private String shippingModuleCode;
+
+	// @JsonIgnore
+	// @Column (name ="VOUCHER")
+	// private String voucher;
 	
 	@Column(name = "CUSTOMER_AGREED")
 	private Boolean customerAgreement = false;
@@ -212,6 +216,13 @@ public class Order extends SalesManagerEntity<Long, Order> implements Auditable 
 	@Column (name ="TO_DATE")
 	private Date toDate;
 	
+	// public String getVoucher() {
+	// 	return voucher;
+	// }
+	// public void setVoucher(String voucher) {
+	// 	this.voucher = voucher;
+	// }
+
 	public String getComments() {
 		return comments;
 	}

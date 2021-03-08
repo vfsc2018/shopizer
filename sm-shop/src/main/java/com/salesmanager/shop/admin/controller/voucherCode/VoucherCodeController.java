@@ -40,7 +40,6 @@ import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.LabelUtils;
-import com.salesmanager.shop.utils.VoucherUtils;
 
 @Controller
 @Scope("session")
@@ -79,8 +78,7 @@ public class VoucherCodeController {
 	}
 
 	@RequestMapping(value = "/admin/vouchercodes/reportCode.html", method = RequestMethod.GET)
-	public String reportBill(@RequestParam("id") Integer billId,Model model,
-			HttpServletRequest request, HttpServletResponse response)
+	public String reportVoucherCode(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		// display menu
 		setMenu(model, request);
@@ -90,10 +88,27 @@ public class VoucherCodeController {
 			model.addAttribute("data",new ArrayList<>());
 		}
 		
-		MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
-		model.addAttribute("currency",sessionStore.getCurrency());
+		// MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		// model.addAttribute("currency",sessionStore.getCurrency());
 		
 		return "admin-orders-report-voucherCode";
+	}	
+
+	@RequestMapping(value = "/admin/vouchercodes/printCode.html", method = RequestMethod.GET)
+	public String printVoucherCode(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// display menu
+		setMenu(model, request);
+		try {
+			model.addAttribute("data",request.getSession().getAttribute("STORE_VOUCHERCODEDATA"));
+		} catch (Exception e) {
+			model.addAttribute("data",new ArrayList<>());
+		}
+		
+		// MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+		// model.addAttribute("currency",sessionStore.getCurrency());
+		
+		return "admin-orders-print-voucherCode";
 	}	
 	
 	
@@ -134,6 +149,10 @@ public class VoucherCodeController {
 
 			String id = request.getParameter("id");
 			String voucherId = request.getParameter("voucherId");
+			if(StringUtils.isEmpty(voucherId) && request.getSession().getAttribute("voucherId")!=null){
+				voucherId = (String)(request.getSession().getAttribute("voucherId"));
+			}
+
 			String blocked = request.getParameter("blocked");
 			
 			String	code = request.getParameter("code");
@@ -142,7 +161,8 @@ public class VoucherCodeController {
 			
 			String	used = request.getParameter("used");
 			String orderId = request.getParameter("orderId");
-			String batch = request.getParameter("batch");
+			String batch = request.getParameter("batch"); 
+			String available = request.getParameter("available");
 			
 			
 			if(used!=null && used.length()!=10){
@@ -156,6 +176,7 @@ public class VoucherCodeController {
 			criteria.setMaxCount(endRow);
 
 			criteria.setBlocked(blocked!=null && blocked.equals("true"));
+			criteria.setAvailable(available!=null && available.equals("true"));
 
 			if(!StringUtils.isBlank(id)) {
 				try {
@@ -239,7 +260,7 @@ public class VoucherCodeController {
 					if(transaction.getCustomer()!=null){
 						entry.put("customerId", transaction.getCustomerId());	
 					}
-					
+					entry.put("available", transaction.getUsed()==null);
 					if(transaction.getUsed()!=null){
 						entry.put("used", com.salesmanager.shop.utils.DateUtil.formatTimeDate(transaction.getUsed()));	
 					}
@@ -270,8 +291,7 @@ public class VoucherCodeController {
 
 
 	@RequestMapping(value = "/admin/vouchercodes/view.html", method = RequestMethod.GET)
-	public String viewVoucherCode(@RequestParam("id") Long id, Model model,
-			HttpServletRequest request, HttpServletResponse response)
+	public String viewVoucherCode(@RequestParam("id") Long id, Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		// display menu
@@ -357,7 +377,7 @@ public class VoucherCodeController {
 					VoucherCode code = new VoucherCode();
 					code.setVoucher(voucher);
 					code.setIndex(nextIndex + i);
-					code.setCode(VoucherUtils.encode(VoucherUtils.TYPE_ORDER_PAYMENT, voucher.getId(), next + i));
+					code.setCode(voucherCodeService.encode(VoucherCodeService.TYPE_ORDER_PAYMENT, voucher.getId(), next + i));
 					code.setId(0L);
 					code.setBatch(bean.getBatch());
 					ls.add(code);

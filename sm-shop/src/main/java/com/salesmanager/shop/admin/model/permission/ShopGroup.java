@@ -23,7 +23,7 @@ public class ShopGroup implements Serializable
     @JsonProperty("name")
     private List<String> name = null;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
     private final static long serialVersionUID = 8390421982207090115L;
 
     @JsonProperty("name")

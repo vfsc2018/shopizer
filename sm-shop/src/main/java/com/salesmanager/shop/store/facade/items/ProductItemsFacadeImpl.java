@@ -9,9 +9,12 @@ import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.relationship.ProductRelationshipService;
@@ -120,6 +123,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	}
 
 	@Override
+	@Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "#group")
 	public ReadableProductList listItemsByGroup(String group, MerchantStore store, Language language) throws Exception {
 
 
@@ -133,14 +137,14 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 				ids.add(product.getId());
 			}
 			
-			ReadableProductList list = listItemsByIds(store, language, ids, 0, 0);
-			return list;
+			return listItemsByIds(store, language, ids, 0, 0);
 		}
 		
 		return null;
 	}
 
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key="#group")
 	public ReadableProductList addItemToGroup(Product product, String group, MerchantStore store, Language language) {
 		
 		Validate.notNull(product,"Product must not be null");
@@ -157,7 +161,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 			throw new ServiceRuntimeException("ExceptionWhile getting product group [" + group + "]", e);
 		}
 		
-		if(existList.size()>0) {
+		if(CollectionUtils.isNotEmpty(existList)) {
 			throw new OperationNotAllowedException("Product with id [" + product.getId() + "] is already in the group");
 		}
 		
@@ -181,6 +185,7 @@ public class ProductItemsFacadeImpl implements ProductItemsFacade {
 	}
 
 	@Override
+	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key="#group")
 	public ReadableProductList removeItemFromGroup(Product product, String group, MerchantStore store,
 			Language language) throws Exception {
 		

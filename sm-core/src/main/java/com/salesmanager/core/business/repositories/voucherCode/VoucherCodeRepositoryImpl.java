@@ -75,6 +75,12 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
+
+		if(criteria.getAvailable()) {
+			String nameQuery =" and c.used is NULL ";
+			baseCountQuery.append(nameQuery);
+			baseQuery.append(nameQuery);
+		}
 		
 		if(!StringUtils.isBlank(criteria.getCriteriaOrderByField())) {
 			baseQuery.append(" order by c." + criteria.getCriteriaOrderByField() + " " + criteria.getOrderBy().name().toLowerCase());
@@ -82,7 +88,6 @@ public class VoucherCodeRepositoryImpl implements VoucherCodeRepositoryCustom {
 			// baseQuery.append(" order by c.id desc ");
 		}
 	
-
 		Query countQ = em.createQuery(baseCountQuery.toString());
 		//object query
 		Query objectQ = em.createQuery(baseQuery.toString());

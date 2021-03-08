@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.hashids.Hashids;
 import org.springframework.stereotype.Service;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.vouchercode.VoucherCodeRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -17,10 +18,6 @@ import com.salesmanager.core.model.vouchercode.VoucherCodeList;
 
 @Service("voucherCodeService")
 public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, VoucherCode> implements VoucherCodeService {
-
-
-	final static String alphabet = "78912346QAZWSXEDCRFVTGBYHNUJMKLP";
-	final static int min = 12;
 
 	@Inject
 	private VoucherCodeRepository voucherCodesRepository;
@@ -69,12 +66,12 @@ public class VoucherCodeServiceImpl extends SalesManagerEntityServiceImpl<Long, 
 	}
 	@Override
 	public String encode(Long type, Long a, Long b) {
-		Hashids hashids = new Hashids("o", min, alphabet);
+		Hashids hashids = new Hashids("o", Constants.CODE_MINLEN, Constants.CODE_ALPHABET);
 		return hashids.encode(type, a, b);
 	}
 	@Override
 	public long[] decode(String code) {
-		Hashids hashids = new Hashids("o", min, alphabet);
+		Hashids hashids = new Hashids("o", Constants.CODE_MINLEN, Constants.CODE_ALPHABET);
 		return hashids.decode(code);
 	}
 }

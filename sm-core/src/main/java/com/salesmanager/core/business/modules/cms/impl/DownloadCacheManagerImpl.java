@@ -9,7 +9,7 @@ package com.salesmanager.core.business.modules.cms.impl;
 public class DownloadCacheManagerImpl extends CacheManagerImpl {
 
 
-  private final static String NAMED_CACHE = "DownlaodRepository";
+  public final static String NAMED_CACHE = "DownlaodRepository";
   private String root;
 
 
