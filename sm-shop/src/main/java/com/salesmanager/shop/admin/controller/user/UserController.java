@@ -906,7 +906,7 @@ public class UserController {
 			
 			
 			//send email
-			
+/*			
 			try {
 				String[] storeEmail = {store.getStoreEmailAddress()};						
 				
@@ -930,7 +930,7 @@ public class UserController {
 				LOGGER.error("Cannot send email to user",e);
 			}
 			
-			
+			*/
 			
 			
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);

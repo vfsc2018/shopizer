@@ -191,7 +191,7 @@
                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.generic.moreoptions" text="More options"/> ... <span class="caret"></span></button>
                      <ul class="dropdown-menu">
 				    	<li><a id="${user.id}" href="#resetPassword"><s:message code="button.label.resetpassword" text="Reset password" /></a></li>
-				    	<li><a id="${user.id}" href="#setCredentials"><s:message code="button.label.setcredentials" text="Set credentials" /></a></li>
+				    	<!-- li><a id="${user.id}" href="#setCredentials"><s:message code="button.label.setcredentials" text="Set credentials" /></a></li-->
                      </ul>
                 </div><!-- /btn-group -->
 			    <br/>
