@@ -32,8 +32,9 @@
 		
 	    //set credentials link
 	    $('a[href="#setCredentials"]').click(function(){
-	    	var customerId = this.id;
+	    	
 			$('#credentialsModal').modal();
+			$('#crUserName').val($('#adminName').val());
 		});		
 		
 		
@@ -88,9 +89,10 @@
 			  success: function(response){
 				   $('#confirmationInnerBox').hideLoading();
 				   $('#confirmModal').modal('hide');
+				   var msg = isc.XMLTools.selectObjects(response, "/response/statusMessage");
 					var status = isc.XMLTools.selectObjects(response, "/response/status");
 					if(status==0 || status ==9999) {
-						
+						alert(msg);
 						$('#customerSuccess').html('<s:message code="message.password.reset" text="Password has been reset" />');
 						$('#customerSuccess').show();
 						
@@ -114,7 +116,7 @@
 	}
 
 
-	function setCredentials(customerId, userName, password){
+	function setCredentials(userName, password){
 		$('#customerError').hide();
 		$('#customerSuccess').hide();
 		$('#crConfirmationInnerBox').showLoading({
@@ -124,20 +126,24 @@
 		$.ajax({
 		  type: 'POST',
 		  url: '<c:url value="/admin/users/setCredentials.html"/>',
-		  data: 'customerId=' + customerId + '&userName=' + userName + '&password=' + password,
+		  data: 'userName=' + userName + '&password=' + password,
 		  dataType: 'json',
 		  success: function(response){
 			   $('#crConfirmationInnerBox').hideLoading();
 			   $('#confirmModal').modal('hide');
+			   alert(response.statusMessage);
+			    var msg = isc.XMLTools.selectObjects(response, "/response/statusMessage");
 				var status = isc.XMLTools.selectObjects(response, "/response/status");
 				if(status==0 || status ==9999) {
-					
+					alert(msg);
 					$('#customerSuccess').html('<s:message code="message.credentials.reset" text="Credentials have been changed" />');
 					$('#customerSuccess').show();
 					
 				} else {
+					
 					$('#customerError').html('<s:message code="message.error" text="An error occured" />');
 					$('#customerError').show();
+					
 				}
 
 
@@ -191,7 +197,7 @@
                     <button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><s:message code="label.generic.moreoptions" text="More options"/> ... <span class="caret"></span></button>
                      <ul class="dropdown-menu">
 				    	<li><a id="${user.id}" href="#resetPassword"><s:message code="button.label.resetpassword" text="Reset password" /></a></li>
-				    	<!-- li><a id="${user.id}" href="#setCredentials"><s:message code="button.label.setcredentials" text="Set credentials" /></a></li-->
+				    	<li><a id="${user.id}" href="#setCredentials"><s:message code="button.label.setcredentials" text="Set credentials" /></a></li>
                      </ul>
                 </div><!-- /btn-group -->
 			    <br/>
@@ -412,7 +418,7 @@
   <div class="modal-footer">
   
   		   <button class="btn btn-primary" aria-hidden="true"
-	  		   	onClick="setCredentials( $('#customerId').val(), $('#crUserName').val(), $('#crPassword').val() );" >
+	  		   	onClick="setCredentials($('#crUserName').val(), $('#crPassword').val() );" >
 	  		   	<s:message  code="button.label.submit2" text="Submit" />
 	  	   </button>
   		   	

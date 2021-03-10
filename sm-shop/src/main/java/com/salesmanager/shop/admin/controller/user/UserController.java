@@ -872,15 +872,14 @@ public class UserController {
 	
 	@RequestMapping(value="/admin/users/resetPasswordForUsers.html", method=RequestMethod.POST)
 	public @ResponseBody
-	ResponseEntity<String> resetPassword(@ModelAttribute(value="userReset") UserReset userReset,HttpServletRequest request,HttpServletResponse response) {
+	ResponseEntity<String> resetPassword(@ModelAttribute(value="userReset") UserReset userReset,HttpServletRequest request,HttpServletResponse response,Locale locale) {
 		
 		String username = request.getParameter("username");
-		
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-	    Locale userLocale =  null; 
+
 		try {
 			if(username==null || StringUtils.isBlank(username)){
 				resp.setErrorString("User not correct");
@@ -890,49 +889,16 @@ public class UserController {
 				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			User dbUser = userService.getByUserName(username);
-			
-			Language userLanguage = dbUser.getDefaultLanguage();
-			
-			
-			userLocale =  LocaleUtils.getLocale(userLanguage);
-			
+
 			String tempPass = userReset.generateRandomString();
-			System.out.println(tempPass);
+
 			
 			String pass = passwordEncoder.encode(tempPass);
 			
 			dbUser.setAdminPassword(pass);
 			userService.update(dbUser);
-			
-			
-			//send email
-/*			
-			try {
-				String[] storeEmail = {store.getStoreEmailAddress()};						
-				
-				Map<String, String> templateTokens = emailUtils.createEmailObjectsMap(request.getContextPath(), store, messages, userLocale);
-				templateTokens.put(EmailConstants.EMAIL_RESET_PASSWORD_TXT, messages.getMessage("email.user.resetpassword.text", userLocale));
-				templateTokens.put(EmailConstants.EMAIL_CONTACT_OWNER, messages.getMessage("email.contactowner", storeEmail, userLocale));
-				templateTokens.put(EmailConstants.EMAIL_PASSWORD_LABEL, messages.getMessage("label.generic.password",userLocale));
-				templateTokens.put(EmailConstants.EMAIL_USER_PASSWORD, tempPass);
 
-				Email email = new Email();
-				email.setFrom(store.getStorename());
-				email.setFromEmail(store.getStoreEmailAddress());
-				email.setSubject(messages.getMessage("label.generic.changepassword",userLocale));
-				email.setTo(dbUser.getAdminEmail() );
-				email.setTemplateName(RESET_PASSWORD_TPL);
-				email.setTemplateTokens(templateTokens);
-				
-				emailService.sendHtmlEmail(store, email);
-			
-			} catch (Exception e) {
-				LOGGER.error("Cannot send email to user",e);
-			}
-			
-			*/
-			
-			
+			resp.setStatusMessage(messages.getMessage("User.resetPassword.resetSuccess", locale)+ "(" + tempPass +")");
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 			
 		} catch (Exception e) {
@@ -947,5 +913,53 @@ public class UserController {
 		
 	}
 	
+	
+	
+	@RequestMapping(value="/admin/users/setCredentials.html", method=RequestMethod.POST)
+	public @ResponseBody
+	ResponseEntity<String> setCredentials(HttpServletRequest request,HttpServletResponse response,Locale locale) {
+		
+
+		String userName = request.getParameter("userName");
+		String password = request.getParameter("password");
+
+		AjaxResponse resp = new AjaxResponse();
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		
+		try {
+			
+
+			if(StringUtils.isBlank(userName) || StringUtils.isBlank(password)) {
+				resp.setErrorString("Invalid username or password");
+				resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+				String returnString = resp.toJSONString();
+				return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
+			}
+
+			User dbUser = userService.getByUserName(userName);
+
+			String pass = passwordEncoder.encode(password);
+			
+			dbUser.setAdminPassword(pass);
+			
+			userService.update(dbUser);			
+			resp.setStatusMessage(messages.getMessage("User.resetPassword.resetSuccess", locale) + "(" + password +")");
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
+			
+			
+			
+		} catch (Exception e) {
+			LOGGER.error("An exception occured while changing password",e);
+			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
+		}
+		
+		
+		String returnString = resp.toJSONString();
+
+
+		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
+
+	}	
 	
 	}
