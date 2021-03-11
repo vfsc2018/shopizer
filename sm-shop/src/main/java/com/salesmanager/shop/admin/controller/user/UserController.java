@@ -898,8 +898,9 @@ public class UserController {
 			dbUser.setAdminPassword(pass);
 			userService.update(dbUser);
 
-			resp.setStatusMessage(messages.getMessage("User.resetPassword.resetSuccess", locale)+ "(" + tempPass +")");
+
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
+			resp.setErrorString(messages.getMessage("User.resetPassword.resetSuccess", locale)+ "(" + tempPass +")");
 			
 		} catch (Exception e) {
 			LOGGER.error("An exception occured while changing password",e);
@@ -944,9 +945,9 @@ public class UserController {
 			dbUser.setAdminPassword(pass);
 			
 			userService.update(dbUser);			
-			resp.setStatusMessage(messages.getMessage("User.resetPassword.resetSuccess", locale) + "(" + password +")");
+
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
-			
+			resp.setErrorString(messages.getMessage("User.resetPassword.resetSuccess", locale)+ "(" + password +")");
 			
 			
 		} catch (Exception e) {

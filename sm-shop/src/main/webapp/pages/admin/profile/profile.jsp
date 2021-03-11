@@ -81,6 +81,8 @@
 	                'indicatorZIndex' : 1000001,
 	                'overlayZIndex': 1000000
 			})
+
+			
 			$.ajax({
 			  type: 'POST',
 			  url: '<c:url value="/admin/users/resetPasswordForUsers.html"/>',
@@ -89,10 +91,11 @@
 			  success: function(response){
 				   $('#confirmationInnerBox').hideLoading();
 				   $('#confirmModal').modal('hide');
-				   var msg = isc.XMLTools.selectObjects(response, "/response/statusMessage");
+				   
+				   var result = response.response;
 					var status = isc.XMLTools.selectObjects(response, "/response/status");
 					if(status==0 || status ==9999) {
-						alert(msg);
+						alert(result.statusMessage);
 						$('#customerSuccess').html('<s:message code="message.password.reset" text="Password has been reset" />');
 						$('#customerSuccess').show();
 						
@@ -131,11 +134,11 @@
 		  success: function(response){
 			   $('#crConfirmationInnerBox').hideLoading();
 			   $('#confirmModal').modal('hide');
-			   alert(response.statusMessage);
-			    var msg = isc.XMLTools.selectObjects(response, "/response/statusMessage");
+			   var result = response.response;
+
 				var status = isc.XMLTools.selectObjects(response, "/response/status");
 				if(status==0 || status ==9999) {
-					alert(msg);
+					alert(result.statusMessage);
 					$('#customerSuccess').html('<s:message code="message.credentials.reset" text="Credentials have been changed" />');
 					$('#customerSuccess').show();
 					
