@@ -5,6 +5,8 @@ import org.infinispan.tree.TreeCache;
 
 public interface CacheManager extends CMSManager {
 
+  public static final long serialVersionUID = 1L;
+
   public EmbeddedCacheManager getManager();
 
   @SuppressWarnings("rawtypes")

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,6 @@ import org.jsoup.helper.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -44,6 +44,7 @@ import com.salesmanager.core.business.services.order.OrderService;
 import com.salesmanager.core.business.services.order.bill.BillMasterService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.voucher.VoucherService;
+import com.salesmanager.core.business.utils.CacheUtils;
 import com.salesmanager.core.model.order.BillMaster;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
@@ -109,6 +110,9 @@ public class OrderApi {
 
 	@Inject
 	private VoucherService voucherService;
+
+	@Inject
+	private CacheUtils cache;
 	
 	// private static final String DEFAULT_ORDER_LIST_COUNT = "25";
 
@@ -177,10 +181,12 @@ public class OrderApi {
 	@RequestMapping(value = { "/private/customer/orders" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	public ReadableOrderList list(@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "count", required = false) Integer count, @ApiIgnore MerchantStore merchantStore,
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'orders_' + #request.userPrincipal.principal.id + '_' + #page")
+	public ReadableOrderList list(@RequestParam(defaultValue = "0") Integer page,
+			@RequestParam(defaultValue = "5") Integer count, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Principal principal = request.getUserPrincipal();
@@ -193,13 +199,6 @@ public class OrderApi {
 		if (customer == null) {
 			response.sendError(401, "Error while listing orders, customer not authorized");
 			return null;
-		}
-
-		if (page == null) {
-			page = 0;
-		}
-		if (count == null) {
-			count = 10;
 		}
 
 		ReadableCustomer readableCustomer = new ReadableCustomer();
@@ -361,9 +360,10 @@ public class OrderApi {
 	@RequestMapping(value = { "/private/customer/order/confirm/bill" }, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
-		@ApiImplicitParams({ 
-			@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
-			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
+		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
+	
 	public List<BillMaster> getOrderMustConfirm(@ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request) throws Exception {
 		
@@ -376,6 +376,17 @@ public class OrderApi {
 			return Collections.emptyList();
 		}
 
+		String keyName = CacheUtils.KEY_CUSTOMER_REMIND_ORDER + id;
+		Long updateTime = (Long)cache.get(keyName);
+		if(updateTime!=null){
+			long diff = System.currentTimeMillis()-updateTime.longValue();
+			long diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diff);
+			if(diffMinutes<100){
+				return Collections.emptyList();
+			}
+		}
+		cache.put(System.currentTimeMillis(), keyName);
+		
 		//List<OrderStatus> status = List.of(OrderStatus.PROCESSING, OrderStatus.PROCESSED, OrderStatus.DELIVERING, OrderStatus.DELIVERED);
 		List<OrderStatus> status = new ArrayList<>();
 		status.add(OrderStatus.PROCESSING);
@@ -387,7 +398,6 @@ public class OrderApi {
 	}
 
 	@PatchMapping("/private/customer/order/{id}/DONE/{billId}")
-	@CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'order_' + #id")
 	public ResponseEntity<?> setDone(@PathVariable final Long id, @PathVariable final Long billId, HttpServletRequest request) throws Exception {
 		
 		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();

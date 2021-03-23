@@ -120,6 +120,9 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	@Column(name = "REVIEW_COUNT")
 	private Integer customerReviewCount;
+
+	@Column(name = "ORDER_COUNT")
+	private Integer orderCount=0;
 	
 	@Column(name="PROVIDER")
 	private String provider;
@@ -372,6 +375,15 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 
 	public void setCustomerReviewCount(Integer customerReviewCount) {
 		this.customerReviewCount = customerReviewCount;
+	}
+
+
+	public Integer getOrderCount() {
+		return orderCount;
+	}
+
+	public void setOrderCount(Integer orderCount) {
+		this.orderCount = orderCount;
 	}
 
 	@Override

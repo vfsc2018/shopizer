@@ -70,6 +70,23 @@ public class PushUtils {
 		noti.setFcmTokens(token);
 		return toToken(noti);
 	}
+
+	public static boolean sendCustomer(String token, String message, String data, String title){
+		NotificationPush noti = new NotificationPush();
+		noti.setTitle(title);
+		noti.setBody(message);
+		noti.setData(data);
+		noti.setFcmTokens(token);
+		return toToken(noti);
+	}
+
+	public static boolean sendAllCustomer(String message, String data, String title){
+		NotificationPush noti = new NotificationPush();
+		noti.setTitle(title);
+		noti.setBody(message);
+		noti.setData(data);
+		return toAll(noti);
+	}
 	
 
 	private static boolean send(NotificationPush packet, String action) {

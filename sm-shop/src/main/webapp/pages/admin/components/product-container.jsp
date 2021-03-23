@@ -98,7 +98,7 @@
 	                    							<c:if test="${appendQueryStringToEdit!=null && appendQueryStringToEdit!=''}">
 	                    									url = url + '&<c:out value="${appendQueryStringToEdit}" />' ;
 	                    							</c:if>
-	                    							window.location=url;
+													window.open(url, '_blank');
 	                							}
 	            							});
 	            						}
@@ -112,8 +112,8 @@
 								isc.ListGrid.create({
     									ID: "containerList",
 										dataSource: "container",
-										// showRecordComponents: false,    
-										// showRecordComponentsByCell: true,
+										showRecordComponents: true,    
+										showRecordComponentsByCell: true,
     									canAcceptDroppedRecords: true,
     									canRemoveRecords: true,
     									canReorderRecords: false,
@@ -123,16 +123,38 @@
     									leaveScrollbarGap: false,
     									canEdit: ${showUnit},
     									editByCell: true,
-										editEvent: "click", 
+										autoSaveEdits:false,
+										editEvent: "doubleClick", 
+										selectionType: "single",
 										<c:if test = "${showUnit}">  									
     										fields: [
     												{title:"<s:message code="label.entity.id" text="Id"/>", name:"productId", canFilter:false},
-    												{title:"<s:message code="label.entity.name" text="Name"/>", name:"name"},
-    												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
-    												{title:"<s:message code="label.quantity" text="Quantity"/>", name:"quantity"},
-    												{title:"<s:message code="label.unit" text="Unit"/>", name:"unit"},
-    												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"}
-											],	
+    												{title:"<s:message code="label.entity.name" text="Name"/>", name:"name", canEdit:false},
+    												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku", canEdit:false},
+    												{title:"<s:message code="label.quantity" text="Quantity"/>", name:"quantity", align: "right"},
+    												{title:"<s:message code="label.unit" text="Unit"/>", name:"unit",
+														formatCellValue:function (value) {
+															return value;
+														}
+													},
+    												{title:"Save",type:"button",name: "save"},
+											],
+											createRecordComponent : function (record, colNum) {  
+												var fieldName = this.getFieldName(colNum);
+												if (fieldName == "save") {  
+													var button = isc.IButton.create({
+														height: 18,
+														width: 40,
+														title: "save",
+														// ID: '_' + record['relationshipId'],
+														click : function () {
+															var row = containerList.getEditedRecord(containerList.getEventRow());
+															containerList.updateData(row);
+														}
+													});
+												}
+												return button;  
+											},
 										</c:if>	
 										<c:if test = "${!showUnit}">  
 											fields: [
@@ -141,11 +163,40 @@
     												{title:"<s:message code="label.product.sku" text="Sku"/>", name:"sku"},
     												{title:"<s:message code="label.product.available" text="Available"/>", name:"available",type:"boolean"}
 											],
-										</c:if>	
-    									removeData: function () {
-											if (confirm('<s:message code="label.entity.remove.confirm" text="Do you really want to remove this record ?" />')) {
-												return this.Super("removeData", arguments);
+										</c:if>
+										updateData: function (row) {
+											var body = 'action=update' ;
+											if(row['productId']) body += '&productId=' + row['productId'];
+											if(row['relationshipId']) body += '&relationshipId=' + row['relationshipId'];
+											if(row['quantity']) body += '&quantity=' + row['quantity'];
+											if(row['unit']) body += '&unit=' + row['unit'];
+
+											$.ajax({
+													type: 'POST',
+													url: '<c:url value="${containerUpdateUrl}"/>',
+													data: body,
+													dataType: 'json',
+													success: function(response){
+														var status = isc.XMLTools.selectObjects(response, "/response/status");
+														if(status==0 || status ==9999) {
+															alert('Data updated successfull');
+														} else {
+														}
+													},
+													error: function(xhr, textStatus, errorThrown) {
+														alert('error ' + errorThrown);
+													}
+													
+												});
+										},
+										markRecordRemoved: function (x) {
+											if(x>=0){
+												var row = containerList.getEditedRecord(x);
+												return this.Super("removeData", row);
 											}
+										},
+    									removeData: function () {
+											return this.Super("removeData", arguments);
 										}
 										
 								});

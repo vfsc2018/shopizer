@@ -12,6 +12,8 @@ public class OrderTotalInputParameters {
 	private Double discount;//output value set by engine
 	private Double moneyoff;
 	private String totalCode;//output value set by engine
+
+	private Integer orderIndex;
 	
 	//input parameters
 	private long productId;
@@ -23,6 +25,13 @@ public class OrderTotalInputParameters {
 	
 	//might add variation based on other objects such as Customer
 	
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
+
 	public Double getMoneyoff() {
 		return moneyoff;
 	}
@@ -36,6 +45,7 @@ public class OrderTotalInputParameters {
 	public void setDiscount(Double discount) {
 		this.discount = discount;
 	}
+	
 	public String getTotalCode() {
 		return totalCode;
 	}

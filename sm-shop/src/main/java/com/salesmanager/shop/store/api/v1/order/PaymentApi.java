@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
+import com.salesmanager.core.business.utils.CacheUtils;
 import com.salesmanager.core.business.utils.CoreConfiguration;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.order.Order;
@@ -59,6 +60,9 @@ public class PaymentApi {
 
 	@Inject
 	private OrderService orderService;
+
+    @Inject
+    private CacheUtils cache;
 
     private Payment vnpayPayload(String bank, String info, String tran, int total) {
         

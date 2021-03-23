@@ -139,7 +139,7 @@
 	                						width: 65,
 	               					 		title: "<s:message code="label.entity.details" text="Details"/>",
 	                						click : function () {
-	                							window.location='<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"];
+												window.open('<c:url value="/admin/products/editProduct.html" />?id=' + record["productId"], '_blank');
 	                						}
 	            						});
 	            						return button;   

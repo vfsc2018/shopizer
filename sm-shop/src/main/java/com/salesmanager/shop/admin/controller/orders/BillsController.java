@@ -393,28 +393,33 @@ public class BillsController {
 		}
 
 		List<BillMaster> dataStoreNew = new ArrayList<>();
-		List<BillMaster> dataStore = new ArrayList<>();
+		// List<BillMaster> dataStore = new ArrayList<>();
 		try {
-			dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
-			
-			if(type.equals("1")){
-					if(fromDate!=null || toDate!=null){
-						for(BillMaster bean: dataStore){
-							boolean check1 = false;
-							boolean check2 = false;
+			@SuppressWarnings("unchecked")
+			List<BillMaster> dataStore = (List<BillMaster>)request.getSession().getAttribute("STORE_BILLDATA");
+		
+			for(BillMaster bean: dataStore){
+				boolean check1 = false; 
+				boolean check2 = false; 
+				boolean check = true;
+				if (bean.getDateExported()!=null && (fromDate!=null || toDate!=null)){
+					check1 = fromDate==null || fromDate.compareTo(bean.getDateExported())<=0;
+					check2 = toDate==null || toDate.compareTo(bean.getDateExported())>=0;
 
-							if (bean.getDateExported()!=null){
-								check1 = fromDate==null || fromDate.before(bean.getDateExported());
-								check2 = toDate==null || toDate.after(bean.getDateExported());
-								if(check1 && check2) dataStoreNew.add(bean);
-							}
-							
-						}
-						
-						model.addAttribute("data",dataStoreNew);
-					} else  {
-						model.addAttribute("data",dataStore);		
+					if(fromDate!=null){
+						check = check1;
 					}
+					if(toDate!=null){
+						check &= check2;
+					}
+				}
+				if(check){
+					dataStoreNew.add(bean);						
+				}
+			}
+
+			if(type.equals("1")){
+					model.addAttribute("data",dataStoreNew);
 					
 					MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 					model.addAttribute("currency",sessionStore.getCurrency());
@@ -422,29 +427,15 @@ public class BillsController {
 					return "admin-orders-report-bill";
 					
 			}else{
-				List<CollectBill> datas = new ArrayList<>();
 				String billIds ="";
-				int check=0;
-				dataStoreNew = new ArrayList<>();
-				for(BillMaster bean:dataStore){
-					check=0;
-					if (bean.getDateExported()!=null 
-							&& bean.getDateExported().compareTo(fromDate) >= 0
-							&& bean.getDateExported().compareTo(toDate) <= 0
-							) {
-			            System.out.println("Date1 is after Date2");
-			            check=1;
-			        }
-					
-					if(check>0){
-						if(billIds.equals("")) {
-							billIds = bean.getId() +"";
-						}else{
-							billIds +=","+bean.getId();
-						}						
+				for(BillMaster billMaster:dataStoreNew){
+					if(billIds.equals("")) {
+						billIds = billMaster.getId() +"";
+					}else{
+						billIds +=","+billMaster.getId();
 					}
 				}
-				datas = billService.collectBill(billIds);
+				List<CollectBill> datas = billService.collectBill(billIds);
 				model.addAttribute("data",datas);
 				
 				MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
@@ -470,10 +461,11 @@ public class BillsController {
 			throws Exception {
 		// display menu
 		setMenu(model, request);
-		List<BillMaster> dataStore = new ArrayList<>();
+		// List<BillMaster> dataStore = new ArrayList<>();
 		List<CollectBill> datas = new ArrayList<>();
 		try {
-			dataStore = (List<BillMaster>)(request.getSession().getAttribute("STORE_BILLDATA"));
+			@SuppressWarnings("unchecked")
+			List<BillMaster> dataStore = (List<BillMaster>)(request.getSession().getAttribute("STORE_BILLDATA"));
 			String billIds ="";
 			for(BillMaster billMaster:dataStore){
 				if(billIds.equals("")) {

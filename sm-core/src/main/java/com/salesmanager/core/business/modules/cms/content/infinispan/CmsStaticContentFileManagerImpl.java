@@ -123,7 +123,7 @@ public class CmsStaticContentFileManagerImpl
 					IOUtils.toByteArray(inputStaticContentData.getFile()));
 
 			LOGGER.info("Content data added successfully.");
-		} catch (final Exception e) {
+		} catch (Exception e) {
 			LOGGER.error("Error while saving static content data", e);
 			throw new ServiceException(e);
 

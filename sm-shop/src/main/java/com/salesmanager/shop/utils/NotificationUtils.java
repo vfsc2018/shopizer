@@ -28,8 +28,39 @@ public class NotificationUtils {
 		noti.setTopic(topic);
 		Notifications result = notificationsRepository.save(noti);
 		String token = customer.getFcmtoken();
-		if(token!=null && result!=null && result.getId()!=null && result.getId().longValue()>0){
+		if(token!=null && result.getId()!=null && result.getId().longValue()>0){
 			return PushUtils.confirmAfterOrder(token, orderId, message, data);
+			
+		}
+		return false;
+	}
+
+	public boolean sendCustomer(Customer customer, String msg, String title) {
+		Notifications noti = new Notifications();
+		String topic = customer.getNick();
+		String data = "{\"message\":" + msg + "\"}";
+		String message = msg;
+		noti.setCustomer(customer);
+		noti.setMessage(message);
+		noti.setTopic(topic);
+		Notifications result = notificationsRepository.save(noti);
+		String token = customer.getFcmtoken();
+		if(token!=null && result.getId()!=null && result.getId().longValue()>0){
+			return PushUtils.sendCustomer(token, message, data, title);
+			
+		}
+		return false;
+	}
+	public boolean sendAllCustomer(String msg, String title) {
+		Notifications noti = new Notifications();
+		String topic = "all";
+		String data = "{\"message\":" + msg + "\"}";
+		String message = msg;
+		noti.setMessage(message);
+		noti.setTopic(topic);
+		Notifications result = notificationsRepository.save(noti);
+		if(result.getId()!=null && result.getId().longValue()>0){
+			return PushUtils.sendAllCustomer(message, data, title);
 			
 		}
 		return false;

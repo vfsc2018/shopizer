@@ -40,6 +40,7 @@ import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.tax.TaxService;
+import com.salesmanager.core.business.utils.CacheUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
@@ -121,6 +122,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         if(order==null) return -1;
         Customer customer = customerService.getById(order.getCustomerId());
         if(customer==null) return -1;
+        int orderIndex = (customer.getOrderCount()==null?0:customer.getOrderCount().intValue());
 
         Set<OrderTotal> totals = order.getOrderTotal();
         int earn = 0;
@@ -128,6 +130,9 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             for(OrderTotal t: totals){
                 if(t.getPoint()!=null){
                     earn += t.getPoint().intValue();
+                }
+                if(t.getOrderIndex()!=null && t.getOrderIndex().intValue()!=orderIndex+1){
+                    return -1;
                 }
             }
         }
@@ -148,6 +153,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                 this.saveOrUpdate(order);
                 loyalty.setVPoint(point + earn);
                 customer.setLoyalty(loyalty);
+                customer.setOrderCount(orderIndex + 1);
                 result = order.getTotal().intValue();
                 customerService.saveOrUpdate(customer);
                 detail += (", point: " + point + ", earn: " + earn);
@@ -512,7 +518,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
     }
 
-    private OrderTotalSummary caculateShoppingCart( ShoppingCart shoppingCart, final Customer customer, final MerchantStore store, final Language language) throws Exception {
+    private OrderTotalSummary caculateShoppingCart(ShoppingCart shoppingCart, final Customer customer, final MerchantStore store, final Language language) throws Exception {
 
 
     	OrderSummary orderSummary = new OrderSummary();
@@ -558,8 +564,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
      * 
      */
     @Override
-    public OrderTotalSummary calculateShoppingCartTotal(
-                                                        final ShoppingCart shoppingCart, final Customer customer, final MerchantStore store,
+    public OrderTotalSummary calculateShoppingCartTotal(final ShoppingCart shoppingCart, final Customer customer, final MerchantStore store,
                                                         final Language language) throws ServiceException {
         Validate.notNull(shoppingCart,"Order summary cannot be null");
         Validate.notNull(customer,"Customery cannot be null");
@@ -588,8 +593,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
      * 
      */
     @Override
-    public OrderTotalSummary calculateShoppingCartTotal(
-                                                        final ShoppingCart shoppingCart, final MerchantStore store, final Language language)
+    public OrderTotalSummary calculateShoppingCartTotal(final ShoppingCart shoppingCart, final MerchantStore store, final Language language)
                                                                         throws ServiceException {
         Validate.notNull(shoppingCart,"Order summary cannot be null");
         Validate.notNull(store,"MerchantStore cannot be null");
@@ -602,12 +606,10 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         }
     }
 
-    @Override
-    public void delete(final Order order) throws ServiceException {
-
-
-        super.delete(order);
-    }
+    // @Override
+    // public void delete(final Order order) throws ServiceException {
+    //     super.delete(order);
+    // }
 
 
     @Override
@@ -617,8 +619,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
         Validate.notNull(order.getOrderTotal(),"Order totals cannot be null");
 
         try {
-            ByteArrayOutputStream stream = invoiceModule.createInvoice(store, order, language);
-            return stream;
+            return invoiceModule.createInvoice(store, order, language);
         } catch(Exception e) {
             throw new ServiceException(e);
         }

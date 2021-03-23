@@ -18,6 +18,7 @@ public class VoucherForm  implements Serializable{
 	private Integer  point = 0;
 	private Integer  discount = 0;
 	private Integer percent = 0;
+	private Integer orderIndex;
 	private Integer  status = 0;
 	private Integer  blocked = 0;
 	private String blockMessage;
@@ -33,6 +34,13 @@ public class VoucherForm  implements Serializable{
 	private String manager;
 	/*********************************************/
 	private String productSku;
+	
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 	
 	public String getProductSku() {
 		return productSku;

@@ -15,10 +15,10 @@ public class CollectBill {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Double getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(Double quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 	public Double getTotalMoney() {
@@ -31,7 +31,7 @@ public class CollectBill {
 	private String code;
 	private String name;
 	private String unit;
-	private Double quantity;
+	private String quantity;
 	private Double totalMoney;
 	private Long parentId;	
 	

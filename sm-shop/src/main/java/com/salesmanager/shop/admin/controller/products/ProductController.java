@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,7 +199,7 @@ public class ProductController {
 			ProductPrice productPrice = null;
 			
 			Set<ProductAvailability> availabilities = dbProduct.getAvailabilities();
-			if(availabilities!=null && availabilities.size()>0) {
+			if(CollectionUtils.isNotEmpty(availabilities)) {
 				
 				for(ProductAvailability availability : availabilities) {
 					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
@@ -731,7 +732,7 @@ public class ProductController {
 			newProduct.setSortOrder(product.getProduct().getSortOrder());
 
 			Set<ProductAvailability> avails = newProduct.getAvailabilities();
-			if(avails !=null && avails.size()>0) {
+			if(CollectionUtils.isNotEmpty(avails)) {
 				
 				for(ProductAvailability availability : avails) {
 					if(availability.getRegion().equals(com.salesmanager.core.business.constants.Constants.ALL_REGIONS)) {
@@ -805,7 +806,7 @@ public class ProductController {
 		newProduct.setAvailabilities(availabilities);
 
 		Set<ProductDescription> descriptions = new HashSet<>();
-		if(product.getDescriptions()!=null && product.getDescriptions().size()>0) {
+		if(CollectionUtils.isNotEmpty(product.getDescriptions())) {
 			
 			for(ProductDescription description : product.getDescriptions()) {
 				description.setProduct(newProduct);

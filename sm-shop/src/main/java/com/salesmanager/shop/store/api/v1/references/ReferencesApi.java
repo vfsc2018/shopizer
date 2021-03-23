@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.currency.Currency;
@@ -29,6 +31,7 @@ import com.salesmanager.shop.store.controller.currency.facade.CurrencyFacade;
 import com.salesmanager.shop.store.controller.language.facade.LanguageFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.controller.zone.facade.ZoneFacade;
+import com.salesmanager.shop.store.security.MerchantValue;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 /**
@@ -96,11 +99,13 @@ public class ReferencesApi {
    * @return
    */
   @GetMapping("/currency")
+  @Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "DEFAULT_STORE_CURRENCY")
   public List<Currency> getCurrency() {
     return currencyFacade.getList();
   }
 
   @GetMapping("/measures")
+  @Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "DEFAULT_STORE_MEASURE")
   public SizeReferences measures() {
     SizeReferences sizeReferences = new SizeReferences();
     sizeReferences.setMeasures(Arrays.asList(MeasureUnit.values()));
@@ -110,11 +115,12 @@ public class ReferencesApi {
   
 
 	@GetMapping("/information")
-	public MerchantStore information(HttpServletRequest request) throws ServiceException {
+  @Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "'DEFAULT_STORE_INFORMATION'")
+	public MerchantValue information(HttpServletRequest request) throws ServiceException {
 		
 		MerchantStore merchantStore = merchantStoreService.getByCode(MerchantStore.DEFAULT_STORE);
     
-    MerchantStore store = new MerchantStore();
+    MerchantValue store = new MerchantValue();
 
     store.setStorename(merchantStore.getStorename());
     store.setStorebank(merchantStore.getStorebank());

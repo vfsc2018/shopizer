@@ -1,18 +1,19 @@
 package com.salesmanager.shop.model.content;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Folder containing content
- * images and other files
- * @author carlsamson
- *
- */
-public class ContentFolder {
-	
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ContentFolder implements Serializable {
+
+    private static final long serialVersionUID = 71077881625L;
+
 	private String path;
-	List<Content> content = new ArrayList<>();
+	private List<Content> content = new ArrayList<>();
+	
 	public String getPath() {
 		return path;
 	}

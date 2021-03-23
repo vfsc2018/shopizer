@@ -7,6 +7,8 @@ import com.salesmanager.core.model.user.Group;
 import com.salesmanager.core.model.user.GroupType;
 import com.salesmanager.core.model.user.Permission;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Helper for building security groups and permissions
  * @author carlsamson
@@ -43,7 +45,9 @@ public class SecurityGroupsBuilder {
 		
 		Permission permission = new Permission();
 		permission.setPermissionName(name);
-		lastGroup.getPermissions().add(permission);
+		if(lastGroup!=null && CollectionUtils.isNotEmpty(lastGroup.getPermissions())) {
+			lastGroup.getPermissions().add(permission);
+		}
 		
 		return this;
 	}
@@ -61,8 +65,9 @@ public class SecurityGroupsBuilder {
 			}
 		}
 		
-
-		lastGroup.getPermissions().add(permission);
+		if(lastGroup!=null && CollectionUtils.isNotEmpty(lastGroup.getPermissions())) {
+			lastGroup.getPermissions().add(permission);
+		}
 		
 		return this;
 	}

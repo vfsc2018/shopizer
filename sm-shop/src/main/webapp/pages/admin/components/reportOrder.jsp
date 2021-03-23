@@ -59,13 +59,15 @@ td, th {
 			<th><s:message code="label.order.reportBill.phone" text="Phone"/></th>
 			<th><s:message code="label.order.reportBill.address" text="Address"/></th>
 			<th><s:message code="label.order.reportBill.dateExported" text="Date exported"/></th>  
-			<th><s:message code="label.order.reportBill.status" text="Status"/></th>  
+			<th><s:message code="label.order.reportBill.totalMoney" text="Total"/></th>  
 		</tr> 
 	</thead>
 	<tbody>
 	<c:set var="stt" value="0" />
+	<c:set var="total" value="0" />
 	<c:forEach items="${data}" var="entity" varStatus="counter">
 	<c:set var="stt" value="${stt + 1 }" />
+	<c:set var="total" value="${total + entity.total}" />
 		<tr>
 				<td><c:out value="${stt}" /></td>
 				<td><c:out value="${entity.id}" /></td>
@@ -73,10 +75,20 @@ td, th {
 				<td><c:out value="${entity.billing.telephone}" /></td>
 				<td><c:out value="${entity.billing.address}" /></td>
 				<td><c:out value="${entity.datePurchased}" /></td>
-				<td><c:out value="${entity.status}" /></td>
+				<td style="text-align: right;"><sm:monetary value="${entity.total}" currency="${currency}"/></td>
 	
 		</tr>
 	</c:forEach>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td style="text-align: right;"><h3><sm:monetary value="${total}" currency="${currency}"/></h3></td>
+
+	</tr>
 	</tbody>
 </table>		
 

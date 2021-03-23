@@ -172,8 +172,8 @@ public class ProductsController {
 					Map entry = new HashMap();
 					entry.put("productId", product.getId());
 					entry.put("sortOrder", product.getSortOrder());
-					
-					ProductDescription description = product.getDescriptions().iterator().next();
+					Set<ProductDescription> descs = product.getDescriptions();
+					ProductDescription description = descs.iterator().next();
 					
 					entry.put("name", description.getName());
 					entry.put("sku", product.getSku());

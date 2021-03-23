@@ -60,7 +60,7 @@ public class PermissionServiceImpl extends
 	@Override
 	public List<Permission> getPermissions(List<Integer> groupIds)
 			throws ServiceException {
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+		@SuppressWarnings({ "rawtypes" })
 		Set ids = new HashSet(groupIds);
 		return permissionRepository.findByGroups(ids);
 	}

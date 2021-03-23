@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -30,7 +30,7 @@ import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.LanguageUtils;
 
 
-public class AdminFilter extends HandlerInterceptorAdapter {
+public class AdminFilter implements HandlerInterceptor {
 	
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdminFilter.class);
@@ -50,6 +50,7 @@ public class AdminFilter extends HandlerInterceptorAdapter {
 	@Inject
 	private LanguageUtils languageUtils;
 	
+	@Override
 	public boolean preHandle(
             HttpServletRequest request,
             HttpServletResponse response,

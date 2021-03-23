@@ -14,6 +14,7 @@ import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
@@ -120,6 +121,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 		return productRepository.getProductsListByIds(idSet);
 	}
 
+	// @Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'productId_' + #productId")
 	public Product getById(Long productId) {
 		return productRepository.getById(productId);
 	}
@@ -209,16 +211,13 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
+	// @Cacheable(value=CacheNamesImpl.CACHE_PRODUCT, key = "'productCode_' + #productCode + '_' + #language.id")
 	public Product getByCode(String productCode, Language language) {
 		return productRepository.getByCode(productCode, language);
 	}
 
-
-
-
-
 	@Override
-	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product' + #product.id")
+	// @CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product' + #product.id")
 	public void delete(Product product) throws ServiceException {
 		LOGGER.debug("Deleting product");
 		Validate.notNull(product, "Product cannot be null");
@@ -258,7 +257,7 @@ public class ProductServiceImpl extends SalesManagerEntityServiceImpl<Long, Prod
 	}
 
 	@Override
-	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product' + #product.id")
+	// @CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product' + #product.id")
 	public void update(Product product) throws ServiceException {
 		saveOrUpdate(product);
 		searchService.index(product.getMerchantStore(), product);

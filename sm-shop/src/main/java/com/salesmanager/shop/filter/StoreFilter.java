@@ -45,8 +45,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -60,7 +60,7 @@ import java.util.stream.Collectors;
  * Servlet Filter implementation class StoreFilter
  */
 
-public class StoreFilter extends HandlerInterceptorAdapter {
+public class StoreFilter implements HandlerInterceptor {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StoreFilter.class);
 
@@ -114,9 +114,8 @@ public class StoreFilter extends HandlerInterceptorAdapter {
 	public StoreFilter() {
 
 	}
-
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 		request.setCharacterEncoding("UTF-8");
 

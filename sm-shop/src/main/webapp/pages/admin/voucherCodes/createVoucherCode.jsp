@@ -22,7 +22,7 @@
 
     $(function() {
 
-		$("#btSaveBill").click(function() {
+		$("#btSaveBill").one('click', function(){
 			$( "#FormCreateBatchCode" ).submit();
 		});
 

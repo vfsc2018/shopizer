@@ -8,6 +8,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.validation.constraints.Max;
@@ -26,7 +27,7 @@ import com.salesmanager.core.model.generic.SalesManagerEntity;
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @EntityListeners(value = AuditListener.class)
-@Table(name = "VOUCHER", schema= SchemaConstant.SALESMANAGER_SCHEMA)
+@Table(name = "VOUCHER", schema= SchemaConstant.SALESMANAGER_SCHEMA,indexes = {@Index(columnList = "code")})
 public class Voucher extends SalesManagerEntity<Long, Voucher> implements Auditable, JSONAware {
 
 	private static final long serialVersionUID = 1L;
@@ -36,10 +37,16 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	@TableGenerator(name = "TABLE_GEN", table = "SM_SEQUENCER", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_COUNT", pkColumnValue = "VOUCHER_SEQ_NEXT_VAL")
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "TABLE_GEN")
 	private Long id;
+
+	@Column(unique = true)
 	private String code;
+	
 	private String description;
 	private Integer point = 0;
 	private Integer discount = 0;
+
+	private Integer orderIndex;
+
 	@Min(0)
 	@Max(100)
 	private Integer percent = 0;
@@ -85,18 +92,20 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	public Integer getPoint() {
 		return point;
 	}
-
-
 	public void setPoint(Integer point) {
 		this.point = point;
 	}
 
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 
 	public Integer getDiscount() {
 		return discount;
 	}
-
-
 	public void setDiscount(Integer discount) {
 		this.discount = discount;
 	}

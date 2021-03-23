@@ -46,7 +46,7 @@
 				 <c:set value="/admin/catalogue/related/removeItem.html?baseProductId=${productId}" var="containerRemoveUrl" scope="request"/>
 				 <c:set value="RELATED" var="removeEntity" scope="request"/>
 				 <c:set value="/admin/catalogue/related/addItem.html?baseProductId=${productId}" var="containerAddUrl" scope="request"/>
-				 <c:set value="/admin/catalogue/related/update.html" var="containerUpdateUrl" scope="request"/>
+				 <c:set value="/admin/catalogue/related/update.html?baseProductId=${productId}" var="containerUpdateUrl" scope="request"/>
 				 <c:set value="/admin/products/editProduct.html" var="editUrl" scope="request"/>
 				 <c:set value="/admin/catalogue/related/list.html?id=${productId}" var="reloadUrl" scope="request"/>
 				 <c:set var="componentTitleKey" value="label.product.related.title" scope="request"/>

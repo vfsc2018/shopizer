@@ -226,7 +226,7 @@ public class OrdersController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		List<CollectBill> datas = new ArrayList<>();
+		
 		
 
 		String strFromDate = request.getParameter("fromDate");
@@ -252,16 +252,25 @@ public class OrdersController {
 		List<Order> dataStoreNew = new ArrayList<>();
 		
 		for(Order bean: dataStore){
-			boolean check1 = false;
-			boolean check2 = false;
+			boolean check1 = false; 
+			boolean check2 = false; 
+			boolean check = true;
+			if (bean.getDatePurchased()!=null && (fromDate!=null || toDate!=null)){
+				check1 = fromDate==null || fromDate.compareTo(bean.getDatePurchased())<=0;
+				check2 = toDate==null || toDate.compareTo(bean.getDatePurchased())>=0;
 
-			if (bean.getDatePurchased()!=null){
-				check1 = fromDate==null || fromDate.before(bean.getDatePurchased());
-				check2 = toDate==null || toDate.after(bean.getDatePurchased());
-				if(check1 && check2) dataStoreNew.add(bean);
-	        }
-			
+				if(fromDate!=null){
+					check = check1;
+				}
+				if(toDate!=null){
+					check &= check2;
+				}
+			}
+			if(check){
+				dataStoreNew.add(bean);						
+			}
 		}
+		
 		if(type.equals("1")){
 			model.addAttribute("data",dataStoreNew);
 			
@@ -277,7 +286,7 @@ public class OrdersController {
 					billIds +=","+billMaster.getId();
 				}
 			}
-			datas = billService.collectOrder(billIds);
+			List<CollectBill> datas = billService.collectOrder(billIds);
 			model.addAttribute("data",datas);
 			
 			MerchantStore sessionStore = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);

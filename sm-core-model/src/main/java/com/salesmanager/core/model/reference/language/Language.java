@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.salesmanager.core.constants.SchemaConstant;
 import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
@@ -28,7 +30,7 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "LANGUAGE", schema = SchemaConstant.SALESMANAGER_SCHEMA, indexes = { @Index(name="CODE_IDX2", columnList = "CODE")})
-@Cacheable
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Language extends SalesManagerEntity<Integer, Language> implements Auditable {
   private static final long serialVersionUID = 1L;
 
@@ -53,10 +55,12 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
   private Integer sortOrder;
 
   @JsonIgnore
+  @JsonInclude(Include.NON_EMPTY)
   @OneToMany(mappedBy = "defaultLanguage", targetEntity = MerchantStore.class)
   private List<MerchantStore> storesDefaultLanguage;
 
   @JsonIgnore
+  @JsonInclude(Include.NON_EMPTY)
   @ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class, fetch = FetchType.LAZY)
   private List<MerchantStore> stores = new ArrayList<>();
 

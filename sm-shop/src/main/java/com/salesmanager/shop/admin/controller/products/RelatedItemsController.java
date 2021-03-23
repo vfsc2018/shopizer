@@ -61,22 +61,42 @@ public class RelatedItemsController {
 	@RequestMapping(value="/admin/catalogue/related/update.html", method=RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> updateRelationship(HttpServletRequest request, HttpServletResponse response) {
 		
-		String values = request.getParameter("_oldValues");
+		// String values = request.getParameter("_oldValues");
 		String baseQuantity = request.getParameter("quantity");
 		String unit = request.getParameter("unit");
-		
+		Object id = request.getParameter("relationshipId");
+		ProductRelationship entity = null;
+
 		AjaxResponse resp = new AjaxResponse();
 		final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		
 		try {
-			
-			ObjectMapper mapper = new ObjectMapper();
-			@SuppressWarnings("rawtypes")
-			Map conf = mapper.readValue(values, Map.class);
-			Object id = conf.get("relationshipId");
+			// if(values!=null){
+			// 	ObjectMapper mapper = new ObjectMapper();
+			// 	@SuppressWarnings("rawtypes")
+			// 	Map conf = mapper.readValue(values, Map.class);
+			// 	id = conf.get("relationshipId");
+			// }
+
+			if(id==null){
+				String productId = request.getParameter("productId");
+				String baseProductId = request.getParameter("baseProductId");
+				if(productId!=null && baseProductId!=null){
+					Long lproductId = Long.parseLong(productId);
+					Long lBaseProductId = Long.parseLong(baseProductId);
+					Product baseProduct = productService.getById(lBaseProductId);
+					for(ProductRelationship p: baseProduct.getRelationships()){
+						if(p.getRelatedProduct().getId().longValue()==lproductId.longValue()){
+							id = p.getId();
+							entity = p;
+						}
+					}
+				}
+			}
+
 			if(id!=null) {
-				Long relationshipId = ((Integer)id).longValue();
+				Long relationshipId = Long.parseLong("0" + id);
 				Double quantity  = null;
 				if(StringUtils.isNotBlank(baseQuantity)){ 
 					try{
@@ -85,12 +105,14 @@ public class RelatedItemsController {
 						System.out.println(e.toString());
 					}
 				}
-				
-				ProductRelationship entity = productRelationshipService.findById1(relationshipId);
+				if(entity==null){
+					entity = productRelationshipService.findById1(relationshipId);
+				}
 				if(quantity!=null && quantity.doubleValue()<0) quantity = null;
 				if(StringUtils.isBlank(unit)) unit = null;
-				if(unit!=null) entity.setUnit(unit);
-				if(quantity!=null) entity.setQuantity(quantity);
+				
+				entity.setUnit(unit);
+				entity.setQuantity(quantity);
 				
 				productRelationshipService.update(entity);
 			}

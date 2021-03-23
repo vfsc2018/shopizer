@@ -174,9 +174,13 @@ public class VoucherCodeController {
 			criteria.setCriteriaOrderByField("id");
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
-
-			criteria.setBlocked(blocked!=null && blocked.equals("true"));
-			criteria.setAvailable(available!=null && available.equals("true"));
+			
+			if(StringUtils.isNotBlank(blocked)) {
+				criteria.setBlocked(blocked.equals("true"));
+			}
+			if(StringUtils.isNotBlank(available)) {
+				criteria.setAvailable(available.equals("true"));
+			}
 
 			if(!StringUtils.isBlank(id)) {
 				try {

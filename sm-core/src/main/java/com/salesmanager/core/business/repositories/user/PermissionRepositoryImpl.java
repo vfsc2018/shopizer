@@ -12,6 +12,8 @@ import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.core.model.user.PermissionCriteria;
 import com.salesmanager.core.model.user.PermissionList;
 
+import org.apache.commons.collections.CollectionUtils;
+
 
 public class PermissionRepositoryImpl implements PermissionRepositoryCustom {
 
@@ -30,16 +32,15 @@ public class PermissionRepositoryImpl implements PermissionRepositoryCustom {
 		StringBuilder countBuilderWhere = new StringBuilder();
 		
 		
-		if(criteria.getGroupIds()!=null && criteria.getGroupIds().size()>0) {
+		if(CollectionUtils.isNotEmpty(criteria.getGroupIds())) {
 			countBuilderSelect.append(" INNER JOIN p.groups grous");
 			countBuilderWhere.append(" where grous.id in (:cid)");
 		}
 		
 	
-		Query countQ = em.createQuery(
-				countBuilderSelect.toString() + countBuilderWhere.toString());
+		Query countQ = em.createQuery(countBuilderSelect.toString() + countBuilderWhere.toString());
 
-		if(criteria.getGroupIds()!=null && criteria.getGroupIds().size()>0) {
+		if(CollectionUtils.isNotEmpty(criteria.getGroupIds())) {
 			countQ.setParameter("cid", criteria.getGroupIds());
 		}
 		
@@ -56,7 +57,7 @@ public class PermissionRepositoryImpl implements PermissionRepositoryCustom {
 		qs.append("select p from Permission as p ");
 		qs.append("join fetch p.groups grous ");
 		
-		if(criteria.getGroupIds()!=null && criteria.getGroupIds().size()>0) {
+		if(CollectionUtils.isNotEmpty(criteria.getGroupIds())) {
 			qs.append(" where grous.id in (:cid)");
 		}
 		
@@ -66,19 +67,16 @@ public class PermissionRepositoryImpl implements PermissionRepositoryCustom {
 		Query q = em.createQuery(hql);
 
 
-    	if(criteria.getGroupIds()!=null && criteria.getGroupIds().size()>0) {
+    	if(CollectionUtils.isNotEmpty(criteria.getGroupIds())) {
     		q.setParameter("cid", criteria.getGroupIds());
     	}
     	
     	if(criteria.getMaxCount()>0) {
-    		
-    		
 	    	q.setFirstResult(criteria.getStartIndex());
 	    	if(criteria.getMaxCount()<count.intValue()) {
 	    		q.setMaxResults(criteria.getMaxCount());
 	    		permissionList.setTotalCount(criteria.getMaxCount());
-	    	}
-	    	else {
+	    	} else {
 	    		q.setMaxResults(count.intValue());
 	    		permissionList.setTotalCount(count.intValue());
 	    	}

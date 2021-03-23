@@ -6,6 +6,16 @@ public class OrderTotalResponse {
 	private Double moneyoff = null;
 	private String expiration;
 	private int type = 0;
+
+	private Integer orderIndex = null;
+
+	
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 	
 	public Double getMoneyoff() {
 		return moneyoff;

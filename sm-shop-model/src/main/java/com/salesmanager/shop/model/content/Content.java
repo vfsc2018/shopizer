@@ -3,6 +3,9 @@ package com.salesmanager.shop.model.content;
 import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class Content implements Serializable {
 
   /**
@@ -13,13 +16,13 @@ public abstract class Content implements Serializable {
   private String name;
   private String contentType;
 
-  public Content() {}
+  protected Content() {}
 
-  public Content(String name) {
+  protected Content(String name) {
     this.name = name;
   }
 
-  public Content(String name, String contentType) {
+  protected Content(String name, String contentType) {
     this.name = name;
     this.contentType = contentType;
   }

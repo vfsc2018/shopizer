@@ -83,6 +83,9 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
 		if(summary.getVoucher().getPercent()!=null){
 			inputParameters.setDiscount(summary.getVoucher().getPercent().intValue()*0.01);
 		}
+		if(summary.getVoucher().getOrderIndex()!=null){
+			inputParameters.setOrderIndex(summary.getVoucher().getOrderIndex());
+		}
 		if(sku!=null && summary.getVoucher().getDiscount()!=null){
 			inputParameters.setMoneyoff(summary.getVoucher().getDiscount().intValue()*1.0);
 		}
@@ -92,14 +95,24 @@ public class PromoCodeCalculatorModule implements OrderTotalPostProcessorModule 
         kieSession.fireAllRules();
 		Double discount = resp.getDiscount();
 		Double moneyoff = resp.getMoneyoff();
+		Integer orderIndex = resp.getOrderIndex();
 
 		if((discount!=null && discount.doubleValue()>0) || (moneyoff!=null && moneyoff.doubleValue()>0)){
+			int orderCount = customer.getOrderCount()==null?0:customer.getOrderCount().intValue();
+			if(orderIndex!=null && orderCount+1!=orderIndex.intValue()){
+				return null;
+			}
+
 			OrderTotal orderTotal = new OrderTotal();
+
 			orderTotal.setOrderTotalCode(Constants.OT_DISCOUNT_TITLE);
 			orderTotal.setOrderTotalType(OrderTotalType.SUBTOTAL);
 			orderTotal.setModule(Constants.OT_PROMOTION_MODULE_CODE);
 			orderTotal.setTitle(summary.getVoucher().getCode() + ": " + summary.getVoucher().getPoint() + "/" + summary.getVoucher().getDiscount() + "/" + summary.getVoucher().getPercent() +  " #" + summary.getPromoCode());
-			orderTotal.setText(product.getProductDescription().getName() + " #" + product.getSku());
+			if(product!=null){
+				orderTotal.setText(product.getProductDescription().getName() + " #" + product.getSku());
+			}
+			orderTotal.setOrderIndex(orderIndex);
 
 			//calculate discount that will be added as a negative value
 			FinalPrice productPrice = pricingService.calculateProductPrice(product);

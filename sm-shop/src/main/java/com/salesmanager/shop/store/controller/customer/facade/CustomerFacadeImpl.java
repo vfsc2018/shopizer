@@ -431,7 +431,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
         groupsId.add(group.getId());
 
       }
-      if (groupsId != null && !groupsId.isEmpty()) {
+      if (CollectionUtils.isNotEmpty(groupsId)) {
         List<Permission> permissions = permissionService.getPermissions(groupsId);
         for (Permission permission : permissions) {
           GrantedAuthority auth = new SimpleGrantedAuthority(permission.getPermissionName());
@@ -440,8 +440,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
       }
     }
 
-    Authentication authenticationToken =
-        new UsernamePasswordAuthenticationToken(userName, password, authorities);
+    Authentication authenticationToken = new UsernamePasswordAuthenticationToken(userName, password, authorities);
 
     Authentication authentication = customerAuthenticationManager.authenticate(authenticationToken);
     

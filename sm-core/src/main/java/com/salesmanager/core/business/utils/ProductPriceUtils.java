@@ -38,7 +38,7 @@ import com.salesmanager.core.model.order.orderproduct.OrderProduct;
 @Component("priceUtil")
 public class ProductPriceUtils {
 	
-	// private final static char DECIMALCOUNT = '2';
+	private final static char DECIMALCOUNT_QUANTITY = '2';
 	// private final static char DECIMALPOINT = '.';
 	
 	private final char DECIMALCOUNT = '0';
@@ -273,7 +273,37 @@ public class ProductPriceUtils {
 
     }
 	
+	public String getFormatedQuantity(Object quantity) {
+			
+		if(quantity==null) {
+			return "";
+		}
+		
+		NumberFormat nf = null;
+		nf = NumberFormat.getInstance(Constants.DEFAULT_LOCALE);
 
+		nf.setMaximumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT_QUANTITY)));
+		nf.setMinimumFractionDigits(Integer.parseInt(Character.toString(DECIMALCOUNT)));
+
+		try {
+			return nf.format(quantity);
+		} catch (Exception e) {
+			//TODO: handle exception
+		}
+		return "";
+	}
+
+	public Double getTotalMoney(Object money) {
+			
+		if(money!=null) {
+			try {
+				return new BigDecimal(String.valueOf(money)).doubleValue();
+			} catch (Exception e) {
+				//TODO: handle exception
+			}
+		}
+		return 0.0;
+	}
 	
 	/**
 	 * This method will return the required formated amount

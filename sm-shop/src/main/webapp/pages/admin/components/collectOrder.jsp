@@ -63,17 +63,26 @@ td, th {
 	</thead>
 	<tbody>
 	<c:set var="stt" value="0" />
+	<c:set var="total" value="0" />
 	<c:forEach items="${data}" var="entity" varStatus="counter">
 	<c:set var="stt" value="${stt + 1 }" />
+	<c:set var="total" value="${total + entity.totalMoney }" />
 		<tr>
 				<td><c:out value="${stt}" /></td>
 				<td><c:out value="${entity.code}" /></td>
 				<td><c:out value="${entity.name}" /></td>
-				<td><c:out value="${entity.quantity}" /></td>
-				<td><sm:monetary value="${entity.totalMoney}" currency="${currency}"/></td>
+				<td style="text-align: right;"><c:out value="${entity.quantity}" /></td>
+				<td style="text-align: right;"><sm:monetary value="${entity.totalMoney}" currency="${currency}"/></td>
 				
 		</tr>
 	</c:forEach>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td style="text-align: right;"><h3><sm:monetary value="${total}" currency="${currency}"/></h3></td>
+	</tr>
 	</tbody>
 </table>		
 

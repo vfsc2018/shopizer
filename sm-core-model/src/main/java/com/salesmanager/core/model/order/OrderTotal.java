@@ -69,6 +69,9 @@ public class OrderTotal extends SalesManagerEntity<Long, OrderTotal> {
 
 	@Column (name ="POINT")
 	private Integer point;
+
+	@Column (name ="ORDER_INDEX")
+	private Integer orderIndex;
 	
 	@JsonIgnore
 	@ManyToOne(targetEntity = Order.class)
@@ -78,6 +81,12 @@ public class OrderTotal extends SalesManagerEntity<Long, OrderTotal> {
 	public OrderTotal() {
 	}
 	
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 	public Integer getPoint() {
 		return point;
 	}

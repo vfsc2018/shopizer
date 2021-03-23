@@ -22,8 +22,8 @@
 
     $(function() {
 
-		$("#btSaveBill").click(function() {
-			$( "#FormCreateBatchCode" ).submit();
+		$("#btSave").one('click', function() {
+			$( "#FromCreate" ).submit();
 		});
 
     });
@@ -51,7 +51,11 @@
     $(document).ready(function() {
 
         // process the form
-        	$("#FormCreateBatchCode").submit(function(event){
+        	$("#FromCreate").submit(function(event){
+				if($("#message").val()=="" || $("#topic").val()=="") {
+					alert('Please create new notification and type value of Topic & Message');
+					return false;
+				}
         	    event.preventDefault(); 
         	    var post_url = $(this).attr("action"); 
                 var data = $(this).serializeObject();
@@ -65,7 +69,7 @@
                        var response = result.response;
                        var status = response.status;
                        if(status==0 || status ==9999) {
-                            alert("Cap nhat thanh cong");
+                            alert("Tao thong bao thanh cong");
                        } else { 
                             alert(response.statusMessage);
                        }
@@ -94,33 +98,22 @@
 		<h3>
 					<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.title.voucherCode.create" text="Create voucher code"/>: <c:out value="${voucherCode.id}" />
-                     		 <br>
+                     		 <s:message code="label.title.voucherCode.create" text="Create notification"/>
                        </div>       
                   </div>
            </h3>
 		   <br/>
 
-         <form:form method="POST" id="FormCreateBatchCode" modelAttribute="notification" >
-                <form:errors path="*" cssClass="alert alert-error" element="div" />
-	                <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
-	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
-					<input name="id" id="id" type="hidden" value="0">
+         <form:form method="POST" id="FromCreate" modelAttribute="notification" >
+					<input name="id" id="id" type="hidden" value="0">  				
 					
+	
+
 					<div class="span8">
 								<div class="control-group">
-					                  <label><s:message code="label.entity.orderId" text="Order"/></label>	 
-					                  <div class="controls">
-					 						<form:input  cssClass="input-large highlight" path="orderId"/>       
-					                   </div>
-					           </div>       				
-      				</div>      				
-					
-					<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.customer" text="Customer"/></label>	 
+					                  <label><s:message code="label.notification.customerId" text="customerId"/></label>	 
 					                  <div class="controls"> 
-					 						<form:input  cssClass="input-large highlight" path="customerId"/>               															
+					 						<form:input  cssClass="input-small" path="customerId"/>               															
 					                   </div>
 					           </div>       				
                       </div>
@@ -128,7 +121,7 @@
 								<div class="control-group">
 					                  <label><s:message code="label.customer.topic" text="Topic"/></label>	 
 					                  <div class="controls"> 
-					                  		<form:input  cssClass="input-large highlight" path="topic"/>          															
+					                  		<form:input maxlength="65"  cssClass="input-large highlight" path="topic"/>          															
 					                   </div>
 					           </div>       				
       				</div>
@@ -136,15 +129,15 @@
 								<div class="control-group">
 					                  <label><s:message code="label.notification.message" text="Message"/></label>	 
 					                  <div class="controls"> 
-					                  		<form:input  cssClass="input-large highlight" path="message"/>          															
+					                  		<form:input maxlength="240" cssClass="input-large highlight" path="message"/>          															
 					                   </div>
 					           </div>       				
       				</div>
             <br/>   
             <div class="span8">
 	            <div class="form-actions">
-	              	<button  type="button" id ="btSaveBill" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
-                    <button  type="button" id ="btVoucherCode" class="btn btn-medium btn-primary" ><s:message code="button.label.voucherCode" text="List of codes"/></button>   
+	              	<button  type="button" id ="btSave" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
+                
                 </div>
       		</div> 
             <br/> 
@@ -155,11 +148,3 @@
 	 </div>
   </div>
 </div>
-
-<script>				
-$(document).ready(function(){ 				
-		$("#btVoucherCode").click(function() {
-			 location.href="<c:url value="/admin/vouchercodes/list.html" />?voucherId=" + $("#voucherId").val();
-		}); 
-});
-</script>	

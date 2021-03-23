@@ -1,9 +1,6 @@
 package com.salesmanager.shop.store.security;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Scanner;
-
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -39,8 +36,8 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     @Inject
     private JWTCustomerAuthenticationManager jwtCustomCustomerAuthenticationManager;
     
-    @Inject
-    private CustomAuthenticationManager jwtCustomAdminAuthenticationManager;
+    // @Inject
+    // private CustomAuthenticationManager jwtCustomAdminAuthenticationManager;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -76,36 +73,36 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     	}
 
 
-    	if(request.getRequestURL().toString().contains("/api/v1/auth")) {
-    		//setHeader(request,response);   	
-	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
+    	// if(request.getRequestURL().toString().contains("/api/v1/auth")) {
+    	// 	//setHeader(request,response);   	
+	    // 	final String requestHeader = request.getHeader(this.tokenHeader);//token
 	    	
-	    	try {
-		        if (requestHeader != null && requestHeader.startsWith(BEARER_TOKEN)) {//Bearer
+	    // 	try {
+		//         if (requestHeader != null && requestHeader.startsWith(BEARER_TOKEN)) {//Bearer
 		        	
-		        	//jwtCustomCustomerAuthenticationManager.authenticateRequest(request, response);
-		        	jwtCustomAdminAuthenticationManager.authenticateRequest(request, response);
-		        } else if(requestHeader != null && requestHeader.startsWith(FACEBOOK_TOKEN)) {
-		        	//Facebook
-		        	//facebookCustomerAuthenticationManager.authenticateRequest(request, response);
-		        } else {
-		        	LOGGER.warn("couldn't find any authorization token, will ignore the header");
-		        }
+		//         	//jwtCustomCustomerAuthenticationManager.authenticateRequest(request, response);
+		//         	jwtCustomAdminAuthenticationManager.authenticateRequest(request, response);
+		//         } else if(requestHeader != null && requestHeader.startsWith(FACEBOOK_TOKEN)) {
+		//         	//Facebook
+		//         	//facebookCustomerAuthenticationManager.authenticateRequest(request, response);
+		//         } else {
+		//         	LOGGER.warn("couldn't find any authorization token, will ignore the header");
+		//         }
 	        
-	    	} catch(Exception e) {
-	    		throw new ServletException(e);
-	    	}
-    	}
+	    // 	} catch(Exception e) {
+	    // 		throw new ServletException(e);
+	    // 	}
+    	// }
     	
     
     	if(request.getRequestURL().toString().contains("/api/v1/private")) {
     		
     		//setHeader(request,response);  
     		
-    		Enumeration<String> headers = request.getHeaderNames();
-    		while(headers.hasMoreElements()) {
-    			LOGGER.debug(headers.nextElement());
-    		}
+    		// Enumeration<String> headers = request.getHeaderNames();
+    		// while(headers.hasMoreElements()) {
+    		// 	LOGGER.debug(headers.nextElement());
+    		// }
 
 	    	final String requestHeader = request.getHeader(this.tokenHeader);//token
 	    	
@@ -128,7 +125,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
     }
     
     
-    private void postFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    private void postFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
     	
     	try {
     		

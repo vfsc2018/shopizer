@@ -36,7 +36,7 @@
 					</td>
 				<td align="right" nowrap="nowrap">
 					<c:url var="buildBill" value="/admin/orders/reportOrder.html"/>
-					<form:form method="POST" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
+					<form:form method="POST" target="_blank" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
 					<input type="hidden" name="type" id="type" value="1" />				
 												<input type="text" id="fromDate" style="width:100px" class="small" name="fromDate" />      
 												<script type="text/javascript">

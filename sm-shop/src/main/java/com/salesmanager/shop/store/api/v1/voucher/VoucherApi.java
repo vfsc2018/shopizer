@@ -41,6 +41,8 @@ public class VoucherApi {
 		VoucherInfo info = new VoucherInfo();
 		info.setDescription(v.getDescription());
 		info.setCode(v.getCode());
+		info.setOrderIndex(v.getOrderIndex());
+
 		if(v.getPoint()!=null){
 			info.setPoint(v.getPoint());
 		}

@@ -22,7 +22,7 @@
 
     $(function() {
 
-		$("#btSaveBill").click(function() {
+		$("#btSaveBill").one('click', function(){
 			$( "#FormBuildBill" ).submit();
 		});
 
@@ -199,6 +199,14 @@
 					</div>
 					<div class="span8">
 								<div class="control-group">
+					                  <label><s:message code="label.entity.orderIndex" text="orderIndex"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="orderIndex"/>      														
+					                   </div>
+					           </div>       				
+					</div>
+					<div class="span8">
+								<div class="control-group">
 					                  <label><s:message code="label.entity.approved" text="approved"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input id="approved" cssClass="input-large highlight" path="approved" data-date-format="<%=com.salesmanager.core.business.constants.Constants.DEFAULT_DATE_FORMAT%>"/>      
@@ -213,7 +221,7 @@
 							<div class="control-group">
 				                  <label><s:message code="label.entity.manager" text="manager"/></label>	 
 				                  <div class="controls"> 
-				                        <form:input  cssClass="input-large highlight" path="manager"/>      														
+				                        <form:input  cssClass="small" path="manager"/>      														
 				                   </div>
 				           </div>       				
 					  </div>   

@@ -7,6 +7,8 @@ import com.salesmanager.shop.model.content.ReadableImage;
 import com.salesmanager.shop.model.entity.ReadableAudit;
 import com.salesmanager.shop.model.entity.ReadableAuditable;
 import com.salesmanager.shop.model.references.ReadableAddress;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 public class ReadableMerchantStore extends MerchantStoreEntity implements ReadableAuditable {
 
@@ -21,6 +23,7 @@ public class ReadableMerchantStore extends MerchantStoreEntity implements Readab
 	private ReadableAudit audit;
 	private ReadableMerchantStore parent;
 
+	@JsonInclude(Include.NON_EMPTY)
 	private List<Language> supportedLanguages;
 
 	public String getCurrentUserLanguage() {

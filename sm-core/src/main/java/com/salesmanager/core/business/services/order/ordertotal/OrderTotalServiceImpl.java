@@ -24,6 +24,7 @@ import com.salesmanager.core.model.shoppingcart.ShoppingCartItem;
 import com.salesmanager.core.modules.order.total.OrderTotalPostProcessorModule;
 
 import com.salesmanager.core.business.constants.Constants;
+import com.salesmanager.core.business.exception.ServiceException;
 
 @Service("OrderTotalService")
 public class OrderTotalServiceImpl implements OrderTotalService {
@@ -62,6 +63,9 @@ public class OrderTotalServiceImpl implements OrderTotalService {
 					
 					Long productId = item.getProductId();
 					Product product = productService.getProductForLocale(productId, language, languageService.toLocale(language, store));
+					if(product==null){
+						throw new ServiceException("Product is not avaiable #" + productId);
+					}
 					if(sku==null || sku.equals(product.getSku())){
 						OrderTotal orderTotal = module.caculateProductPiceVariation(summary, item, product, customer, store);
 						if(orderTotal==null) {

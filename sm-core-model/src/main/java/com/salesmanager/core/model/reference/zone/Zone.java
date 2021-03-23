@@ -38,8 +38,8 @@ public class Zone extends SalesManagerEntity<Long, Zone> {
   private List<ZoneDescription> descriptions = new ArrayList<>();
 
   @JsonIgnore
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "COUNTRY_ID", nullable = false)
+  @ManyToOne(fetch = FetchType.EAGER)
+  @JoinColumn(name = "COUNTRY_ID", nullable = true)
   private Country country;
 
   @Transient

@@ -173,9 +173,6 @@ response.setDateHeader ("Expires", -1);
   
 </div>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="<c:url value="/resources/js/bootstrap/bootstrap-button.js" />"></script>
     <script src="<c:url value="/resources/js/bootstrap/bootstrap-modal.js" />"></script>
     <script src="<c:url value="/resources/js/bootstrap/bootstrap-tab.js" />"></script>

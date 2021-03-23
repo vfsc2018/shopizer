@@ -1,6 +1,8 @@
 package com.salesmanager.shop.store.api.v1.customer;
 
 import java.security.Principal;
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -12,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.repositories.customer.CustomerRepository;
+import com.salesmanager.core.business.utils.CacheUtils;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
@@ -31,7 +33,6 @@ import com.salesmanager.shop.utils.PushUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import springfox.documentation.annotations.ApiIgnore;
@@ -51,6 +52,9 @@ public class CustomerApi {
 
   @Inject
   private CustomerRepository customerRepository;
+
+  @Inject
+  private CacheUtils cache;
 
 
   /** Create new customer for a given MerchantStore */
@@ -226,14 +230,22 @@ public class CustomerApi {
   @ApiImplicitParams({
       @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT")
   })
-  public ResponseEntity<?> updateAuthUserAddress(
-      @ApiIgnore MerchantStore merchantStore,
-      @RequestBody PersistableCustomer customer,
-      HttpServletRequest request) {
+  public ResponseEntity<?> updateAuthUserAddress(@ApiIgnore MerchantStore merchantStore, @RequestBody PersistableCustomer customer, HttpServletRequest request) {
       Principal principal = request.getUserPrincipal();
-      String userName = principal.getName();
-      
-      customerFacade.updateAddress(userName, customer, merchantStore);
+      String username = principal.getName();
+
+      String keyName = CacheUtils.KEY_CUSTOMER_INFOR + username;
+      Long updateTime = (Long)cache.get(keyName);
+      if(updateTime!=null){
+        long diff = System.currentTimeMillis()-updateTime.longValue();
+        long diffHours = TimeUnit.MILLISECONDS.toHours(diff);
+        if(diffHours<9){
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+      }
+      cache.put(System.currentTimeMillis(), keyName);
+
+      customerFacade.updateAddress(username, customer, merchantStore);
       return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
 
@@ -248,6 +260,17 @@ public class CustomerApi {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
       
+      String keyName = CacheUtils.KEY_DEVICE + username;
+      Long updateTime = (Long)cache.get(keyName);
+      if(updateTime!=null){
+        long diff = System.currentTimeMillis()-updateTime.longValue();
+        long diffHours = TimeUnit.MILLISECONDS.toHours(diff);
+        if(diffHours<9){
+          return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+      }
+      cache.put(System.currentTimeMillis(), keyName);
+
       try{
         customerRepository.updateToken(device.getOs(), device.getToken(), username);
         PushUtils.subscribe(device.getToken());

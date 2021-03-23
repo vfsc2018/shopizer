@@ -12,6 +12,7 @@ rule "DISCOUNT"
     then
         total.setDiscount(order.getDiscount());
         total.setMoneyoff(order.getMoneyoff());
+        total.setOrderIndex(order.getOrderIndex());
 end
 
 rule "TRANHONGQUANG"

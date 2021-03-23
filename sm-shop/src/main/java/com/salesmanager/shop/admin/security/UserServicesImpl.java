@@ -1,5 +1,6 @@
 package com.salesmanager.shop.admin.security;
 
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
@@ -11,6 +12,7 @@ import com.salesmanager.core.model.user.Permission;
 import com.salesmanager.shop.constants.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -63,9 +65,8 @@ public class UserServicesImpl implements WebUserServices{
 	public final static String ROLE_PREFIX = "ROLE_";
 	
 	
-	
-	public UserDetails loadUserByUsername(String userName)
-			throws UsernameNotFoundException, DataAccessException {
+	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "#userName")
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
 		com.salesmanager.core.model.user.User user = null;
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -84,14 +85,8 @@ public class UserServicesImpl implements WebUserServices{
 			List<Integer> groupsId = new ArrayList<>();
 			List<Group> groups = user.getGroups();
 			for(Group group : groups) {
-				
-				
 				groupsId.add(group.getId());
-				
 			}
-			
-	
-	    	
 	    	List<Permission> permissions = permissionService.getPermissions(groupsId);
 	    	for(Permission permission : permissions) {
 	    		GrantedAuthority auth = new SimpleGrantedAuthority(ROLE_PREFIX + permission.getPermissionName());
@@ -103,13 +98,7 @@ public class UserServicesImpl implements WebUserServices{
 			throw new SecurityDataAccessException("Exception while querrying user",e);
 		}
 		
-		
-		
-	
-		
-		User secUser = new User(userName, user.getAdminPassword(), user.isActive(), true,
-				true, true, authorities);
-		return secUser;
+		return new User(userName, user.getAdminPassword(), user.isActive(), true, true, true, authorities);
 	}
 	
 	

@@ -13,6 +13,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,6 +26,7 @@ import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -58,13 +60,25 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     logger.info("Current working directory : " + workingDir);
   }
 
+  @Bean
+  public FilterRegistrationBean<CharacterEncodingFilter> filterRegistrationBean() {
+      CharacterEncodingFilter filter = new CharacterEncodingFilter();
+      filter.setEncoding("UTF-8");
+      filter.setForceEncoding(true); 
+
+      FilterRegistrationBean<CharacterEncodingFilter> registrationBean = new FilterRegistrationBean<>();
+      registrationBean.setFilter(filter);
+      registrationBean.addUrlPatterns("/*");
+      return registrationBean;
+  }
+
   /** Configure TilesConfigurer. */
   @Bean
   public TilesConfigurer tilesConfigurer() {
     TilesConfigurer tilesConfigurer = new TilesConfigurer();
-    tilesConfigurer.setDefinitions("/WEB-INF/tiles/tiles-admin.xml");
-    // tilesConfigurer.setDefinitions(
-        // "/WEB-INF/tiles/tiles-admin.xml");
+    // tilesConfigurer.setDefinitions("/WEB-INF/tiles/tiles-admin.tld");
+    tilesConfigurer.setDefinitions(
+        "/WEB-INF/tiles/tiles-admin.xml");
         // "/WEB-INF/tiles/tiles-shop.xml");
     // tilesConfigurer.setDefinitions(
     //   "classpath*:/webapp/WEB-INF/tiles/tiles-admin.xml", 
@@ -82,26 +96,27 @@ public class ShopApplicationConfiguration implements WebMvcConfigurer {
     return resolver;
   }
   
-  @Bean
-  public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
-      RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
+  // @Bean
+  // public RequestMappingHandlerAdapter requestMappingHandlerAdapter() {
+  //     RequestMappingHandlerAdapter adapter = new RequestMappingHandlerAdapter();
       
-      List<HttpMessageConverter<?>> converters = adapter.getMessageConverters();
+  //     List<HttpMessageConverter<?>> converters = adapter.getMessageConverters();
 
-      MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-      List<MediaType> supportedMediaTypes = new ArrayList<>();
-      MediaType textMedia = new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8); // Charset.forName("UTF-8"));
-      supportedMediaTypes.add(textMedia);
-      MediaType jsonMedia = new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8);// Charset.forName("UTF-8"));
-      supportedMediaTypes.add(jsonMedia);jsonConverter.setSupportedMediaTypes(supportedMediaTypes);
+  //     MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
+  //     List<MediaType> supportedMediaTypes = new ArrayList<>();
+  //     MediaType textMedia = new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8); // Charset.forName("UTF-8"));
+  //     supportedMediaTypes.add(textMedia);
+  //     MediaType jsonMedia = new MediaType(MediaType.APPLICATION_JSON, StandardCharsets.UTF_8);// Charset.forName("UTF-8"));
+  //     supportedMediaTypes.add(jsonMedia);
+  //     jsonConverter.setSupportedMediaTypes(supportedMediaTypes);
       
-      converters.add(jsonConverter);
+  //     converters.add(jsonConverter);
       
       
-      adapter.setMessageConverters(converters);
+  //     adapter.setMessageConverters(converters);
       
-     return adapter;
-  }
+  //    return adapter;
+  // }
 
 
   @Override

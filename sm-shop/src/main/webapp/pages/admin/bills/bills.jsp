@@ -36,7 +36,7 @@
 				
 				<c:url var="buildBill" value="/admin/bills/reportBill.html"/>
 				
-				<form:form method="POST" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
+				<form:form method="POST" id="FormBuildBill" target="_blank" modelAttribute="dataEx" action="${buildBill}">
 				<input type="hidden" name="type" id="type" value="1" />
 				
 				

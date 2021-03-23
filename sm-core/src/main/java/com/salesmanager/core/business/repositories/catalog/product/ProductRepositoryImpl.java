@@ -659,7 +659,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			if (criteria.getAvailable().booleanValue()) {
 				countBuilderWhere.append(" and p.available=true and p.dateAvailable<=:dt");
 			} else {
-				countBuilderWhere.append(" and p.available=false or p.dateAvailable>:dt");
+				// countBuilderWhere.append(" and p.available=false or p.dateAvailable>:dt");
 			}
 		}
 
@@ -672,7 +672,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		if (criteria.getAvailable() != null) {
-			countQ.setParameter("dt", new Date());
+			if (criteria.getAvailable().booleanValue()) {
+				countQ.setParameter("dt", new Date());
+			} else {
+				//
+			}
 		}
 
 		if (!StringUtils.isBlank(criteria.getCode())) {
@@ -783,7 +787,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 			if (criteria.getAvailable().booleanValue()) {
 				qs.append(" and p.available=true and p.dateAvailable<=:dt");
 			} else {
-				qs.append(" and p.available=false and p.dateAvailable>:dt");
+				// qs.append(" and p.available=false and p.dateAvailable>:dt");
 			}
 		}
 
@@ -836,7 +840,11 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 		}
 
 		if (criteria.getAvailable() != null) {
-			q.setParameter("dt", new Date());
+			if (criteria.getAvailable().booleanValue()) {
+				q.setParameter("dt", new Date());
+			} else {
+				// 
+			}
 		}
 
 		if (criteria.getManufacturerId() != null) {

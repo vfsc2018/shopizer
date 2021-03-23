@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
+import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.services.user.UserService;
@@ -68,6 +70,7 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 	}
 
 	@Override
+	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "#userName")
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		User user = null;
 		Collection<GrantedAuthority> authorities = new ArrayList<>();

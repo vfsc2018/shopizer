@@ -1,5 +1,6 @@
 package com.salesmanager.core.model.merchant;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;

@@ -4,16 +4,19 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.BillMasterCriteria;
 import com.salesmanager.core.model.order.BillMasterList;
 import com.salesmanager.core.model.order.CollectBill;
+import com.salesmanager.core.model.order.orderstatus.OrderStatus;
 
 
 
@@ -21,13 +24,19 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 
     @PersistenceContext
     private EntityManager em;
-    
+
+    @Inject
+	private ProductPriceUtils priceUtils;
     
 	@Override
 	public List<CollectBill> collectBill(String billIds) {
-		StringBuffer sql = new StringBuffer("")
+		String whereId = "";
+		if(StringUtils.isNotBlank(billIds)){
+			whereId = " billMaster.id in ("+ billIds +") and ";
+		}
+		StringBuilder sql = new StringBuilder("")
 			.append(" select code,name,unit,sum(quantity*quantityOfParent) as quantity,sum(quantity*quantityOfParent*price) as totalMoney from BillItem  ")
-			.append(" where billMaster.id in("+ billIds +") and parentId>0 ")
+			.append(" where " + whereId + " parentId>0 ")
 			.append(" group by code,unit,name ");
 
 		List<CollectBill> dataList = new ArrayList<>();
@@ -37,11 +46,11 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			bean.setCode((String) row[0]);
 			bean.setName((String) row[1]);
 			bean.setUnit((String) row[2]);
-			bean.setQuantity((Double) row[3]);
-			bean.setTotalMoney((Double) row[4]);
+			bean.setQuantity(priceUtils.getFormatedQuantity(row[3]));
+			bean.setTotalMoney(priceUtils.getTotalMoney(row[4]));
 			
 			//get Quantity parentId
-			sql = new StringBuffer("");
+			// sql = new StringBuffer("");
 			
 			
 			
@@ -54,7 +63,7 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
     
 	@Override
 	public List<CollectBill> collectOrder(String orderIds) {
-		StringBuffer sql = new StringBuffer("")
+		StringBuilder sql = new StringBuilder("")
 			.append(" select sku,productName,sum(productQuantity),sum(productQuantity*oneTimeCharge) as totalMoney from OrderProduct ")
 			.append(" where order.id in("+ orderIds +") ")
 			.append(" group by sku,productName ");
@@ -65,8 +74,8 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 			CollectBill bean = new CollectBill();
 			bean.setCode((String) row[0]);
 			bean.setName((String) row[1]);
-			bean.setQuantity(((Long) row[2]).doubleValue());
-			bean.setTotalMoney(((BigDecimal) row[3]).doubleValue());
+			bean.setQuantity(priceUtils.getFormatedQuantity(row[2]));
+			bean.setTotalMoney(priceUtils.getTotalMoney(row[3]));
 			dataList.add(bean);
 		}
 		
@@ -182,17 +191,18 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		}
 
 		if(criteria.getOrderId()!=null) {
-			
 			countQ.setParameter("pOrderId",criteria.getOrderId());
 			objectQ.setParameter("pOrderId",criteria.getOrderId());
-			
 		}
+		
 		if(!StringUtils.isBlank(criteria.getStatus())) {
-			
-			countQ.setParameter("pStatus",criteria.getStatus());
-			objectQ.setParameter("pStatus",criteria.getStatus());
-			
-			
+			if(!checkEnum(criteria.getStatus())){
+				countQ.setParameter("pStatus",null);
+				objectQ.setParameter("pStatus",null);				
+			}else{			
+				countQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));
+				objectQ.setParameter("pStatus",OrderStatus.valueOf(criteria.getStatus()));	
+			}		
 		}
 		
 		Number count = (Number) countQ.getSingleResult();
@@ -225,5 +235,21 @@ public class BillMasterRepositoryImpl implements BillMasterRepositoryCustom {
 		
 	}    
 
+	private boolean checkEnum(String input){
+    	boolean result = false;
+    	try {
+			//if(criteria.getStatus()!=null && criteria.getStatus().equals(OrderStatus.))
+    		for (OrderStatus status : OrderStatus.values()) {
+    			if(input!=null && input.equals(status.name())){
+    				result = true;
+    				break;
+    			}
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return result;
+    	
+    }
 
 }

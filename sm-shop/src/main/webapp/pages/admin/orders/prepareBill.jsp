@@ -391,14 +391,14 @@ function captureOrder(orderId){
 		$("#btPrepareBill").click(function() {
 			 location.href="<c:url value="/admin/orders/editOrder.html" />?id=<c:out value="${order.order.id}"/>";
 		});
-        
-		
-		$("#btSaveBill").click(function() {
+
+		$("#btSaveBill").one('click', function(){
+			$( "#btSaveBill" ).val(1);
 			$( "#typeSave" ).val(1);
 			$( "#FormBuildBill" ).submit();
 		});
+		
 		$("#btBuildBill").click(function() {
-			
 			$( "#typeSave" ).val(0);
 			$( "#FormBuildBill" ).submit();
 		});		

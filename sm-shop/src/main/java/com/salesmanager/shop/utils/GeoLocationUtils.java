@@ -4,6 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 
 public class GeoLocationUtils {
 	
+	private GeoLocationUtils(){
+
+	}
 	
 	private static final String[] HEADERS_TO_TRY = { 
 	    "X-Forwarded-For",

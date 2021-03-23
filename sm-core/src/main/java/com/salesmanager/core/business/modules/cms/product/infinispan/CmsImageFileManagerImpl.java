@@ -381,8 +381,7 @@ public class CmsImageFileManagerImpl implements ProductAssetsManager {
       String imageName, String size) throws ServiceException {
 
     if (cacheManager.getTreeCache() == null) {
-      throw new ServiceException(
-          "CmsImageFileManagerInfinispan has a null cacheManager.getTreeCache()");
+      throw new ServiceException("CmsImageFileManagerInfinispan has a null cacheManager.getTreeCache()");
     }
     InputStream input = null;
     OutputContentFile contentImage = new OutputContentFile();

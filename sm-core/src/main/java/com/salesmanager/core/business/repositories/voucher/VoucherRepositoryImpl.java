@@ -18,6 +18,18 @@ public class VoucherRepositoryImpl implements VoucherRepositoryCustom {
     @PersistenceContext
 	private EntityManager em;
 
+	@Override
+	public Voucher getVoucher(String code) {
+		StringBuilder baseQuery = new StringBuilder("select c from Voucher as c where c.code = ?1 order by c.id");
+		Query objectQ = em.createQuery(baseQuery.toString());
+		objectQ.setParameter(1,code);
+		try{
+			return (Voucher)objectQ.getSingleResult();
+		}catch(Exception e){
+			return null;
+		}
+	}    
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Voucher> getActiveVoucher() {

@@ -38,19 +38,22 @@ import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;
 import com.salesmanager.core.model.order.Order;
-import com.salesmanager.core.model.vouchercode.VoucherCode;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
 import com.salesmanager.shop.utils.DateUtil;
 import com.salesmanager.shop.utils.LabelUtils;
+import com.salesmanager.shop.utils.NotificationUtils;
 
 @Controller
 @Scope("session")
 public class NotificationsController {
 
 	@Inject
-	NotificationsService notificationService;
+	private NotificationsService notificationService;
+
+	@Inject
+	private NotificationUtils notificationUtils;
 
 	@Inject
 	private OrderService orderService;
@@ -105,32 +108,25 @@ public class NotificationsController {
 		
 			try {
 				//Validation before save
-				Order order = orderService.getById(bean.getOrderId());
-				Customer customer = customerService.getById(bean.getCustomerId());
+				// Order order = null;
+				// if(bean.getOrderId()!=null){
+				// 	order = orderService.getById(bean.getOrderId());
+				// }
 				
-				if(order==null){
+				if(StringUtils.isBlank(bean.getMessage()) || StringUtils.isBlank(bean.getTopic())){
 					resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-					resp.setErrorString("Pls check orderId:"+bean.getOrderId());
-					
-				}else if(customer==null){
-					resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
-					resp.setErrorString("Pls check customerId:"+bean.getCustomerId());
-					
-				}else{ 
-				
-						//save to DB
-						Notifications temp = new Notifications();
-		
-						temp.setOrder(order);
-						temp.setCustomer(customer);
-
-						
-						temp.setTopic(bean.getTopic());
-						temp.setMessage(bean.getMessage());
-						
-						notificationService.save(temp);
-						
-						resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+					resp.setErrorString("Pls check Message and Topic");
+				}else if(bean.getCustomerId()!=null){
+					Customer customer = customerService.getById(bean.getCustomerId());
+					if(customer==null){
+						resp.setStatus(AjaxPageableResponse.RESPONSE_STATUS_FAIURE);
+						resp.setErrorString("Pls check customerId:"+bean.getCustomerId());
+					}
+					resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+					notificationUtils.sendCustomer(customer, bean.getMessage(), bean.getTopic());
+				}else{
+					resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
+					notificationUtils.sendAllCustomer(bean.getMessage(), bean.getTopic());
 				}
 				
 			} catch (Exception e) {
@@ -217,18 +213,12 @@ public class NotificationsController {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", e.getId());
-					
 					entry.put("customer", e.getCustomer().getBilling().getFirstName()); 
-							
 					entry.put("message", e.getMessage());
-				
 					entry.put("topic", e.getTopic());
-
 					entry.put("read", e.getRead()!=null && e.getRead()>0);
-
 					entry.put("date", DateUtil.formatTimeDate(e.getAuditSection().getDateCreated()));
 					resp.addDataEntry(entry);
-
 				}
 			}
 			
@@ -248,9 +238,7 @@ public class NotificationsController {
 
 
 	@RequestMapping(value = "/admin/notifications/viewNotifications.html", method = RequestMethod.GET)
-	public String viewNotificaiton(@RequestParam("id") Long id, Model model,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public String viewNotificaiton(@RequestParam("id") Long id, Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// display menu
 		setMenu(model, request);

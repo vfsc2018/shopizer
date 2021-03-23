@@ -214,6 +214,7 @@ public class VoucherController {
 		temp.setCode(bean.getCode());
 		temp.setDescription(bean.getDescription());
 		temp.setPoint(bean.getPoint());
+		temp.setOrderIndex(bean.getOrderIndex());
 		temp.setPercent(bean.getPercent());
 		temp.setDiscount(bean.getDiscount());
 		temp.setStatus(bean.getStatus());
@@ -253,6 +254,7 @@ public class VoucherController {
 				temp.setCode(bean.getCode());
 				temp.setDescription(bean.getDescription());
 				temp.setPoint(bean.getPoint());
+				temp.setOrderIndex(bean.getOrderIndex());
 				temp.setDiscount(bean.getDiscount());
 				temp.setPercent(bean.getPercent());
 				temp.setStatus(bean.getStatus());

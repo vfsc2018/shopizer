@@ -43,7 +43,7 @@ public class Delivery implements Serializable {
 	@Column(name="DELIVERY_TELEPHONE", length=32)
 	private String telephone;
 	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
 	@JoinColumn(name="DELIVERY_COUNTRY_ID", nullable=true)
 	private Country country;
 	

@@ -73,12 +73,12 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		}
 
 		if(criteria.getStartDate()!=null) {
-			String nameQuery =" and o.fromDate >= :fdate ";
+			String nameQuery =" and (o.fromDate >= :fdate OR (o.fromDate < :fdate AND o.toDate > :fdate)) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
 		if(criteria.getEndDate()!=null) {
-			String nameQuery =" and o.toDate <= :tdate ";
+			String nameQuery =" and (o.toDate <= :tdate) ";
 			countBuilderWhere.append(nameQuery);
 			objectBuilderWhere.append(nameQuery);
 		}
@@ -119,7 +119,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectBuilderWhere.append(pIdQuery);
 		}
 		
-		if(criteria.getStatus()!=null) {
+		if(!StringUtils.isBlank(criteria.getStatus())) {
 			String statusQuery =" and o.status =:pStatus";
 			countBuilderWhere.append(statusQuery);
 			objectBuilderWhere.append(statusQuery);
@@ -190,7 +190,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 			objectQ.setParameter("pId",criteria.getId());
 		}
 		
-		if(criteria.getStatus()!=null) {
+		if(!StringUtils.isBlank(criteria.getStatus())) {
 			if(!checkEnum(criteria.getStatus())){
 				countQ.setParameter("pStatus",null);
 				objectQ.setParameter("pStatus",null);				
@@ -204,9 +204,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
 		Number count = (Number) countQ.getSingleResult();
 
 		orderList.setTotalCount(count.intValue());
+		orderList.setTotalPages(0);
 		
-        if(count.intValue()==0)
-        	return orderList;
+        if(count.intValue()==0){
+			return orderList;
+		}
         
 		//TO BE USED
         int max = criteria.getMaxCount();
@@ -221,7 +223,9 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     				objectQ.setMaxResults(maxCount);
     			} else {
     				objectQ.setMaxResults(count.intValue());
-    			}
+				}
+				int totalPages = count.intValue()/max;
+				orderList.setTotalPages(totalPages + (count.intValue()%max>0?1:0));
     	}
 		
     	orderList.setOrders(objectQ.getResultList());

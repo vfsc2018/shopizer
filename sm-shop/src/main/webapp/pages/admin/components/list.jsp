@@ -107,7 +107,8 @@
                 									queryString = queryString + '&<c:out value="${appendQueryStringToEdit}" />' ;
                 								</c:if>
                 								var locationUrl = url + queryString;
-                    							window.location= locationUrl;
+
+												window.open(locationUrl, '_blank');
 
 	                						}
 	            					});

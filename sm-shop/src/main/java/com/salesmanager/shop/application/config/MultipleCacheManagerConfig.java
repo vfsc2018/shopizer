@@ -47,10 +47,9 @@ public class MultipleCacheManagerConfig extends CachingConfigurerSupport {
 	@Override
 	public CacheManager cacheManager() {
 		net.sf.ehcache.CacheManager caches = net.sf.ehcache.CacheManager.getInstance();
-		caches.addCache(CacheNamesImpl.CACHE_CUSTOMER_ORDER);
-		caches.addCache(CacheNamesImpl.CACHE_MERCHANT);
-		caches.addCache(CacheNamesImpl.CACHE_PRODUCT);
-		caches.addCache(CacheNamesImpl.CACHE_CONTENT);
+		for(int i=0;i<CacheNamesImpl.caches.length;i++){
+			caches.addCache(CacheNamesImpl.caches[i]);
+		}
 		return new EhCacheCacheManager(caches);//net.sf.ehcache.CacheManager.getCacheManager("com.shopizer.OBJECT_CACHE"));
 		// return new ConcurrentMapCacheManager(ProductGroupCacheManagerImpl.NAMED_CACHE);
 

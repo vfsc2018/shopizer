@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;
 
+import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.repositories.voucher.VoucherRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -58,6 +59,10 @@ public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Vouc
 		return sha1(day + hash + month);
 	}
 
+	private boolean invalid(Voucher voucher){
+		return (voucher==null || voucher.getBlocked()>0);
+	}
+
 	private boolean invalid(Voucher voucher, long id){
 		return (voucher==null || voucher.getId().longValue()!=id || voucher.getBlocked()>0);
 	}
@@ -91,12 +96,27 @@ public class VoucherServiceImpl extends SalesManagerEntityServiceImpl<Long, Vouc
 		
 	}
 
+	private Voucher getVoucher(String code) {
+		return voucherRepository.getVoucher(code);
+	}
+
 	@Override
 	public VoucherCode getVoucher(String code, String securecode) {
 		if (code != null && securecode!=null){
 			String hash = sha1extra(code);
 			System.out.println("getVoucher Hash:" + hash);
 			if(hash!=null && hash.equals(securecode)){
+				if(code.length()>=Constants.CODE_SINGLE_MINLEN && code.length()<Constants.CODE_MINLEN){
+					Voucher voucher = getVoucher(code);
+					if(invalid(voucher)){
+						return null;
+					}
+					VoucherCode voucherCode = new VoucherCode();
+					voucherCode.setCode(code);
+					voucherCode.setSecurecode(securecode);
+					voucherCode.setVoucher(voucher);
+					return voucherCode;
+				}
 				long[] k = voucherCodeService.decode(code);
 				if(k.length==3 && k[0]==VoucherCodeService.TYPE_ORDER_PAYMENT){
 					int index = ((Long)k[2]).intValue();

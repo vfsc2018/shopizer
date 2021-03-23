@@ -51,9 +51,9 @@ public class LanguageServiceImpl extends SalesManagerEntityServiceImpl<Integer, 
 				return lang;
 			}
 		}
-		return new Language(Constants.DEFAULT_LANGUAGE);
+		// return new Language(Constants.DEFAULT_LANGUAGE);
 		//return toLanguage(code);
-		//return languageRepository.findByCode(code);
+		return languageRepository.findByCode(code);
 	}
 	
 	@Override

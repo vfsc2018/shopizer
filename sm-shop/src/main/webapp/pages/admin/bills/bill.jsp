@@ -395,7 +395,7 @@ function captureOrder(orderId){
 		});
         
 		
-		$("#btSaveBill").click(function() {
+		$("#btSaveBill").one('click', function(){
 			$( "#typeSave" ).val(1);
 			$( "#FormBuildBill" ).submit();
 		});

@@ -11,5 +11,6 @@ public interface VoucherRepositoryCustom {
 
 	VoucherList listByStore(MerchantStore store, VoucherCriteria criteria);
 	public List<Voucher> getActiveVoucher();
+	public Voucher getVoucher(String code);
 
 }

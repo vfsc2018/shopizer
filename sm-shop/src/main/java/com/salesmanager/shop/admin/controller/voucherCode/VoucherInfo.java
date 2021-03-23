@@ -12,10 +12,18 @@ public class VoucherInfo{
 	private Integer percent;
 	private String product;
 	
+	private Integer orderIndex;
+	
 	public VoucherInfo(){
 
 	}
 	
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 	
 	public String getProduct() {
 		return product;

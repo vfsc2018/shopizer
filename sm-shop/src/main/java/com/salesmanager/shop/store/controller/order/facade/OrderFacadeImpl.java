@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -901,7 +900,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.id + '_' + #start")
+	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.id + '_' + #start + '_' + #maxCount")
 	public com.salesmanager.shop.model.order.v0.ReadableOrderList getReadableOrderList(MerchantStore store,
 			Customer customer, int start, int maxCount, Language language) throws Exception {
 
@@ -1065,17 +1064,18 @@ public class OrderFacadeImpl implements OrderFacade {
 			return returnList;
 		}
 
-		List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<>();
-		for (Order order : orders) {
-			com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder = new com.salesmanager.shop.model.order.v0.ReadableOrder();
-			readableOrderPopulator.populate(order, readableOrder, store, language);
-			readableOrders.add(readableOrder);
+		// List<com.salesmanager.shop.model.order.v0.ReadableOrder> readableOrders = new ArrayList<>();
+		// for (Order order : orders) {
+		// 	com.salesmanager.shop.model.order.v0.ReadableOrder readableOrder = new com.salesmanager.shop.model.order.v0.ReadableOrder();
+		// 	readableOrderPopulator.populate(order, readableOrder, store, language);
+		// 	readableOrders.add(readableOrder);
 
-		}
+		// }
 
 		
 		returnList = this.populateOrderList(orderList, store, language);
 		returnList.setRecordsTotal(orderList.getTotalCount());
+		returnList.setTotalPages(orderList.getTotalPages());
 		return returnList;
 	}
 
