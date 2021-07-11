@@ -19,7 +19,7 @@
 			<table width="100%" border="0px">
 				<tr>
 					<td align="left" width="50%">
-						<h3><s:message code="label.transactions.title" text="List transactions" /></h3>	
+						<h3><s:message code="label.transactions.title" text="List transactions" /><span id="totalRows"></span></h3>	
 						 <c:set value="/admin/transactions/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/transactions/remove.html" var="removeUrl" scope="request"/>
 						 <c:set value="/admin/transactions/viewBill.html" var="editUrl" scope="request"/>

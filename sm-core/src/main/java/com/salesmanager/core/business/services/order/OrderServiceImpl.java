@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.modules.order.InvoiceModule;
 import com.salesmanager.core.business.repositories.order.OrderRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
@@ -40,13 +39,13 @@ import com.salesmanager.core.business.services.payments.TransactionService;
 import com.salesmanager.core.business.services.shipping.ShippingService;
 import com.salesmanager.core.business.services.shoppingcart.ShoppingCartService;
 import com.salesmanager.core.business.services.tax.TaxService;
-import com.salesmanager.core.business.utils.CacheUtils;
 import com.salesmanager.core.model.catalog.product.Product;
 import com.salesmanager.core.model.catalog.product.availability.ProductAvailability;
 import com.salesmanager.core.model.catalog.product.price.FinalPrice;
 import com.salesmanager.core.model.common.Loyalty;
 import com.salesmanager.core.model.common.UserContext;
 import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.Wallet;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
@@ -112,16 +111,22 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
     }
 
     public int paymentOfflineConfirm(Long id, String admin){
-        return paymentConfirm(id,false,true,null, String.format("orderId: %d, confirmed by: %s",id, admin));
+        return paymentConfirm(id,false,true,null, String.format("orderId: %d, confirmed by: %s",id, admin), null);
         //String.format("{orderId: %d, promotion: %s, confirmed by: %s}",id, admin));
     }
 
-    public int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail){
+    // private int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail){
+    //     return paymentConfirm(id, online, success, total, detail, null);
+    // }
+
+    public int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail, Wallet walletPay){
+        PaymentType paymentType = walletPay==null? PaymentType.MONEYORDER: PaymentType.WALLET;
         int result = 0;
         Order order = this.getById(id);
         if(order==null) return -1;
         Customer customer = customerService.getById(order.getCustomerId());
         if(customer==null) return -1;
+        order.setPaymentType(paymentType);
         int orderIndex = (customer.getOrderCount()==null?0:customer.getOrderCount().intValue());
 
         Set<OrderTotal> totals = order.getOrderTotal();
@@ -155,6 +160,16 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                 customer.setLoyalty(loyalty);
                 customer.setOrderCount(orderIndex + 1);
                 result = order.getTotal().intValue();
+                if(walletPay!=null && customer.getWallet()!=null && customer.getWallet().getId().longValue() == walletPay.getId().longValue()){
+                    Wallet wallet = customer.getWallet();
+                    int totalPay = order.getTotal().intValue();
+                    detail += (", wallet:" + wallet.getMoney() + ", total:" + order.getTotal());
+                    if(totalPay>0){
+                        wallet.changeMoney(-1*totalPay);
+                        customer.setWallet(wallet);
+                    }
+                    detail += (", wallet:" + wallet.getMoney());
+                }
                 customerService.saveOrUpdate(customer);
                 detail += (", point: " + point + ", earn: " + earn);
             }
@@ -164,7 +179,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
             }
             
         }catch(Exception e){
-            LOGGER.error(String.format("VNPAY paymentConfirm: %s", e.getMessage()));
+            LOGGER.error(String.format("paymentConfirm: %s", e.getMessage()));
             return -1;
         }
         transactionConfirm(order, online, total, detail); // save transaction
@@ -185,7 +200,8 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
                 transaction.setDetails("{" + details + "}");
             }
             transaction.setTransactionDate(new Date());
-            transaction.setPaymentType(PaymentType.MONEYORDER);
+            transaction.setPaymentType(order.getPaymentType());
+            // transaction.setPaymentType(PaymentType.MONEYORDER);
             transactionService.create(transaction);
             return true;
         }catch(Exception e){
@@ -649,7 +665,7 @@ public class OrderServiceImpl  extends SalesManagerEntityServiceImpl<Long, Order
 
 
     @Override
-    @CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'order_' + #order.id")
+    @CacheEvict(value="CACHE_CUSTOMER_ORDER", key = "'order_' + #order.id")
     public void saveOrUpdate(final Order order) throws ServiceException {
 
         if(order.getId()!=null && order.getId()>0) {

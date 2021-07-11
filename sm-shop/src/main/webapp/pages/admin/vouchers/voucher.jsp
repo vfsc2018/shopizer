@@ -116,6 +116,7 @@
 		<div class="sm-ui-component">	
 
 
+
 		<h3>
 					<div class="control-group">
                       <div class="controls">
@@ -131,32 +132,23 @@
 	                <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
 					
 					<input name="id" id="id" type="hidden" value="<c:out value="${voucher.id}"/>">
-					
+		
 					<div class="span8">
+						<div class="span4" style="margin-left:0px;">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.code" text="Code"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="input-large highlight" path="code"/>      														
 					                   </div>
 					           </div>       				
-      				</div>
-					<div class="span8">
+      				
 								<div class="control-group">
 					                  <label><s:message code="label.entity.description" text="description"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="input-large highlight" path="description"/>      														
 					                   </div>
-					           </div>       				
-					  </div>
-					  <div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.entity.product.sku" text="product's sku"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input  cssClass="small" path="productSku"/>      														
-					                   </div>
-					           </div>       				
-					  </div>
-					  <div class="span8">
+					           </div>         				
+					  
 								<div class="control-group">
 					                  <label><s:message code="label.entity.startDate" text="start date"/></label>	 
 					                  <div class="controls"> 
@@ -166,8 +158,7 @@
 											</script>    
 					                   </div>
 					           </div>       				
-      				</div>      				      				
-      				<div class="span8">
+      				
 								<div class="control-group">
 					                  <label><s:message code="label.entity.endDate" text="end date"/></label>	 
 					                  <div class="controls"> 
@@ -176,41 +167,49 @@
 												$('#endDate').datepicker();
 											</script>    
 					                   </div>
-					           </div>       				
-      				</div>
-					<div class="span8">
-								<div class="control-group">
+					           </div>   
+							   <div class="control-group">
 					                  <label><s:message code="label.entity.point" text="point"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="input-large highlight" path="point"/>      														
 					                   </div>
 					           </div>       				
-      				</div>
-      				<div class="span8">
+      				
 								<div class="control-group">
 					                  <label><s:message code="label.entity.percent" text="percent"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="input-large highlight" path="percent"/>      														
 					                   </div>
 					           </div>       				
-      				</div>
-      				<div class="span8">
+      				
 								<div class="control-group">
 					                  <label><s:message code="label.entity.discount" text="discount"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="input-large highlight" path="discount"/>      														
 					                   </div>
-					           </div>       				
-					</div>
-					<div class="span8">
+					           </div>   
+							   <div class="control-group">
+					                  <label><s:message code="label.generic.weekDays" text="weekDays"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="input-large highlight" path="weekDays"/>      														
+					                   </div>
+					           </div>      				
+      				</div>
+					<div class="span4">
+								<div class="control-group">
+					                  <label><s:message code="label.entity.product.sku" text="product's sku"/></label>	 
+					                  <div class="controls"> 
+					                        <form:input  cssClass="small" path="productSku"/>      														
+					                   </div>
+					           </div>    				
+					
 								<div class="control-group">
 					                  <label><s:message code="label.entity.orderIndex" text="orderIndex"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="small" path="orderIndex"/>      														
 					                   </div>
 					           </div>       				
-					</div>
-					<div class="span8">
+					
 								<div class="control-group">
 					                  <label><s:message code="label.entity.approved" text="approved"/></label>	 
 					                  <div class="controls"> 
@@ -220,18 +219,14 @@
 											</script>    
 					                   </div>
 					           </div>       				
-      				</div>    				
       				
-      				<div class="span8">
 							<div class="control-group">
 				                  <label><s:message code="label.entity.manager" text="manager"/></label>	 
 				                  <div class="controls"> 
 				                        <form:input  cssClass="small" path="manager"/>      														
 				                   </div>
 				           </div>       				
-					  </div>   
-					  
-					<div class="span8">
+					
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blocked" text="blocked"/></label>	 
 					                  <div class="controls"> 
@@ -241,42 +236,30 @@
 										</form:select>     														
 					                   </div>
 					           </div>       				
-      				</div>
       				
-      				<div class="span8">
 								<div class="control-group">
 					                  <label><s:message code="label.entity.blockMessage" text="blockMessage"/></label>	 
 					                  <div class="controls"> 
 					                        <form:input  cssClass="small" path="blockMessage"/>      														
 					                   </div>
 					           </div>       				
-      				</div> 				
-      				<div class="span8">
-								<div class="control-group">
-					                  <label><s:message code="label.generic.weekDays" text="weekDays"/></label>	 
-					                  <div class="controls"> 
-					                        <form:input  cssClass="input-large highlight" path="weekDays"/>      														
-					                   </div>
-					           </div>       				
-      				</div>
       				
-      				<div class="span8">
+								     				
+      				
 							<div class="control-group">
 				                  <label><s:message code="label.generic.dayOfMonth" text="dayOfMonth"/></label>	 
 				                  <div class="controls"> 
 				                        <form:input  cssClass="small" path="dayOfMonth"/>      														
 				                   </div>
 				           </div>       				
-      				</div>
-      				<div class="span8">
+      				
 							<div class="control-group">
 				                  <label><s:message code="label.entity.startTime" text="startTime"/></label>	 
 				                  <div class="controls"> 
 				                        <form:input  cssClass="small" path="startTime"/>      														
 				                   </div>
 				           </div>       				
-      				</div>
-      				<div class="span8">
+      				
 							<div class="control-group">
 				                  <label><s:message code="label.entity.endTime" text="endTime"/></label>	 
 				                  <div class="controls"> 
@@ -284,6 +267,7 @@
 				                   </div>
 				           </div>       				
       				</div>
+				</div>
       				
    				
             <br/>   

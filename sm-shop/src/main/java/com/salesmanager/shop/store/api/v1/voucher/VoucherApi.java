@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.salesmanager.core.business.services.voucher.VoucherService;
-import com.salesmanager.core.model.voucher.Voucher;
 import com.salesmanager.core.model.vouchercode.VoucherCode;
 import com.salesmanager.shop.admin.controller.vouchercode.VoucherCodeCheck;
 import com.salesmanager.shop.admin.controller.vouchercode.VoucherInfo;
@@ -34,10 +33,12 @@ public class VoucherApi {
 	@PostMapping("/private/voucher/check")
 	public ResponseEntity<?> check(@Valid @RequestBody VoucherCodeCheck code, HttpServletRequest request) {
 		VoucherCode entity = voucherService.getVoucher(code.getCode(), code.getSecurecode());
-		if (entity==null){
+		if (entity==null || entity.getVoucher()==null){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		Voucher v = entity.getVoucher();
+		
+		com.salesmanager.core.model.voucher.Voucher v = entity.getVoucher();
+
 		VoucherInfo info = new VoucherInfo();
 		info.setDescription(v.getDescription());
 		info.setCode(v.getCode());

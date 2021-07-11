@@ -46,8 +46,7 @@
 			<groupId>com.shopizer</groupId>
 			<artifactId>sm-search</artifactId>
 		</dependency>
-
-
+		
 		<!-- Spring boot starters -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -163,10 +162,10 @@
 
 	<build>
 		<plugins>
-			<plugin>
+			<!-- <plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+			</plugin> -->
 		</plugins>
 		<finalName>ROOT</finalName>
 	</build>

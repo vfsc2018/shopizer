@@ -1,10 +1,7 @@
 package com.salesmanager.core.business.repositories.voucher;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.salesmanager.core.model.voucher.Voucher;
-
-
 
 public interface VoucherRepository extends JpaRepository<Voucher, Long>,VoucherRepositoryCustom {
 

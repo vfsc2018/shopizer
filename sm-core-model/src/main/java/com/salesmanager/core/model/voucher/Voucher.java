@@ -22,7 +22,7 @@ import com.salesmanager.core.model.common.audit.AuditListener;
 import com.salesmanager.core.model.common.audit.AuditSection;
 import com.salesmanager.core.model.common.audit.Auditable;
 import com.salesmanager.core.model.generic.SalesManagerEntity;
-
+ 
 
 @Entity
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -64,6 +64,13 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	private Date expire;
 	private String manager;
 	private String productSku;
+
+	public Integer getOrderIndex() {
+		return orderIndex;
+	}
+	public void setOrderIndex(Integer orderIndex) {
+		this.orderIndex = orderIndex;
+	}
 	
 	public String getProductSku() {
 		return productSku;
@@ -94,13 +101,6 @@ public class Voucher extends SalesManagerEntity<Long, Voucher> implements Audita
 	}
 	public void setPoint(Integer point) {
 		this.point = point;
-	}
-
-	public Integer getOrderIndex() {
-		return orderIndex;
-	}
-	public void setOrderIndex(Integer orderIndex) {
-		this.orderIndex = orderIndex;
 	}
 
 	public Integer getDiscount() {

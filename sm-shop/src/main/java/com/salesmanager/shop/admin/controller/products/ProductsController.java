@@ -96,7 +96,7 @@ public class ProductsController {
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 			
 			ProductCriteria criteria = new ProductCriteria();
-			
+			criteria.setLanguage(language.getCode());
 			criteria.setStartIndex(startRow);
 			criteria.setMaxCount(endRow);
 			// criteria.setOrderBy(CriteriaOrderBy.DESC);

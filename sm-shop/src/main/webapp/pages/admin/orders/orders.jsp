@@ -24,7 +24,7 @@
 			<table width="100%" border="0px">
 				<tr>
 					<td align="left" >
-						<h3><s:message code="label.order.title" text="Orders" /></h3>	
+						<h3><s:message code="label.order.title" text="Orders" /><span id="totalRows"></span></h3>	
 						 <!-- Listing grid include -->
 						 <c:set value="/admin/orders/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/orders/remove.html" var="removeUrl" scope="request"/>
@@ -34,19 +34,21 @@
 						 <c:set var="componentTitleKey" value="label.order.title" scope="request"/>
 								 
 					</td>
-				<td align="right" nowrap="nowrap">
+				</tr>
+				<tr>
+				<td align="right" style="vertical-align: middle;" nowrap="nowrap">
 					<c:url var="buildBill" value="/admin/orders/reportOrder.html"/>
 					<form:form method="POST" target="_blank" id="FormBuildBill" modelAttribute="dataEx" action="${buildBill}">
 					<input type="hidden" name="type" id="type" value="1" />				
-												<input type="text" id="fromDate" style="width:100px" class="small" name="fromDate" />      
-												<script type="text/javascript">
-													$('#fromDate').datepicker();
-												</script>   
-												
-												<input type="text" id="toDate" style="width:100px" css="small" name="toDate" />      
-												<script type="text/javascript">
-													$('#toDate').datepicker();
-												</script> 
+							<input type="text" id="fromDate" style="width:100px; margin-top:10px" class="small" name="fromDate" />      
+							<script type="text/javascript">
+								$('#fromDate').datepicker();
+							</script>   
+							
+							<input type="text" id="toDate" style="width:100px; margin-top:10px" css="small" name="toDate" />      
+							<script type="text/javascript">
+								$('#toDate').datepicker();
+							</script> 
 												
 			              	<button  type="button" id ="btReportBill" class="btn btn-medium btn-primary" ><s:message code="button.label.report" text="Report"/></button>
 			              	<button  type="button" id="btCollectBill" class="btn btn-medium btn-primary" ><s:message code="button.label.summary" text="Summary"/></button>

@@ -19,7 +19,7 @@
 			<table width="100%" border="0px">
 				<tr>
 					<td align="left" width="50%">
-						<h3><s:message code="label.vouchers.title" text="List of vouchers" /></h3>	
+						<h3><s:message code="label.vouchers.title" text="List of vouchers" /><span id="totalRows"></span></h3>	
 						 <c:set value="/admin/vouchers/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/vouchers/remove.html" var="removeUrl" scope="request"/>
 						 <c:set value="/admin/vouchers/view.html" var="editUrl" scope="request"/>

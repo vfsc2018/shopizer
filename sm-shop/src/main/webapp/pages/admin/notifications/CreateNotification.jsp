@@ -98,7 +98,7 @@
 		<h3>
 					<div class="control-group">
                       <div class="controls">
-                     		 <s:message code="label.title.voucherCode.create" text="Create notification"/>
+                     		 <s:message code="label.notification.create" text="Create notification"/>
                        </div>       
                   </div>
            </h3>
@@ -136,7 +136,7 @@
             <br/>   
             <div class="span8">
 	            <div class="form-actions">
-	              	<button  type="button" id ="btSave" class="btn btn-medium btn-primary" ><s:message code="button.label.submit" text="Save"/></button>	              		
+	              	<button  type="button" id ="btSave" class="btn btn-medium btn-primary" ><s:message code="button.label.submit2" text="Send"/></button>	              		
                 
                 </div>
       		</div> 

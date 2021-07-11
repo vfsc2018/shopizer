@@ -19,7 +19,7 @@
 
 
 								<div class="sm-ui-component">
-								<h3><s:message code="menu.users" text="Users" /></h3>	
+								<h3><s:message code="menu.users" text="Users" /><span id="totalRows"></span></h3>	
 								<br/>
 								
 								<!-- Listing grid include -->

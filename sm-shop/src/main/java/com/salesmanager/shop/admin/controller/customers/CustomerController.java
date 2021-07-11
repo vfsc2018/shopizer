@@ -11,6 +11,7 @@ import com.salesmanager.core.business.services.reference.zone.ZoneService;
 // import com.salesmanager.core.business.services.system.EmailService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.utils.CoreConfiguration;
+import com.salesmanager.core.business.utils.ProductPriceUtils;
 import com.salesmanager.core.business.utils.ajax.AjaxPageableResponse;
 import com.salesmanager.core.business.utils.ajax.AjaxResponse;
 import com.salesmanager.core.model.common.Billing;
@@ -19,6 +20,7 @@ import com.salesmanager.core.model.common.Delivery;
 import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.customer.CustomerCriteria;
 import com.salesmanager.core.model.customer.CustomerList;
+import com.salesmanager.core.model.customer.Wallet;
 import com.salesmanager.core.model.customer.attribute.CustomerAttribute;
 import com.salesmanager.core.model.customer.attribute.CustomerOptionSet;
 import com.salesmanager.core.model.customer.attribute.CustomerOptionType;
@@ -67,6 +69,8 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -112,7 +116,9 @@ public class CustomerController {
 	
 	@Inject
 	private CustomerAttributeService customerAttributeService;
-	
+
+	@Inject
+	private ProductPriceUtils priceUtil;
 	
 	// @Inject
 	// private EmailService emailService;
@@ -120,6 +126,17 @@ public class CustomerController {
 	// @Inject
 	// private EmailUtils emailUtils;
 	
+	private String getGroupShare(Long id){
+		List<Customer> groupShare = customerService.getByShare(id);
+		if(groupShare!=null && !groupShare.isEmpty()){
+			String ids = "";
+			for(Customer c: groupShare){
+				ids = "#" + c.getId() + " ";
+			}
+			return ids;
+		}
+		return null;
+	}
 	/**
 	 * Customer details
 	 * @param model
@@ -160,9 +177,26 @@ public class CustomerController {
 			if(customer==null) {
 				return "redirect:/admin/customers/list.html";
 			}
+			
 			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "redirect:/admin/customers/list.html";
 			}
+			String groupShare = getGroupShare(id);
+			Wallet wallet = customer.getWallet();
+			if(wallet==null) wallet = new Wallet();
+			if(groupShare != null){
+				wallet.setGroupShare(groupShare);
+			}
+			if(wallet.getShare()!=null){
+				wallet.setShare(wallet.getShare().replace("##", " "));
+			}
+			if(wallet.getMoney()!=null){
+				String amount = priceUtil.getAdminFormatedAmountWithCurrency(store, new BigDecimal(wallet.getMoney()));
+				wallet.setAmount(amount);
+			}
+			customer.setWallet(wallet);
+			// customer.getWallet().setName(customer.getBilling().getFirstName());
+			// customer.getWallet().setPoint(customer.getLoyalty().getVPoint());
 			
 		} else {
 			customer = new Customer();
@@ -256,30 +290,47 @@ public class CustomerController {
 	public String saveCustomer(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception{
 	
 		this.setMenu(model, request);
-		
-		String email_regEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
-		Pattern pattern = Pattern.compile(email_regEx);
-		
+
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		List<Language> languages = languageService.getLanguages();
 		
 		model.addAttribute("languages",languages);
-		
-		//get groups
 		List<Group> groups = new ArrayList<>();
 		List<Group> userGroups = groupService.listGroup(GroupType.CUSTOMER);
 		for(Group group : userGroups) {
 			groups.add(group);
 		}
-		
 		model.addAttribute("groups",groups);
+		List<Country> countries = countryService.getCountries(language);
+		
+		if(request.getParameter("walletTopup")!=null){
+			Customer newCustomer = customerService.getById(customer.getId());
+			Wallet wallet = newCustomer.getWallet();
+			if(wallet!=null && wallet.getTopup()>0){
+				Integer topup = wallet.getTopup();
+				wallet.changeMoney(topup);
+				wallet.setTopup(0);
+				customerService.saveOrUpdate(newCustomer);
+			}else{
+				wallet = new Wallet();
+				wallet.setMoney(0);
+				wallet.setTopup(0);
+				newCustomer.setWallet(wallet);
+				customerService.saveOrUpdate(newCustomer);
+			}
+			newCustomer.getWallet().setGroupShare(getGroupShare(customer.getId()));
+			model.addAttribute("customer", newCustomer);
+			model.addAttribute("countries", countries);
+			model.addAttribute("success","success");
+			return "admin-customer";
+		}
+		
+		String emailRegEx = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}\\b";
+		Pattern pattern = Pattern.compile(emailRegEx);
 		
 		this.getCustomerOptions(model, customer, store, language);
 		
-		//get countries
-		List<Country> countries = countryService.getCountries(language);
-
 		
 		if(!StringUtils.isBlank(customer.getEmailAddress() ) ){
 			 java.util.regex.Matcher matcher = pattern.matcher(customer.getEmailAddress());
@@ -344,13 +395,9 @@ public class CustomerController {
 			if(newCustomer==null) {
 				return "redirect:/admin/customers/list.html";
 			}
-			
 			if(newCustomer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
 				return "redirect:/admin/customers/list.html";
 			}
-			
-			
-			
 		}else{
 			//  new customer set marchant_Id
 			MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
@@ -376,7 +423,6 @@ public class CustomerController {
 		Zone billingZone  = customer.getBilling().getZone();
 		
 
-		
 		if ("yes".equalsIgnoreCase(customer.getShowDeliveryStateList())) {
 			if(customer.getDelivery().getZone()!=null) {
 				deliveryZone = zoneService.getByCode(customer.getDelivery().getZone().getCode());
@@ -402,9 +448,6 @@ public class CustomerController {
 				customer.getBilling().setState( customer.getBilling().getState() );
 			}
 		}
-				
-
-		
 		newCustomer.setDefaultLanguage(customer.getDefaultLanguage() );
 		
 		customer.getDelivery().setZone(  deliveryZone);
@@ -414,8 +457,10 @@ public class CustomerController {
 		customer.getBilling().setZone(  billingZone);
 		customer.getBilling().setCountry(billingCountry );
 		newCustomer.setBilling( customer.getBilling()  );
+		newCustomer.setWallet(customer.getWallet());
 		try{
 			customerService.saveOrUpdate(newCustomer);
+			newCustomer.getWallet().setGroupShare(getGroupShare(customer.getId()));
 			model.addAttribute("customer", newCustomer);
 			model.addAttribute("countries", countries);
 			model.addAttribute("success","success");
@@ -459,7 +504,7 @@ public class CustomerController {
 			String parameterName = (String)parameterNames.nextElement();
 			String parameterValue = request.getParameter(parameterName);
 			if(CUSTOMER_ID_PARAMETER.equals(parameterName)) {
-				customer = customerService.getById(new Long(parameterValue));
+				customer = customerService.getById(Long.parseLong(parameterValue));
 				break;
 			}
 		}
@@ -507,14 +552,14 @@ public class CustomerController {
 						String key = parameterKey[0];
 						String value = parameterKey[1];
 						//should be on
-						customerOption = customerOptionService.getById(new Long(key));
-						customerOptionValue = customerOptionValueService.getById(new Long(value));
+						customerOption = customerOptionService.getById(Long.parseLong(key));
+						customerOptionValue = customerOptionValueService.getById(Long.parseLong(value));
 						
 
 						
 					} else {
-						customerOption = customerOptionService.getById(new Long(parameterName));
-						customerOptionValue = customerOptionValueService.getById(new Long(parameterValue));
+						customerOption = customerOptionService.getById(Long.parseLong(parameterName));
+						customerOptionValue = customerOptionValueService.getById(Long.parseLong(parameterValue));
 
 					}
 					
@@ -580,15 +625,10 @@ public class CustomerController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value="/admin/customers/list.html", method=RequestMethod.GET)
-	public String displayCustomers(Model model,HttpServletRequest request) throws Exception {
-		
+	public String displayCustomers(Model model,HttpServletRequest request) {
 		
 		this.setMenu(model, request);
-	
 		return "admin-customers";
-		
-		
-		
 	}
 	
 	
@@ -692,7 +732,7 @@ public class CustomerController {
 			if(customerList.getCustomers()!=null) {
 			
 				resp.setTotalRow(customerList.getTotalCount());
-
+				
 				for(Customer customer : customerList.getCustomers()) {
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
@@ -915,16 +955,13 @@ public class CustomerController {
 		Map<String,String> activeMenus = new HashMap<>();
 		activeMenus.put("customer", "customer");
 		activeMenus.put("customer-list", "customer-list");
-		
+
 		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
-		
+		Map<String, Menu> menus = (Map<String, Menu>) request.getAttribute("MENUMAP");
+
 		Menu currentMenu = menus.get("customer");
-		model.addAttribute("currentMenu",currentMenu);
-		model.addAttribute("activeMenus",activeMenus);
-
-
-		//
+		model.addAttribute("currentMenu", currentMenu);
+		model.addAttribute("activeMenus", activeMenus);
 		
 	}
 	

@@ -155,7 +155,8 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                             <form:errors path="*" cssClass="alert alert-error" element="div" />
                             <div id="store.success" class="alert alert-success" style="<c:choose><c:when test="${success!=null}">display:block;</c:when><c:otherwise>display:none;</c:otherwise></c:choose>"><s:message code="message.success" text="Request successfull"/></div>   
                             <div id="store.error" class="alert alert-error" style="display:none;"><s:message code="message.error" text="An error occured"/></div>
-
+	<div class="span8">
+		<div class="span4" style="margin-left:0px;">
                         <div class="control-group">
 	                        <label><s:message code="label.product.sku" text="Sku"/></label>
 	                        <div class="controls">
@@ -237,9 +238,52 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                               </div>
 
                        </div>
+					   <div class="control-group">
 
-                      
-                        <div class="control-group">
+							<label class="required"><s:message code="label.product.price" text="Price"/></label>
+
+							<div class="controls">
+										<form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
+										<span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
+							</div>
+							</div>
+
+
+
+							<div class="control-group">
+
+							<label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
+							<div class="controls">
+										<form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
+										<span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
+							</div>
+							</div>
+
+
+
+							<div class="control-group">
+							<label><s:message code="label.product.ordermin" text="Quantity order minimum"/></label>
+							<div class="controls">
+										<form:input id="ordermin" cssClass="highlight" path="availability.productQuantityOrderMin"/>
+										<span class="help-inline"><form:errors path="availability.productQuantityOrderMin" cssClass="error" /></span>
+
+							</div>
+							</div>
+
+
+
+							<div class="control-group">
+							<label><s:message code="label.product.ordermax" text="Quantity order maximum"/></label>
+							<div class="controls">
+										<form:input id="ordermax" cssClass="highlight" path="availability.productQuantityOrderMax"/>
+										<span class="help-inline"><form:errors path="availability.productQuantityOrderMax" cssClass="error" /></span>
+							</div>
+							</div>
+                
+
+					</div>
+		<div class="span4">
+			<div class="control-group">
                               <label class="required"><s:message code="label.sefurl" text="Search engine friendly url"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
                                           <form:input id="seUrl${counter.index}" cssClass="input-large" path="descriptions[${counter.index}].seUrl"/>
@@ -256,56 +300,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                               </div>
 
                        </div>
-
-
-                        <div class="control-group">
-                              <label class="required"><s:message code="label.productedit.productdesc" text="Product description"/> (<c:out value="${description.language.code}"/>)</label>
-                              <div class="controls">
-                              		 
-                              		 
-                              	     <textarea cols="30" id="descriptions${counter.index}.description" name="descriptions[${counter.index}].description">
-                        				<c:out value="${product.descriptions[counter.index].description}"/>
-                        			 </textarea>
-                              </div>
-                              
-                              
-                              
-                        <script type="text/javascript">
-						//<![CDATA[
-
-							CKEDITOR.replace('descriptions[${counter.index}].description',
-							{
-								skin : 'office2003',
-								toolbar : 
-								[
-									['Source','-','Save','NewPage','Preview'], 
-									['Cut','Copy','Paste','PasteText','-','Print'], 
-									['Undo','Redo','-','Find','-','SelectAll','RemoveFormat'], '/', 
-									['Bold','Italic','Underline','Strike','-','Subscript','Superscript'], 
-									['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'], 
-									['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'], 
-									['Link','Unlink','Anchor'], 
-									['Image','Flash','Table','HorizontalRule','SpecialChar','PageBreak'], '/', 
-									['Styles','Format','Font','FontSize'], ['TextColor','BGColor'], 
-									['Maximize', 'ShowBlocks'] 
-								],
-								
-								filebrowserWindowWidth : '720',
-        						filebrowserWindowHeight : '740',
-								filebrowserImageBrowseUrl :    '<c:url value="/admin/content/fileBrowser.html"/>'
-								
-
-							});
-
-						//]]>
-						</script>
-                              
-                              
-                              
-                       </div>
-                      
-
-                        <div class="control-group">
+							<div class="control-group">
                               <label class="required"><s:message code="label.product.title" text="Product title"/> (<c:out value="${description.language.code}"/>)</label>
                               <div class="controls">
                                           <form:input cssClass="input-large" path="descriptions[${counter.index}].metatagTitle"/>
@@ -338,47 +333,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 
                  
 
-                 <div class="control-group">
-
-                        <label class="required"><s:message code="label.product.price" text="Price"/></label>
-
-                        <div class="controls">
-                                    <form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
-                                    <span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
-                        </div>
-                  </div>
-
-                 
-
-                 <div class="control-group">
-
-                        <label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
-                        <div class="controls">
-                                    <form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
-                                    <span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
-                        </div>
-                  </div>
-
-                 
-
-                  <div class="control-group">
-                        <label><s:message code="label.product.ordermin" text="Quantity order minimum"/></label>
-                        <div class="controls">
-                                    <form:input id="ordermin" cssClass="highlight" path="availability.productQuantityOrderMin"/>
-                                    <span class="help-inline"><form:errors path="availability.productQuantityOrderMin" cssClass="error" /></span>
-
-                        </div>
-                  </div>
-
-                 
-
-                  <div class="control-group">
-                        <label><s:message code="label.product.ordermax" text="Quantity order maximum"/></label>
-                        <div class="controls">
-                                    <form:input id="ordermax" cssClass="highlight" path="availability.productQuantityOrderMax"/>
-                                    <span class="help-inline"><form:errors path="availability.productQuantityOrderMax" cssClass="error" /></span>
-                        </div>
-                  </div>
+                
                   
                  <div class="control-group">
                         	<label><s:message code="label.product.shipeable" text="Product will be shipped"/></label>
@@ -432,24 +387,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                                     <form:input id="order" cssClass="" path="product.sortOrder"/>
                                     <span class="help-inline"><form:errors path="product.sortOrder" cssClass="error" /></span>
                         </div>
-                  </div>                 
-
-
-                  <div class="control-group">
-                        <label><s:message code="label.product.image" text="Image"/>&nbsp;<c:if test="${product.productImage.productImage!=null && product.productImage.productImage!=''}"><span id="imageControlRemove"> - <a href="#" onClick="removeImage('${product.productImage.id}')"><s:message code="label.generic.remove" text="Remove"/></a></span></c:if></label>
-                        <div class="controls" id="imageControl">
-                        		<c:choose>
-	                        		<c:when test="${product.productImage.productImage==null || product.productImage.productImage==''}">
-	                                    <input class="input-file" id="image" name="image" type="file">
-	                                </c:when>
-	                                <c:otherwise>
-	                                	<img src="<sm:productImage imageName="${product.productImage.productImage}" product="${product.product}"/>" width="200"/>
-	                                </c:otherwise>
-                                </c:choose>
-                        </div>
-                  </div>
-                  
-                  <form:hidden path="productImage.productImage" />
+                  </div>       
                   
                   <div class="control-group">
                         	<label><s:message code="label.taxclass" text="Tax class"/></label>
@@ -460,26 +398,85 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                    </div>
 
 
+                        </div>
+	</div>
+	
+                        <div class="control-group">
+							<div class="span8">
+                              <label class="required"><s:message code="label.productedit.productdesc" text="Product description"/> (<c:out value="${description.language.code}"/>)</label>
+                            </div>  
+							  <div class="controls">
+                              		 
+                              		 
+                              	     <textarea cols="50" id="descriptions${counter.index}.description" name="descriptions[${counter.index}].description">
+                        				<c:out value="${product.descriptions[counter.index].description}"/>
+                        			 </textarea>
+                              </div>
+		
+
+		
+                        <script type="text/javascript">
+						//<![CDATA[
+
+							CKEDITOR.replace('descriptions[${counter.index}].description',
+							{
+								skin : 'office2003',
+								toolbar : 
+								[
+									['Source','-','Save','NewPage','Preview'], 
+									['Cut','Copy','Paste','PasteText','-','Print'], 
+									['Undo','Redo','-','Find','-','SelectAll','RemoveFormat'], '/', 
+									['Bold','Italic','Underline','Strike','-','Subscript','Superscript'], 
+									['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'], 
+									['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'], 
+									['Link','Unlink','Anchor'], 
+									['Image','Flash','Table','HorizontalRule','SpecialChar','PageBreak'], '/', 
+									['Styles','Format','Font','FontSize'], ['TextColor','BGColor'], 
+									['Maximize', 'ShowBlocks'] 
+								],
+								
+								filebrowserWindowWidth : '720',
+        						filebrowserWindowHeight : '740',
+								filebrowserImageBrowseUrl :    '<c:url value="/admin/content/fileBrowser.html"/>'
+								
+
+							});
+
+						//]]>
+						</script>
+                              
+                              
+                              
+                       </div>
+                      
+
+				<div class="control-group">
+				<label><s:message code="label.product.image" text="Image"/>&nbsp;<c:if test="${product.productImage.productImage!=null && product.productImage.productImage!=''}"><span id="imageControlRemove"> - <a href="#" onClick="removeImage('${product.productImage.id}')"><s:message code="label.generic.remove" text="Remove"/></a></span></c:if></label>
+				<div class="controls" id="imageControl">
+						<c:choose>
+							<c:when test="${product.productImage.productImage==null || product.productImage.productImage==''}">
+								<input class="input-file" id="image" name="image" type="file">
+							</c:when>
+							<c:otherwise>
+								<img src="<sm:productImage imageName="${product.productImage.productImage}" product="${product.product}"/>" width="200"/>
+							</c:otherwise>
+						</c:choose>
+				</div>
+                  </div>
+                  
+                  <form:hidden path="productImage.productImage" />
+
+
+
+
+
+
                    <div class="form-actions">
                             <div class="pull-right">
-                                    <button type="submit" class="btn btn-success"><s:message code="button.label.submit2" text="Submit"/></button>
+                                    <button type="submit" class="btn btn-success"><s:message code="button.label.submit" text="Submit"/></button>
                             </div>
                    </div>
                    
-                   
-
-                   
-
-
-                   
-
-                 
-
- 
-
- 
-
-                                   
 
                         </form:form>
                         

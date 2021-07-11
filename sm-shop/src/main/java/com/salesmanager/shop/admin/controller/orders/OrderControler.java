@@ -484,6 +484,14 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		return beantemp;
 		
 	}
+
+	private String getProductNameView(Product p, Language l){
+		for(ProductDescription d : p.getDescriptions()){
+			if(d.getLanguage().getCode().equals(l.getCode())) return d.getName();
+		}
+		return p.getName();
+	}
+
 	/*ducdv5*/
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/prepareBill.html", method=RequestMethod.GET)
@@ -549,7 +557,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 						
 						ordernew = new OrderProductEx();
 						Product dbProduct = productService.getByCode(bean.getSku(), language);
-						ordernew.setProductName(bean.getProductName());
+						ordernew.setProductName(getProductNameView(dbProduct, language)); //bean.getProductName());
 						ordernew.setSku(bean.getSku());
 						ordernew.setCurrency(dbOrder.getCurrency());
 						ordernew.setProductQuantity(1.0*bean.getProductQuantity());

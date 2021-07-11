@@ -37,6 +37,7 @@ import com.salesmanager.core.model.customer.Customer;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.shop.model.customer.PersistableCustomer;
+import com.salesmanager.shop.model.shop.CacheNamesImpl;
 import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.store.controller.store.facade.StoreFacade;
 import com.salesmanager.shop.store.security.AuthenticationRequest;
@@ -178,7 +179,7 @@ public class AuthenticateCustomerApi {
 
     	//TODO SET STORE in flow
         // Perform the security
-        String keyName = CacheUtils.KEY_LOGIN + authenticationRequest.getUsername();
+        String keyName = CacheNamesImpl.KEY_LOGIN + authenticationRequest.getUsername();
         Authentication authentication = null;
         try {
             
@@ -240,7 +241,7 @@ public class AuthenticateCustomerApi {
             return ResponseEntity.badRequest().body("Exception when reseting password");
         }
         
-        String keyName = CacheUtils.KEY_RESET + authenticationRequest.getUsername();
+        String keyName = CacheNamesImpl.KEY_RESET + authenticationRequest.getUsername();
         AuthenticationRequest auth = (AuthenticationRequest)cache.get(keyName);
         
         if(auth==null){
@@ -279,7 +280,7 @@ public class AuthenticateCustomerApi {
     @ApiOperation(httpMethod = "PUT", value = "Reset customer password", notes = "Reset password request object is {\"username\":\"test@email.com\"}",response = ResponseEntity.class)
     public ResponseEntity<?> otpPassword(@RequestBody @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request) {
   
-        String keyName = CacheUtils.KEY_RESET + authenticationRequest.getUsername();
+        String keyName = CacheNamesImpl.KEY_RESET + authenticationRequest.getUsername();
         AuthenticationRequest auth = (AuthenticationRequest)cache.get(keyName);
         if(auth==null || auth.getOtp()==null || authenticationRequest.getOtp()==null){
             return ResponseEntity.noContent().build();

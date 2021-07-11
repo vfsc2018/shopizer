@@ -102,10 +102,11 @@ public class MerchantStoreController {
 		try {
 
 			List<MerchantStore> stores = merchantStoreService.findAllStoreCodeNameEmail();
-
+			
 			for (MerchantStore store : stores) {
 
 				if (!store.getCode().equals(MerchantStore.DEFAULT_STORE)) {
+					
 					Map<String, String> entry = new HashMap<>();
 					entry.put("storeId", String.valueOf(store.getId()));
 					entry.put("code", store.getCode());

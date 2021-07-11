@@ -35,7 +35,7 @@ import org.springframework.validation.ObjectError;
 import com.salesmanager.core.business.constants.Constants;
 import com.salesmanager.core.business.exception.ConversionException;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
+import com.salesmanager.shop.model.shop.CacheNamesImpl;
 import com.salesmanager.core.business.services.catalog.product.PricingService;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.catalog.product.attribute.ProductAttributeService;
@@ -900,7 +900,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.id + '_' + #start + '_' + #maxCount")
+	@Cacheable(value="CACHE_CUSTOMER_ORDER", key = "#customer.id + '_' + #start + '_' + #maxCount")
 	public com.salesmanager.shop.model.order.v0.ReadableOrderList getReadableOrderList(MerchantStore store,
 			Customer customer, int start, int maxCount, Language language) throws Exception {
 
@@ -1170,7 +1170,7 @@ public class OrderFacadeImpl implements OrderFacade {
 	}
 
 	@Override
-	@CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.id + '_0'")
+	@CacheEvict(value="CACHE_CUSTOMER_ORDER", key = "#customer.id + '_0'")
 	public Order processOrder(com.salesmanager.shop.model.order.v1.PersistableOrder order, Customer customer,
 			MerchantStore store, Language language, Locale locale) throws ServiceException {
 

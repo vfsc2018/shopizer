@@ -262,7 +262,7 @@ function captureOrder(orderId){
 		$("#orderStatus").on('change', function() {
 			var comment = '';
 			if(this.value=='PROCESSING'){
-				comment = 'sms: VfSC da nhan don hang #<c:out value="${order.order.id}"/>. Quy khach cai dat ung dung VfscFood tren dien thoai de nhan thong tin va theo doi don hang';
+				comment = 'sms: VfSC da nhan don hang #<c:out value="${order.order.id}"/>. Quy khach cai dat ung dung VfSC Food tren dien thoai de nhan thong tin va theo doi don hang';
 			}else if(this.value=='CANCELED'){
 				comment = 'sms: Xin loi Quy khach, VfSC chua sap xep duoc ke hoach giao don hang #<c:out value="${order.order.id}"/>. Chung toi se lien he quy khach trong thoi gian som nhat';
 			}

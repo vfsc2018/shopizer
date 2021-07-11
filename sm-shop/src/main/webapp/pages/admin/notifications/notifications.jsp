@@ -18,8 +18,8 @@
 			<div>
 			<table width="100%" border="0px">
 				<tr>
-					<td align="left" width="50%">
-						<h3><s:message code="label.listNotifications.title" text="Orders" /></h3>	
+					<td>
+						<h3><s:message code="label.listNotifications.title" text="List of Notification" /><span id="totalRows"></span></h3>	
 						 <c:set value="/admin/notifications/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/notifications/remove.html" var="removeUrl" scope="request"/>
 						 <c:set value="/admin/notifications/viewNotifications.html" var="editUrl" scope="request"/>
@@ -28,9 +28,6 @@
 						 <c:set var="componentTitleKey" value="label.listNotifications.title" scope="request"/>
 								 
 					</td>
-				<td align="right">
-		              	             		
-		      	</td>
 		      	</tr>
 	      	</table>	  
       		</div> 

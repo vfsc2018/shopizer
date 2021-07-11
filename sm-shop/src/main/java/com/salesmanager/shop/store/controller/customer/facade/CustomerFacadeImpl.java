@@ -1001,7 +1001,6 @@ public class CustomerFacadeImpl implements CustomerFacade {
     
   }
 
-
   @Override
   public void updateAddress(PersistableCustomer customer, MerchantStore store) {
     Validate.notNull(customer.getBilling(), "Billing address can not be null");

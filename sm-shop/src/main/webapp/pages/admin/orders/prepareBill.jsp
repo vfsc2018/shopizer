@@ -665,7 +665,7 @@ function captureOrder(orderId){
 								      </div>
 								      <div class="span8">     
 							     		   <div class="control-group">  
-							                    <label><s:message code="label.entity.status" text="Status"/></label>
+							                    <label><s:message code="label.entity.note" text="Note"/></label>
 							                     <div class="controls">
 							                         <form:textarea  cols="10" rows="3" path="orderHistoryComment"/>
 							                    </div> 

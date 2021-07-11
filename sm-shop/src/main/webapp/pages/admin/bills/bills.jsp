@@ -23,7 +23,7 @@
 			<table width="100%" border="0px">
 				<tr>
 					<td align="left">
-						<h3><s:message code="label.listBills.title" text="Bills" /></h3>	
+						<h3><s:message code="label.listBills.title" text="Bills" /><span id="totalRows"></span></h3>	
 						 <c:set value="/admin/bills/paging.html" var="pagingUrl" scope="request"/>
 						 <c:set value="/admin/bills/remove.html" var="removeUrl" scope="request"/>
 						 <c:set value="/admin/bills/viewBill.html" var="editUrl" scope="request"/>
@@ -32,7 +32,9 @@
 						 <c:set var="componentTitleKey" value="label.listBills.title" scope="request"/>
 								 
 					</td>
-				<td align="right" nowrap="nowrap">
+				</tr>
+				<tr>
+				<td align="right" style="vertical-align: middle;" nowrap="nowrap">
 				
 				<c:url var="buildBill" value="/admin/bills/reportBill.html"/>
 				
@@ -40,12 +42,12 @@
 				<input type="hidden" name="type" id="type" value="1" />
 				
 				
-				        <input id="fromDate" type="text" style="width:100px" class="small" name="fromDate" />      
+				        <input id="fromDate" type="text" style="width:100px; margin-top:10px" class="small" name="fromDate" />      
 						<script type="text/javascript">
 							$('#fromDate').datepicker();
 						</script>   
 						
-						<input id="toDate" type="text" style="width:100px" css="small" name="toDate" />      
+						<input id="toDate" type="text" style="width:100px; margin-top:10px" css="small" name="toDate" />      
 						<script type="text/javascript">
 							$('#toDate').datepicker();
 						</script>   

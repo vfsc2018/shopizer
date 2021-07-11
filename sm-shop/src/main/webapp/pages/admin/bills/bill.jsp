@@ -623,10 +623,9 @@ function captureOrder(orderId){
 					                   </div>
 					           </div> 
 				     		   <div class="control-group">  
-				                    <label></label>
+				                    <label><s:message code="label.bill.billNote" text="Note"/></label>
 				                     <div class="controls">
-				                     	 <form:textarea  cssClass="input-large" cols="10" rows="3" path="description"/>
-				                     	    
+				                     	 <form:textarea  cssClass="input-large" cols="15" rows="3" path="description"/>
 				                    </div> 
 				               </div>      				
       				

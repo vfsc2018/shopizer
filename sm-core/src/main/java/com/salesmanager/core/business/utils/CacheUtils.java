@@ -22,18 +22,11 @@ public class CacheUtils {
     @Qualifier("serviceCache")
     private Cache cache;
 	
-	
-	public static final String KEY_LOGIN = "LOGIN_";
-	public static final String KEY_RESET = "RESET_";
-	public static final String KEY_DEVICE = "DEVICE_";
-	public static final String KEY_CUSTOMER_INFOR = "CUSTOMER_INFOR_";
-	public static final String KEY_CUSTOMER_REMIND_ORDER = "CUSTOMER_REMIND_ORDER_";
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CacheUtils.class);
 
 	private static final String KEY_DELIMITER = "_";
 	
-	public void put(Object object, String keyName) {
+	public void put(Object object, String keyName) { 
 		try{
 			cache.put(keyName, object);
 		}catch(Exception e){
@@ -60,7 +53,7 @@ public class CacheUtils {
 	}
 	
 
-	public Object getFromCache(String keyName) throws Exception {
+	public Object getFromCache(String keyName) {
 
 		ValueWrapper vw = cache.get(keyName);
 		if(vw!=null) {
@@ -71,13 +64,11 @@ public class CacheUtils {
 		
 	}
 	
-	public List<String> getCacheKeys(MerchantStore store) throws Exception {
+	public List<String> getCacheKeys(MerchantStore store) {
 		
 		  net.sf.ehcache.Cache cacheImpl = (net.sf.ehcache.Cache) cache.getNativeCache();
 		  List<String> returnKeys = new ArrayList<>();
 		  for (Object key: cacheImpl.getKeys()) {
-		    
-			  
 				try {
 					String sKey = (String)key;
 					

@@ -356,16 +356,15 @@ function setCredentials(customerId, userName, password){
 
 
 <div id="tabbable" class="tabbable">
-
-
 				<jsp:include page="/common/adminTabs.jsp" />
-				
-				<h3>
-				
-				
 
-				
-				
+	<div class="tab-content">
+
+	<div class="tab-pane active" id="order-section">
+
+	<div class="sm-ui-component">
+
+				<h3>
 					<c:choose>
 						<c:when test="${customer.id!=null && customer.id>0}">
 								<s:message code="label.customer.editcustomer" text="Edit Customer" /> <c:out value="${category.code}"/>
@@ -374,7 +373,6 @@ function setCredentials(customerId, userName, password){
 								<s:message code="label.customer.createcustomer" text="Create Customer" />
 						</c:otherwise>
 					</c:choose>
-					
 				</h3>	
 				<br/>
 				
@@ -388,22 +386,16 @@ function setCredentials(customerId, userName, password){
                 </div><!-- /btn-group -->
 			    <br/>
 				</c:if>
-				
 				<c:set var="customerAttr" value="${customer}"/>
-
-
 				<c:url var="saveCustomer" value="/admin/customers/save.html"/>
-
-
 				<form:form method="POST" modelAttribute="customer" action="${saveCustomer}">
 				
 					<form:errors id="customer.error" path="*" cssClass="alert alert-error" element="div" />
 					<div id="customerError" class="alert alert-error" style="display:none;"></div>
-					<div id="customerSuccess" class="alert alert-success" 
-							style="<c:choose>
-								<c:when test="${success!=null}">display:block;</c:when>
-								<c:otherwise>display:none;</c:otherwise></c:choose>">
-								<s:message code="message.success" text="Request successful"/>
+					<div id="customerSuccess" class="alert alert-success" style="<c:choose>
+						<c:when test="${success!=null}">display:block;</c:when>
+						<c:otherwise>display:none;</c:otherwise></c:choose>">
+						<s:message code="message.success" text="Request successful"/>
 					</div>    
 					
 					<form:hidden id="customerId" path="id" /> 
@@ -412,6 +404,8 @@ function setCredentials(customerId, userName, password){
 					<form:hidden path="showBillingStateList" /> 
 					<form:hidden path="showDeliveryStateList" />  	
 						
+					<div class="span8">
+<div class="span4" style="margin-left:0px;">
 
 			    	<h3><s:message code="label.customer.billinginformation" text="Billing information"/></h3>
 			        <div class="control-group">
@@ -437,20 +431,24 @@ function setCredentials(customerId, userName, password){
 
 
 					<address>
-					
+						<div class="control-group">
+							<label><s:message code="label.customer.billing.company" text="Company"/></label>
 						<div class="controls">
-		              		<label><s:message code="label.customer.billing.company" text="Company"/></label>
 		              		<form:input  cssClass="input-large"  maxlength="100" path="billing.company"/>	
-			            </div>
+			            </div></div>
 
+						<div class="control-group">
+							<label><s:message code="label.customer.billing.streetaddress" text="Street Address"/></label>
 			            <div class="controls">
-			            	<label><s:message code="label.customer.billing.streetaddress" text="Street Address"/></label>
 				 			<form:input  cssClass="input-large highlight"  maxlength="256"  path="billing.address"/>		 				
-			            </div>
+			            </div></div>
+
+						<div class="control-group">
+							<label><s:message code="label.customer.billing.city" text="City"/></label>
 			            <div class="controls">
-			            	<label><s:message code="label.customer.billing.city" text="City"/></label>
+			            	
 				 			<form:input  cssClass="input-large highlight"  maxlength="100" path="billing.city"/>
-			            </div>
+			            </div></div>
 		            
  	 		            <div class="control-group">
 	                        <label><s:message code="label.customer.billing.country" text="Country"/></label>
@@ -488,30 +486,75 @@ function setCredentials(customerId, userName, password){
 	                                   			<span class="help-inline"></span>
 	                        </div>
 	                  </div>
+</div>
 
-	 					
+<div class="span4">
+	<h3><s:message code="label.customer.wallet" text="Wallet information"/></h3>
+				<address>
+					
+						<div class="controls"> 
+						<label><s:message code="label.entity.point" text="point"/></label>	
+						<h4><c:out value="${customer.loyalty.VPoint}" /></h4>    														
+					</div>    				
+
+			            <div class="controls">
+		              		<label><s:message code="label.customer.wallet.name" text="name"/></label>
+							<h4><c:out value="${customer.billing.firstName}" /></h4>
+			            </div>
+			            <div class="controls">
+		              		<label><s:message code="label.customer.wallet.money" text="Total money"/></label>
+		              		<h4><c:out value="${customer.wallet.amount}" /></h4>	
+			            </div>
+			            <div class="controls">
+		              		<label><s:message code="label.customer.wallet.topup" text="Topup money"/></label>
+		              		<h4><c:out value="${customer.wallet.topup}" /></h4>
+			            </div>
+			            <div class="controls">
+			            	<label><s:message code="label.customer.wallet.share" text="Share people"/></label>
+							<h4><c:out value="${customer.wallet.share}" /></h4>	 				
+			            </div>  
+
+						<div class="controls">
+			            	<label><s:message code="label.customer.wallet.group" text="Group shared"/></label>
+							<h4><c:out value="${customer.wallet.groupShare}" /></h4>	 				
+			            </div>  
+						<div class="controls">
+							<button type="submit" name="walletTopup" class="btn btn-success"><s:message code="button.label.confirm.topup" text="Topup"/></button>
+						</div>           	            	            				
+				</address>
+				
 				<h3><s:message code="label.customer.shippinginformation" text="Shipping information"/></h3>
 				<address>
-			            <div class="controls">
-		              		<label><s:message code="label.customer.shipping.company" text="Company"/></label>
+					<div class="control-group">
+						<label><s:message code="label.customer.shipping.company" text="Company"/></label>
+						<div class="controls">
+		              		
 		              		<form:input  cssClass="input-large"  maxlength="100" path="delivery.company"/>	
-			            </div>
-			            <div class="controls">
-		              		<label><s:message code="label.customer.shipping.firstname" text="First name"/></label>
+			            </div></div>
+			            <div class="control-group">
+							<label><s:message code="label.customer.shipping.firstname" text="First name"/></label>
+							<div class="controls">
+		              		
 		              		<form:input  cssClass="input-large"  maxlength="64" path="delivery.firstName"/>	
-			            </div>
-			            <div class="controls">
-		              		<label><s:message code="label.customer.shipping.lastname" text="Last name"/></label>
+			            </div></div>
+			            <div class="control-group">
+							<label><s:message code="label.customer.shipping.lastname" text="Last name"/></label>
+							<div class="controls">
+		              		
 		              		<form:input  cssClass="input-large"  maxlength="64" path="delivery.lastName"/>	
-			            </div>
-			            <div class="controls">
-			            	<label><s:message code="label.customer.shipping.streetaddress" text="Street Address"/></label>
+			            </div></div>
+			            <div class="control-group">
+							<label><s:message code="label.customer.shipping.streetaddress" text="Street Address"/></label>
+							<div class="controls">
+			            	
 				 			<form:input  cssClass="input-large"  maxlength="256" path="delivery.address"/>		 				
-			            </div>
-			            <div class="controls">
-			            	<label><s:message code="label.customer.shipping.city" text="City"/></label>
+			            </div></div>
+			            <div class="control-group">
+							<label><s:message code="label.customer.shipping.city" text="City"/></label>
+							<div class="controls">
+			            	
 				 			<form:input  cssClass="input-large"  maxlength="100" path="delivery.city"/>
-			            </div>
+			            </div></div>
 	            
  	 		           <div class="control-group">
 	                        <label><s:message code="label.customer.shipping.country" text="Country"/></label>
@@ -522,27 +565,27 @@ function setCredentials(customerId, userName, password){
                                  	<span class="help-inline"><form:errors path="delivery.country.isoCode" cssClass="error" /></span>
 	                        </div>
 	                    </div>  
-     	  	         	       	            	            	            				
+						<c:if test="${fn:length(groups)>0}">
+							<div class="control-group">
+								<label><s:message code="label.groups.title" text="Groups"/></label>
+								<div class="controls">
+									<form:checkboxes cssClass="highlight" items="${groups}" itemValue="id" itemLabel="groupName" path="groups" delimiter="<br/>" /> 
+									<span class="help-inline"><form:errors path="groups" cssClass="error" /></span>
+								</div>
+							</div>
+							
+						</c:if>  	            	            	            				
 				</address>
 				
-				<c:if test="${fn:length(groups)>0}">
-				  <div class="control-group">
-	                        <label><s:message code="label.groups.title" text="Groups"/></label>
-	                        <div class="controls">
-	                        	<form:checkboxes cssClass="highlight" items="${groups}" itemValue="id" itemLabel="groupName" path="groups" delimiter="<br/>" /> 
-	                            <span class="help-inline"><form:errors path="groups" cssClass="error" /></span>
-	                        </div>
-	              </div>
-	              
-	             </c:if>
-
-
+				
+</div>
+</div>
+<div class="span8">
+	             
 		        <div class="form-actions">
-                 	  <div class="pull-right">
-                 			<button type="submit" class="btn btn-success"><s:message code="button.label.save" text="Save"/></button>
-                 	  </div> 
+                 	<button type="submit" name="saveCustomer" class="btn btn-success"><s:message code="button.label.submit" text="Save"/></button>
            	   </div>
-
+</div>
 
       					
 				</form:form>
@@ -604,8 +647,8 @@ function setCredentials(customerId, userName, password){
 					</c:forEach>
 					
 					<div class="form-actions">
-                 	  <div class="pull-right">
-                 			<button type="submit" class="btn btn-success"><s:message code="button.label.save" text="Save"/></button>
+                 	  <div class="pull-left">
+                 			<button type="submit" class="btn btn-success"><s:message code="button.label.submit" text="Save"/></button>
                  	  </div> 
            	  		 </div>
 
@@ -615,7 +658,7 @@ function setCredentials(customerId, userName, password){
 				</div>
 				</c:if>
 				</c:if>
-</div>
+</div></div></div></div>
 
 
 

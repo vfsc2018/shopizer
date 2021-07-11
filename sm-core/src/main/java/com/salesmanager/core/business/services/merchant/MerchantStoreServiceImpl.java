@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.merchant.MerchantRepository;
 import com.salesmanager.core.business.repositories.merchant.PageableMerchantRepository;
 import com.salesmanager.core.business.services.catalog.product.type.ProductTypeService;
@@ -48,13 +47,13 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	//}
 
 	@Override
-	@CacheEvict(value=CacheNamesImpl.CACHE_MERCHANT, key = "#store.code")
+	@CacheEvict(value="CACHE_MERCHANT", key = "#store.code")
 	public void saveOrUpdate(MerchantStore store) throws ServiceException {
 		super.save(store);
 	}
 
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "#code")
+	@Cacheable(value="CACHE_MERCHANT", key = "#code")
 	public MerchantStore getByCode(String code) throws ServiceException {
 		return merchantRepository.findByCode(code);
 	}
@@ -109,7 +108,7 @@ public class MerchantStoreServiceImpl extends SalesManagerEntityServiceImpl<Inte
 	}
 
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_MERCHANT, key = "'parent_' + #code")
+	@Cacheable(value="CACHE_MERCHANT", key = "'parent_' + #code")
 	public MerchantStore getParent(String code) throws ServiceException {
 		Validate.notNull(code, "MerchantStore code cannot be null");
 

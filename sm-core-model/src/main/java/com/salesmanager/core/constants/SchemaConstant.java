@@ -12,7 +12,7 @@ public class SchemaConstant {
 	 * 
 	 */
 	//public static final String[] LANGUAGE_ISO_CODE = {"vi", "en", "ru", "es"};
-	public static final String[] LANGUAGE_ISO_CODE = {"vi", "en", "es"};
+	public static String[] LANGUAGE_ISO_CODE = {"vi", "en", "es"};
 	
 	public final static int DESCRIPTION_ID_ALLOCATION_SIZE = 1;
 	public final static int DESCRIPTION_ID_START_VALUE = 2000;

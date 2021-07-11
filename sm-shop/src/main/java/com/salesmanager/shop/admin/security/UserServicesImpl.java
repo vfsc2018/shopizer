@@ -1,6 +1,6 @@
 package com.salesmanager.shop.admin.security;
 
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
+import com.salesmanager.shop.model.shop.CacheNamesImpl;
 import com.salesmanager.core.business.services.merchant.MerchantStoreService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
@@ -65,7 +65,7 @@ public class UserServicesImpl implements WebUserServices{
 	public final static String ROLE_PREFIX = "ROLE_";
 	
 	
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "#userName")
+	@Cacheable(value="CACHE_CUSTOMER", key = "#userName")
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 
 		com.salesmanager.core.model.user.User user = null;

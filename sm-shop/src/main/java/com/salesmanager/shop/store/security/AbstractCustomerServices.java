@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
@@ -48,7 +47,7 @@ public abstract class AbstractCustomerServices implements UserDetailsService{
 	
 	protected abstract UserDetails userDetails(String userName, Customer customer, Collection<GrantedAuthority> authorities);
 	
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "#userName")
+	@Cacheable(value="CACHE_CUSTOMER", key = "#userName")
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
 		Customer user = null;
 		Collection<GrantedAuthority> authorities = new ArrayList<>();

@@ -254,8 +254,8 @@ public class CustomerOptionsValueController {
 	
 			options = customerOptionValueService.listByStore(store, language);
 
+			
 			for(CustomerOptionValue option : options) {
-				
 				@SuppressWarnings("rawtypes")
 				Map entry = new HashMap();
 				entry.put("id", option.getId());

@@ -14,6 +14,7 @@ import com.salesmanager.core.model.message.Notifications;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 public class NotificationsRepositoryImpl implements NotificationsRepositoryCustom  {
 
     @PersistenceContext
@@ -27,8 +28,8 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 		return notificationsRepository.save(entity);
 	}
 
-	public Notifications findById(Long id) {
-		return notificationsRepository.getOne(id);
+	public Optional<Notifications> findById(Long id) {
+		return notificationsRepository.findById(id);
 	}
 
 	public Integer countByOrderId(Long orderId) {
@@ -92,7 +93,10 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 			baseQuery.append(nameQuery);
 		}
 		if(!StringUtils.isBlank(criteria.getCustomerName())){
-			String nameQuery =" and (lower(c.customer.billing.firstName) LIKE lower(:pCustomer) or c.customer.billing.lastName LIKE :pCustomer) ";
+			String nameQuery =" and (c.customer is NULL) ";
+			if(!criteria.getCustomerName().equalsIgnoreCase("all")){
+				nameQuery =" and (lower(c.customer.billing.firstName) LIKE lower(:pCustomer) or c.customer.billing.lastName LIKE :pCustomer) ";
+			}
 			baseCountQuery.append(nameQuery);
 			baseQuery.append(nameQuery);
 		}
@@ -132,9 +136,13 @@ public class NotificationsRepositoryImpl implements NotificationsRepositoryCusto
 		}
 
 		if(!StringUtils.isBlank(criteria.getCustomerName())) {
-			String nameParam = new StringBuilder().append("%").append(criteria.getCustomerName()).append("%").toString();
-			countQ.setParameter("pCustomer",nameParam);
-			objectQ.setParameter("pCustomer",nameParam);
+			
+			if(!criteria.getCustomerName().equalsIgnoreCase("all")){
+				String nameParam = new StringBuilder().append("%").append(criteria.getCustomerName()).append("%").toString();
+				countQ.setParameter("pCustomer",nameParam);
+				objectQ.setParameter("pCustomer",nameParam);
+			}
+			
 		}
 
 		if(!StringUtils.isBlank(criteria.getTopic())) {

@@ -235,12 +235,7 @@ public class CustomerOptionsController {
 				
 			options = customerOptionService.listByStore(store, language);
 				
-
-					
-					
-
 			for(CustomerOption option : options) {
-				
 				@SuppressWarnings("rawtypes")
 				Map entry = new HashMap();
 				entry.put("id", option.getId());

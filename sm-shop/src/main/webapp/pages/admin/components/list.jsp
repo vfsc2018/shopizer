@@ -5,7 +5,7 @@
 <%@ page session="false" %>				
 
 			<script>
-
+				var totalRows = 0;
 
 								isc.RestDataSource.create({ 
 									ID:"dataSource", 
@@ -42,8 +42,6 @@
 									}
 								}); 
 								
-							
-							  
 							  isc.ListGrid.create({
 									ID: "entityList",
 									// drawAheadRatio: 0, // <= very important (because there's an dependency between the number of shown rows and grid's height.)
@@ -75,7 +73,24 @@
 									}
 								},
 								fetchData: function () {
+									totalRows = 0;
 									return this.Super("fetchData", arguments);
+								},
+
+								dataChanged : function () {
+									
+									this.Super("dataChanged", arguments); 
+									if(this.data){
+										totalRows = this.data.totalRows; console.log(this);
+										var id = $("#totalRows");
+										if(id && totalRows && totalRows>=0){
+											if (totalRows > 0 && this.data.lengthIsKnown()) {
+												id.html(" (Total: " + totalRows + ")");
+											} else {
+												id.html("&nbsp;");
+											}
+										}
+									}
 								},
 								
 								<c:if test="${expandDetails!=null && expandDetails!=''}">
@@ -113,11 +128,8 @@
 	                						}
 	            					});
 	            					return button;  
-            				
-            					}
-
- 
-    						  }
+									}
+								}
 
 
 								});

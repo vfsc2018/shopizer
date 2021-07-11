@@ -12,23 +12,11 @@
 
 
 	<jsp:include page="/common/adminTabs.jsp" />
-
-
-
 	<div class="tab-content">
 
 		<div class="tab-pane active" id="catalogue-section">
-
-
-
-
-
 			<div class="sm-ui-component">
-			
-			
-			
-			
-				<h3><s:message code="label.customer.list" text="Customer list" /></h3> 
+				<h3><s:message code="label.customer.list" text="Customer list" /><span id="totalRows"></span></h3> 
 				<br/><br/>
 
 				 <!-- Listing grid include -->
@@ -42,28 +30,7 @@
 
             	 <jsp:include page="/pages/admin/components/list.jsp"></jsp:include> 
 				 <!-- End listing grid include -->
-			
-			
-
-
-
-
-
 			</div>
-
-
-
-
-
-
-
-
-
-
-
 		</div>
-
-
 	</div>
-
 </div>

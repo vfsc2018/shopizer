@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Payment {
 
-  public static String STATUS_SUCCESS = "00";
+  public final static String STATUS_SUCCESS = "00";
 
   private String transactionId;
   private String entity;
@@ -17,6 +17,39 @@ public class Payment {
 
   private int totalMoney = 0;
   private int orderType = 10000;
+
+  private Long walletId;
+  private Long customerId;
+
+  public boolean isComplexTransactionId(String id){
+    return id!=null && id.split("-").length==3;
+  }
+
+  public String getComplexTransactionId(){
+    return (transactionId==null?"0":transactionId) + "-" + (customerId==null?"0":customerId) + "-" + (walletId==null?"0":walletId);
+  }
+
+  public void setComplexTransactionId(String id){
+    String[] i = id.split("-");
+    this.transactionId = i[0];
+    this.customerId = Long.parseLong(i[1]);
+    this.walletId = Long.parseLong(i[2]);
+  }
+
+  public Long getWalletId() {
+    return walletId;
+  }
+  public void setWalletId(Long walletId) {
+    this.walletId = walletId;
+  }
+
+  public Long getCustomerId() {
+    return customerId;
+  }
+  public void setCustomerId(Long customerId) {
+    this.customerId = customerId;
+  }
+
 
   public Payment() {
 
@@ -63,7 +96,7 @@ public class Payment {
     this.entity = entity;
   }
   public String getTransactionId() {
-    return transactionId;
+    return transactionId==null?"0":transactionId;
   }
   public void setTransactionId(String transactionId) {
     this.transactionId = transactionId;

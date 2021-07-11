@@ -7,7 +7,6 @@ import org.apache.commons.lang.Validate;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.catalog.product.review.ProductReviewRepository;
 import com.salesmanager.core.business.services.catalog.product.ProductService;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
@@ -54,7 +53,7 @@ public class ProductReviewServiceImpl extends
 		return productReviewRepository.findByProduct(product.getId(), language.getId());
 	}
 
-	@CacheEvict(value=CacheNamesImpl.CACHE_PRODUCT, key = "'product_review_' + #review.product.id")
+	@CacheEvict(value="CACHE_PRODUCT", key = "'product_review_' + #review.product.id")
 	private void saveOrUpdate(ProductReview review) throws ServiceException {
 		
 

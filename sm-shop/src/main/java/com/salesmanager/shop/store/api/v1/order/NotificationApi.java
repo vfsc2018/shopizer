@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.http.MediaType;
 
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
+import com.salesmanager.shop.model.shop.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.notifications.NotificationsRepositoryImpl;
 import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.shop.store.security.ResponseValue;
@@ -31,6 +31,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.SwaggerDefinition;
 import io.swagger.annotations.Tag;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -47,7 +48,7 @@ public class NotificationApi {
 
 
 	@GetMapping("/private/customer/notifications/count")
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "'noti_count_' + #request.userPrincipal.principal.id + '_' +#read")
+	@Cacheable(value="CACHE_CUSTOMER", key = "'noti_count_' + #request.userPrincipal.principal.id + '_' +#read")
 	public ResponseValue count(@RequestParam String read, HttpServletRequest request, HttpServletResponse response) {
         final HttpHeaders httpHeaders= new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -60,7 +61,7 @@ public class NotificationApi {
 
 	@GetMapping("/private/customer/notifications")
 	@ResponseBody
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "'noti_list_' + #request.userPrincipal.principal.id  + '_' + #page + '_' + #read")
+	@Cacheable(value="CACHE_CUSTOMER", key = "'noti_list_' + #request.userPrincipal.principal.id  + '_' + #page + '_' + #read")
 	public List<?>  get(@RequestParam String read, @RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer count,  HttpServletRequest request, HttpServletResponse response) {
         
 		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
@@ -70,19 +71,19 @@ public class NotificationApi {
 	}
 	
 	@PatchMapping("/private/customer/notification/read/{id}")
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "'noti_read_' + #id")
+	@Cacheable(value="CACHE_CUSTOMER", key = "'noti_read_' + #id")
 	public ResponseValue read(@PathVariable final Long id,  HttpServletRequest request, HttpServletResponse response) {
-		Notifications noti = notificationsRepository.findById(id);
-
+		Optional<Notifications> noti = notificationsRepository.findById(id);
+		
 		UsernamePasswordAuthenticationToken principal = (UsernamePasswordAuthenticationToken)request.getUserPrincipal();
 		JWTUser customer =  (JWTUser)principal.getPrincipal();
 
-		if(noti==null || noti.getCustomer()==null || !noti.getCustomer().getId().equals(customer.getId())){
+		if(!noti.isPresent() || noti.get().getCustomer()==null || noti.get().getCustomer()==null || customer.getId().longValue()!=noti.get().getCustomer().getId()){
 			return new ResponseValue(0L);
 		}
 
-		noti.setRead(1);
-		notificationsRepository.save(noti);
+		noti.get().setRead(1);
+		notificationsRepository.save(noti.get());
 
 		return new ResponseValue(id);
     }

@@ -37,7 +37,6 @@ import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.message.Notifications;
 import com.salesmanager.core.model.order.NotificationsCriteria;
 import com.salesmanager.core.model.order.NotificationsList;
-import com.salesmanager.core.model.order.Order;
 import com.salesmanager.shop.admin.controller.ControllerConstants;
 import com.salesmanager.shop.admin.model.web.Menu;
 import com.salesmanager.shop.constants.Constants;
@@ -56,9 +55,6 @@ public class NotificationsController {
 	private NotificationUtils notificationUtils;
 
 	@Inject
-	private OrderService orderService;
-
-	@Inject
 	private CustomerService customerService;
 	
 	
@@ -73,8 +69,7 @@ public class NotificationsController {
 
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/notifications/list.html", method = RequestMethod.GET)
-	public String displayOrders(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public String displayOrders(Model model, HttpServletRequest request, HttpServletResponse response) {
 
 		setMenu(model, request);
 
@@ -142,9 +137,9 @@ public class NotificationsController {
 	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value = "/admin/notifications/paging.html", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> pageBills(
+	public @ResponseBody ResponseEntity<String> pageNotifications(
 			HttpServletRequest request, HttpServletResponse response,
-			Locale locale) {
+			Locale locale)  {
 
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -207,13 +202,12 @@ public class NotificationsController {
 			if (list.getNotificationss() != null) {
 
 				resp.setTotalRow(list.getTotalCount());
-
+				
 				for (Notifications e : list.getNotificationss()) {
-					
 					@SuppressWarnings("rawtypes")
 					Map entry = new HashMap();
 					entry.put("id", e.getId());
-					entry.put("customer", e.getCustomer().getBilling().getFirstName()); 
+					entry.put("customer", e.getCustomer()==null?"ALL": e.getCustomer().getBilling().getFirstName()); 
 					entry.put("message", e.getMessage());
 					entry.put("topic", e.getTopic());
 					entry.put("read", e.getRead()!=null && e.getRead()>0);

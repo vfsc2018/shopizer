@@ -14,6 +14,23 @@ public class Payment {
 	private BigDecimal amount;
 	private Map<String,String> paymentMetaData = null;
 
+	private Long walletId;
+	private Long customerId;
+
+	public Long getWalletId() {
+		return walletId;
+	  }
+	  public void setWalletId(Long walletId) {
+		this.walletId = walletId;
+	  }
+	
+	  public Long getCustomerId() {
+		return customerId;
+	  }
+	  public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
+	  }
+  
 	public void setPaymentType(PaymentType paymentType) {
 		this.paymentType = paymentType;
 	}

@@ -8,6 +8,7 @@ import java.util.List;
 import com.salesmanager.core.business.exception.ServiceException;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityService;
 import com.salesmanager.core.model.customer.Customer;
+import com.salesmanager.core.model.customer.Wallet;
 import com.salesmanager.core.model.merchant.MerchantStore;
 import com.salesmanager.core.model.order.Order;
 import com.salesmanager.core.model.order.OrderCriteria;
@@ -16,6 +17,7 @@ import com.salesmanager.core.model.order.OrderSummary;
 import com.salesmanager.core.model.order.OrderTotalSummary;
 import com.salesmanager.core.model.order.orderstatus.OrderStatusHistory;
 import com.salesmanager.core.model.payments.Payment;
+import com.salesmanager.core.model.payments.PaymentType;
 import com.salesmanager.core.model.payments.Transaction;
 import com.salesmanager.core.model.reference.language.Language;
 import com.salesmanager.core.model.shoppingcart.ShoppingCart;
@@ -129,6 +131,6 @@ public interface OrderService extends SalesManagerEntityService<Long, Order> {
 	List<Order> getCapturableOrders(MerchantStore store, Date startDate, Date endDate) throws ServiceException;
 
     void updateStatus();
-    int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail);
+    int paymentConfirm(Long id, boolean online, boolean success, BigDecimal total, String detail, Wallet wallet);
     int paymentOfflineConfirm(Long id,String admin);
 }

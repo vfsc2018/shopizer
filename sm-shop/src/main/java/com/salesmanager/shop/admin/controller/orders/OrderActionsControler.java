@@ -474,9 +474,9 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderActionsControl
 		
 		String returnString = resp.toJSONString();
 		return new ResponseEntity<>(returnString,httpHeaders,HttpStatus.OK);
-		
 	}
 
+	
 	@PreAuthorize("hasRole('ORDER')")
 	@RequestMapping(value="/admin/orders/updateStatus.html", method=RequestMethod.GET)
 	public @ResponseBody ResponseEntity<String> updateStatus(HttpServletRequest request, HttpServletResponse response) throws Exception {

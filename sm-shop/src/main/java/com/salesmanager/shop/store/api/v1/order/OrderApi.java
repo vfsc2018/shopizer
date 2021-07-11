@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.vouchercode.VoucherCodeRepository;
 import com.salesmanager.core.business.services.customer.CustomerService;
 import com.salesmanager.core.business.services.order.OrderService;
@@ -68,6 +67,8 @@ import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.store.security.user.JWTUser;
 import com.salesmanager.shop.utils.LocaleUtils;
 import com.salesmanager.shop.utils.NotificationUtils;
+
+import com.salesmanager.shop.model.shop.CacheNamesImpl;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -184,7 +185,7 @@ public class OrderApi {
 	@ApiImplicitParams({ 
 		@ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 		@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'orders_' + #request.userPrincipal.principal.id + '_' + #page")
+	@Cacheable(value="CACHE_CUSTOMER_ORDER", key = "'orders_' + #request.userPrincipal.principal.id + '_' + #page")
 	public ReadableOrderList list(@RequestParam(defaultValue = "0") Integer page,
 			@RequestParam(defaultValue = "5") Integer count, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -322,7 +323,7 @@ public class OrderApi {
 	@ResponseBody
 	@ApiImplicitParams({ @ApiImplicitParam(name = "store", dataType = "string", defaultValue = "DEFAULT"),
 			@ApiImplicitParam(name = "lang", dataType = "string", defaultValue = "vi") })
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "'order_' + #id")
+	@Cacheable(value="CACHE_CUSTOMER_ORDER", key = "'order_' + #id")
 	public ReadableOrder getOrder(@PathVariable final Long id, @ApiIgnore MerchantStore merchantStore,
 			@ApiIgnore Language language, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Principal principal = request.getUserPrincipal();
@@ -376,7 +377,7 @@ public class OrderApi {
 			return Collections.emptyList();
 		}
 
-		String keyName = CacheUtils.KEY_CUSTOMER_REMIND_ORDER + id;
+		String keyName = CacheNamesImpl.KEY_CUSTOMER_REMIND_ORDER + id;
 		Long updateTime = (Long)cache.get(keyName);
 		if(updateTime!=null){
 			long diff = System.currentTimeMillis()-updateTime.longValue();

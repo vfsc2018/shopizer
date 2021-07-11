@@ -64,7 +64,6 @@ import com.salesmanager.shop.store.controller.order.facade.OrderFacade;
 import com.salesmanager.shop.utils.EmailTemplatesUtils;
 import com.salesmanager.shop.utils.LabelUtils;
 import com.salesmanager.shop.utils.LanguageUtils;
-import com.salesmanager.shop.utils.LocaleUtils;
 
 /**
  * Entry point for logged in customers
@@ -368,14 +367,12 @@ public class CustomerAccountController extends AbstractController {
 						String key = parameterKey[0];
 						String value = parameterKey[1];
 						//should be on
-						customerOption = customerOptionService.getById(new Long(key));
-						customerOptionValue = customerOptionValueService.getById(new Long(value));
-						
-
+						customerOption = customerOptionService.getById(Long.parseLong(key));
+						customerOptionValue = customerOptionValueService.getById(Long.parseLong(value));
 						
 					} else {
-						customerOption = customerOptionService.getById(new Long(parameterName));
-						customerOptionValue = customerOptionValueService.getById(new Long(parameterValue));
+						customerOption = customerOptionService.getById(Long.parseLong(parameterName));
+						customerOptionValue = customerOptionValueService.getById(Long.parseLong(parameterValue));
 
 					}
 					

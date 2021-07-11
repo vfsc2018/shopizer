@@ -30,8 +30,7 @@ import com.salesmanager.core.model.voucher.Voucher;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
-@Table(name = "VOUCHER_CODE", schema= SchemaConstant.SALESMANAGER_SCHEMA, 
-	indexes = {@Index(columnList = "code")})
+@Table(name = "VOUCHER_CODE", schema= SchemaConstant.SALESMANAGER_SCHEMA, indexes = {@Index(columnList = "code")})
 public class VoucherCode extends SalesManagerEntity<Long, VoucherCode> implements Auditable, JSONAware {
 
 	private static final long serialVersionUID = 1L;

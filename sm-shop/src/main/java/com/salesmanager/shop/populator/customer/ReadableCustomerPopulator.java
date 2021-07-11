@@ -152,6 +152,10 @@ public class ReadableCustomerPopulator extends
 						);
 					}
 				}
+
+				if(source.getWallet() != null) {
+					target.setWallet(source.getWallet());
+				}
 			}
 		
 		} catch (Exception e) {

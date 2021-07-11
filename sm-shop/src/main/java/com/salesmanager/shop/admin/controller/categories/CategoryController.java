@@ -205,6 +205,7 @@ public class CategoryController {
             } else {
                 categories = categoryService.listByStore(store, language);
             }
+            
             for(Category category : categories) {
                 @SuppressWarnings("rawtypes")
                 Map entry = new HashMap();

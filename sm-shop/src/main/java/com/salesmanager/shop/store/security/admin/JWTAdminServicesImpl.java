@@ -19,7 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
+import com.salesmanager.shop.model.shop.CacheNamesImpl;
 import com.salesmanager.core.business.services.user.GroupService;
 import com.salesmanager.core.business.services.user.PermissionService;
 import com.salesmanager.core.business.services.user.UserService;
@@ -70,7 +70,7 @@ public class JWTAdminServicesImpl implements UserDetailsService{
 	}
 
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER, key = "#userName")
+	@Cacheable(value="CACHE_CUSTOMER", key = "#userName")
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
 		User user = null;
 		Collection<GrantedAuthority> authorities = new ArrayList<>();

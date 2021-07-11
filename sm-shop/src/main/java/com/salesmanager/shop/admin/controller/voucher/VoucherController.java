@@ -208,13 +208,16 @@ public class VoucherController {
 		// display menu
 		setMenu(model, request);
 
-		Voucher bean = voucherService.getById(id);
+		com.salesmanager.core.model.voucher.Voucher bean = voucherService.getById(id);
 		VoucherForm temp = new VoucherForm();
 		temp.setId(bean.getId());
 		temp.setCode(bean.getCode());
 		temp.setDescription(bean.getDescription());
 		temp.setPoint(bean.getPoint());
 		temp.setOrderIndex(bean.getOrderIndex());
+
+
+
 		temp.setPercent(bean.getPercent());
 		temp.setDiscount(bean.getDiscount());
 		temp.setStatus(bean.getStatus());
@@ -255,6 +258,9 @@ public class VoucherController {
 				temp.setDescription(bean.getDescription());
 				temp.setPoint(bean.getPoint());
 				temp.setOrderIndex(bean.getOrderIndex());
+
+
+
 				temp.setDiscount(bean.getDiscount());
 				temp.setPercent(bean.getPercent());
 				temp.setStatus(bean.getStatus());

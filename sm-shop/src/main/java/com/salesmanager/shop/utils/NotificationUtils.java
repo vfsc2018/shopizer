@@ -53,7 +53,7 @@ public class NotificationUtils {
 	}
 	public boolean sendAllCustomer(String msg, String title) {
 		Notifications noti = new Notifications();
-		String topic = "all";
+		String topic = title;
 		String data = "{\"message\":" + msg + "\"}";
 		String message = msg;
 		noti.setMessage(message);

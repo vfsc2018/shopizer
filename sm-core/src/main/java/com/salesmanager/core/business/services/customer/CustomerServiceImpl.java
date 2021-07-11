@@ -11,7 +11,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.salesmanager.core.business.exception.ServiceException;
-import com.salesmanager.core.business.modules.cms.impl.CacheNamesImpl;
 import com.salesmanager.core.business.repositories.customer.CustomerRepository;
 import com.salesmanager.core.business.services.common.generic.SalesManagerEntityServiceImpl;
 import com.salesmanager.core.business.services.customer.attribute.CustomerAttributeService;
@@ -38,6 +37,10 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	@Inject
 	private GeoLocation geoLocation;
 
+	public List<Customer> getByShare(Long customerId){
+		return customerRepository.findByWalletShare("%#" + customerId + "#%");
+	}
+
 	
 	@Inject
 	public CustomerServiceImpl(CustomerRepository customerRepository) {
@@ -56,13 +59,13 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	}
 	
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#nick")
+	@Cacheable(value="CACHE_CUSTOMER_ORDER", key = "#nick")
 	public Customer getByNick(String nick) {
 		return customerRepository.findByNick(nick);	
 	}
 
 	@Override
-	@Cacheable(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#nick")
+	@Cacheable(value="CACHE_CUSTOMER_ORDER", key = "#nick")
 	public Customer getByNick(String nick, int storeId) {
 		return customerRepository.findByNick(nick, storeId);	
 	}
@@ -89,7 +92,7 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 	}
 
 	@Override	
-	@CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.nick")
+	@CacheEvict(value="CACHE_CUSTOMER_ORDER", key = "#customer.nick")
 	public void saveOrUpdate(Customer customer) throws ServiceException {
 
 		LOGGER.debug("Creating Customer");
@@ -102,7 +105,7 @@ public class CustomerServiceImpl extends SalesManagerEntityServiceImpl<Long, Cus
 
 		}
 	}
-	@CacheEvict(value=CacheNamesImpl.CACHE_CUSTOMER_ORDER, key = "#customer.nick")
+	@CacheEvict(value="CACHE_CUSTOMER_ORDER", key = "#customer.nick")
 	public void delete(Customer customer) throws ServiceException {
 		customer = getById(customer.getId());
 		
