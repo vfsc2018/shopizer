@@ -505,11 +505,7 @@ function setCredentials(customerId, userName, password){
 		              		<label><s:message code="label.customer.wallet.money" text="Total money"/></label>
 		              		<h4><c:out value="${customer.wallet.amount}" /></h4>	
 			            </div>
-			            <div class="controls">
-		              		<label><s:message code="label.customer.wallet.topup" text="Topup money"/></label>
-		              		<h4><c:out value="${customer.wallet.topup}" /></h4>
-			            </div>
-			            <div class="controls">
+						<div class="controls">
 			            	<label><s:message code="label.customer.wallet.share" text="Share people"/></label>
 							<h4><c:out value="${customer.wallet.share}" /></h4>	 				
 			            </div>  
@@ -517,7 +513,12 @@ function setCredentials(customerId, userName, password){
 						<div class="controls">
 			            	<label><s:message code="label.customer.wallet.group" text="Group shared"/></label>
 							<h4><c:out value="${customer.wallet.groupShare}" /></h4>	 				
-			            </div>  
+			            </div>
+			            <div class="controls">
+		              		<label><s:message code="label.customer.wallet.topup" text="Topup money"/></label>
+		              		<h4><c:out value="${customer.wallet.topup}" /></h4>
+			            </div>
+			            <br>
 						<div class="controls">
 							<button type="submit" name="walletTopup" class="btn btn-success"><s:message code="button.label.confirm.topup" text="Topup"/></button>
 						</div>           	            	            				

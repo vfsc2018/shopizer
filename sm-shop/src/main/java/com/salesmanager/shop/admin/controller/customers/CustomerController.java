@@ -187,8 +187,8 @@ public class CustomerController {
 			if(groupShare != null){
 				wallet.setGroupShare(groupShare);
 			}
-			if(wallet.getShare()!=null){
-				wallet.setShare(wallet.getShare().replace("##", " "));
+			if(wallet.getShare()!=null && wallet.getShare().length()>0){
+				wallet.setShare(wallet.getShare().replace("##", " #"));
 			}
 			if(wallet.getMoney()!=null){
 				String amount = priceUtil.getAdminFormatedAmountWithCurrency(store, new BigDecimal(wallet.getMoney()));

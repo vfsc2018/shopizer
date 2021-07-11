@@ -73,7 +73,7 @@ public class Wallet extends SalesManagerEntity<Long, Wallet> implements Auditabl
 
 	public List<Long> shareToFriends(){
 		List<Long> fs = new ArrayList<>();
-		if(share!=null){
+		if(share!=null && share.indexOf("#")>=0 && share.indexOf(" ")<0){
 			String [] ids = share.split("#");
 			for(int i=0;i<ids.length;i++){
 				if(ids[i].length()>0) fs.add(Long.parseLong(ids[i]));

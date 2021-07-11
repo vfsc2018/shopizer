@@ -194,7 +194,7 @@ public class PaymentApi {
         final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
        
-        if ((payment.getCustomerId()!=null && payment.getWalletId()==null) || (payment.getCustomerId()==null && payment.getWalletId()!=null)){
+        if (payment.getCustomerId()==null || payment.getWalletId()!=null){
             return new ResponseEntity<>("{\"Wallet\":" + payment.getCustomerId() + ":" + payment.getWalletId() + "}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
 

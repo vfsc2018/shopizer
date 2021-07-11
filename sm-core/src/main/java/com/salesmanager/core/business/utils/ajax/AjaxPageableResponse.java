@@ -96,13 +96,9 @@ public class AjaxPageableResponse extends AjaxResponse {
 		this.endRow = endRow;
 	}
 
-
-
 	public int getTotalRow() {
 		return totalRow;
 	}
-
-
 
 	public void setTotalRow(int totalRow) {
 		this.totalRow = totalRow;

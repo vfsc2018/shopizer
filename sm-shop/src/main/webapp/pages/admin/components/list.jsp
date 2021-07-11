@@ -20,11 +20,25 @@
 										if(!jsonData) {
 											return;
 										}
+										if(jsonData.response.totalRows){
+											totalRows = jsonData.response.totalRows; 
+											var id = $("#totalRows");
+											if(id && totalRows && totalRows>=0){
+												if (totalRows > 0) {
+													id.html(" (Total: " + totalRows + ")");
+												} else {
+													id.html("&nbsp;");
+												}
+											}
+										}
+										// console.log("dsresponse:", dsResponse);
+										// console.log("jsondata:", jsonData );
 										//dsResponse.totalRows = this.getLength();
 										var status = isc.XMLTools.selectObjects(jsonData, "/response/status");
 										//alert('check status ' + status);
 										if (status != 0) {
 											if(status==9999) {//operation completed
+												
 												//reload
 												<c:if test="${afterRemoveUrl!=null}">
 													window.location='<c:url value="${afterRemoveUrl}" />';
@@ -80,17 +94,7 @@
 								dataChanged : function () {
 									
 									this.Super("dataChanged", arguments); 
-									if(this.data){
-										totalRows = this.data.totalRows; console.log(this);
-										var id = $("#totalRows");
-										if(id && totalRows && totalRows>=0){
-											if (totalRows > 0 && this.data.lengthIsKnown()) {
-												id.html(" (Total: " + totalRows + ")");
-											} else {
-												id.html("&nbsp;");
-											}
-										}
-									}
+									
 								},
 								
 								<c:if test="${expandDetails!=null && expandDetails!=''}">
