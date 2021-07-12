@@ -23,16 +23,16 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 
 	
 	$(function(){
-		$('#sku').alphanumeric();
-		$('#productPriceAmount').numeric({allow:"."});
-		$('#quantity').numeric();
-		$('#ordermin').numeric();
-		$('#ordermax').numeric();
-		$('#order').numeric();
-		$('#weight').numeric({allow:"."});
-		$('#width').numeric({allow:"."});
-		$('#length').numeric({allow:"."});
-		$('#hight').numeric({allow:"."});
+		// $('#sku').alphanumeric();
+		// $('#productPriceAmount').numeric({allow:"."});
+		// $('#quantity').numeric();
+		// $('#ordermin').numeric();
+		// $('#ordermax').numeric();
+		// $('#order').numeric();
+		// $('#weight').numeric({allow:"."});
+		// $('#width').numeric({allow:"."});
+		// $('#length').numeric({allow:"."});
+		// $('#hight').numeric({allow:"."});
 		<c:forEach items="${product.descriptions}" var="description" varStatus="counter">		
 			$("#name${counter.index}").friendurl({id : 'seUrl${counter.index}'});
 		</c:forEach>
@@ -158,10 +158,9 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 	<div class="span8">
 		<div class="span4" style="margin-left:0px;">
                         <div class="control-group">
-	                        <label><s:message code="label.product.sku" text="Sku"/></label>
+	                        <label><s:message code="label.product.sku" text="Sku"/> (<s:message code="label.generic.alphanumeric" text="Alphanumeric" />)</label>
 	                        <div class="controls">
-	                        		  <form:input cssClass="input-large highlight" id="sku" path="product.sku"/>
-	                                  <span class="help-inline"><s:message code="label.generic.alphanumeric" text="Alphanumeric" /><form:errors path="product.sku" cssClass="error" /></span>
+	                        	<form:input cssClass="input-large highlight" id="sku" path="product.sku"/>
 	                        </div>
                   		</div>
                   		
@@ -221,7 +220,8 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 	                                     <span class="help-inline"></span>
                         	</div>
                  		 </div>
-
+		</div>
+		<div class="span4">
 						  <div class="control-group">
                         	<label><s:message code="label.product.shipeable" text="Product will be shipped"/></label>
                         	<div class="controls">
@@ -286,8 +286,25 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 
 				
 
-					</div>
-					<div class="span4">
+		</div>	
+	</div>
+	<div class="span8">
+		<label><s:message code="label.product.image" text="Image"/>&nbsp;<c:if test="${product.productImage.productImage!=null && product.productImage.productImage!=''}"><span id="imageControlRemove"> - <a href="#" onClick="removeImage('${product.productImage.id}')"><s:message code="label.generic.remove" text="Remove"/></a></span></c:if></label>
+		<div class="controls" id="imageControl">
+				<c:choose>
+					<c:when test="${product.productImage.productImage==null || product.productImage.productImage==''}">
+						<input class="input-file" id="image" name="image" type="file">
+					</c:when>
+					<c:otherwise>
+						<img src="<sm:productImage imageName="${product.productImage.productImage}" product="${product.product}"/>" width="200"/>
+					</c:otherwise>
+				</c:choose>
+		</div>
+		<form:hidden path="productImage.productImage" />
+	</div>
+                  
+                  
+		<div class="span8">
                   <c:forEach items="${product.descriptions}" var="description" varStatus="counter">
 
                  	<fieldset>
@@ -307,8 +324,8 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 							<label class="required"><s:message code="label.product.price" text="Price"/></label>
 
 							<div class="controls">
-										<form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
-										<span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
+								<form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
+								<span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
 							</div>
 							</div>
 
@@ -386,24 +403,15 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 						 <form:hidden path="descriptions[${counter.index}].metatagKeywords" />
 						 <form:hidden path="descriptions[${counter.index}].productExternalDl" />
 
-                 	
-					</fieldset>
-					
-                  </c:forEach>
-				</div>
-	</div>
-	
-                        <div class="control-group">
-							<div class="span8">
+						 <div class="control-group">
+							
                               <label class="required"><s:message code="label.productedit.productdesc" text="Product description"/> (<c:out value="${description.language.code}"/>)</label>
-                            </div>  
+                             
 							  <div class="controls">
-                              		 
-                              		 
                               	     <textarea cols="50" id="descriptions${counter.index}.description" name="descriptions[${counter.index}].description">
                         				<c:out value="${product.descriptions[counter.index].description}"/>
                         			 </textarea>
-                              </div>
+                        </div>
 		
 
 		
@@ -440,38 +448,25 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                               
                               
                        </div>
-                      
-
-				<div class="control-group">
-				<label><s:message code="label.product.image" text="Image"/>&nbsp;<c:if test="${product.productImage.productImage!=null && product.productImage.productImage!=''}"><span id="imageControlRemove"> - <a href="#" onClick="removeImage('${product.productImage.id}')"><s:message code="label.generic.remove" text="Remove"/></a></span></c:if></label>
-				<div class="controls" id="imageControl">
-						<c:choose>
-							<c:when test="${product.productImage.productImage==null || product.productImage.productImage==''}">
-								<input class="input-file" id="image" name="image" type="file">
-							</c:when>
-							<c:otherwise>
-								<img src="<sm:productImage imageName="${product.productImage.productImage}" product="${product.product}"/>" width="200"/>
-							</c:otherwise>
-						</c:choose>
-				</div>
-                  </div>
-                  
-                  <form:hidden path="productImage.productImage" />
+                 	
+					</fieldset>
+					
+                  </c:forEach>
+		</div>
 
 
 
 
 
-
-                   <div class="form-actions">
-                            <div class="pull-right">
-                                    <button type="submit" class="btn btn-success"><s:message code="button.label.submit" text="Submit"/></button>
-                            </div>
-                   </div>
+			<div class="span8">
+					<div class="form-actions">
+							<button type="submit" class="btn btn-success"><s:message code="button.label.submit" text="Submit"/></button>
+					</div>
+			</div>
                    
 
                         </form:form>
-                        
+			<div class="span8">
                   <c:if test="${product.product.id!=null && product.product.id>0}">      
                   <c:url var="createSimilar" value="/admin/products/product/duplicate.html"/>
                   <form:form method="POST" enctype="multipart/form-data" modelAttribute="product" action="${createSimilar}">
@@ -484,6 +479,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
 
                    </form:form>
                    </c:if>
+			</div>
                    
                    
                    

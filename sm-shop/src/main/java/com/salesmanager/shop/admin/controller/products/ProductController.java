@@ -580,7 +580,6 @@ public class ProductController {
 	@RequestMapping(value="/admin/products/save.html", method=RequestMethod.POST)
 	public String saveProduct(@Valid @ModelAttribute("product") com.salesmanager.shop.admin.model.catalog.Product  product, BindingResult result, Model model, HttpServletRequest request, Locale locale) throws Exception {
 		
-
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		
 		//display menu
@@ -607,7 +606,7 @@ public class ProductController {
 				productAlreadyExists = productByCode != null;
 
 				if(productAlreadyExists) throw new Exception();
-				} catch (Exception e) {
+			} catch (Exception e) {
 				ObjectError error = new ObjectError("product.sku",messages.getMessage("message.sku.exists", locale));
 				result.addError(error);
 			}
