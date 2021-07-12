@@ -5,7 +5,7 @@
 <%@ page session="false" %>				
 
 			<script>
-				var totalRows = 0;
+				
 
 								isc.RestDataSource.create({ 
 									ID:"dataSource", 
@@ -20,8 +20,8 @@
 										if(!jsonData) {
 											return;
 										}
-										if(jsonData.response.totalRows){
-											totalRows = jsonData.response.totalRows; 
+										if(jsonData.response && jsonData.response.totalRows){
+											var totalRows = jsonData.response.totalRows; 
 											var id = $("#totalRows");
 											if(id && totalRows && totalRows>=0){
 												if (totalRows > 0) {
@@ -87,7 +87,6 @@
 									}
 								},
 								fetchData: function () {
-									totalRows = 0;
 									return this.Super("fetchData", arguments);
 								},
 

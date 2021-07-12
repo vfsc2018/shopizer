@@ -168,7 +168,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                   		<div class="control-group">
 	                        <label><s:message code="label.product.refsku" text="External system identifier"/></label>
 	                        <div class="controls">
-	                        		  <form:input cssClass="input-large" id="refSku" path="product.refSku"/><button type="button" id="readVFSC" class="btn btn-success">VFSC </button>
+	                        		  <form:input cssClass="input-large" id="refSku" path="product.refSku"/><button type="button" id="readVFSC" style="margin-top:-10px" class="btn btn-success">VFSC </button>
 	                        </div>
                   		</div>
 
@@ -222,120 +222,7 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                         	</div>
                  		 </div>
 
-                 
-					
-                  <c:forEach items="${product.descriptions}" var="description" varStatus="counter">
-
-                 	<fieldset>
-    				<legend><Strong><c:out value="${description.language.code}"/></Strong></legend>
-					
-                        <div class="control-group">
-
-                              <label class="required"><s:message code="label.productedit.productname" text="Product name"/> (<c:out value="${description.language.code}"/>)</label>
-                              <div class="controls">
-                                          <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
-                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
-                              </div>
-
-                       </div>
-					   <div class="control-group">
-
-							<label class="required"><s:message code="label.product.price" text="Price"/></label>
-
-							<div class="controls">
-										<form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
-										<span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
-							</div>
-							</div>
-
-
-
-							<div class="control-group">
-
-							<label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
-							<div class="controls">
-										<form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
-										<span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
-							</div>
-							</div>
-
-
-
-							<div class="control-group">
-							<label><s:message code="label.product.ordermin" text="Quantity order minimum"/></label>
-							<div class="controls">
-										<form:input id="ordermin" cssClass="highlight" path="availability.productQuantityOrderMin"/>
-										<span class="help-inline"><form:errors path="availability.productQuantityOrderMin" cssClass="error" /></span>
-
-							</div>
-							</div>
-
-
-
-							<div class="control-group">
-							<label><s:message code="label.product.ordermax" text="Quantity order maximum"/></label>
-							<div class="controls">
-										<form:input id="ordermax" cssClass="highlight" path="availability.productQuantityOrderMax"/>
-										<span class="help-inline"><form:errors path="availability.productQuantityOrderMax" cssClass="error" /></span>
-							</div>
-							</div>
-                
-
-					</div>
-		<div class="span4">
-			<div class="control-group">
-                              <label class="required"><s:message code="label.sefurl" text="Search engine friendly url"/> (<c:out value="${description.language.code}"/>)</label>
-                              <div class="controls">
-                                          <form:input id="seUrl${counter.index}" cssClass="input-large" path="descriptions[${counter.index}].seUrl"/>
-                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].seUrl" cssClass="error" /></span>
-                              </div>
-                       </div>
-                       
-
-                        <div class="control-group">
-                              <label class="required"><s:message code="label.productedit.producthl" text="Product highlight"/> (<c:out value="${description.language.code}"/>)</label>
-                              <div class="controls">
-                                          <form:input cssClass="input-large" path="descriptions[${counter.index}].productHighlight"/>
-                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].productHighlight" cssClass="error" /></span>
-                              </div>
-
-                       </div>
-							<div class="control-group">
-                              <label class="required"><s:message code="label.product.title" text="Product title"/> (<c:out value="${description.language.code}"/>)</label>
-                              <div class="controls">
-                                          <form:input cssClass="input-large" path="descriptions[${counter.index}].metatagTitle"/>
-                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagTitle" cssClass="error" /></span>
-                              </div>
-                       </div>
-
-                      
-
-                        <div class="control-group">
-                              <label class="required"><s:message code="label.metatags.description" text="Metatag description"/> (<c:out value="${description.language.code}"/>)</label>
-                              <div class="controls">
-                                          <form:input cssClass="input-large" path="descriptions[${counter.index}].metatagDescription"/>
-                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagDescription" cssClass="error" /></span>
-                              </div>
-                       </div>
-
-                      
-
-                         <form:hidden path="descriptions[${counter.index}].language.id" />
-                         <form:hidden path="descriptions[${counter.index}].language.code" />
-						 <form:hidden path="descriptions[${counter.index}].id" />
-						 <form:hidden path="descriptions[${counter.index}].metatagKeywords" />
-						 <form:hidden path="descriptions[${counter.index}].productExternalDl" />
-
-                 	
-					</fieldset>
-					
-                  </c:forEach>
-
-                 
-
-                
-                  
-                 <div class="control-group">
+						  <div class="control-group">
                         	<label><s:message code="label.product.shipeable" text="Product will be shipped"/></label>
                         	<div class="controls">
                                     <form:checkbox path="product.productShipeable" />
@@ -397,8 +284,113 @@ var notFound = '<s:message code="message.sku.not.found" text="This code already 
                           	</div>
                    </div>
 
+				
 
-                        </div>
+					</div>
+					<div class="span4">
+                  <c:forEach items="${product.descriptions}" var="description" varStatus="counter">
+
+                 	<fieldset>
+    				<legend><Strong><c:out value="${description.language.code}"/></Strong></legend>
+					
+                        <div class="control-group">
+
+                              <label class="required"><s:message code="label.productedit.productname" text="Product name"/> (<c:out value="${description.language.code}"/>)</label>
+                              <div class="controls">
+                                          <form:input cssClass="input-large highlight" id="name${counter.index}" path="descriptions[${counter.index}].name"/>
+                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].name" cssClass="error" /></span>
+                              </div>
+
+                       </div>
+					   <div class="control-group">
+
+							<label class="required"><s:message code="label.product.price" text="Price"/></label>
+
+							<div class="controls">
+										<form:input id="productPriceAmount" cssClass="highlight" path="productPrice"/>
+										<span id="help-price" class="help-inline"><form:errors path="productPrice" cssClass="error" /></span>
+							</div>
+							</div>
+
+
+
+							<div class="control-group">
+
+							<label><s:message code="label.productedit.qtyavailable" text="Quantity available"/></label>
+							<div class="controls">
+										<form:input id="quantity" cssClass="highlight" path="availability.productQuantity"/>
+										<span class="help-inline"><form:errors path="availability.productQuantity" cssClass="error" /></span>
+							</div>
+							</div>
+
+
+
+							<div class="control-group">
+							<label><s:message code="label.product.ordermin" text="Quantity order minimum"/></label>
+							<div class="controls">
+										<form:input id="ordermin" cssClass="highlight" path="availability.productQuantityOrderMin"/>
+										<span class="help-inline"><form:errors path="availability.productQuantityOrderMin" cssClass="error" /></span>
+
+							</div>
+							</div>
+
+
+
+							<div class="control-group">
+							<label><s:message code="label.product.ordermax" text="Quantity order maximum"/></label>
+							<div class="controls">
+										<form:input id="ordermax" cssClass="highlight" path="availability.productQuantityOrderMax"/>
+										<span class="help-inline"><form:errors path="availability.productQuantityOrderMax" cssClass="error" /></span>
+							</div>
+							</div>
+							<div class="control-group">
+                              <label class="required"><s:message code="label.sefurl" text="Search engine friendly url"/> (<c:out value="${description.language.code}"/>)</label>
+                              <div class="controls">
+                                          <form:input id="seUrl${counter.index}" cssClass="input-large" path="descriptions[${counter.index}].seUrl"/>
+                                          <span class="help-inline"><form:errors path="descriptions[${counter.index}].seUrl" cssClass="error" /></span>
+                              </div>
+							</div>
+							
+
+								<div class="control-group">
+									<label class="required"><s:message code="label.productedit.producthl" text="Product highlight"/> (<c:out value="${description.language.code}"/>)</label>
+									<div class="controls">
+												<form:input cssClass="input-large" path="descriptions[${counter.index}].productHighlight"/>
+												<span class="help-inline"><form:errors path="descriptions[${counter.index}].productHighlight" cssClass="error" /></span>
+									</div>
+
+							</div>
+									<div class="control-group">
+									<label class="required"><s:message code="label.product.title" text="Product title"/> (<c:out value="${description.language.code}"/>)</label>
+									<div class="controls">
+												<form:input cssClass="input-large" path="descriptions[${counter.index}].metatagTitle"/>
+												<span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagTitle" cssClass="error" /></span>
+									</div>
+							</div>
+
+                      
+
+							<div class="control-group">
+								<label class="required"><s:message code="label.metatags.description" text="Metatag description"/> (<c:out value="${description.language.code}"/>)</label>
+								<div class="controls">
+											<form:input cssClass="input-large" path="descriptions[${counter.index}].metatagDescription"/>
+											<span class="help-inline"><form:errors path="descriptions[${counter.index}].metatagDescription" cssClass="error" /></span>
+								</div>
+							</div>
+
+                      
+
+                         <form:hidden path="descriptions[${counter.index}].language.id" />
+                         <form:hidden path="descriptions[${counter.index}].language.code" />
+						 <form:hidden path="descriptions[${counter.index}].id" />
+						 <form:hidden path="descriptions[${counter.index}].metatagKeywords" />
+						 <form:hidden path="descriptions[${counter.index}].productExternalDl" />
+
+                 	
+					</fieldset>
+					
+                  </c:forEach>
+				</div>
 	</div>
 	
                         <div class="control-group">
