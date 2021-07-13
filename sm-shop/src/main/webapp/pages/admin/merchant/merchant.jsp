@@ -186,6 +186,13 @@ function callBackCheckCode(msg,code) {
 	                        </div>
 	
 	                  </div>
+					  <div class="control-group">
+	                        <label><s:message code="label.storebank.account" text="Bank account"/></label>
+	                        <div class="controls">
+	                             <form:input cssClass="input-large highlight" path="storeaccount" />
+	                        </div>
+	
+	                  </div>
 	                  
 	                 <div class="control-group">
 	                        <label><s:message code="label.storeemailaddress" text="Email"/></label>
@@ -334,10 +341,8 @@ function callBackCheckCode(msg,code) {
 	                  <form:hidden path="storeTemplate" />
 
 				      <div class="form-actions">
-	                  		<div class="pull-right">
-	                  			<button type="submit" class="btn btn-success"><s:message code="button.label.submit2" text="Submit"/></button>
-	                  		</div>
-	            	 </div>
+	                  			<button type="submit" class="btn btn-success"><s:message code="button.label.submit" text="Submit"/></button>
+	            </div>
 
 
       					

@@ -341,11 +341,8 @@
                   </c:if>
 			
 			      <div class="form-actions">
-
-                  		<div class="pull-right">
                   			<button type="submit" class="btn btn-success"><s:message code="button.label.submit" text="Submit"/></button>
-                  		</div>
-
+                 
             	 </div>
 
             	 </form:form>

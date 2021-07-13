@@ -124,6 +124,7 @@ public class ReferencesApi {
 
     store.setStorename(merchantStore.getStorename());
     store.setStorebank(merchantStore.getStorebank());
+    store.setStoreaccount(merchantStore.getStoreaccount());
     store.setStoreaddress(merchantStore.getStoreaddress());
     store.setStorephone(merchantStore.getStorephone());
     store.setStorecity(merchantStore.getStorecity());

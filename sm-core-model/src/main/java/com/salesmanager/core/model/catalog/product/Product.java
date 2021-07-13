@@ -174,7 +174,6 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	private Integer sortOrder = 0;
 
 	@NotEmpty
-	@Pattern(regexp="^[a-zA-Z0-9_]*$")
 	@Column(name = "SKU")
 	private String sku;
 

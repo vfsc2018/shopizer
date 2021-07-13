@@ -101,6 +101,9 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	@Column(name = "STORE_PHONE", length = 50)
 	private String storephone;
 
+	@Column(name = "STORE_ACCOUNT", length = 50)
+	private String storeaccount;
+
 	@Column(name = "STORE_ADDRESS")
 	private String storeaddress;
 
@@ -222,7 +225,13 @@ public class MerchantStore extends SalesManagerEntity<Integer, MerchantStore> im
 	public void setStorephone(String storephone) {
 		this.storephone = storephone;
 	}
+	public String getStoreaccount() {
+		return storeaccount;
+	}
 
+	public void setStoreaccount(String storeaccount) {
+		this.storeaccount = storeaccount;
+	}
 
 	public String getStorebank() {
 		return storebank;

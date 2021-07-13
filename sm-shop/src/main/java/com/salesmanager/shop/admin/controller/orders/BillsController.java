@@ -233,6 +233,9 @@ public class BillsController {
 		// display menu
 		setMenu(model, request);
 
+		Language language = (Language)request.getAttribute("LANGUAGE");
+		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
+
 		com.salesmanager.shop.admin.model.orders.Order order = new com.salesmanager.shop.admin.model.orders.Order();
 
 		BillMaster bill = billService.getById(billId);
@@ -240,7 +243,7 @@ public class BillsController {
 
 		if (orderId > 0) {
 
-			Order dbOrder = orderService.getById(orderId);
+			Order dbOrder = orderService.getOrder(orderId, store);//.getById(orderId);
 
 			order.setId(dbOrder.getId());
 			if (dbOrder.getDatePurchased() != null) {

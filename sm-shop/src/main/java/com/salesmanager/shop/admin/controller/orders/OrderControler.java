@@ -509,7 +509,7 @@ private static final Logger LOGGER = LoggerFactory.getLogger(OrderControler.clas
 		// List<Country> countries = countryService.getCountries(language);
 		if(orderId>0) {	
 			MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-			Order dbOrder = orderService.getById(orderId);
+			Order dbOrder = orderService.getOrder(orderId, store);
 
 			if(dbOrder==null) {
 				return "redirect:/admin/orders/list.html";

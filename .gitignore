@@ -1,6 +1,8 @@
 # Ignored files
 *.class
 *.jar
+*.dat
+*.factorypath
 *.lst
 */target/
 *.class

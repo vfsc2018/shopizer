@@ -11,6 +11,7 @@ public class MerchantValue implements Serializable {
 
 	private String storename;
 	private String storebank;
+	private String storeaccount;
 	private String storeaddress;
 	private String storephone;
 	private String storecity;
@@ -59,7 +60,13 @@ public class MerchantValue implements Serializable {
 	public String getStorebank(){
 		return storebank;
 	}
+	public String getStoreaccount() {
+		return storeaccount;
+	}
 
+	public void setStoreaccount(String storeaccount) {
+		this.storeaccount = storeaccount;
+	}
 	public void setStorename(String storename){
 		this.storename = storename;
 	}
