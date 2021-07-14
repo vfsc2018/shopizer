@@ -40,7 +40,7 @@ import com.salesmanager.shop.store.controller.customer.facade.CustomerFacade;
 import com.salesmanager.shop.utils.DateUtil;
 // import com.salesmanager.shop.utils.EmailUtils;
 import com.salesmanager.shop.utils.LabelUtils;
-import com.salesmanager.shop.utils.SessionUtil;
+// import com.salesmanager.shop.utils.SessionUtil;
 import com.salesmanager.shop.utils.SmsUtils;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -194,6 +194,10 @@ public class CustomerController {
 				String amount = priceUtil.getAdminFormatedAmountWithCurrency(store, new BigDecimal(wallet.getMoney()));
 				wallet.setAmount(amount);
 			}
+			if(wallet.getTopup()!=null){
+				String amount = priceUtil.getAdminFormatedAmountWithCurrency(store, new BigDecimal(wallet.getTopup()));
+				wallet.setTopupAmount(amount);
+			}
 			customer.setWallet(wallet);
 			// customer.getWallet().setName(customer.getBilling().getFirstName());
 			// customer.getWallet().setPoint(customer.getLoyalty().getVPoint());
@@ -303,7 +307,8 @@ public class CustomerController {
 		}
 		model.addAttribute("groups",groups);
 		List<Country> countries = countryService.getCountries(language);
-		
+		model.addAttribute("countries", countries);
+
 		if(request.getParameter("walletTopup")!=null){
 			Customer newCustomer = customerService.getById(customer.getId());
 			Wallet wallet = newCustomer.getWallet();
@@ -316,12 +321,12 @@ public class CustomerController {
 				wallet = new Wallet();
 				wallet.setMoney(0);
 				wallet.setTopup(0);
+				wallet.setCustomer(newCustomer);
 				newCustomer.setWallet(wallet);
 				customerService.saveOrUpdate(newCustomer);
 			}
 			newCustomer.getWallet().setGroupShare(getGroupShare(customer.getId()));
 			model.addAttribute("customer", newCustomer);
-			model.addAttribute("countries", countries);
 			model.addAttribute("success","success");
 			return "admin-customer";
 		}
@@ -383,7 +388,6 @@ public class CustomerController {
 		
 		//check if error from the @valid
 		if (result.hasErrors()) {
-			model.addAttribute("countries", countries);
 			return "admin-customer";
 		}
 				
@@ -462,7 +466,6 @@ public class CustomerController {
 			customerService.saveOrUpdate(newCustomer);
 			newCustomer.getWallet().setGroupShare(getGroupShare(customer.getId()));
 			model.addAttribute("customer", newCustomer);
-			model.addAttribute("countries", countries);
 			model.addAttribute("success","success");
 		} catch(Exception e){
 			model.addAttribute("countries", countries);

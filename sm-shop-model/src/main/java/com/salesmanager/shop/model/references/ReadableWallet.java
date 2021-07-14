@@ -1,7 +1,7 @@
 package com.salesmanager.shop.model.references;
 
+import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.salesmanager.shop.model.entity.Entity;
 
 public class ReadableWallet extends Entity {
@@ -13,11 +13,14 @@ public class ReadableWallet extends Entity {
 
 	private List<Long> friends;
 
-	public void setFriends(List<Long> friends) {
-		this.friends = friends;
+	public void setFriends(List<String> friends) {
+		if(friends!=null && !friends.isEmpty()){
+			this.friends = new ArrayList<>();
+			for(int i=0;i<friends.size();i++)
+				this.friends.add(Long.parseLong(friends.get(i)));
+		}
 	}
 
-	@JsonIgnore
 	public List<Long> getFriends() {
 		return friends;
 	}

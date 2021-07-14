@@ -301,8 +301,8 @@ public class CustomerApi {
       Long updateTime = (Long)cache.get(keyName);
       if(updateTime!=null){
         long diff = System.currentTimeMillis()-updateTime.longValue();
-        long diffHours = TimeUnit.MILLISECONDS.toHours(diff);
-        if(diffHours<9){
+        long check = TimeUnit.MILLISECONDS.toSeconds(diff);
+        if(check<5){
           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
       }
@@ -312,8 +312,10 @@ public class CustomerApi {
       if(customer!=null && customer.getWallet()!=null){
         Wallet w = customer.getWallet();
         w.setFriends(wallet.getFriends());
-        w.setShare(w.friendsToShare());
-
+        String share = w.friendsToShare();
+        if(share!=null){
+          w.setShare(share.replace("#" + id + "#", ""));
+        }
         try{
           customerService.saveOrUpdate(customer);
           return new ResponseEntity<>(HttpStatus.OK);

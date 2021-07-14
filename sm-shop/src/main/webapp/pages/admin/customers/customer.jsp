@@ -516,7 +516,7 @@ function setCredentials(customerId, userName, password){
 			            </div>
 			            <div class="controls">
 		              		<label><s:message code="label.customer.wallet.topup" text="Topup money"/></label>
-		              		<h4><c:out value="${customer.wallet.topup}" /></h4>
+		              		<h4><c:out value="${customer.wallet.topupAmount}" /></h4>
 			            </div>
 			            <br>
 						<div class="controls">

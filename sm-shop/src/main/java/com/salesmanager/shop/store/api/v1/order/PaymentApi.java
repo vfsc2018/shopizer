@@ -194,7 +194,7 @@ public class PaymentApi {
         final HttpHeaders httpHeaders= new HttpHeaders();
 	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
        
-        if (payment.getCustomerId()==null || payment.getWalletId()!=null){
+        if (payment.getCustomerId()==null || payment.getWalletId()==null){
             return new ResponseEntity<>("{\"Wallet\":" + payment.getCustomerId() + ":" + payment.getWalletId() + "}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
 
@@ -218,7 +218,7 @@ public class PaymentApi {
         Wallet walletPay = customerPay.getWallet();
         // wallet is null || wallet not itergrity || wallet not share to you
         if(walletPay==null || (!myMoney && (walletPay.getShare()==null || walletPay.getId().longValue()!=payment.getWalletId().longValue() || walletPay.getShare().indexOf("#" + customer.getId() + "#")<0))){
-            return new ResponseEntity<>("{\"Wallet\":" + payment.getCustomerId() + ":" + payment.getWalletId() + "}", httpHeaders, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("{\"Wallet\":" + payment.getWalletId() + " of " + payment.getCustomerId() + "}", httpHeaders, HttpStatus.BAD_REQUEST);
         }
         
         Order order = orderService.getById(id);
@@ -275,6 +275,7 @@ public class PaymentApi {
             wallet.setStatus(0);
             wallet.setTopup(0);
             wallet.setMoney(0);
+            wallet.setCustomer(customer);
         }
         if(confirmed){
             wallet.setMoney(money);

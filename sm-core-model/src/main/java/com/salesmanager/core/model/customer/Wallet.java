@@ -10,6 +10,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
@@ -54,12 +56,30 @@ public class Wallet extends SalesManagerEntity<Long, Wallet> implements Auditabl
 	@Transient
 	private List<Long> friends;
 
+	@JsonIgnore
 	@Transient
 	private String groupShare;
 
+	@JsonIgnore
 	@Transient
 	private String amount;
 
+	@JsonIgnore
+	@Transient
+	private String topupAmount;
+
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name="CUSTOMERS_ID")
+	private Customer customer;
+	
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 	public String friendsToShare(){
 		if(friends!=null && !friends.isEmpty()){
 			String ids = "";
@@ -89,13 +109,19 @@ public class Wallet extends SalesManagerEntity<Long, Wallet> implements Auditabl
 	public void setAmount(String amount){
 		this.amount = amount;
 	}
-	
+	public String getTopupAmount(){
+		return this.topupAmount;
+	}
+
+	public void setTopupAmount(String topupAmount){
+		this.topupAmount = topupAmount;
+	}
 	public void setFriends(List<Long> friends) {
 		this.friends = friends;
 	}
 
 	public List<Long> getFriends() {
-		return friends;
+		return shareToFriends();
 	}
 
 	public String getGroupShare() {

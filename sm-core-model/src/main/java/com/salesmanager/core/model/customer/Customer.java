@@ -141,7 +141,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> implements Audi
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
 	@JoinColumn(name="WALLET_ID", nullable=true, updatable=true)
 	private Wallet wallet;
 
